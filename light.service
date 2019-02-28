@@ -1,0 +1,15 @@
+[Unit]
+Description=Light backend service
+After=network.target
+After=systemd-user-sessions.service
+After=network-online.target
+
+[Service]
+User=root
+Type=forking
+ExecStart=/usr/bin/light
+ExecStop=/usr/bin/light -t
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
