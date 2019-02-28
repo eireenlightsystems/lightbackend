@@ -5,11 +5,12 @@ After=systemd-user-sessions.service
 After=network-online.target
 
 [Service]
-User=root
+User=lightbackend
 Type=forking
-ExecStart=/usr/bin/light
-ExecStop=/usr/bin/light -t
+ExecStart=/opt/light/backend/bin/light
+ExecStop=/opt/light/backend/bin/light -t
 Restart=always
 
 [Install]
 WantedBy=multi-user.target
+
