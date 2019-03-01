@@ -28,7 +28,7 @@ public:
   void setSpeedDown(const quint8& value);
 
 private:
-  ID id;
+  ID id{0};
   bool hasGatewayLink{false};
   quint8 standbyLevel{0};
   quint8 workLevel{0};

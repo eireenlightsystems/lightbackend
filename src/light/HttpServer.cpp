@@ -164,7 +164,46 @@ void HttpServerWrapper::createLightSpeedRoutes() {
 	  return QHttpServerResponse(QHttpServerResponder::StatusCode::Ok);
 	};
 	return baseRouteFunction(routeFunction, req);
+  });
+}
+
+void HttpServerWrapper::createNodeRoutes()
+{
+  httpServer.route(
+      "/api2/node", QHttpServerRequest::Method::Get, [](const QHttpServerRequest& req) {
+	auto routeFunction = [](const QHttpServerRequest& req) {
+
+	  QJsonDocument jsonDocument;
+	  return QHttpServerResponse("text/json", jsonDocument.toJson());
+	};
+	return baseRouteFunction(routeFunction, req);
       });
+
+  httpServer.route(
+      "/api2/node", QHttpServerRequest::Method::Post, [](const QHttpServerRequest& req) {
+	auto routeFunction = [](const QHttpServerRequest& req) {
+
+	  return QHttpServerResponse(QHttpServerResponder::StatusCode::Ok);
+	};
+	return baseRouteFunction(routeFunction, req);
+      });
+
+  httpServer.route(
+      "/api2/node", QHttpServerRequest::Method::Patch, [](const QHttpServerRequest& req) {
+	auto routeFunction = [](const QHttpServerRequest& req) {
+
+	  return QHttpServerResponse(QHttpServerResponder::StatusCode::Ok);
+	};
+	return baseRouteFunction(routeFunction, req);
+      });
+
+  httpServer.route("/api2/node", QHttpServerRequest::Method::Delete, [](const QHttpServerRequest& req) {
+    auto routeFunction = [](const QHttpServerRequest& req) {
+
+      return QHttpServerResponse(QHttpServerResponder::StatusCode::Ok);
+    };
+    return baseRouteFunction(routeFunction, req);
+  });
 }
 
 template <typename RouteFunction, typename... Args>

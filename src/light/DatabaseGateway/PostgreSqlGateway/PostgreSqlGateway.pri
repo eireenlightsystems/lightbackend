@@ -16,7 +16,8 @@ HEADERS += \
     $$PWD/SqlQuery.h \
     $$PWD/QueryBuilder.h \
     $$PWD/UpdateQuery.h \
-    $$PWD/DeleteQuery.h
+    $$PWD/DeleteQuery.h \
+    $$PWD/PostgresNodeGateway.h
 
 SOURCES += \
     $$PWD/PostgresDeviceErrorSaver.cpp \
@@ -31,4 +32,5 @@ SOURCES += \
     $$PWD/InsertQuery.cpp \
     $$PWD/SqlQuery.cpp \
     $$PWD/UpdateQuery.cpp \
-    $$PWD/DeleteQuery.cpp
+    $$PWD/DeleteQuery.cpp \
+    $$PWD/PostgresNodeGateway.cpp

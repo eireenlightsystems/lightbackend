@@ -1,5 +1,5 @@
 QT -= gui
-QT += httpserver mqtt sql
+QT += httpserver mqtt sql positioning
 CONFIG += c++11 console
 CONFIG -= app_bundle
 

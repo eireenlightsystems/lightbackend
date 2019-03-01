@@ -45,6 +45,12 @@ DeclareShared(FixtureCommand);
 DeclareShared(FixtureLightLevelCommand);
 DeclareShared(FixtureLightSpeedCommand);
 
+DeclareShared(Node);
+DeclareShared(Contragent);
+DeclareShared(Contract);
+DeclareShared(EquipmentType);
+DeclareShared(Geograph);
+
 namespace PostgresqlGateway {
 DeclareShared(PostgresFixtureCommandFacadeGateway);
 }

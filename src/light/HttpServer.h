@@ -37,6 +37,7 @@ private:
   void createCommandsRoutes();
   void createLightLevelRoutes();
   void createLightSpeedRoutes();
+  void createNodeRoutes();
 
 private:
   QHttpServer httpServer;
