@@ -10,6 +10,7 @@
 namespace light {
 
 struct FixtureCommandsFilter;
+struct NodeFilter;
 class LigthBackend : public QObject
 {
   Q_OBJECT
@@ -20,6 +21,8 @@ public:
   getFixtureLightLevelCommandsByDateTimeRange(const FixtureCommandsFilter& filter) const;
   FixtureLightSpeedCommandSharedList
   getFixtureLightSpeedCommandsByDateTimeRange(const FixtureCommandsFilter& filter) const;
+
+  SessionShared getSession() const;
 
 public slots:
   void switchOnFixtures(const FixtureLightLevelCommandSharedList& commands);
@@ -43,6 +46,7 @@ private:
   CommandsControllerShared fixturesCommandsController;
   SchedulerGatewayShared schedulerGateway;
   AbstractDeviceErrorSaverShared deviceErrorSaver;
+  SessionShared session;
 };
 
 } // namespace light

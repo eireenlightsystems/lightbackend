@@ -15,6 +15,8 @@ public:
   void setId(const ID& value);
 
   QGeoCoordinate getCoordinate() const;
+  double getLatitude() const;
+  double getLongitude() const;
   void setCoordinate(const QGeoCoordinate& value);
   void setCoordinate(double latitude, double longitude);
 
@@ -25,15 +27,19 @@ public:
   void setComment(const QString& value);
 
   ContragentShared getOwner() const;
+  ID getOwnerId() const;
   void setOwner(const ContragentShared& value);
 
   EquipmentTypeShared getEquipmentType() const;
+  ID getEquipmentTypeId() const;
   void setEquipmentType(const EquipmentTypeShared& value);
 
   GeographShared getGeograph() const;
+  ID getGeographId() const;
   void setGeograph(const GeographShared& value);
 
   ContractShared getContract() const;
+  ID getContractId() const;
   void setContract(const ContractShared& value);
 
 private:

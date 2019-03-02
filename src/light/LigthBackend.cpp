@@ -8,6 +8,7 @@
 #include "PostgresDeviceErrorSaver.h"
 #include "PostgresFixtureCommandFacadeGateway.h"
 #include "SchedulerGateway.h"
+#include "Session.h"
 
 #include <QCoreApplication>
 #include <QMqttClient>
@@ -98,6 +99,8 @@ void LigthBackend::initPostgres() {
     qApp->quit();
   }
   deviceErrorSaver = postgresDeviceErrorSaver;
+  session = SessionShared::create();
+  session->setDb(fixtureCommandGateway->getDb());
 }
 
 void LigthBackend::initErrorController() {
@@ -115,6 +118,11 @@ void LigthBackend::initCommandController() {
 
 void LigthBackend::initFixtureCommandController() {
   fixturesCommandsController = CommandsControllerShared::create();
+}
+
+SessionShared LigthBackend::getSession() const
+{
+  return session;
 }
 
 } // namespace light

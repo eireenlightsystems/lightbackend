@@ -57,6 +57,8 @@ public:
 
   bool open(const PostgresConnectionInfo& connectionInfo);
 
+  QSqlDatabase getDb() const;
+
 protected:
   void setDb();
 

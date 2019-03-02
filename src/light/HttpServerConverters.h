@@ -1,46 +1,16 @@
 #ifndef HTTPSERVERCONVERTERS_H
 #define HTTPSERVERCONVERTERS_H
 
+#include "BaseJsonConverter.h"
 #include "typedefs.h"
-
-#include <QJsonDocument>
 
 namespace light {
 
-class BaseConverter
+class JsonToFuxtureCommandBaseConverter : public BaseJsonConverter
 {
-public:
-  BaseConverter() = default;
-  virtual ~BaseConverter() = default;
-
-  bool getIdValid() const;
-  QString getErrorText() const;
-
 protected:
-  QJsonDocument parseJson(const QByteArray& data);
   template <typename T>
   T createAndBaseParse(const QJsonObject& object) const;
-  void setIdValid(bool value);
-  void setErrorText(const QString& value);
-
-private:
-  bool idValid{true};
-  QString errorText;
-};
-
-class BaseJsonConverter : public BaseConverter
-{
-public:
-  BaseJsonConverter() = default;
-  ~BaseJsonConverter() override = default;
-
-  QJsonDocument getJsonDocument() const;
-
-protected:
-  void setJsonDocument(const QJsonDocument& value);
-
-private:
-  QJsonDocument jsonDocument;
 };
 
 class FixtureLightLevelCommandsToJson : public BaseJsonConverter
@@ -50,7 +20,7 @@ public:
   void convert(const FixtureLightLevelCommandSharedList& commands);
 };
 
-class JsonToFixtureLightLevelCommands : public BaseConverter
+class JsonToFixtureLightLevelCommands : public JsonToFuxtureCommandBaseConverter
 {
 public:
   ~JsonToFixtureLightLevelCommands() override = default;
@@ -68,7 +38,7 @@ public:
   void convert(const FixtureLightSpeedCommandSharedList& commands);
 };
 
-class JsonToFixtureLightSpeedCommands : public BaseConverter
+class JsonToFixtureLightSpeedCommands : public JsonToFuxtureCommandBaseConverter
 {
 public:
   ~JsonToFixtureLightSpeedCommands() override = default;

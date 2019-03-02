@@ -13,6 +13,9 @@ DeclareShared(QMqttClient);
 namespace light {
 
 using ID = qulonglong;
+using IDList = QList<ID>;
+
+DeclareShared(Session);
 
 DeclareShared(AbstractDeviceCommand);
 DeclareShared(FixtureSwitchOnDeviceCommand);

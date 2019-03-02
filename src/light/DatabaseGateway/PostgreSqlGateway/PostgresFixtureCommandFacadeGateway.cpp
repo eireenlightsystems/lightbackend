@@ -155,5 +155,10 @@ void PostgresFixtureCommandFacadeGateway::setDb() {
     dbOwner->setDb(db);
   }
 }
+
+QSqlDatabase PostgresFixtureCommandFacadeGateway::getDb() const
+{
+    return db;
+}
 } // namespace PostgresqlGateway
 } // namespace light

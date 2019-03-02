@@ -11,49 +11,14 @@
 
 namespace light {
 
-bool BaseConverter::getIdValid() const {
-  return idValid;
-}
-
-void BaseConverter::setIdValid(bool value) {
-  idValid = value;
-}
-
-QString BaseConverter::getErrorText() const {
-  return errorText;
-}
-
-QJsonDocument BaseConverter::parseJson(const QByteArray& data) {
-  QJsonParseError parseError;
-  QJsonDocument jDoc = QJsonDocument::fromJson(data, &parseError);
-  if (parseError.error != QJsonParseError::NoError) {
-    qDebug() << parseError.errorString();
-    setIdValid(false);
-    setErrorText(parseError.errorString());
-  }
-  return jDoc;
-}
-
 template <typename T>
-T BaseConverter::createAndBaseParse(const QJsonObject& object) const {
+T JsonToFuxtureCommandBaseConverter::createAndBaseParse(const QJsonObject& object) const {
   auto command = T::create();
   command->setCommandId(object.value("commandId").toVariant().value<ID>());
   command->setFixtureId(object.value("fixtureId").toVariant().value<ID>());
   auto startDateTime = QDateTime::fromString(object.value("startDateTime").toString(), Qt::ISODate);
   command->setStartDateTime(startDateTime);
   return command;
-}
-
-void BaseConverter::setErrorText(const QString& value) {
-  errorText = value;
-}
-
-QJsonDocument BaseJsonConverter::getJsonDocument() const {
-  return jsonDocument;
-}
-
-void BaseJsonConverter::setJsonDocument(const QJsonDocument& value) {
-  jsonDocument = value;
 }
 
 void FixtureLightLevelCommandsToJson::convert(const FixtureLightLevelCommandSharedList& commands) {

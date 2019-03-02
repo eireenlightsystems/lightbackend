@@ -1,6 +1,7 @@
 #include "HttpServer.h"
 
 #include "AbstractDeviceCommand.h"
+#include "AbstractFixtureCommandGateway.h"
 #include "BadInputDataException.h"
 #include "BadRequestException.h"
 #include "DatabaseException.h"
@@ -8,9 +9,10 @@
 #include "FixtureLightSpeedCommand.h"
 #include "HttpServerConverters.h"
 #include "InternalServerErrorException.h"
+#include "NodeRestRouter.h"
+#include "NodeToJson.h"
 #include "SharedTypes.h"
 
-#include <AbstractFixtureCommandGateway.h>
 #include <QException>
 #include <QHttpServerResponse>
 #include <QJsonDocument>
@@ -40,6 +42,7 @@ void HttpServerWrapper::createRoutes() {
   createCommandsRoutes();
   createLightLevelRoutes();
   createLightSpeedRoutes();
+  createNodeRoutes();
 }
 
 void HttpServerWrapper::listen(const QHostAddress& address, quint16 port) {
@@ -164,46 +167,90 @@ void HttpServerWrapper::createLightSpeedRoutes() {
 	  return QHttpServerResponse(QHttpServerResponder::StatusCode::Ok);
 	};
 	return baseRouteFunction(routeFunction, req);
-  });
+      });
 }
 
-void HttpServerWrapper::createNodeRoutes()
-{
-  httpServer.route(
-      "/api2/node", QHttpServerRequest::Method::Get, [](const QHttpServerRequest& req) {
-	auto routeFunction = [](const QHttpServerRequest& req) {
-
-	  QJsonDocument jsonDocument;
-	  return QHttpServerResponse("text/json", jsonDocument.toJson());
-	};
-	return baseRouteFunction(routeFunction, req);
-      });
-
-  httpServer.route(
-      "/api2/node", QHttpServerRequest::Method::Post, [](const QHttpServerRequest& req) {
-	auto routeFunction = [](const QHttpServerRequest& req) {
-
-	  return QHttpServerResponse(QHttpServerResponder::StatusCode::Ok);
-	};
-	return baseRouteFunction(routeFunction, req);
-      });
-
-  httpServer.route(
-      "/api2/node", QHttpServerRequest::Method::Patch, [](const QHttpServerRequest& req) {
-	auto routeFunction = [](const QHttpServerRequest& req) {
-
-	  return QHttpServerResponse(QHttpServerResponder::StatusCode::Ok);
-	};
-	return baseRouteFunction(routeFunction, req);
-      });
-
-  httpServer.route("/api2/node", QHttpServerRequest::Method::Delete, [](const QHttpServerRequest& req) {
+void HttpServerWrapper::createNodeRoutes() {
+  httpServer.route("/api2/node", QHttpServerRequest::Method::Get, [](const QHttpServerRequest& req) {
     auto routeFunction = [](const QHttpServerRequest& req) {
+      auto session = HttpServerWrapper::singleton()->getLightBackend()->getSession();
+      return NodeRestRouter::get(session, req);
+    };
+    return baseRouteFunction(routeFunction, req);
+  });
+  httpServer.route("/api2/node", QHttpServerRequest::Method::Post, [](const QHttpServerRequest& req) {
+    auto routeFunction = [](const QHttpServerRequest& req) {
+      auto session = HttpServerWrapper::singleton()->getLightBackend()->getSession();
+      return NodeRestRouter::post(session, req);
+    };
+    return baseRouteFunction(routeFunction, req);
+  });
+  httpServer.route("/api2/node", QHttpServerRequest::Method::Patch, [](const QHttpServerRequest& req) {
+    auto routeFunction = [](const QHttpServerRequest& req) {
+      auto session = HttpServerWrapper::singleton()->getLightBackend()->getSession();
+      return NodeRestRouter::patch(session, req);
+    };
+    return baseRouteFunction(routeFunction, req);
+  });
+  //  httpServer.route("/api2/node", QHttpServerRequest::Method::Delete, [](const QHttpServerRequest& req) {
+  //    auto routeFunction = [](const QHttpServerRequest& req) {
+  //      return NodeRestRouter::de(SessionShared(), req);
+  //    };
+  //    return baseRouteFunction(routeFunction, req);
+  //  });
+  /*
+  httpServer.route("/api2/node", QHttpServerRequest::Method::Get, [](const QHttpServerRequest& req) {
+    auto routeFunction = [](const QHttpServerRequest& req) {
+      const auto urlQuery = req.query();
+      NodeFilter filter;
+      filter.geopraphId = urlQuery.queryItemValue("geographId").toULongLong();
+      filter.ownerId = urlQuery.queryItemValue("ownerId").toULongLong();
+      filter.nodeTypeId = urlQuery.queryItemValue("nodeTypeId").toULongLong();
+      filter.contractId = urlQuery.queryItemValue("contractId").toULongLong();
+      filter.gatewayId = urlQuery.queryItemValue("gatewayId").toULongLong();
 
+      auto provider = HttpServerWrapper::singleton()->getLightBackend();
+      auto nodes = provider->getNodes(filter);
+      NodeToJson converter;
+      converter.convert(nodes);
+      if (!converter.getIdValid()) {
+	throw InternalServerErrorException(converter.getErrorText());
+      }
+      QJsonDocument jsonDocument(converter.getJsonDocument());
+      return QHttpServerResponse("text/json", jsonDocument.toJson());
+    };
+    return baseRouteFunction(routeFunction, req);
+  });
+
+  httpServer.route("/api2/node", QHttpServerRequest::Method::Post, [](const QHttpServerRequest& req) {
+    auto routeFunction = [](const QHttpServerRequest& req) {
       return QHttpServerResponse(QHttpServerResponder::StatusCode::Ok);
     };
     return baseRouteFunction(routeFunction, req);
   });
+
+  httpServer.route("/api2/node", QHttpServerRequest::Method::Patch, [](const QHttpServerRequest& req) {
+    auto routeFunction = [](const QHttpServerRequest& req) {
+      return QHttpServerResponse(QHttpServerResponder::StatusCode::Ok);
+    };
+    return baseRouteFunction(routeFunction, req);
+  });
+
+  httpServer.route("/api2/node", QHttpServerRequest::Method::Delete, [](const QHttpServerRequest& req) {
+    auto routeFunction = [](const QHttpServerRequest& req) {
+      auto provider = HttpServerWrapper::singleton()->getLightBackend();
+      IdsToJson converter;
+      converter.convert(req.body());
+      if (!converter.getIdValid()) {
+	throw BadRequestException(converter.getErrorText());
+      }
+      auto deleteCommands = converter.getIds();
+      provider->deleteNodes(deleteCommands);
+      return QHttpServerResponse(QHttpServerResponder::StatusCode::Ok);
+    };
+    return baseRouteFunction(routeFunction, req);
+  });
+  */
 }
 
 template <typename RouteFunction, typename... Args>

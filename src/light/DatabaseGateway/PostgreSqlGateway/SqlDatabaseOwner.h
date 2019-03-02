@@ -11,8 +11,9 @@ namespace PostgresqlGateway {
 class SqlDatabaseOwner
 {
 public:
+  virtual ~SqlDatabaseOwner() = 0;
   QSqlDatabase getDb() const;
-  void setDb(const QSqlDatabase& value);
+  virtual void setDb(const QSqlDatabase& value);
 
 protected:
   template <typename T>

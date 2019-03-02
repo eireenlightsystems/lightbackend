@@ -36,7 +36,14 @@ HEADERS += \
     typedefs.h \
     LigthBackend.h \
     HttpServerConverters.h \
-    DeviceCommandsController.h
+    DeviceCommandsController.h \
+    NodeToJson.h \
+    BaseConverter.h \
+    BaseJsonConverter.h \
+    AbstractRestRouter.h \
+    NodeRestRouter.h \
+    Session.h \
+    Controller.h
 
 SOURCES += \
     main.cpp \
@@ -46,7 +53,14 @@ SOURCES += \
     DeviceErrorController.cpp \
     LigthBackend.cpp \
     HttpServerConverters.cpp \
-    DeviceCommandsController.cpp
+    DeviceCommandsController.cpp \
+    NodeToJson.cpp \
+    BaseConverter.cpp \
+    BaseJsonConverter.cpp \
+    AbstractRestRouter.cpp \
+    NodeRestRouter.cpp \
+    Session.cpp \
+    Controller.cpp
 
 DISTFILES += \
     lightbackend.conf \

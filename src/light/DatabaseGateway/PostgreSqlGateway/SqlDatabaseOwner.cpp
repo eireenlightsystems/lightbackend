@@ -2,6 +2,9 @@
 
 namespace light {
 namespace PostgresqlGateway {
+SqlDatabaseOwner::~SqlDatabaseOwner() {
+}
+
 QSqlDatabase SqlDatabaseOwner::getDb() const {
   return db;
 }
