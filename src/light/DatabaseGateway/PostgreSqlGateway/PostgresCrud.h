@@ -5,8 +5,20 @@
 #include "Session.h"
 #include "typedefs.h"
 
+#include <QSqlRecord>
+
 namespace light {
 namespace PostgresqlGateway {
+
+template <typename Query>
+Query buildAndExecQuery(const QString& sql, const BindParamsType& bindParams, SessionShared session);
+
+template <typename Query>
+Query buildAndExecBatchQuery(const QString& sql, const BindParamsType& bindParams, SessionShared session);
+
+template <typename Collection, typename ParseFunction>
+Collection select(const QString& sql, const BindParamsType params, ParseFunction parseFunction, SessionShared session);
+
 template <typename T>
 class PostgresCrud
 {
@@ -18,6 +30,7 @@ public:
   ~PostgresCrud() = default;
 
   Shared selById(ID id) const;
+  SharedList sel(const IDList &ids) const;
   template <typename... Args>
   SharedList sel(Args...) const;
 
@@ -35,15 +48,6 @@ protected:
   void ins(const Shared& object) const;
   void upd(const Shared& object) const;
 
-  template <typename Query>
-  Query buildAndExecQuery(const QString& sql, const BindParamsType& bindParams) const;
-
-  template <typename Query>
-  Query buildAndExecBatchQuery(const QString& sql, const BindParamsType& bindParams) const;
-
-  template <typename Collection, typename ParseFunction>
-  Collection select(const QString& sql, const BindParamsType params, ParseFunction parseFunction) const;
-
 private:
   SessionShared session;
 };
@@ -51,13 +55,12 @@ private:
 template <typename T>
 typename PostgresCrud<T>::SharedList PostgresCrud<T>::selBase(const QString& sql, const BindParamsType& params) const {
   auto parser = std::bind(&PostgresCrud<T>::parse, this, std::placeholders::_1);
-  return select<SharedList>(sql, params, parser);
+  return select<SharedList>(sql, params, parser, session);
 }
 
 template <typename T>
 typename PostgresCrud<T>::Shared PostgresCrud<T>::selById(ID id) const {
-  const IDList ids{id};
-  auto objects = sel<const IDList&>(ids);
+  auto objects = sel(IDList{id});
   if (objects.count()) {
     return objects.first();
   }
@@ -67,20 +70,25 @@ typename PostgresCrud<T>::Shared PostgresCrud<T>::selById(ID id) const {
 
 template <typename T>
 void PostgresCrud<T>::save(const PostgresCrud::SharedList& objects) const {
-  session->getDb().transaction();
-  for (auto object : objects) {
-    if (object->getId()) {
-      upd(object);
-    } else {
-      ins(object);
+  try {
+    session->getDb().transaction();
+    for (auto object : objects) {
+      if (object->getId()) {
+	upd(object);
+      } else {
+	ins(object);
+      }
     }
+    session->getDb().commit();
+  } catch (...) {
+    session->getDb().rollback();
+    throw;
   }
-  session->getDb().commit();
 }
 
 template <typename T>
 void PostgresCrud<T>::save(const Shared& object) const {
-  save({object});
+  save(SharedList{object});
 }
 
 template <typename T>
@@ -93,9 +101,8 @@ void PostgresCrud<T>::setSession(const SessionShared& value) {
   session = value;
 }
 
-template <typename T>
 template <typename Query>
-Query PostgresCrud<T>::buildAndExecQuery(const QString& sql, const BindParamsType& bindParams) const {
+Query buildAndExecQuery(const QString& sql, const BindParamsType& bindParams, SessionShared session) {
   Query query(session->getDb());
   query.prepare(sql);
   query.bind(bindParams);
@@ -103,9 +110,8 @@ Query PostgresCrud<T>::buildAndExecQuery(const QString& sql, const BindParamsTyp
   return query;
 }
 
-template <typename T>
 template <typename Query>
-Query PostgresCrud<T>::buildAndExecBatchQuery(const QString& sql, const BindParamsType& bindParams) const {
+Query buildAndExecBatchQuery(const QString& sql, const BindParamsType& bindParams, SessionShared session) {
   Query query(session->getDb());
   query.prepare(sql);
   query.bind(bindParams);
@@ -113,11 +119,10 @@ Query PostgresCrud<T>::buildAndExecBatchQuery(const QString& sql, const BindPara
   return query;
 }
 
-template <typename T>
 template <typename Collection, typename ParseFunction>
-Collection PostgresCrud<T>::select(const QString& sql, const BindParamsType params, ParseFunction parseFunction) const {
+Collection select(const QString& sql, const BindParamsType params, ParseFunction parseFunction, SessionShared session) {
   Collection result;
-  auto query = buildAndExecQuery<SelectQuery>(sql, params);
+  auto query = buildAndExecQuery<SelectQuery>(sql, params, session);
   for (const auto& record : query) {
     result << parseFunction(record);
   }

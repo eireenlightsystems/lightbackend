@@ -20,7 +20,7 @@ NodeSharedList PostgresCrud<Node>::sel<ID, ID, ID, ID, ID>(ID geopraphId,
 							   ID gatewayId) const {
   NodeSharedList result;
   const QString sql =
-      "select id_node, e_coordinate, n_coordinate, price, comments, id_owner, id_contract, id_geograph, id_node_type "
+      "select id_node, n_coordinate, e_coordinate, price, comments, id_owner, id_contract, id_geograph, id_node_type "
       "from node_pkg_i.node_vwf(:id_geograph, :id_owner, :id_node_type, :id_contract, :id_gateway) ";
   const BindParamsType bindParams{
       {":id_geograph", geopraphId ? geopraphId : QVariant()},
@@ -34,8 +34,29 @@ NodeSharedList PostgresCrud<Node>::sel<ID, ID, ID, ID, ID>(ID geopraphId,
 }
 
 template <>
+NodeSharedList PostgresCrud<Node>::sel(const IDList& ids) const {
+  NodeSharedList result;
+  const QString sql =
+      "select id_node, e_coordinate, n_coordinate, price, comments, id_owner, id_contract, id_geograph, id_node_type "
+      "from node_pkg_i.node_vwf(:id_geograph, :id_owner, :id_node_type, :id_contract, :id_gateway) "
+      "where id_node = :id_node";
+  for (auto id : ids) {
+    const BindParamsType bindParams{
+	{":id_geograph", QVariant()},
+	{":id_owner", QVariant()},
+	{":id_node_type", QVariant()},
+	{":id_contract", QVariant()},
+	{":id_gateway", QVariant()},
+	{":id_node", id},
+    };
+    result << selBase(sql, bindParams);
+  }
+  return result;
+}
+
+template <>
 void PostgresCrud<Node>::ins(const NodeShared& node) const {
-  const QString insertSql = "select node_pkg_i.ins(:action, :id_node, :id_contract, :id_equipment_type, "
+  const QString insertSql = "select node_pkg_i.save(:action, :id_node, :id_contract, :id_equipment_type, "
 			    ":id_geograph, :n_coordinate, :e_coordinate, :price, :comments)";
   BindParamsType bindParams{
       {":action", "ins"},
@@ -48,12 +69,12 @@ void PostgresCrud<Node>::ins(const NodeShared& node) const {
       {":price", node->getPrice()},
       {":comments", node->getComment()},
   };
-  auto query = buildAndExecQuery<InsertQuery>(insertSql, bindParams);
+  auto query = buildAndExecQuery<InsertQuery>(insertSql, bindParams, session);
 }
 
 template <>
 void PostgresCrud<Node>::upd(const NodeShared& node) const {
-  const QString sql = "select node_pkg_i.ins(:action, :id_node, :id_contract, :id_equipment_type, "
+  const QString sql = "select node_pkg_i.save(:action, :id_node, :id_contract, :id_equipment_type, "
 		      ":id_geograph, :n_coordinate, :e_coordinate, :price, :comments)";
   BindParamsType bindParams{
       {":action", "upd"},
@@ -66,7 +87,7 @@ void PostgresCrud<Node>::upd(const NodeShared& node) const {
       {":price", node->getPrice()},
       {":comments", node->getComment()},
   };
-  buildAndExecQuery<UpdateQuery>(sql, bindParams);
+  buildAndExecQuery<UpdateQuery>(sql, bindParams, session);
 }
 
 template <>
@@ -79,7 +100,7 @@ void PostgresCrud<Node>::del(const NodeSharedList& nodes) const {
   BindParamsType bindParams{
       {":id_node", bindIds},
   };
-  buildAndExecBatchQuery<DeleteQuery>(deleteSql, bindParams);
+  buildAndExecBatchQuery<DeleteQuery>(deleteSql, bindParams, session);
 }
 
 template <>

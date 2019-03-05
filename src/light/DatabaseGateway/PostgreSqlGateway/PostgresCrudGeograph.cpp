@@ -7,8 +7,7 @@ namespace light {
 namespace PostgresqlGateway {
 
 template <>
-template <>
-GeographSharedList PostgresCrud<Geograph>::sel<const IDList&>(const IDList& ids) const {
+GeographSharedList PostgresCrud<Geograph>::sel(const IDList& ids) const {
   GeographSharedList result;
   const QString sql = "select id_geograph, code, name "
 		      "from geograph_pkg.geograph_vw "

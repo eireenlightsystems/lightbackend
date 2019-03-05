@@ -8,8 +8,7 @@ namespace light {
 namespace PostgresqlGateway {
 
 template <>
-template <>
-ContragentSharedList PostgresCrud<Contragent>::sel<const IDList&>(const IDList& ids) const;
+ContragentSharedList PostgresCrud<Contragent>::sel(const IDList& ids) const;
 
 template <>
 ContragentShared PostgresCrud<Contragent>::parse(const QSqlRecord& record) const;

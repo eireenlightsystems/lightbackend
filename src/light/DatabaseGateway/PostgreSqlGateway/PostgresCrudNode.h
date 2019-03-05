@@ -7,7 +7,10 @@
 namespace light {
 namespace PostgresqlGateway {
 
-template<>
+template <>
+NodeSharedList PostgresCrud<Node>::sel(const IDList& ids) const;
+
+template <>
 template <>
 NodeSharedList PostgresCrud<Node>::sel<ID, ID, ID, ID, ID>(ID geopraphId,
 							   ID ownerId,

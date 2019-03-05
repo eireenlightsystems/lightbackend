@@ -6,7 +6,7 @@
 
 namespace light {
 
-class JsonToFuxtureCommandBaseConverter : public BaseJsonConverter
+class JsonToFuxtureCommandBaseConverter : public BaseConverter
 {
 protected:
   template <typename T>

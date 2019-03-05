@@ -9,6 +9,7 @@ include(./DatabaseGateway/DatabaseGateway.pri)
 include(./DeviceCommand/DeviceCommand.pri)
 include(./Model/Model.pri)
 include(./Exception/Exception.pri)
+include(./Controller/Controller.pri)
 
 unix: {
 CONFIG(release, debug|release) {
@@ -43,7 +44,7 @@ HEADERS += \
     AbstractRestRouter.h \
     NodeRestRouter.h \
     Session.h \
-    Controller.h
+    JsonToNodeConverter.h
 
 SOURCES += \
     main.cpp \
@@ -60,7 +61,7 @@ SOURCES += \
     AbstractRestRouter.cpp \
     NodeRestRouter.cpp \
     Session.cpp \
-    Controller.cpp
+    JsonToNodeConverter.cpp
 
 DISTFILES += \
     lightbackend.conf \

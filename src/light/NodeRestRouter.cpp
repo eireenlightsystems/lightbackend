@@ -1,9 +1,15 @@
 #include "NodeRestRouter.h"
 
+#include "BadRequestException.h"
 #include "Controller.h"
+#include "HttpServerConverters.h"
 #include "InternalServerErrorException.h"
+#include "JsonToNodeConverter.h"
+#include "NodeController.h"
 #include "NodeToJson.h"
 #include "PostgresCrud.h"
+
+#include <QGeoCoordinate>
 
 namespace light {
 
@@ -44,18 +50,59 @@ QHttpServerResponse NodeRestRouter::get(const SessionShared& session, const QHtt
 }
 
 QHttpServerResponse NodeRestRouter::post(const SessionShared& session, const QHttpServerRequest& req) {
+  JsonInsertParametersToNodeConverter converter;
+  converter.convert(req.body());
+  if (!converter.getIdValid()) {
+    throw BadRequestException(converter.getErrorText());
+  }
+  auto parameters = converter.getParameters();
+
   Controller<Node, PostgresqlGateway::PostgresCrud> controller;
   controller.setSession(session);
-  //  controller.ins();
+  controller.ins(parameters);
 
   return QHttpServerResponse(QHttpServerResponse::StatusCode::Ok);
 }
 
 QHttpServerResponse NodeRestRouter::patch(const SessionShared& session, const QHttpServerRequest& req) {
+  JsonUpdateParametersToNodeConverter converter;
+  converter.convert(req.body());
+  if (!converter.getIdValid()) {
+    throw BadRequestException(converter.getErrorText());
+  }
+  auto parameters = converter.getParameters();
+
   Controller<Node, PostgresqlGateway::PostgresCrud> controller;
   controller.setSession(session);
-  //  controller.upd();
+  controller.upd(parameters);
   return QHttpServerResponse(QHttpServerResponse::StatusCode::Ok);
+}
+
+QHttpServerResponse NodeRestRouter::patchSetCoordinates(const SessionShared& session, const QHttpServerRequest& req) {
+  JsonNodeCoordinatesConverter converter;
+  converter.convert(req.body());
+  if (!converter.getIdValid()) {
+    throw BadRequestException(converter.getErrorText());
+  }
+  auto parameters = converter.getParameters();
+
+  Controller<Node, PostgresqlGateway::PostgresCrud> controller;
+  controller.setSession(session);
+  controller.upd(parameters);
+  return QHttpServerResponse(QHttpServerResponse::StatusCode::Ok);
+}
+
+QHttpServerResponse NodeRestRouter::del(const SessionShared& session, const QHttpServerRequest& req) {
+  IdsToJson converter;
+  converter.convert(req.body());
+  if (!converter.getIdValid()) {
+    throw BadRequestException(converter.getErrorText());
+  }
+  auto deleteCommands = converter.getIds();
+  Controller<Node, PostgresqlGateway::PostgresCrud> controller;
+  controller.setSession(session);
+  controller.del(deleteCommands);
+  return QHttpServerResponse(QHttpServerResponder::StatusCode::Ok);
 }
 
 } // namespace light

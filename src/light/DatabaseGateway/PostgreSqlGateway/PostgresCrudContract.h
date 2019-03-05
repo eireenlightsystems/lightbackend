@@ -1,15 +1,14 @@
 #ifndef POSTGRESCRUDCONTRACT_H
 #define POSTGRESCRUDCONTRACT_H
 
-#include "PostgresCrud.h"
 #include "Contract.h"
+#include "PostgresCrud.h"
 
 namespace light {
 namespace PostgresqlGateway {
 
 template <>
-template <>
-ContractSharedList PostgresCrud<Contract>::sel<const IDList&>(const IDList& ids) const;
+ContractSharedList PostgresCrud<Contract>::sel(const IDList& ids) const;
 
 template <>
 ContractShared PostgresCrud<Contract>::parse(const QSqlRecord& record) const;

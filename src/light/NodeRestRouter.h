@@ -12,6 +12,8 @@ public:
   static QHttpServerResponse get(const SessionShared& session, const QHttpServerRequest& req);
   static QHttpServerResponse post(const SessionShared& session, const QHttpServerRequest& req);
   static QHttpServerResponse patch(const SessionShared& session, const QHttpServerRequest& req);
+  static QHttpServerResponse patchSetCoordinates(const SessionShared& session, const QHttpServerRequest& req);
+  static QHttpServerResponse del(const SessionShared& session, const QHttpServerRequest& req);
 };
 } // namespace light
 

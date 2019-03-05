@@ -24,6 +24,7 @@ HEADERS += \
     $$PWD/PostgresCrudGeograph.h \
     $$PWD/PostgresCrudEquipmentType.h
 
+
 SOURCES += \
     $$PWD/PostgresDeviceErrorSaver.cpp \
     $$PWD/PostgresFixtureCommandGateway.cpp \

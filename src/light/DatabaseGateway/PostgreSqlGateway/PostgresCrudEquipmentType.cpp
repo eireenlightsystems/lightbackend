@@ -7,8 +7,7 @@ namespace light {
 namespace PostgresqlGateway {
 
 template <>
-template <>
-EquipmentTypeSharedList PostgresCrud<EquipmentType>::sel<const IDList&>(const IDList& ids) const {
+EquipmentTypeSharedList PostgresCrud<EquipmentType>::sel(const IDList& ids) const {
   EquipmentTypeSharedList result;
   const QString sql = "select id_equipment_type, code, name, model "
 		      "from equipment_type_pkg.equipment_type_vw "
