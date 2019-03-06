@@ -1,3 +1,5 @@
+QT += positioning
+
 INCLUDEPATH +=  \
     $$PWD
 
