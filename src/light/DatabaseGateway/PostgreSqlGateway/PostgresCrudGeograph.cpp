@@ -7,9 +7,20 @@ namespace light {
 namespace PostgresqlGateway {
 
 template <>
+template <>
+GeographSharedList PostgresCrud<Geograph>::sel<>() const {
+  GeographSharedList result;
+  const QString sql = "select id_geograph, code, name, fullname "
+		      "from geograph_pkg.geograph_vw";
+  const BindParamsType bindParams{};
+  result << selBase(sql, bindParams);
+  return result;
+}
+
+template <>
 GeographSharedList PostgresCrud<Geograph>::sel(const IDList& ids) const {
   GeographSharedList result;
-  const QString sql = "select id_geograph, code, name "
+  const QString sql = "select id_geograph, code, name, fullname "
 		      "from geograph_pkg.geograph_vw "
 		      "where id_geograph = :id_geograph";
   for (auto id : ids) {
@@ -27,6 +38,7 @@ GeographShared PostgresCrud<Geograph>::parse(const QSqlRecord& record) const {
   geograph->setId(record.value(0).value<ID>());
   geograph->setCode(record.value(1).toString());
   geograph->setName(record.value(2).toString());
+  geograph->setFullName(record.value(3).toString());
   return geograph;
 }
 

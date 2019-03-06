@@ -46,7 +46,9 @@ HEADERS += \
     Session.h \
     JsonToNodeConverter.h \
     NodeTypeRestRouter.h \
-    NodeTypeToJson.h
+    NodeTypeToJson.h \
+    GeographRestRouter.h \
+    GeographToJson.h
 
 SOURCES += \
     main.cpp \
@@ -65,7 +67,9 @@ SOURCES += \
     Session.cpp \
     JsonToNodeConverter.cpp \
     NodeTypeRestRouter.cpp \
-    NodeTypeToJson.cpp
+    NodeTypeToJson.cpp \
+    GeographRestRouter.cpp \
+    GeographToJson.cpp
 
 DISTFILES += \
     lightbackend.conf \

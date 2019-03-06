@@ -26,4 +26,12 @@ void Geograph::setCode(const QString& value) {
   code = value;
 }
 
+QString Geograph::getFullName() const {
+  return fullName;
+}
+
+void Geograph::setFullName(const QString& value) {
+  fullName = value;
+}
+
 } // namespace light

@@ -8,6 +8,10 @@ namespace light {
 namespace PostgresqlGateway {
 
 template <>
+template <>
+GeographSharedList PostgresCrud<Geograph>::sel<>() const;
+
+template <>
 GeographSharedList PostgresCrud<Geograph>::sel(const IDList& ids) const;
 
 template <>

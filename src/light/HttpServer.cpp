@@ -13,6 +13,7 @@
 #include "NodeTypeRestRouter.h"
 #include "NodeToJson.h"
 #include "SharedTypes.h"
+#include "GeographRestRouter.h"
 
 #include <QException>
 #include <QHttpServerResponse>
@@ -45,6 +46,7 @@ void HttpServerWrapper::createRoutes() {
   createLightSpeedRoutes();
   createNodeRoutes();
   createNodeTypeRoutes();
+  createGeographRoutes();
 }
 
 void HttpServerWrapper::listen(const QHostAddress& address, quint16 port) {
@@ -216,6 +218,17 @@ void HttpServerWrapper::createNodeTypeRoutes()
     auto routeFunction = [](const QHttpServerRequest& req) {
       auto session = HttpServerWrapper::singleton()->getLightBackend()->getSession();
       return NodeTypeRestRouter::get(session, req);
+    };
+    return baseRouteFunction(routeFunction, req);
+  });
+}
+
+void HttpServerWrapper::createGeographRoutes()
+{
+  httpServer.route("/api2/geograph", QHttpServerRequest::Method::Get, [](const QHttpServerRequest& req) {
+    auto routeFunction = [](const QHttpServerRequest& req) {
+      auto session = HttpServerWrapper::singleton()->getLightBackend()->getSession();
+      return GeographRestRouter::get(session, req);
     };
     return baseRouteFunction(routeFunction, req);
   });

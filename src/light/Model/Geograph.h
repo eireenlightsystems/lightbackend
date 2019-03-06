@@ -18,10 +18,14 @@ public:
   QString getCode() const;
   void setCode(const QString& value);
 
+  QString getFullName() const;
+  void setFullName(const QString& value);
+
 private:
   ID id{0};
   QString code;
   QString name;
+  QString fullName;
 };
 } // namespace light
 

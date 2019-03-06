@@ -39,6 +39,7 @@ private:
   void createLightSpeedRoutes();
   void createNodeRoutes();
   void createNodeTypeRoutes();
+  void createGeographRoutes();
 
 private:
   QHttpServer httpServer;
