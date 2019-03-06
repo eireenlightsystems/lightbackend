@@ -62,7 +62,7 @@ void PostgresCrud<Node>::ins(const NodeShared& node) const {
       {":action", "ins"},
       {":id_node", QVariant()},
       {":id_contract", node->getContract() ? node->getContractId() : QVariant()},
-      {":id_equipment_type", node->getEquipmentType() ? node->getEquipmentTypeId() : QVariant()},
+      {":id_equipment_type", node->getNodeType() ? node->getNodeTypeId() : QVariant()},
       {":id_geograph", node->getGeograph() ? node->getGeographId() : QVariant()},
       {":n_coordinate", node->getLatitude()},
       {":e_coordinate", node->getLongitude()},
@@ -80,7 +80,7 @@ void PostgresCrud<Node>::upd(const NodeShared& node) const {
       {":action", "upd"},
       {":id_node", node->getId()},
       {":id_contract", node->getContract() ? node->getContractId() : QVariant()},
-      {":id_equipment_type", node->getEquipmentType() ? node->getEquipmentTypeId() : QVariant()},
+      {":id_equipment_type", node->getNodeType() ? node->getNodeTypeId() : QVariant()},
       {":id_geograph", node->getGeograph() ? node->getGeographId() : QVariant()},
       {":n_coordinate", node->getLatitude()},
       {":e_coordinate", node->getLongitude()},
@@ -126,10 +126,10 @@ NodeShared PostgresCrud<Node>::parse(const QSqlRecord& record) const {
   geographCrud.setSession(session);
   node->setGeograph(geographCrud.selById(geographId));
 
-  auto equipmentTypeId = record.value(8).value<ID>();
-  PostgresCrud<EquipmentType> equipmentTypeCrud;
-  equipmentTypeCrud.setSession(session);
-  node->setEquipmentType(equipmentTypeCrud.selById(equipmentTypeId));
+  auto nodeTypeId = record.value(8).value<ID>();
+  PostgresCrud<NodeType> nodeTypeCrud;
+  nodeTypeCrud.setSession(session);
+  node->setNodeType(nodeTypeCrud.selById(nodeTypeId));
   return node;
 }
 

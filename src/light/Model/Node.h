@@ -30,9 +30,9 @@ public:
   ID getOwnerId() const;
   void setOwner(const ContragentShared& value);
 
-  EquipmentTypeShared getEquipmentType() const;
-  ID getEquipmentTypeId() const;
-  void setEquipmentType(const EquipmentTypeShared& value);
+  NodeTypeShared getNodeType() const;
+  ID getNodeTypeId() const;
+  void setNodeType(const NodeTypeShared& value);
 
   GeographShared getGeograph() const;
   ID getGeographId() const;
@@ -48,7 +48,7 @@ private:
   double price{0.0};
   QString comment;
   ContragentShared owner;
-  EquipmentTypeShared equipmentType;
+  NodeTypeShared nodeType;
   GeographShared geograph;
   ContractShared contract;
 };

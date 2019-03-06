@@ -52,6 +52,7 @@ DeclareShared(Node);
 DeclareShared(Contragent);
 DeclareShared(Contract);
 DeclareShared(EquipmentType);
+DeclareShared(NodeType);
 DeclareShared(Geograph);
 
 namespace PostgresqlGateway {

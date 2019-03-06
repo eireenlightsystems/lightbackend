@@ -2,7 +2,7 @@
 
 #include "Contract.h"
 #include "Contragent.h"
-#include "EquipmentType.h"
+#include "NodeType.h"
 #include "Geograph.h"
 
 namespace light {
@@ -66,19 +66,19 @@ void Node::setOwner(const ContragentShared& value) {
   owner = value;
 }
 
-EquipmentTypeShared Node::getEquipmentType() const {
-  return equipmentType;
+NodeTypeShared Node::getNodeType() const {
+  return nodeType;
 }
 
-ID Node::getEquipmentTypeId() const {
-  if (equipmentType)
-    return equipmentType->getId();
+ID Node::getNodeTypeId() const {
+  if (nodeType)
+    return nodeType->getId();
 
   return 0;
 }
 
-void Node::setEquipmentType(const EquipmentTypeShared& value) {
-  equipmentType = value;
+void Node::setNodeType(const NodeTypeShared& value) {
+  nodeType = value;
 }
 
 GeographShared Node::getGeograph() const {

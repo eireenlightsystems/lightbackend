@@ -19,14 +19,14 @@ public:
 
     Crud<Contract> contractCrud;
     contractCrud.setSession(getSession());
-    Crud<EquipmentType> equipmentTypeCrud;
-    equipmentTypeCrud.setSession(getSession());
+    Crud<NodeType> nodeTypeCrud;
+    nodeTypeCrud.setSession(getSession());
     Crud<Geograph> geographCrud;
     geographCrud.setSession(getSession());
 
     for (const auto& param : params) {
       auto contract = contractCrud.selById(param.contractId);
-      auto nodeType = equipmentTypeCrud.selById(param.nodeTypeId);
+      auto nodeType = nodeTypeCrud.selById(param.nodeTypeId);
       auto geograph = geographCrud.selById(param.geographId);
 
       auto newNode = NodeShared::create();
@@ -36,7 +36,7 @@ public:
 
       newNode->setGeograph(geograph);
       newNode->setContract(contract);
-      newNode->setEquipmentType(nodeType);
+      newNode->setNodeType(nodeType);
 
       newNodes << newNode;
     }
@@ -59,8 +59,8 @@ public:
     nodeCrud.setSession(getSession());
     Crud<Contract> contractCrud;
     contractCrud.setSession(getSession());
-    Crud<EquipmentType> equipmentTypeCrud;
-    equipmentTypeCrud.setSession(getSession());
+    Crud<NodeType> nodeTypeCrud;
+    nodeTypeCrud.setSession(getSession());
     Crud<Geograph> geographCrud;
     geographCrud.setSession(getSession());
 
@@ -75,9 +75,9 @@ public:
 	node->setContract(contract);
       }
 
-      if (node->getEquipmentTypeId() != param.nodeTypeId) {
-	auto nodeType = equipmentTypeCrud.selById(param.nodeTypeId);
-	node->setEquipmentType(nodeType);
+      if (node->getNodeTypeId() != param.nodeTypeId) {
+	auto nodeType = nodeTypeCrud.selById(param.nodeTypeId);
+	node->setNodeType(nodeType);
       }
 
       if (node->getGeographId() != param.geographId) {

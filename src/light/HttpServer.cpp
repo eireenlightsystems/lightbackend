@@ -10,6 +10,7 @@
 #include "HttpServerConverters.h"
 #include "InternalServerErrorException.h"
 #include "NodeRestRouter.h"
+#include "NodeTypeRestRouter.h"
 #include "NodeToJson.h"
 #include "SharedTypes.h"
 
@@ -43,6 +44,7 @@ void HttpServerWrapper::createRoutes() {
   createLightLevelRoutes();
   createLightSpeedRoutes();
   createNodeRoutes();
+  createNodeTypeRoutes();
 }
 
 void HttpServerWrapper::listen(const QHostAddress& address, quint16 port) {
@@ -203,6 +205,17 @@ void HttpServerWrapper::createNodeRoutes() {
     auto routeFunction = [](const QHttpServerRequest& req) {
       auto session = HttpServerWrapper::singleton()->getLightBackend()->getSession();
       return NodeRestRouter::del(session, req);
+    };
+    return baseRouteFunction(routeFunction, req);
+  });
+}
+
+void HttpServerWrapper::createNodeTypeRoutes()
+{
+  httpServer.route("/api2/nodeType", QHttpServerRequest::Method::Get, [](const QHttpServerRequest& req) {
+    auto routeFunction = [](const QHttpServerRequest& req) {
+      auto session = HttpServerWrapper::singleton()->getLightBackend()->getSession();
+      return NodeTypeRestRouter::get(session, req);
     };
     return baseRouteFunction(routeFunction, req);
   });

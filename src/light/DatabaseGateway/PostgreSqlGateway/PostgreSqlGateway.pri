@@ -22,7 +22,8 @@ HEADERS += \
     $$PWD/PostgresCrudOwner.h \
     $$PWD/PostgresCrudContract.h \
     $$PWD/PostgresCrudGeograph.h \
-    $$PWD/PostgresCrudEquipmentType.h
+    $$PWD/PostgresCrudEquipmentType.h \
+    $$PWD/PostgresCrudNodeType.h
 
 
 SOURCES += \
@@ -44,4 +45,5 @@ SOURCES += \
     $$PWD/PostgresCrudOwner.cpp \
     $$PWD/PostgresCrudContract.cpp \
     $$PWD/PostgresCrudGeograph.cpp \
-    $$PWD/PostgresCrudEquipmentType.cpp
+    $$PWD/PostgresCrudEquipmentType.cpp \
+    $$PWD/PostgresCrudNodeType.cpp

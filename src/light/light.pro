@@ -44,7 +44,9 @@ HEADERS += \
     AbstractRestRouter.h \
     NodeRestRouter.h \
     Session.h \
-    JsonToNodeConverter.h
+    JsonToNodeConverter.h \
+    NodeTypeRestRouter.h \
+    NodeTypeToJson.h
 
 SOURCES += \
     main.cpp \
@@ -61,7 +63,9 @@ SOURCES += \
     AbstractRestRouter.cpp \
     NodeRestRouter.cpp \
     Session.cpp \
-    JsonToNodeConverter.cpp
+    JsonToNodeConverter.cpp \
+    NodeTypeRestRouter.cpp \
+    NodeTypeToJson.cpp
 
 DISTFILES += \
     lightbackend.conf \

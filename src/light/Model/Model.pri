@@ -14,7 +14,8 @@ HEADERS += \
     $$PWD/Contragent.h \
     $$PWD/Geograph.h \
     $$PWD/Contract.h \
-    $$PWD/EquipmentType.h
+    $$PWD/EquipmentType.h \
+    $$PWD/NodeType.h
 
 SOURCES += \
     $$PWD/DateTimeRange.cpp \
@@ -26,4 +27,5 @@ SOURCES += \
     $$PWD/Contragent.cpp \
     $$PWD/Geograph.cpp \
     $$PWD/Contract.cpp \
-    $$PWD/EquipmentType.cpp
+    $$PWD/EquipmentType.cpp \
+    $$PWD/NodeType.cpp

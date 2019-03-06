@@ -4,7 +4,7 @@
 #include "Contract.h"
 #include "Geograph.h"
 #include "Contragent.h"
-#include "EquipmentType.h"
+#include "NodeType.h"
 
 #include <QJsonArray>
 #include <QJsonObject>
@@ -41,7 +41,7 @@ void NodeToJson::convert(const NodeSharedList& nodes) {
       node["ownerCode"] = owner->getCode();
     }
 
-    EquipmentTypeShared nodeType;
+    NodeTypeShared nodeType = n->getNodeType();
     if(nodeType) {
       node["nodeTypeId"] = QJsonValue::fromVariant(nodeType->getId());
       node["nodeTypeCode"] = nodeType->getCode();
