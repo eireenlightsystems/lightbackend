@@ -49,10 +49,10 @@ private:
   FixtureLightSpeedCommandSharedList lightUpSpeedCommands;
 };
 
-class IdsToJson : public BaseConverter
+class JsonToIds : public BaseConverter
 {
 public:
-  ~IdsToJson() override = default;
+  ~JsonToIds() override = default;
   void convert(const QByteArray& data);
   QList<ID> getIds() const;
 

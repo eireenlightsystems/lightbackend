@@ -13,10 +13,10 @@ QHttpServerResponse NodeTypeRestRouter::get(const SessionShared& session, const 
 
   Controller<NodeType, PostgresqlGateway::PostgresCrud> controller;
   controller.setSession(session);
-  auto nodes = controller.sel();
+  auto nodeTypes = controller.sel();
 
   NodeTypeToJson converter;
-  converter.convert(nodes);
+  converter.convert(nodeTypes);
   if (!converter.getIdValid()) {
     throw InternalServerErrorException(converter.getErrorText());
   }

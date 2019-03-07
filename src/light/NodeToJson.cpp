@@ -3,7 +3,7 @@
 #include "Node.h"
 #include "Contract.h"
 #include "Geograph.h"
-#include "Contragent.h"
+#include "EquipmentOwner.h"
 #include "NodeType.h"
 
 #include <QJsonArray>

@@ -1,4 +1,4 @@
-#include "PostgresCrudOwner.h"
+#include "PostgresCrudContragent.h"
 
 #include <QSqlRecord>
 #include <QVariant>

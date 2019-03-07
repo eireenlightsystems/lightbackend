@@ -48,7 +48,12 @@ HEADERS += \
     NodeTypeRestRouter.h \
     NodeTypeToJson.h \
     GeographRestRouter.h \
-    GeographToJson.h
+    GeographToJson.h \
+    GatewayRestRouter.h \
+    GatewayOwnerToJson.h \
+    GatewayTypeToJson.h \
+    GatewayToJson.h \
+    JsonToGatewayConverter.h
 
 SOURCES += \
     main.cpp \
@@ -69,7 +74,12 @@ SOURCES += \
     NodeTypeRestRouter.cpp \
     NodeTypeToJson.cpp \
     GeographRestRouter.cpp \
-    GeographToJson.cpp
+    GeographToJson.cpp \
+    GatewayRestRouter.cpp \
+    GatewayOwnerToJson.cpp \
+    GatewayTypeToJson.cpp \
+    GatewayToJson.cpp \
+    JsonToGatewayConverter.cpp
 
 DISTFILES += \
     lightbackend.conf \

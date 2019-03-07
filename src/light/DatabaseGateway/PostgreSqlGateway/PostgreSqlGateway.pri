@@ -19,11 +19,14 @@ HEADERS += \
     $$PWD/DeleteQuery.h \
     $$PWD/PostgresCrud.h \
     $$PWD/PostgresCrudNode.h \
-    $$PWD/PostgresCrudOwner.h \
     $$PWD/PostgresCrudContract.h \
     $$PWD/PostgresCrudGeograph.h \
     $$PWD/PostgresCrudEquipmentType.h \
-    $$PWD/PostgresCrudNodeType.h
+    $$PWD/PostgresCrudNodeType.h \
+    $$PWD/PostgresCrudContragent.h \
+    $$PWD/PostgresCrudGatewayType.h \
+    $$PWD/PostgresCrudGateway.h \
+    $$PWD/PostgresCrudEquipmentOwner.h
 
 
 SOURCES += \
@@ -42,8 +45,11 @@ SOURCES += \
     $$PWD/DeleteQuery.cpp \
     $$PWD/PostgresCrud.cpp \
     $$PWD/PostgresCrudNode.cpp \
-    $$PWD/PostgresCrudOwner.cpp \
     $$PWD/PostgresCrudContract.cpp \
     $$PWD/PostgresCrudGeograph.cpp \
     $$PWD/PostgresCrudEquipmentType.cpp \
-    $$PWD/PostgresCrudNodeType.cpp
+    $$PWD/PostgresCrudNodeType.cpp \
+    $$PWD/PostgresCrudContragent.cpp \
+    $$PWD/PostgresCrudGatewayType.cpp \
+    $$PWD/PostgresCrudGateway.cpp \
+    $$PWD/PostgresCrudEquipmentOwner.cpp

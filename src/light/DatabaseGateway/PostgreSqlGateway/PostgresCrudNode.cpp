@@ -12,6 +12,27 @@ namespace light {
 namespace PostgresqlGateway {
 
 template <>
+NodeSharedList PostgresCrud<Node>::sel(const IDList& ids) const {
+  NodeSharedList result;
+  const QString sql =
+      "select id_node, e_coordinate, n_coordinate, price, comments, id_owner, id_contract, id_geograph, id_node_type "
+      "from node_pkg_i.node_vwf(:id_geograph, :id_owner, :id_node_type, :id_contract, :id_gateway) "
+      "where id_node = :id_node";
+  for (auto id : ids) {
+    const BindParamsType bindParams{
+	{":id_geograph", QVariant()},
+	{":id_owner", QVariant()},
+	{":id_node_type", QVariant()},
+	{":id_contract", QVariant()},
+	{":id_gateway", QVariant()},
+	{":id_node", id},
+    };
+    result << selBase(sql, bindParams);
+  }
+  return result;
+}
+
+template <>
 template <>
 NodeSharedList PostgresCrud<Node>::sel<ID, ID, ID, ID, ID>(ID geopraphId,
 							   ID ownerId,
@@ -30,27 +51,6 @@ NodeSharedList PostgresCrud<Node>::sel<ID, ID, ID, ID, ID>(ID geopraphId,
       {":id_gateway", gatewayId ? gatewayId : QVariant()},
   };
   result = selBase(sql, bindParams);
-  return result;
-}
-
-template <>
-NodeSharedList PostgresCrud<Node>::sel(const IDList& ids) const {
-  NodeSharedList result;
-  const QString sql =
-      "select id_node, e_coordinate, n_coordinate, price, comments, id_owner, id_contract, id_geograph, id_node_type "
-      "from node_pkg_i.node_vwf(:id_geograph, :id_owner, :id_node_type, :id_contract, :id_gateway) "
-      "where id_node = :id_node";
-  for (auto id : ids) {
-    const BindParamsType bindParams{
-	{":id_geograph", QVariant()},
-	{":id_owner", QVariant()},
-	{":id_node_type", QVariant()},
-	{":id_contract", QVariant()},
-	{":id_gateway", QVariant()},
-	{":id_node", id},
-    };
-    result << selBase(sql, bindParams);
-  }
   return result;
 }
 
@@ -112,9 +112,9 @@ NodeShared PostgresCrud<Node>::parse(const QSqlRecord& record) const {
   node->setComment(record.value(4).toString());
 
   auto ownerId = record.value(5).value<ID>();
-  PostgresCrud<Contragent> contragentCrud;
-  contragentCrud.setSession(session);
-  node->setOwner(contragentCrud.selById(ownerId));
+  PostgresCrud<EquipmentOwner> equipmentOwnerCrud;
+  equipmentOwnerCrud.setSession(session);
+  node->setOwner(equipmentOwnerCrud.selById(ownerId));
 
   auto contractId = record.value(6).value<ID>();
   PostgresCrud<Contract> contractCrud;

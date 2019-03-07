@@ -1,6 +1,7 @@
 #ifndef BASEJSONCONVERTER_H
 #define BASEJSONCONVERTER_H
 
+#include "typedefs.h"
 #include "BaseConverter.h"
 
 namespace light {

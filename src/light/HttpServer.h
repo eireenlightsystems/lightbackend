@@ -40,6 +40,7 @@ private:
   void createNodeRoutes();
   void createNodeTypeRoutes();
   void createGeographRoutes();
+  void createGatewayRouters();
 
 private:
   QHttpServer httpServer;

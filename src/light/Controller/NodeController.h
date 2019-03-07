@@ -2,12 +2,22 @@
 #define NODECONTROLLER_H
 
 #include "Controller.h"
-#include "JsonToNodeConverter.h"
 #include "Node.h"
 
 #include <QDebug>
 
 namespace light {
+
+struct NodeSaveParameters
+{
+  ID nodeId;
+  ID contractId;
+  ID nodeTypeId;
+  ID geographId;
+  QGeoCoordinate coordinate;
+  double price;
+  QString comment;
+};
 
 template <template <typename> class Crud>
 class Inserter<Node, Crud> : public SessionOwner
@@ -45,6 +55,12 @@ public:
     nodeCrud.setSession(getSession());
     nodeCrud.save(newNodes);
   }
+};
+
+struct NodeCoordinateParameters
+{
+  ID nodeId;
+  QGeoCoordinate coordinate;
 };
 
 template <template <typename> class Crud>

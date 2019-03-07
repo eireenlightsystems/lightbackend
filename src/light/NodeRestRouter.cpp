@@ -93,7 +93,7 @@ QHttpServerResponse NodeRestRouter::patchSetCoordinates(const SessionShared& ses
 }
 
 QHttpServerResponse NodeRestRouter::del(const SessionShared& session, const QHttpServerRequest& req) {
-  IdsToJson converter;
+  JsonToIds converter;
   converter.convert(req.body());
   if (!converter.getIdValid()) {
     throw BadRequestException(converter.getErrorText());

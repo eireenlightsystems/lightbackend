@@ -2,7 +2,6 @@
 #define NODETOJSON_H
 
 #include "BaseJsonConverter.h"
-#include "typedefs.h"
 
 namespace light {
 class NodeToJson : public BaseJsonConverter

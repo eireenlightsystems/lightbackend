@@ -2,28 +2,12 @@
 #define JSONTONODECONVERTER_H
 
 #include "BaseConverter.h"
+#include "NodeController.h"
 #include "typedefs.h"
 
 #include <QGeoCoordinate>
 
 namespace light {
-
-struct NodeSaveParameters
-{
-  ID nodeId;
-  ID contractId;
-  ID nodeTypeId;
-  ID geographId;
-  QGeoCoordinate coordinate;
-  double price;
-  QString comment;
-};
-
-struct NodeCoordinateParameters
-{
-  ID nodeId;
-  QGeoCoordinate coordinate;
-};
 
 class JsonInsertParametersToNodeConverter : public BaseConverter
 {

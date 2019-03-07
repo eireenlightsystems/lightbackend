@@ -15,7 +15,11 @@ HEADERS += \
     $$PWD/Geograph.h \
     $$PWD/Contract.h \
     $$PWD/EquipmentType.h \
-    $$PWD/NodeType.h
+    $$PWD/NodeType.h \
+    $$PWD/GatewayType.h \
+    $$PWD/Gateway.h \
+    $$PWD/Equipment.h \
+    $$PWD/EquipmentOwner.h
 
 SOURCES += \
     $$PWD/DateTimeRange.cpp \
@@ -28,4 +32,8 @@ SOURCES += \
     $$PWD/Geograph.cpp \
     $$PWD/Contract.cpp \
     $$PWD/EquipmentType.cpp \
-    $$PWD/NodeType.cpp
+    $$PWD/NodeType.cpp \
+    $$PWD/GatewayType.cpp \
+    $$PWD/Gateway.cpp \
+    $$PWD/Equipment.cpp \
+    $$PWD/EquipmentOwner.cpp

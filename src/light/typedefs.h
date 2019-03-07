@@ -54,6 +54,9 @@ DeclareShared(Contract);
 DeclareShared(EquipmentType);
 DeclareShared(NodeType);
 DeclareShared(Geograph);
+DeclareShared(Gateway);
+DeclareShared(EquipmentOwner);
+DeclareShared(GatewayType);
 
 namespace PostgresqlGateway {
 DeclareShared(PostgresFixtureCommandFacadeGateway);

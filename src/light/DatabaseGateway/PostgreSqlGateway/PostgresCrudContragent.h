@@ -1,5 +1,5 @@
-#ifndef POSTGRESCRUDOWNER_H
-#define POSTGRESCRUDOWNER_H
+#ifndef POSTGRESCRUDCONTRAGENT_H
+#define POSTGRESCRUDCONTRAGENT_H
 
 #include "Contragent.h"
 #include "PostgresCrud.h"
@@ -16,4 +16,4 @@ ContragentShared PostgresCrud<Contragent>::parse(const QSqlRecord& record) const
 } // namespace PostgresqlGateway
 } // namespace light
 
-#endif // POSTGRESCRUDOWNER_H
+#endif // POSTGRESCRUDCONTRAGENT_H

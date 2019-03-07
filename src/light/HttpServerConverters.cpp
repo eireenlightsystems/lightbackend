@@ -57,7 +57,7 @@ FixtureLightLevelCommandSharedList JsonToFixtureLightLevelCommands::getLightLeve
   return lightLevelCommands;
 }
 
-void IdsToJson::convert(const QByteArray& data) {
+void JsonToIds::convert(const QByteArray& data) {
   QJsonDocument jDoc = parseJson(data);
   if (!getIdValid()) {
     setErrorText(data);
@@ -73,7 +73,7 @@ void IdsToJson::convert(const QByteArray& data) {
   }
 }
 
-QList<ID> IdsToJson::getIds() const {
+QList<ID> JsonToIds::getIds() const {
   return ids;
 }
 
