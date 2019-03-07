@@ -38,7 +38,6 @@ private:
   void createLightLevelRoutes();
   void createLightSpeedRoutes();
   void createNodeRoutes();
-  void createNodeTypeRoutes();
   void createGeographRoutes();
   void createGatewayRouters();
 

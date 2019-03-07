@@ -13,22 +13,13 @@
 
 namespace light {
 
-QList<AbstractRestRouter::ApiItem> NodeRestRouter::getApiItems() {
-  const QString route("/node");
-  return {
-      {route,
-       QHttpServerRequest::Method::Get,
-       [](const SessionShared& session, const QHttpServerRequest& req) { return NodeRestRouter::get(session, req); }},
-      {route,
-       QHttpServerRequest::Method::Post,
-       [](const SessionShared& session, const QHttpServerRequest& req) { return NodeRestRouter::post(session, req); }},
-      {route,
-       QHttpServerRequest::Method::Patch,
-       [](const SessionShared& session, const QHttpServerRequest& req) { return NodeRestRouter::patch(session, req); }},
-  };
+template <>
+QString RestRouter<Node>::getPath() const {
+  return "/api2/node";
 }
 
-QHttpServerResponse NodeRestRouter::get(const SessionShared& session, const QHttpServerRequest& req) {
+template <>
+QHttpServerResponse RestRouter<Node>::get(const SessionShared& session, const QHttpServerRequest& req) const {
   const auto urlQuery = req.query();
   ID geopraphId = urlQuery.queryItemValue("geographId").toULongLong();
   ID ownerId = urlQuery.queryItemValue("ownerId").toULongLong();
@@ -49,7 +40,8 @@ QHttpServerResponse NodeRestRouter::get(const SessionShared& session, const QHtt
   return QHttpServerResponse("text/json", jsonDocument.toJson());
 }
 
-QHttpServerResponse NodeRestRouter::post(const SessionShared& session, const QHttpServerRequest& req) {
+template <>
+QHttpServerResponse RestRouter<Node>::post(const SessionShared& session, const QHttpServerRequest& req) const {
   JsonInsertParametersToNodeConverter converter;
   converter.convert(req.body());
   if (!converter.getIdValid()) {
@@ -64,7 +56,8 @@ QHttpServerResponse NodeRestRouter::post(const SessionShared& session, const QHt
   return QHttpServerResponse(QHttpServerResponse::StatusCode::Ok);
 }
 
-QHttpServerResponse NodeRestRouter::patch(const SessionShared& session, const QHttpServerRequest& req) {
+template <>
+QHttpServerResponse RestRouter<Node>::patch(const SessionShared& session, const QHttpServerRequest& req) const {
   JsonUpdateParametersToNodeConverter converter;
   converter.convert(req.body());
   if (!converter.getIdValid()) {
@@ -78,7 +71,19 @@ QHttpServerResponse NodeRestRouter::patch(const SessionShared& session, const QH
   return QHttpServerResponse(QHttpServerResponse::StatusCode::Ok);
 }
 
-QHttpServerResponse NodeRestRouter::patchSetCoordinates(const SessionShared& session, const QHttpServerRequest& req) {
+template <>
+QHttpServerResponse RestRouter<Node>::del(const SessionShared& session, const QHttpServerRequest& req) const {
+  return delSimple<Node>(session, req);
+}
+
+template <>
+QString RestRouter<NodeCoordinate>::getPath() const {
+  return "/api2/node/coordinate";
+}
+
+template <>
+QHttpServerResponse RestRouter<NodeCoordinate>::patch(const SessionShared& session,
+						      const QHttpServerRequest& req) const {
   JsonNodeCoordinatesConverter converter;
   converter.convert(req.body());
   if (!converter.getIdValid()) {
@@ -90,19 +95,6 @@ QHttpServerResponse NodeRestRouter::patchSetCoordinates(const SessionShared& ses
   controller.setSession(session);
   controller.upd(parameters);
   return QHttpServerResponse(QHttpServerResponse::StatusCode::Ok);
-}
-
-QHttpServerResponse NodeRestRouter::del(const SessionShared& session, const QHttpServerRequest& req) {
-  JsonToIds converter;
-  converter.convert(req.body());
-  if (!converter.getIdValid()) {
-    throw BadRequestException(converter.getErrorText());
-  }
-  auto deleteCommands = converter.getIds();
-  Controller<Node, PostgresqlGateway::PostgresCrud> controller;
-  controller.setSession(session);
-  controller.del(deleteCommands);
-  return QHttpServerResponse(QHttpServerResponder::StatusCode::Ok);
 }
 
 } // namespace light

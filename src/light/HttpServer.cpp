@@ -46,7 +46,6 @@ void HttpServerWrapper::createRoutes() {
   createLightLevelRoutes();
   createLightSpeedRoutes();
   createNodeRoutes();
-  createNodeTypeRoutes();
   createGeographRoutes();
   createGatewayRouters();
 }
@@ -177,112 +176,30 @@ void HttpServerWrapper::createLightSpeedRoutes() {
 }
 
 void HttpServerWrapper::createNodeRoutes() {
-  httpServer.route("/api2/node", QHttpServerRequest::Method::Get, [](const QHttpServerRequest& req) {
-    auto routeFunction = [](const QHttpServerRequest& req) {
-      auto session = HttpServerWrapper::singleton()->getLightBackend()->getSession();
-      return NodeRestRouter::get(session, req);
-    };
-    return baseRouteFunction(routeFunction, req);
-  });
-  httpServer.route("/api2/node", QHttpServerRequest::Method::Post, [](const QHttpServerRequest& req) {
-    auto routeFunction = [](const QHttpServerRequest& req) {
-      auto session = HttpServerWrapper::singleton()->getLightBackend()->getSession();
-      return NodeRestRouter::post(session, req);
-    };
-    return baseRouteFunction(routeFunction, req);
-  });
-  httpServer.route("/api2/node", QHttpServerRequest::Method::Patch, [](const QHttpServerRequest& req) {
-    auto routeFunction = [](const QHttpServerRequest& req) {
-      auto session = HttpServerWrapper::singleton()->getLightBackend()->getSession();
-      return NodeRestRouter::patch(session, req);
-    };
-    return baseRouteFunction(routeFunction, req);
-  });
+  RestRouter<Node> nodeRouter;
+  nodeRouter.registerApi(httpServer);
 
-  httpServer.route("/api2/node/coordinate", QHttpServerRequest::Method::Patch, [](const QHttpServerRequest& req) {
-    auto routeFunction = [](const QHttpServerRequest& req) {
-      auto session = HttpServerWrapper::singleton()->getLightBackend()->getSession();
-      return NodeRestRouter::patchSetCoordinates(session, req);
-    };
-    return baseRouteFunction(routeFunction, req);
-  });
-  httpServer.route("/api2/node", QHttpServerRequest::Method::Delete, [](const QHttpServerRequest& req) {
-    auto routeFunction = [](const QHttpServerRequest& req) {
-      auto session = HttpServerWrapper::singleton()->getLightBackend()->getSession();
-      return NodeRestRouter::del(session, req);
-    };
-    return baseRouteFunction(routeFunction, req);
-  });
-}
+  RestRouter<NodeType> nodeTypeRouter;
+  nodeTypeRouter.registerApi(httpServer);
 
-void HttpServerWrapper::createNodeTypeRoutes() {
-  httpServer.route("/api2/nodeType", QHttpServerRequest::Method::Get, [](const QHttpServerRequest& req) {
-    auto routeFunction = [](const QHttpServerRequest& req) {
-      auto session = HttpServerWrapper::singleton()->getLightBackend()->getSession();
-      return NodeTypeRestRouter::get(session, req);
-    };
-    return baseRouteFunction(routeFunction, req);
-  });
+  RestRouter<NodeCoordinate> nodeCoordinateRouter;
+  nodeCoordinateRouter.registerApi(httpServer);
 }
 
 void HttpServerWrapper::createGeographRoutes() {
-  httpServer.route("/api2/geograph", QHttpServerRequest::Method::Get, [](const QHttpServerRequest& req) {
-    auto routeFunction = [](const QHttpServerRequest& req) {
-      auto session = HttpServerWrapper::singleton()->getLightBackend()->getSession();
-      return GeographRestRouter::get(session, req);
-    };
-    return baseRouteFunction(routeFunction, req);
-  });
+  RestRouter<Geograph> geographRouter;
+  geographRouter.registerApi(httpServer);
 }
 
 void HttpServerWrapper::createGatewayRouters() {
-  httpServer.route("/api2/gateway", QHttpServerRequest::Method::Get, [](const QHttpServerRequest& req) {
-    auto routeFunction = [](const QHttpServerRequest& req) {
-      auto session = HttpServerWrapper::singleton()->getLightBackend()->getSession();
-      return GatewayRestRouter::get(session, req);
-    };
-    return baseRouteFunction(routeFunction, req);
-  });
+  RestRouter<Gateway> gatewayRouter;
+  gatewayRouter.registerApi(httpServer);
 
-  httpServer.route("/api2/gateway", QHttpServerRequest::Method::Post, [](const QHttpServerRequest& req) {
-    auto routeFunction = [](const QHttpServerRequest& req) {
-      auto session = HttpServerWrapper::singleton()->getLightBackend()->getSession();
-      return GatewayRestRouter::post(session, req);
-    };
-    return baseRouteFunction(routeFunction, req);
-  });
+  RestRouter<EquipmentOwner> equipmentOwnerRouter;
+  equipmentOwnerRouter.registerApi(httpServer);
 
-  httpServer.route("/api2/gateway", QHttpServerRequest::Method::Patch, [](const QHttpServerRequest& req) {
-    auto routeFunction = [](const QHttpServerRequest& req) {
-      auto session = HttpServerWrapper::singleton()->getLightBackend()->getSession();
-      return GatewayRestRouter::patch(session, req);
-    };
-    return baseRouteFunction(routeFunction, req);
-  });
-
-  httpServer.route("/api2/gateway", QHttpServerRequest::Method::Delete, [](const QHttpServerRequest& req) {
-    auto routeFunction = [](const QHttpServerRequest& req) {
-      auto session = HttpServerWrapper::singleton()->getLightBackend()->getSession();
-      return GatewayRestRouter::del(session, req);
-    };
-    return baseRouteFunction(routeFunction, req);
-  });
-
-  httpServer.route("/api2/gateway/owner", QHttpServerRequest::Method::Get, [](const QHttpServerRequest& req) {
-    auto routeFunction = [](const QHttpServerRequest& req) {
-      auto session = HttpServerWrapper::singleton()->getLightBackend()->getSession();
-      return GatewayRestRouter::getOwner(session, req);
-    };
-    return baseRouteFunction(routeFunction, req);
-  });
-
-  httpServer.route("/api2/gateway/type", QHttpServerRequest::Method::Get, [](const QHttpServerRequest& req) {
-    auto routeFunction = [](const QHttpServerRequest& req) {
-      auto session = HttpServerWrapper::singleton()->getLightBackend()->getSession();
-      return GatewayRestRouter::getTypes(session, req);
-    };
-    return baseRouteFunction(routeFunction, req);
-  });
+  RestRouter<GatewayType> gatewayTypeRouter;
+  gatewayTypeRouter.registerApi(httpServer);
 }
 
 template <typename RouteFunction, typename... Args>

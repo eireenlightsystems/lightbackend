@@ -8,7 +8,13 @@
 
 namespace light {
 
-QHttpServerResponse NodeTypeRestRouter::get(const SessionShared& session, const QHttpServerRequest& req) {
+template <>
+QString RestRouter<NodeType>::getPath() const {
+  return "/api2/nodeType";
+}
+
+template <>
+QHttpServerResponse RestRouter<NodeType>::get(const SessionShared& session, const QHttpServerRequest& req) const {
   Q_UNUSED(req)
 
   Controller<NodeType, PostgresqlGateway::PostgresCrud> controller;
@@ -22,6 +28,11 @@ QHttpServerResponse NodeTypeRestRouter::get(const SessionShared& session, const 
   }
   QJsonDocument jsonDocument(converter.getJsonDocument());
   return QHttpServerResponse("text/json", jsonDocument.toJson());
+}
+
+template <>
+QList<QHttpServerRequest::Method> RestRouter<NodeType>::getAsseccibleMethods() const {
+  return {QHttpServerRequest::Method::Get};
 }
 
 } // namespace light

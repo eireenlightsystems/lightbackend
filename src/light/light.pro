@@ -10,6 +10,7 @@ include(./DeviceCommand/DeviceCommand.pri)
 include(./Model/Model.pri)
 include(./Exception/Exception.pri)
 include(./Controller/Controller.pri)
+include(./Router/Router.pri)
 
 unix: {
 CONFIG(release, debug|release) {
@@ -41,15 +42,10 @@ HEADERS += \
     NodeToJson.h \
     BaseConverter.h \
     BaseJsonConverter.h \
-    AbstractRestRouter.h \
-    NodeRestRouter.h \
     Session.h \
     JsonToNodeConverter.h \
-    NodeTypeRestRouter.h \
     NodeTypeToJson.h \
-    GeographRestRouter.h \
     GeographToJson.h \
-    GatewayRestRouter.h \
     GatewayOwnerToJson.h \
     GatewayTypeToJson.h \
     GatewayToJson.h \
@@ -67,15 +63,10 @@ SOURCES += \
     NodeToJson.cpp \
     BaseConverter.cpp \
     BaseJsonConverter.cpp \
-    AbstractRestRouter.cpp \
-    NodeRestRouter.cpp \
     Session.cpp \
     JsonToNodeConverter.cpp \
-    NodeTypeRestRouter.cpp \
-    NodeTypeToJson.cpp \
-    GeographRestRouter.cpp \
+    NodeTypeToJson.cpp \ 
     GeographToJson.cpp \
-    GatewayRestRouter.cpp \
     GatewayOwnerToJson.cpp \
     GatewayTypeToJson.cpp \
     GatewayToJson.cpp \

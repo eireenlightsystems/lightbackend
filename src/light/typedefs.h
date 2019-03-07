@@ -58,6 +58,8 @@ DeclareShared(Gateway);
 DeclareShared(EquipmentOwner);
 DeclareShared(GatewayType);
 
+DeclareShared(AbstractRestRouter);
+
 namespace PostgresqlGateway {
 DeclareShared(PostgresFixtureCommandFacadeGateway);
 }

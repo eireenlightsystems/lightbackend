@@ -15,7 +15,13 @@
 
 namespace light {
 
-QHttpServerResponse GatewayRestRouter::get(const SessionShared& session, const QHttpServerRequest& req) {
+template<>
+QString RestRouter<Gateway>::getPath() const {
+  return "/api2/gateway";
+}
+
+template <>
+QHttpServerResponse RestRouter<Gateway>::get(const SessionShared& session, const QHttpServerRequest& req) const {
   const auto urlQuery = req.query();
   ID geopraphId = urlQuery.queryItemValue("geographId").toULongLong();
   ID ownerId = urlQuery.queryItemValue("ownerId").toULongLong();
@@ -36,7 +42,8 @@ QHttpServerResponse GatewayRestRouter::get(const SessionShared& session, const Q
   return QHttpServerResponse("text/json", jsonDocument.toJson());
 }
 
-QHttpServerResponse GatewayRestRouter::post(const SessionShared& session, const QHttpServerRequest& req) {
+template <>
+QHttpServerResponse RestRouter<Gateway>::post(const SessionShared& session, const QHttpServerRequest& req) const {
   JsonInsertParametersToGatewayConverter converter;
   converter.convert(req.body());
   if (!converter.getIdValid()) {
@@ -50,7 +57,8 @@ QHttpServerResponse GatewayRestRouter::post(const SessionShared& session, const 
   return QHttpServerResponse(QHttpServerResponse::StatusCode::Ok);
 }
 
-QHttpServerResponse GatewayRestRouter::patch(const SessionShared& session, const QHttpServerRequest& req) {
+template <>
+QHttpServerResponse RestRouter<Gateway>::patch(const SessionShared& session, const QHttpServerRequest& req) const {
   JsonUpdateParametersToGatewayConverter converter;
   converter.convert(req.body());
   if (!converter.getIdValid()) {
@@ -64,21 +72,18 @@ QHttpServerResponse GatewayRestRouter::patch(const SessionShared& session, const
   return QHttpServerResponse(QHttpServerResponse::StatusCode::Ok);
 }
 
-QHttpServerResponse GatewayRestRouter::del(const SessionShared &session, const QHttpServerRequest &req)
-{
-  JsonToIds converter;
-  converter.convert(req.body());
-  if (!converter.getIdValid()) {
-    throw BadRequestException(converter.getErrorText());
-  }
-  auto ids = converter.getIds();
-  Controller<Gateway, PostgresqlGateway::PostgresCrud> controller;
-  controller.setSession(session);
-  controller.del(ids);
-  return QHttpServerResponse(QHttpServerResponder::StatusCode::Ok);
+template<>
+QHttpServerResponse RestRouter<Gateway>::del(const SessionShared& session, const QHttpServerRequest& req) const {
+  return delSimple<Gateway>(session, req);
 }
 
-QHttpServerResponse GatewayRestRouter::getOwner(const SessionShared& session, const QHttpServerRequest& req) {
+template<>
+QString RestRouter<EquipmentOwner>::getPath() const {
+  return "/api2/gateway/owner";
+}
+
+template <>
+QHttpServerResponse RestRouter<EquipmentOwner>::get(const SessionShared& session, const QHttpServerRequest& req) const {
   Q_UNUSED(req)
 
   Controller<EquipmentOwner, PostgresqlGateway::PostgresCrud> controller;
@@ -94,7 +99,18 @@ QHttpServerResponse GatewayRestRouter::getOwner(const SessionShared& session, co
   return QHttpServerResponse("text/json", jsonDocument.toJson());
 }
 
-QHttpServerResponse GatewayRestRouter::getTypes(const SessionShared& session, const QHttpServerRequest& req) {
+template <>
+QList<QHttpServerRequest::Method> RestRouter<EquipmentOwner>::getAsseccibleMethods() const {
+  return {QHttpServerRequest::Method::Get};
+}
+
+template<>
+QString RestRouter<GatewayType>::getPath() const {
+  return "/api2/gateway/type";
+}
+
+template <>
+QHttpServerResponse RestRouter<GatewayType>::get(const SessionShared& session, const QHttpServerRequest& req) const {
   Q_UNUSED(req)
 
   Controller<GatewayType, PostgresqlGateway::PostgresCrud> controller;
@@ -108,6 +124,11 @@ QHttpServerResponse GatewayRestRouter::getTypes(const SessionShared& session, co
   }
   QJsonDocument jsonDocument(converter.getJsonDocument());
   return QHttpServerResponse("text/json", jsonDocument.toJson());
+}
+
+template <>
+QList<QHttpServerRequest::Method> RestRouter<GatewayType>::getAsseccibleMethods() const {
+  return {QHttpServerRequest::Method::Get};
 }
 
 } // namespace light
