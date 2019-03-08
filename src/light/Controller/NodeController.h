@@ -8,9 +8,8 @@
 
 namespace light {
 
-struct NodeSaveParameters
+struct NodeInsertParameters
 {
-  ID nodeId;
   ID contractId;
   ID nodeTypeId;
   ID geographId;
@@ -19,12 +18,17 @@ struct NodeSaveParameters
   QString comment;
 };
 
+struct NodeUpdateParameters : public NodeInsertParameters
+{
+  ID nodeId;
+};
+
 template <template <typename> class Crud>
 class Inserter<Node, Crud> : public SessionOwner
 {
 public:
   template <typename... Args>
-  void ins(const QList<NodeSaveParameters> params) {
+  void ins(const QList<NodeInsertParameters> params) {
     NodeSharedList newNodes;
 
     Crud<Contract> contractCrud;
@@ -68,7 +72,7 @@ class Updater<Node, Crud> : public SessionOwner
 {
 public:
   template <typename... Args>
-  void upd(const QList<NodeSaveParameters> params) {
+  void upd(const QList<NodeUpdateParameters> params) {
     NodeSharedList nodes;
 
     Crud<Node> nodeCrud;

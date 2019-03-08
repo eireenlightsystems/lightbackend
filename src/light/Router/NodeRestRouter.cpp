@@ -27,48 +27,17 @@ QHttpServerResponse RestRouter<Node>::get(const SessionShared& session, const QH
   ID contractId = urlQuery.queryItemValue("contractId").toULongLong();
   ID gatewayId = urlQuery.queryItemValue("gatewayId").toULongLong();
 
-  Controller<Node, PostgresqlGateway::PostgresCrud> controller;
-  controller.setSession(session);
-  auto nodes = controller.sel(geopraphId, ownerId, nodeTypeId, contractId, gatewayId);
-
-  NodeToJson converter;
-  converter.convert(nodes);
-  if (!converter.getIdValid()) {
-    throw InternalServerErrorException(converter.getErrorText());
-  }
-  QJsonDocument jsonDocument(converter.getJsonDocument());
-  return QHttpServerResponse("text/json", jsonDocument.toJson());
+  return selSimple<Node>(session, geopraphId, ownerId, nodeTypeId, contractId, gatewayId);
 }
 
 template <>
 QHttpServerResponse RestRouter<Node>::post(const SessionShared& session, const QHttpServerRequest& req) const {
-  JsonInsertParametersToNodeConverter converter;
-  converter.convert(req.body());
-  if (!converter.getIdValid()) {
-    throw BadRequestException(converter.getErrorText());
-  }
-  auto parameters = converter.getParameters();
-
-  Controller<Node, PostgresqlGateway::PostgresCrud> controller;
-  controller.setSession(session);
-  controller.ins(parameters);
-
-  return QHttpServerResponse(QHttpServerResponse::StatusCode::Ok);
+  return postSimple<Node, NodeInsertParameters>(session, req);
 }
 
 template <>
 QHttpServerResponse RestRouter<Node>::patch(const SessionShared& session, const QHttpServerRequest& req) const {
-  JsonUpdateParametersToNodeConverter converter;
-  converter.convert(req.body());
-  if (!converter.getIdValid()) {
-    throw BadRequestException(converter.getErrorText());
-  }
-  auto parameters = converter.getParameters();
-
-  Controller<Node, PostgresqlGateway::PostgresCrud> controller;
-  controller.setSession(session);
-  controller.upd(parameters);
-  return QHttpServerResponse(QHttpServerResponse::StatusCode::Ok);
+  return patchSimple<Node, NodeUpdateParameters>(session, req);
 }
 
 template <>
@@ -84,17 +53,7 @@ QString RestRouter<NodeCoordinate>::getPath() const {
 template <>
 QHttpServerResponse RestRouter<NodeCoordinate>::patch(const SessionShared& session,
 						      const QHttpServerRequest& req) const {
-  JsonNodeCoordinatesConverter converter;
-  converter.convert(req.body());
-  if (!converter.getIdValid()) {
-    throw BadRequestException(converter.getErrorText());
-  }
-  auto parameters = converter.getParameters();
-
-  Controller<Node, PostgresqlGateway::PostgresCrud> controller;
-  controller.setSession(session);
-  controller.upd(parameters);
-  return QHttpServerResponse(QHttpServerResponse::StatusCode::Ok);
+  return patchSimple<Node, NodeCoordinateParameters>(session, req);
 }
 
 } // namespace light

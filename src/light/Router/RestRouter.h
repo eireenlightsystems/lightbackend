@@ -4,9 +4,12 @@
 #include "AbstractRestRouter.h"
 #include "BadRequestException.h"
 #include "Controller.h"
+#include "FromJsonConverter.h"
 #include "HttpServerConverters.h"
 #include "NotImplementedException.h"
 #include "PostgresCrud.h"
+#include "ToJsonConverter.h"
+#include "InternalServerErrorException.h"
 
 namespace light {
 
@@ -25,8 +28,6 @@ public:
 
 protected:
   QList<QHttpServerRequest::Method> getAsseccibleMethods() const;
-  void registerGet(QHttpServer& httpServer) const;
-  void registerPost(QHttpServer& httpServer) const;
 };
 
 template <typename T>
@@ -113,6 +114,51 @@ QList<QHttpServerRequest::Method> RestRouter<T>::getAsseccibleMethods() const {
 	  QHttpServerRequest::Method::Delete};
 }
 
+template <typename Object, typename... Args>
+QHttpServerResponse selSimple(const SessionShared& session, Args&&... args) {
+  Controller<Object, PostgresqlGateway::PostgresCrud> controller;
+  controller.setSession(session);
+  auto gateways = controller.sel(std::forward<Args>(args)...);
+
+  ToJsonConverter<Object> converter;
+  converter.convert(gateways);
+  if (!converter.getIdValid()) {
+    throw InternalServerErrorException(converter.getErrorText());
+  }
+  QJsonDocument jsonDocument(converter.getJsonDocument());
+  return QHttpServerResponse("text/json", jsonDocument.toJson());
+}
+
+template <typename Object, typename InsertPatameter>
+QHttpServerResponse postSimple(const SessionShared& session, const QHttpServerRequest& req) {
+  FromJsonConverter<InsertPatameter> converter;
+  converter.convert(req.body());
+  if (!converter.getIdValid()) {
+    throw BadRequestException(converter.getErrorText());
+  }
+  auto parameters = converter.getParameters();
+
+  Controller<Object, PostgresqlGateway::PostgresCrud> controller;
+  controller.setSession(session);
+  controller.ins(parameters);
+  return QHttpServerResponse(QHttpServerResponse::StatusCode::Ok);
+}
+
+template <typename Object, typename UpdatePatameter>
+QHttpServerResponse patchSimple(const SessionShared& session, const QHttpServerRequest& req) {
+  FromJsonConverter<UpdatePatameter> converter;
+  converter.convert(req.body());
+  if (!converter.getIdValid()) {
+    throw BadRequestException(converter.getErrorText());
+  }
+  auto parameters = converter.getParameters();
+
+  Controller<Object, PostgresqlGateway::PostgresCrud> controller;
+  controller.setSession(session);
+  controller.upd(parameters);
+  return QHttpServerResponse(QHttpServerResponse::StatusCode::Ok);
+}
+
 template <typename T>
 QHttpServerResponse delSimple(const SessionShared& session, const QHttpServerRequest& req) {
   JsonToIds converter;
@@ -126,6 +172,7 @@ QHttpServerResponse delSimple(const SessionShared& session, const QHttpServerReq
   controller.del(ids);
   return QHttpServerResponse(QHttpServerResponder::StatusCode::Ok);
 }
+
 } // namespace light
 
 #endif // RESTROUTER_H

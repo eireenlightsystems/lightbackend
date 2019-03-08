@@ -11,6 +11,7 @@ include(./Model/Model.pri)
 include(./Exception/Exception.pri)
 include(./Controller/Controller.pri)
 include(./Router/Router.pri)
+include(./Converter/Converter.pri)
 
 unix: {
 CONFIG(release, debug|release) {
@@ -39,17 +40,7 @@ HEADERS += \
     LigthBackend.h \
     HttpServerConverters.h \
     DeviceCommandsController.h \
-    NodeToJson.h \
-    BaseConverter.h \
-    BaseJsonConverter.h \
-    Session.h \
-    JsonToNodeConverter.h \
-    NodeTypeToJson.h \
-    GeographToJson.h \
-    GatewayOwnerToJson.h \
-    GatewayTypeToJson.h \
-    GatewayToJson.h \
-    JsonToGatewayConverter.h
+    Session.h
 
 SOURCES += \
     main.cpp \
@@ -60,17 +51,7 @@ SOURCES += \
     LigthBackend.cpp \
     HttpServerConverters.cpp \
     DeviceCommandsController.cpp \
-    NodeToJson.cpp \
-    BaseConverter.cpp \
-    BaseJsonConverter.cpp \
-    Session.cpp \
-    JsonToNodeConverter.cpp \
-    NodeTypeToJson.cpp \ 
-    GeographToJson.cpp \
-    GatewayOwnerToJson.cpp \
-    GatewayTypeToJson.cpp \
-    GatewayToJson.cpp \
-    JsonToGatewayConverter.cpp
+    Session.cpp
 
 DISTFILES += \
     lightbackend.conf \

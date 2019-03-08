@@ -6,9 +6,8 @@
 
 namespace light {
 
-struct GatewaySaveParameters
+struct GatewayInsertParameters
 {
-  ID gatewayId;
   ID contractId;
   ID gatewayTypeId;
   ID nodeId;
@@ -16,12 +15,17 @@ struct GatewaySaveParameters
   QString comment;
 };
 
+struct GatewayUpdateParameters : public GatewayInsertParameters
+{
+  ID gatewayId;
+};
+
 template <template <typename> class Crud>
 class Inserter<Gateway, Crud> : public SessionOwner
 {
 public:
   template <typename... Args>
-  void ins(const QList<GatewaySaveParameters> params) {
+  void ins(const QList<GatewayInsertParameters> params) {
     GatewaySharedList newGateways;
 
     Crud<Contract> contractCrud;
@@ -58,7 +62,7 @@ class Updater<Gateway, Crud> : public SessionOwner
 {
 public:
   template <typename... Args>
-  void upd(const QList<GatewaySaveParameters> params) {
+  void upd(const QList<GatewayUpdateParameters> params) {
     GatewaySharedList newGateways;
 
     Crud<Gateway> gatewayCrud;

@@ -16,17 +16,7 @@ template <>
 QHttpServerResponse RestRouter<Geograph>::get(const SessionShared& session, const QHttpServerRequest& req) const {
   Q_UNUSED(req)
 
-  Controller<Geograph, PostgresqlGateway::PostgresCrud> controller;
-  controller.setSession(session);
-  auto nodes = controller.sel();
-
-  GeographToJson converter;
-  converter.convert(nodes);
-  if (!converter.getIdValid()) {
-    throw InternalServerErrorException(converter.getErrorText());
-  }
-  QJsonDocument jsonDocument(converter.getJsonDocument());
-  return QHttpServerResponse("text/json", jsonDocument.toJson());
+  return selSimple<Geograph>(session);
 }
 
 template <>

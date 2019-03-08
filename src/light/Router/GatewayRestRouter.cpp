@@ -15,7 +15,7 @@
 
 namespace light {
 
-template<>
+template <>
 QString RestRouter<Gateway>::getPath() const {
   return "/api2/gateway";
 }
@@ -29,55 +29,25 @@ QHttpServerResponse RestRouter<Gateway>::get(const SessionShared& session, const
   ID contractId = urlQuery.queryItemValue("contractId").toULongLong();
   ID nodeId = urlQuery.queryItemValue("nodeId").toULongLong();
 
-  Controller<Gateway, PostgresqlGateway::PostgresCrud> controller;
-  controller.setSession(session);
-  auto gateways = controller.sel(geopraphId, ownerId, gatewayTypeId, contractId, nodeId);
-
-  GatewayToJson converter;
-  converter.convert(gateways);
-  if (!converter.getIdValid()) {
-    throw InternalServerErrorException(converter.getErrorText());
-  }
-  QJsonDocument jsonDocument(converter.getJsonDocument());
-  return QHttpServerResponse("text/json", jsonDocument.toJson());
+  return selSimple<Gateway>(session, geopraphId, ownerId, gatewayTypeId, contractId, nodeId);
 }
 
 template <>
 QHttpServerResponse RestRouter<Gateway>::post(const SessionShared& session, const QHttpServerRequest& req) const {
-  JsonInsertParametersToGatewayConverter converter;
-  converter.convert(req.body());
-  if (!converter.getIdValid()) {
-    throw BadRequestException(converter.getErrorText());
-  }
-  auto parameters = converter.getParameters();
-
-  Controller<Gateway, PostgresqlGateway::PostgresCrud> controller;
-  controller.setSession(session);
-  controller.ins(parameters);
-  return QHttpServerResponse(QHttpServerResponse::StatusCode::Ok);
+  return postSimple<Gateway, GatewayInsertParameters>(session, req);
 }
 
 template <>
 QHttpServerResponse RestRouter<Gateway>::patch(const SessionShared& session, const QHttpServerRequest& req) const {
-  JsonUpdateParametersToGatewayConverter converter;
-  converter.convert(req.body());
-  if (!converter.getIdValid()) {
-    throw BadRequestException(converter.getErrorText());
-  }
-  auto parameters = converter.getParameters();
-
-  Controller<Gateway, PostgresqlGateway::PostgresCrud> controller;
-  controller.setSession(session);
-  controller.upd(parameters);
-  return QHttpServerResponse(QHttpServerResponse::StatusCode::Ok);
+  return patchSimple<Gateway, GatewayUpdateParameters>(session, req);
 }
 
-template<>
+template <>
 QHttpServerResponse RestRouter<Gateway>::del(const SessionShared& session, const QHttpServerRequest& req) const {
   return delSimple<Gateway>(session, req);
 }
 
-template<>
+template <>
 QString RestRouter<EquipmentOwner>::getPath() const {
   return "/api2/gateway/owner";
 }
@@ -90,7 +60,7 @@ QHttpServerResponse RestRouter<EquipmentOwner>::get(const SessionShared& session
   controller.setSession(session);
   auto owners = controller.sel();
 
-  GatewayOwnerToJson converter;
+  ToJsonConverter<EquipmentOwner> converter;
   converter.convert(owners);
   if (!converter.getIdValid()) {
     throw InternalServerErrorException(converter.getErrorText());
@@ -104,7 +74,7 @@ QList<QHttpServerRequest::Method> RestRouter<EquipmentOwner>::getAsseccibleMetho
   return {QHttpServerRequest::Method::Get};
 }
 
-template<>
+template <>
 QString RestRouter<GatewayType>::getPath() const {
   return "/api2/gateway/type";
 }
@@ -117,7 +87,7 @@ QHttpServerResponse RestRouter<GatewayType>::get(const SessionShared& session, c
   controller.setSession(session);
   auto gatewayTypes = controller.sel();
 
-  GatewayTypeToJson converter;
+  ToJsonConverter<GatewayType> converter;
   converter.convert(gatewayTypes);
   if (!converter.getIdValid()) {
     throw InternalServerErrorException(converter.getErrorText());

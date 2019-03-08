@@ -17,17 +17,7 @@ template <>
 QHttpServerResponse RestRouter<NodeType>::get(const SessionShared& session, const QHttpServerRequest& req) const {
   Q_UNUSED(req)
 
-  Controller<NodeType, PostgresqlGateway::PostgresCrud> controller;
-  controller.setSession(session);
-  auto nodeTypes = controller.sel();
-
-  NodeTypeToJson converter;
-  converter.convert(nodeTypes);
-  if (!converter.getIdValid()) {
-    throw InternalServerErrorException(converter.getErrorText());
-  }
-  QJsonDocument jsonDocument(converter.getJsonDocument());
-  return QHttpServerResponse("text/json", jsonDocument.toJson());
+  return selSimple<NodeType>(session);
 }
 
 template <>
