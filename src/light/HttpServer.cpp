@@ -15,6 +15,7 @@
 #include "NodeToJson.h"
 #include "NodeTypeRestRouter.h"
 #include "SharedTypes.h"
+#include "FixtureRestRouter.h"
 
 #include <QException>
 #include <QHttpServerResponse>
@@ -48,6 +49,7 @@ void HttpServerWrapper::createRoutes() {
   createNodeRoutes();
   createGeographRoutes();
   createGatewayRouters();
+  createFixtureRouters();
 }
 
 void HttpServerWrapper::listen(const QHostAddress& address, quint16 port) {
@@ -200,6 +202,14 @@ void HttpServerWrapper::createGatewayRouters() {
 
   RestRouter<GatewayType> gatewayTypeRouter;
   gatewayTypeRouter.registerApi(httpServer);
+}
+
+void HttpServerWrapper::createFixtureRouters() {
+  RestRouter<FixtureType> fixtureTypeRouter;
+  fixtureTypeRouter.registerApi(httpServer);
+
+  RestRouter<FixtureHeightType> fixtureHeightTypeRouter;
+  fixtureHeightTypeRouter.registerApi(httpServer);
 }
 
 template <typename RouteFunction, typename... Args>

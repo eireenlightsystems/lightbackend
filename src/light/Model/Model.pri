@@ -19,7 +19,9 @@ HEADERS += \
     $$PWD/GatewayType.h \
     $$PWD/Gateway.h \
     $$PWD/Equipment.h \
-    $$PWD/EquipmentOwner.h
+    $$PWD/EquipmentOwner.h \
+    $$PWD/FixtureType.h \
+    $$PWD/FixtureHeightType.h
 
 SOURCES += \
     $$PWD/DateTimeRange.cpp \
@@ -36,4 +38,6 @@ SOURCES += \
     $$PWD/GatewayType.cpp \
     $$PWD/Gateway.cpp \
     $$PWD/Equipment.cpp \
-    $$PWD/EquipmentOwner.cpp
+    $$PWD/EquipmentOwner.cpp \
+    $$PWD/FixtureType.cpp \
+    $$PWD/FixtureHeightType.cpp

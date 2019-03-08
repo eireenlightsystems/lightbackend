@@ -26,7 +26,9 @@ HEADERS += \
     $$PWD/PostgresCrudContragent.h \
     $$PWD/PostgresCrudGatewayType.h \
     $$PWD/PostgresCrudGateway.h \
-    $$PWD/PostgresCrudEquipmentOwner.h
+    $$PWD/PostgresCrudEquipmentOwner.h \
+    $$PWD/PostgresCrudFixtureType.h \
+    $$PWD/PostgresCrudFixtureHeightType.h
 
 
 SOURCES += \
@@ -52,4 +54,6 @@ SOURCES += \
     $$PWD/PostgresCrudContragent.cpp \
     $$PWD/PostgresCrudGatewayType.cpp \
     $$PWD/PostgresCrudGateway.cpp \
-    $$PWD/PostgresCrudEquipmentOwner.cpp
+    $$PWD/PostgresCrudEquipmentOwner.cpp \
+    $$PWD/PostgresCrudFixtureType.cpp \
+    $$PWD/PostgresCrudFixtureHeightType.cpp

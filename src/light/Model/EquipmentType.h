@@ -8,6 +8,7 @@ class EquipmentType
 {
 public:
   EquipmentType() = default;
+  virtual ~EquipmentType() = default;
 
   ID getId() const;
   void setId(const ID& value);
