@@ -59,6 +59,7 @@ DeclareShared(EquipmentOwner);
 DeclareShared(GatewayType);
 DeclareShared(FixtureType);
 DeclareShared(FixtureHeightType);
+DeclareShared(Substation);
 
 DeclareShared(AbstractRestRouter);
 

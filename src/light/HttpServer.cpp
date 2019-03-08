@@ -210,6 +210,9 @@ void HttpServerWrapper::createFixtureRouters() {
 
   RestRouter<FixtureHeightType> fixtureHeightTypeRouter;
   fixtureHeightTypeRouter.registerApi(httpServer);
+
+  RestRouter<Substation> substationRouter;
+  substationRouter.registerApi(httpServer);
 }
 
 template <typename RouteFunction, typename... Args>

@@ -14,7 +14,8 @@ HEADERS += \
     $$PWD/ToJsonConverter.h \
     $$PWD/FromJsonConverter.h \
     $$PWD/FixtureTypeToJson.h \
-    $$PWD/FixtureHeightTypeToJson.h
+    $$PWD/FixtureHeightTypeToJson.h \
+    $$PWD/SubstationToJson.h
 
 SOURCES += \
     $$PWD/NodeToJson.cpp \
@@ -30,4 +31,5 @@ SOURCES += \
     $$PWD/ToJsonConverter.cpp \
     $$PWD/FromJsonConverter.cpp \
     $$PWD/FixtureTypeToJson.cpp \
-    $$PWD/FixtureHeightTypeToJson.cpp
+    $$PWD/FixtureHeightTypeToJson.cpp \
+    $$PWD/SubstationToJson.cpp

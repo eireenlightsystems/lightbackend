@@ -35,4 +35,20 @@ QHttpServerResponse RestRouter<FixtureHeightType>::get(const SessionShared& sess
   return selSimple<FixtureHeightType>(session);
 }
 
+template <>
+QString RestRouter<Substation>::getPath() const {
+  return "/api2/substation";
+}
+
+template <>
+QList<QHttpServerRequest::Method> RestRouter<Substation>::getAsseccibleMethods() const {
+  return {QHttpServerRequest::Method::Get};
+}
+
+template <>
+QHttpServerResponse RestRouter<Substation>::get(const SessionShared& session, const QHttpServerRequest& req) const {
+  Q_UNUSED(req)
+  return selSimple<Substation>(session);
+}
+
 } // namespace light
