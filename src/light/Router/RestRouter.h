@@ -27,7 +27,7 @@ public:
   QString getPath() const override;
 
 protected:
-  QList<QHttpServerRequest::Method> getAsseccibleMethods() const;
+  QList<QHttpServerRequest::Method> getAccessibleMethods() const;
 };
 
 template <typename T>
@@ -60,7 +60,7 @@ QHttpServerResponse RestRouter<T>::del(const SessionShared& session, const QHttp
 
 template <typename T>
 void RestRouter<T>::registerApi(QHttpServer& httpServer) const {
-  QList<QHttpServerRequest::Method> accessibleMethods = getAsseccibleMethods();
+  QList<QHttpServerRequest::Method> accessibleMethods = getAccessibleMethods();
   if (accessibleMethods.contains(QHttpServerRequest::Method::Get)) {
     httpServer.route(getPath(), QHttpServerRequest::Method::Get, [](const QHttpServerRequest& req) {
       auto routeFunction = [](const QHttpServerRequest& req) {
@@ -107,7 +107,7 @@ void RestRouter<T>::registerApi(QHttpServer& httpServer) const {
 }
 
 template <typename T>
-QList<QHttpServerRequest::Method> RestRouter<T>::getAsseccibleMethods() const {
+QList<QHttpServerRequest::Method> RestRouter<T>::getAccessibleMethods() const {
   return {QHttpServerRequest::Method::Get,
 	  QHttpServerRequest::Method::Post,
 	  QHttpServerRequest::Method::Patch,

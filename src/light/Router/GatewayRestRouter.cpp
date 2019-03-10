@@ -70,7 +70,7 @@ QHttpServerResponse RestRouter<EquipmentOwner>::get(const SessionShared& session
 }
 
 template <>
-QList<QHttpServerRequest::Method> RestRouter<EquipmentOwner>::getAsseccibleMethods() const {
+QList<QHttpServerRequest::Method> RestRouter<EquipmentOwner>::getAccessibleMethods() const {
   return {QHttpServerRequest::Method::Get};
 }
 
@@ -97,7 +97,7 @@ QHttpServerResponse RestRouter<GatewayType>::get(const SessionShared& session, c
 }
 
 template <>
-QList<QHttpServerRequest::Method> RestRouter<GatewayType>::getAsseccibleMethods() const {
+QList<QHttpServerRequest::Method> RestRouter<GatewayType>::getAccessibleMethods() const {
   return {QHttpServerRequest::Method::Get};
 }
 

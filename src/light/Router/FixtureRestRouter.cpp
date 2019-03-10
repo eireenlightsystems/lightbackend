@@ -8,7 +8,7 @@ QString RestRouter<FixtureType>::getPath() const {
 }
 
 template <>
-QList<QHttpServerRequest::Method> RestRouter<FixtureType>::getAsseccibleMethods() const {
+QList<QHttpServerRequest::Method> RestRouter<FixtureType>::getAccessibleMethods() const {
   return {QHttpServerRequest::Method::Get};
 }
 
@@ -24,7 +24,7 @@ QString RestRouter<FixtureHeightType>::getPath() const {
 }
 
 template <>
-QList<QHttpServerRequest::Method> RestRouter<FixtureHeightType>::getAsseccibleMethods() const {
+QList<QHttpServerRequest::Method> RestRouter<FixtureHeightType>::getAccessibleMethods() const {
   return {QHttpServerRequest::Method::Get};
 }
 
@@ -41,7 +41,7 @@ QString RestRouter<Substation>::getPath() const {
 }
 
 template <>
-QList<QHttpServerRequest::Method> RestRouter<Substation>::getAsseccibleMethods() const {
+QList<QHttpServerRequest::Method> RestRouter<Substation>::getAccessibleMethods() const {
   return {QHttpServerRequest::Method::Get};
 }
 

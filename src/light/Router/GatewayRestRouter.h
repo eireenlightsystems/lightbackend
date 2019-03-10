@@ -27,7 +27,7 @@ template<>
 QHttpServerResponse RestRouter<EquipmentOwner>::get(const SessionShared& session, const QHttpServerRequest& req) const;
 
 template<>
-QList<QHttpServerRequest::Method> RestRouter<EquipmentOwner>::getAsseccibleMethods() const;
+QList<QHttpServerRequest::Method> RestRouter<EquipmentOwner>::getAccessibleMethods() const;
 
 template<>
 QString RestRouter<GatewayType>::getPath() const;
@@ -36,7 +36,7 @@ template<>
 QHttpServerResponse RestRouter<GatewayType>::get(const SessionShared& session, const QHttpServerRequest& req) const;
 
 template<>
-QList<QHttpServerRequest::Method> RestRouter<GatewayType>::getAsseccibleMethods() const;
+QList<QHttpServerRequest::Method> RestRouter<GatewayType>::getAccessibleMethods() const;
 
 } // namespace light
 
