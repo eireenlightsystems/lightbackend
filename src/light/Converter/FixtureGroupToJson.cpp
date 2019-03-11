@@ -16,6 +16,8 @@ QJsonObject ToJsonConverter<FixtureGroup>::toJson(const FixtureGroupShared& fixt
   QJsonObject fixtureGroupJson;
   fixtureGroupJson["fixtureGroupId"] = QJsonValue::fromVariant(fixtureGroup->getId());
   fixtureGroupJson["fixtureGroupName"] = fixtureGroup->getName();
+  fixtureGroupJson["n_coordinate"] = fixtureGroup->getLatitude();
+  fixtureGroupJson["e_coordinate"] = fixtureGroup->getLongitude();
 
   auto groupType = fixtureGroup->getType();
   if (groupType) {

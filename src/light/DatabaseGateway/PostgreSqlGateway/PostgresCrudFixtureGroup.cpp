@@ -13,7 +13,8 @@ template <>
 template <>
 FixtureGroupSharedList PostgresCrud<FixtureGroup>::sel<ID, ID>(ID ownerId, ID typeId) const {
   FixtureGroupSharedList result;
-  const QString sql = "select id_fixture_group, id_fixture_group_type, id_owner, id_geograph, name_fixture_group "
+  const QString sql = "select id_fixture_group, id_fixture_group_type, id_owner, id_geograph, name_fixture_group, "
+		      "n_coordinate, e_coordinate "
 		      "from fixture_group_pkg_i.fixture_group_vwf(:id_owner, :id_fixture_group_type) ";
   const BindParamsType bindParams{
       {":id_owner", ownerId ? ownerId : QVariant()},
@@ -27,7 +28,8 @@ FixtureGroupSharedList PostgresCrud<FixtureGroup>::sel<ID, ID>(ID ownerId, ID ty
 template <>
 FixtureGroupSharedList PostgresCrud<FixtureGroup>::sel(const IDList& ids) const {
   FixtureGroupSharedList result;
-  const QString sql = "select id_fixture_group, id_fixture_group_type, id_owner, id_geograph, name_fixture_group "
+  const QString sql = "select id_fixture_group, id_fixture_group_type, id_owner, id_geograph, name_fixture_group, "
+		      "n_coordinate, e_coordinate "
 		      "from fixture_group_pkg_i.fixture_group_vwf(:id_owner, :id_fixture_group_type) "
 		      "where id_fixture_group = :id_fixture_group";
   for (auto id : ids) {
@@ -108,6 +110,8 @@ FixtureGroupShared PostgresCrud<FixtureGroup>::parse(const QSqlRecord& record) c
 
   auto name = record.value(4).toString();
   fixtureGroup->setName(name);
+  fixtureGroup->setCoordinate(record.value(5).toDouble(), record.value(6).toDouble());
+
   return fixtureGroup;
 }
 

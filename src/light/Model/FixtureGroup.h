@@ -3,6 +3,8 @@
 
 #include "typedefs.h"
 
+#include <QGeoCoordinate>
+
 namespace light {
 
 class FixtureGroup
@@ -28,12 +30,19 @@ public:
   ID getTypeId() const;
   void setType(const FixtureGroupTypeShared& value);
 
+  QGeoCoordinate getCoordinate() const;
+  double getLatitude() const;
+  double getLongitude() const;
+  void setCoordinate(const QGeoCoordinate& value);
+  void setCoordinate(double latitude, double longitude);
+
 private:
   ID id{0};
   QString name;
   ContragentShared owner;
   GeographShared geograph;
   FixtureGroupTypeShared type;
+  QGeoCoordinate coordinate;
 };
 
 } // namespace light
