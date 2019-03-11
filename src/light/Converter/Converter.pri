@@ -12,7 +12,10 @@ HEADERS += \
     $$PWD/GatewayToJson.h \
     $$PWD/JsonToGatewayConverter.h \
     $$PWD/ToJsonConverter.h \
-    $$PWD/FromJsonConverter.h
+    $$PWD/FromJsonConverter.h \
+    $$PWD/FixtureGroupTypeToJson.h \
+    $$PWD/FixtureGroupToJson.h \
+    $$PWD/JsonToFixtureGroup.h
 
 SOURCES += \
     $$PWD/NodeToJson.cpp \
@@ -26,4 +29,7 @@ SOURCES += \
     $$PWD/GatewayToJson.cpp \
     $$PWD/JsonToGatewayConverter.cpp \
     $$PWD/ToJsonConverter.cpp \
-    $$PWD/FromJsonConverter.cpp
+    $$PWD/FromJsonConverter.cpp \
+    $$PWD/FixtureGroupTypeToJson.cpp \
+    $$PWD/FixtureGroupToJson.cpp \
+    $$PWD/JsonToFixtureGroup.cpp

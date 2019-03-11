@@ -30,7 +30,7 @@ public:
   bool isLoggedIn() const;
 
 protected:
-  template<typename Converter, typename BackendGetter>
+  template <typename Converter, typename BackendGetter>
   QHttpServerResponse getFixturesCommandsBase(BackendGetter);
 
 private:
@@ -40,6 +40,7 @@ private:
   void createNodeRoutes();
   void createGeographRoutes();
   void createGatewayRouters();
+  void createFixtureGroupRouters();
 
 private:
   QHttpServer httpServer;

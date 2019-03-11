@@ -76,7 +76,7 @@ template <typename T, template <typename> class Crud>
 template <typename... Args>
 typename Controller<T, Crud>::SharedList Controller<T, Crud>::sel(Args&&... args) const {
   auto crud = createCrud();
-  return crud.sel(std::forward<Args&>(args)...);
+  return crud.sel(std::forward<Args>(args)...);
 }
 
 template <typename T, template <typename> class Crud>
