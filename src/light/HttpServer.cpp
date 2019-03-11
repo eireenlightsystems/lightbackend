@@ -5,6 +5,7 @@
 #include "BadInputDataException.h"
 #include "BadRequestException.h"
 #include "DatabaseException.h"
+#include "FixtureGroupRouter.h"
 #include "FixtureLightLevelCommand.h"
 #include "FixtureLightSpeedCommand.h"
 #include "GatewayRestRouter.h"
@@ -50,6 +51,7 @@ void HttpServerWrapper::createRoutes() {
   createGeographRoutes();
   createGatewayRouters();
   createFixtureRouters();
+  createFixtureGroupRouters();
 }
 
 void HttpServerWrapper::listen(const QHostAddress& address, quint16 port) {
@@ -214,6 +216,18 @@ void HttpServerWrapper::createFixtureRouters() {
   RestRouter<Substation> substationRouter;
   substationRouter.registerApi(httpServer);
 }
+
+void HttpServerWrapper::createFixtureGroupRouters() {
+  RestRouter<FixtureGroup> fixtureGroupRouter;
+  fixtureGroupRouter.registerApi(httpServer);
+
+  RestRouter<FixtureGroupType> fixtureGroupTypeRouter;
+  fixtureGroupTypeRouter.registerApi(httpServer);
+
+  RestRouter<FixtureGroupOwner> ownerRouter;
+  ownerRouter.registerApi(httpServer);
+}
+
 
 template <typename RouteFunction, typename... Args>
 QHttpServerResponse HttpServerWrapper::baseRouteFunction(RouteFunction routeFunction, Args&&... args) {

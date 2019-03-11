@@ -2,7 +2,6 @@
 
 #include "EquipmentOwner.h"
 
-#include <QJsonArray>
 #include <QJsonObject>
 #include <QJsonValue>
 #include <QVariant>

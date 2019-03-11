@@ -27,6 +27,8 @@ HEADERS += \
     $$PWD/PostgresCrudGatewayType.h \
     $$PWD/PostgresCrudGateway.h \
     $$PWD/PostgresCrudEquipmentOwner.h \
+    $$PWD/PostgresCrudFixtureGroup.h \
+    $$PWD/PostgresCrudFixtureGroupType.h \
     $$PWD/PostgresCrudFixtureType.h \
     $$PWD/PostgresCrudFixtureHeightType.h \
     $$PWD/PostgresCrudSubstation.h
@@ -56,6 +58,8 @@ SOURCES += \
     $$PWD/PostgresCrudGatewayType.cpp \
     $$PWD/PostgresCrudGateway.cpp \
     $$PWD/PostgresCrudEquipmentOwner.cpp \
+    $$PWD/PostgresCrudFixtureGroup.cpp \
+    $$PWD/PostgresCrudFixtureGroupType.cpp \
     $$PWD/PostgresCrudFixtureType.cpp \
     $$PWD/PostgresCrudFixtureHeightType.cpp \
     $$PWD/PostgresCrudSubstation.cpp

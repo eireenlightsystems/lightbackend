@@ -22,7 +22,9 @@ HEADERS += \
     $$PWD/EquipmentOwner.h \
     $$PWD/FixtureType.h \
     $$PWD/FixtureHeightType.h \
-    $$PWD/Substation.h
+    $$PWD/Substation.h \
+    $$PWD/FixtureGroup.h \
+    $$PWD/FixtureGroupType.h
 
 SOURCES += \
     $$PWD/DateTimeRange.cpp \
@@ -42,4 +44,6 @@ SOURCES += \
     $$PWD/EquipmentOwner.cpp \
     $$PWD/FixtureType.cpp \
     $$PWD/FixtureHeightType.cpp \
-    $$PWD/Substation.cpp
+    $$PWD/Substation.cpp \
+    $$PWD/FixtureGroup.cpp \
+    $$PWD/FixtureGroupType.cpp

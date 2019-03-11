@@ -7,8 +7,9 @@ HEADERS += \
   $$PWD/GeographRestRouter.h \
   $$PWD/GatewayRestRouter.h \
   $$PWD/NodeRestRouter.h \
-    $$PWD/RestRouter.h \
-    $$PWD/FixtureRestRouter.h
+  $$PWD/RestRouter.h \
+  $$PWD/FixtureRestRouter.h \
+  $$PWD/FixtureGroupRouter.h
 
 SOURCES += \
   $$PWD/AbstractRestRouter.cpp \
@@ -16,5 +17,6 @@ SOURCES += \
   $$PWD/GeographRestRouter.cpp \
   $$PWD/GatewayRestRouter.cpp \
   $$PWD/NodeRestRouter.cpp \
-    $$PWD/RestRouter.cpp \
-    $$PWD/FixtureRestRouter.cpp
+  $$PWD/RestRouter.cpp \
+  $$PWD/FixtureRestRouter.cpp \
+  $$PWD/FixtureGroupRouter.cpp

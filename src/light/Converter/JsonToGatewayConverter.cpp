@@ -1,8 +1,6 @@
 #include "JsonToGatewayConverter.h"
 
 #include <QDebug>
-#include <QJsonArray>
-#include <QJsonDocument>
 #include <QJsonObject>
 #include <QVariant>
 

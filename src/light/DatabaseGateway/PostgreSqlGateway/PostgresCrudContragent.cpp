@@ -7,6 +7,17 @@ namespace light {
 namespace PostgresqlGateway {
 
 template <>
+template <>
+ContragentSharedList PostgresCrud<Contragent>::sel<>() const {
+  ContragentSharedList result;
+  const QString sql = "select id_contragent, code, name "
+		      "from contragent_pkg.contragent_vw";
+  const BindParamsType bindParams{};
+  result << selBase(sql, bindParams);
+  return result;
+}
+
+template <>
 ContragentSharedList PostgresCrud<Contragent>::sel(const IDList& ids) const {
   ContragentSharedList result;
   const QString sql = "select id_contragent, code, name "
