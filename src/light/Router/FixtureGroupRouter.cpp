@@ -43,4 +43,15 @@ QHttpServerResponse RestRouter<FixtureGroupType>::get(const SessionShared& sessi
   return selSimple<FixtureGroupType>(session);
 }
 
+template<>
+QString RestRouter<FixtureGroupOwner>::getPath() const {
+  return "/api2/fixture-group-owner";
+}
+
+template<>
+QHttpServerResponse RestRouter<FixtureGroupOwner>::get(const SessionShared& session, const QHttpServerRequest& req) const {
+  Q_UNUSED(req)
+  return selSimple<Contragent>(session);
+}
+
 } // namespace light

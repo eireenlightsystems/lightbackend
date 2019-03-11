@@ -59,6 +59,7 @@ DeclareShared(EquipmentOwner);
 DeclareShared(GatewayType);
 DeclareShared(FixtureGroup);
 DeclareShared(FixtureGroupType);
+DeclareShared(FixtureGroupOwner);
 
 DeclareShared(AbstractRestRouter);
 

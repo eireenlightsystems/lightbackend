@@ -7,6 +7,8 @@
 
 namespace light {
 
+class FixtureGroupOwner;
+
 class FixtureGroup
 {
 public:

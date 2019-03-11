@@ -15,7 +15,8 @@ HEADERS += \
     $$PWD/FromJsonConverter.h \
     $$PWD/FixtureGroupTypeToJson.h \
     $$PWD/FixtureGroupToJson.h \
-    $$PWD/JsonToFixtureGroup.h
+    $$PWD/JsonToFixtureGroup.h \
+    $$PWD/ContragentToJson.h
 
 SOURCES += \
     $$PWD/NodeToJson.cpp \
@@ -32,4 +33,5 @@ SOURCES += \
     $$PWD/FromJsonConverter.cpp \
     $$PWD/FixtureGroupTypeToJson.cpp \
     $$PWD/FixtureGroupToJson.cpp \
-    $$PWD/JsonToFixtureGroup.cpp
+    $$PWD/JsonToFixtureGroup.cpp \
+    $$PWD/ContragentToJson.cpp

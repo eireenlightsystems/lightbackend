@@ -210,6 +210,9 @@ void HttpServerWrapper::createFixtureGroupRouters() {
 
   RestRouter<FixtureGroupType> fixtureGroupTypeRouter;
   fixtureGroupTypeRouter.registerApi(httpServer);
+
+  RestRouter<FixtureGroupOwner> ownerRouter;
+  ownerRouter.registerApi(httpServer);
 }
 
 template <typename RouteFunction, typename... Args>
