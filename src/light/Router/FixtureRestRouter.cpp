@@ -38,6 +38,11 @@ QHttpServerResponse RestRouter<Fixture>::del(const SessionShared& session, const
 }
 
 template <>
+QHttpServerResponse RestRouter<Fixture>::delById(const SessionShared& session, ID id) const {
+  return delByIds<Fixture>(session, {id});
+}
+
+template <>
 QString RestRouter<FixtureType>::getPath() const {
   return "/api2/fixture-type";
 }

@@ -24,6 +24,9 @@ template <>
 QHttpServerResponse RestRouter<Fixture>::del(const SessionShared& session, const QHttpServerRequest& req) const;
 
 template <>
+QHttpServerResponse RestRouter<Fixture>::delById(const SessionShared& session, ID id) const;
+
+template <>
 QString RestRouter<FixtureType>::getPath() const;
 
 template<>

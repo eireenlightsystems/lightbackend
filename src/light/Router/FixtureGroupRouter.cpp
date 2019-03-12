@@ -34,10 +34,7 @@ QHttpServerResponse RestRouter<FixtureGroup>::del(const SessionShared& session, 
 
 template <>
 QHttpServerResponse RestRouter<FixtureGroup>::delById(const SessionShared& session, ID id) const {
-  Controller<FixtureGroup, PostgresqlGateway::PostgresCrud> controller;
-  controller.setSession(session);
-  controller.del({id});
-  return QHttpServerResponse(QHttpServerResponder::StatusCode::Ok);
+  return delByIds<FixtureGroup>(session, {id});
 }
 
 template <>

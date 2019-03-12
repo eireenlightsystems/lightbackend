@@ -219,6 +219,14 @@ QHttpServerResponse patchSimple(const SessionShared& session, const QHttpServerR
 }
 
 template <typename T>
+QHttpServerResponse delByIds(const SessionShared& session, const IDList& ids) {
+  Controller<T, PostgresqlGateway::PostgresCrud> controller;
+  controller.setSession(session);
+  controller.del(ids);
+  return QHttpServerResponse(QHttpServerResponder::StatusCode::Ok);
+}
+
+template <typename T>
 QHttpServerResponse delSimple(const SessionShared& session, const QHttpServerRequest& req) {
   JsonToIds converter;
   converter.convert(req.body());
@@ -226,10 +234,7 @@ QHttpServerResponse delSimple(const SessionShared& session, const QHttpServerReq
     throw BadRequestException(converter.getErrorText());
   }
   auto ids = converter.getIds();
-  Controller<T, PostgresqlGateway::PostgresCrud> controller;
-  controller.setSession(session);
-  controller.del(ids);
-  return QHttpServerResponse(QHttpServerResponder::StatusCode::Ok);
+  return delByIds<T>(session, ids);
 }
 
 } // namespace light
