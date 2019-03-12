@@ -9,7 +9,9 @@ HEADERS += \
   $$PWD/NodeRestRouter.h \
   $$PWD/RestRouter.h \
   $$PWD/FixtureRestRouter.h \
-  $$PWD/FixtureGroupRouter.h
+  $$PWD/FixtureGroupRouter.h \
+    $$PWD/TemplateRouter.h \
+    $$PWD/SimpleEditableRouter.h
 
 SOURCES += \
   $$PWD/AbstractRestRouter.cpp \
@@ -19,4 +21,6 @@ SOURCES += \
   $$PWD/NodeRestRouter.cpp \
   $$PWD/RestRouter.cpp \
   $$PWD/FixtureRestRouter.cpp \
-  $$PWD/FixtureGroupRouter.cpp
+  $$PWD/FixtureGroupRouter.cpp \
+    $$PWD/TemplateRouter.cpp \
+    $$PWD/SimpleEditableRouter.cpp

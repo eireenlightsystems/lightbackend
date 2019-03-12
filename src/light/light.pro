@@ -1,6 +1,6 @@
 QT -= gui
 QT += httpserver mqtt sql
-CONFIG += c++11 console
+CONFIG += c++17 console
 CONFIG -= app_bundle
 
 include(../3rdparty/qtservice/src/qtservice.pri)

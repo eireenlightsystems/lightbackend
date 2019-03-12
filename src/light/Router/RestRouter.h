@@ -155,7 +155,7 @@ void RestRouter<T>::registerApi(QHttpServer& httpServer) const {
 
   const QString addItemPath = QString("%1/<arg>/item/<arg>").arg(getPath());
   httpServer.route(
-      deleteItemPath, QHttpServerRequest::Method::Post, [](ID listId, ID itemId) {
+      addItemPath, QHttpServerRequest::Method::Post, [](ID listId, ID itemId) {
 	auto routeFunction = [listId, itemId]() {
 	  auto session = HttpServerWrapper::singleton()->getLightBackend()->getSession();
 	  RestRouter<T> router;
