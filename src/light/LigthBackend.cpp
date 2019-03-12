@@ -75,6 +75,8 @@ PostgresConnectionInfo LigthBackend::readConnectionInfoFromSettings() const {
   connectionInfo.password = settings.value("password").toString();
   settings.endGroup();
 
+  qDebug() << connectionInfo.hostName << connectionInfo.port << connectionInfo.databaseName << connectionInfo.userName;
+
   return connectionInfo;
 }
 

@@ -6,10 +6,10 @@
 #include "Controller.h"
 #include "FromJsonConverter.h"
 #include "HttpServerConverters.h"
+#include "InternalServerErrorException.h"
 #include "NotImplementedException.h"
 #include "PostgresCrud.h"
 #include "ToJsonConverter.h"
-#include "InternalServerErrorException.h"
 
 namespace light {
 
@@ -23,6 +23,10 @@ public:
   QHttpServerResponse post(const SessionShared& session, const QHttpServerRequest& req) const override;
   QHttpServerResponse patch(const SessionShared& session, const QHttpServerRequest& req) const override;
   QHttpServerResponse del(const SessionShared& session, const QHttpServerRequest& req) const override;
+  QHttpServerResponse delById(const SessionShared& session, ID id) const override;
+
+  QHttpServerResponse addItemToList(const SessionShared& session, ID listId, ID itemId) const override;
+  QHttpServerResponse delItemFromList(const SessionShared& session, ID listId, ID itemId) const override;
   void registerApi(QHttpServer& httpServer) const override;
   QString getPath() const override;
 
@@ -55,6 +59,29 @@ template <typename T>
 QHttpServerResponse RestRouter<T>::del(const SessionShared& session, const QHttpServerRequest& req) const {
   Q_UNUSED(session)
   Q_UNUSED(req)
+  return QHttpServerResponse(QHttpServerResponse::StatusCode::NotFound);
+}
+
+template <typename T>
+QHttpServerResponse RestRouter<T>::delById(const SessionShared& session, ID id) const {
+  Q_UNUSED(session)
+  Q_UNUSED(id)
+  return QHttpServerResponse(QHttpServerResponse::StatusCode::NotFound);
+}
+
+template <typename T>
+QHttpServerResponse RestRouter<T>::addItemToList(const SessionShared& session, ID listId, ID itemId) const {
+  Q_UNUSED(session)
+  Q_UNUSED(listId)
+  Q_UNUSED(itemId)
+  return QHttpServerResponse(QHttpServerResponse::StatusCode::NotFound);
+}
+
+template <typename T>
+QHttpServerResponse RestRouter<T>::delItemFromList(const SessionShared& session, ID listId, ID itemId) const {
+  Q_UNUSED(session)
+  Q_UNUSED(listId)
+  Q_UNUSED(itemId)
   return QHttpServerResponse(QHttpServerResponse::StatusCode::NotFound);
 }
 
@@ -103,7 +130,39 @@ void RestRouter<T>::registerApi(QHttpServer& httpServer) const {
       };
       return baseRouteFunction(routeFunction, req);
     });
+
+    const QString deleteByIdPath = QString("%1/<arg>").arg(getPath());
+    httpServer.route(deleteByIdPath, QHttpServerRequest::Method::Delete, [](ID id) {
+      auto routeFunction = [](ID id) {
+	auto session = HttpServerWrapper::singleton()->getLightBackend()->getSession();
+	RestRouter<T> router;
+	return router.delById(session, id);
+      };
+      return baseRouteFunction(routeFunction, id);
+    });
   }
+
+  const QString deleteItemPath = QString("%1/<arg>/item/<arg>").arg(getPath());
+  httpServer.route(
+      deleteItemPath, QHttpServerRequest::Method::Delete, [](ID listId, ID itemId) {
+	auto routeFunction = [listId, itemId]() {
+	  auto session = HttpServerWrapper::singleton()->getLightBackend()->getSession();
+	  RestRouter<T> router;
+	  return router.delItemFromList(session, listId, itemId);
+	};
+	return baseRouteFunction(routeFunction);
+      });
+
+  const QString addItemPath = QString("%1/<arg>/item/<arg>").arg(getPath());
+  httpServer.route(
+      deleteItemPath, QHttpServerRequest::Method::Post, [](ID listId, ID itemId) {
+	auto routeFunction = [listId, itemId]() {
+	  auto session = HttpServerWrapper::singleton()->getLightBackend()->getSession();
+	  RestRouter<T> router;
+	  return router.addItemToList(session, listId, itemId);
+	};
+	return baseRouteFunction(routeFunction);
+      });
 }
 
 template <typename T>

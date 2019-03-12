@@ -207,6 +207,9 @@ void HttpServerWrapper::createGatewayRouters() {
 }
 
 void HttpServerWrapper::createFixtureRouters() {
+  RestRouter<Fixture> fixtureRouter;
+  fixtureRouter.registerApi(httpServer);
+
   RestRouter<FixtureType> fixtureTypeRouter;
   fixtureTypeRouter.registerApi(httpServer);
 
@@ -227,7 +230,6 @@ void HttpServerWrapper::createFixtureGroupRouters() {
   RestRouter<FixtureGroupOwner> ownerRouter;
   ownerRouter.registerApi(httpServer);
 }
-
 
 template <typename RouteFunction, typename... Args>
 QHttpServerResponse HttpServerWrapper::baseRouteFunction(RouteFunction routeFunction, Args&&... args) {

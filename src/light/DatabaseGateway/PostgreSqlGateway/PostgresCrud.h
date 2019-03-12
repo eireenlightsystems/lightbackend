@@ -6,6 +6,7 @@
 #include "typedefs.h"
 
 #include <QSqlRecord>
+#include <QVariant>
 
 namespace light {
 namespace PostgresqlGateway {
@@ -30,7 +31,7 @@ public:
   ~PostgresCrud() = default;
 
   Shared selById(ID id) const;
-  SharedList sel(const IDList &ids) const;
+  SharedList sel(const IDList& ids) const;
   template <typename... Args>
   SharedList sel(Args...) const;
 

@@ -1,9 +1,12 @@
 #ifndef SQLQUERY_H
 #define SQLQUERY_H
 
+#include "typedefs.h"
+
 #include <QMap>
 #include <QSharedPointer>
 #include <QSqlQuery>
+#include <QVariant>
 
 namespace light {
 namespace PostgresqlGateway {
@@ -21,6 +24,7 @@ public:
   void bind(const BindParamsType& params);
   virtual void exec();
   void execBatch();
+  void finish();
 
 protected:
   QSharedPointer<QSqlQuery> getQuery() const;
@@ -30,6 +34,9 @@ private:
   QSqlDatabase db;
   QSharedPointer<QSqlQuery> query;
 };
+
+QVariant idToVariant(ID id);
+
 } // namespace PostgresqlGateway
 } // namespace light
 

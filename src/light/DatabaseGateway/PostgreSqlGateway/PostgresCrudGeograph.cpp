@@ -1,7 +1,9 @@
 #include "PostgresCrudGeograph.h"
 
+#include <QElapsedTimer>
 #include <QSqlRecord>
 #include <QVariant>
+#include <QDebug>
 
 namespace light {
 namespace PostgresqlGateway {

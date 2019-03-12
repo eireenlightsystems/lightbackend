@@ -31,7 +31,8 @@ HEADERS += \
     $$PWD/PostgresCrudFixtureGroupType.h \
     $$PWD/PostgresCrudFixtureType.h \
     $$PWD/PostgresCrudFixtureHeightType.h \
-    $$PWD/PostgresCrudSubstation.h
+    $$PWD/PostgresCrudSubstation.h \
+    $$PWD/PostgresCrudFixture.h
 
 
 SOURCES += \
@@ -62,4 +63,5 @@ SOURCES += \
     $$PWD/PostgresCrudFixtureGroupType.cpp \
     $$PWD/PostgresCrudFixtureType.cpp \
     $$PWD/PostgresCrudFixtureHeightType.cpp \
-    $$PWD/PostgresCrudSubstation.cpp
+    $$PWD/PostgresCrudSubstation.cpp \
+    $$PWD/PostgresCrudFixture.cpp

@@ -33,6 +33,7 @@ static void syslogMessageHandler(QtMsgType type, const QMessageLogContext& conte
 #endif
 
 int main(int argc, char* argv[]) {
+
 #ifdef LOG_TO_SYSLOG
   qInstallMessageHandler(syslogMessageHandler);
 #endif

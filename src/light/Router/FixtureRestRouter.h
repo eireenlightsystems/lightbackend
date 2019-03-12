@@ -9,6 +9,21 @@
 namespace light {
 
 template <>
+QString RestRouter<Fixture>::getPath() const;
+
+template <>
+QHttpServerResponse RestRouter<Fixture>::get(const SessionShared& session, const QHttpServerRequest& req) const;
+
+template <>
+QHttpServerResponse RestRouter<Fixture>::post(const SessionShared& session, const QHttpServerRequest& req) const;
+
+template <>
+QHttpServerResponse RestRouter<Fixture>::patch(const SessionShared& session, const QHttpServerRequest& req) const;
+
+template <>
+QHttpServerResponse RestRouter<Fixture>::del(const SessionShared& session, const QHttpServerRequest& req) const;
+
+template <>
 QString RestRouter<FixtureType>::getPath() const;
 
 template<>

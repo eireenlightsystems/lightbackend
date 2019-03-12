@@ -1,10 +1,45 @@
 #include "FixtureRestRouter.h"
 
+#include "FixtureController.h"
+
 namespace light {
 
 template <>
+QString RestRouter<Fixture>::getPath() const {
+  return "/api2/fixture";
+}
+
+template <>
+QHttpServerResponse RestRouter<Fixture>::get(const SessionShared& session, const QHttpServerRequest& req) const {
+  const auto urlQuery = req.query();
+  ID geopraphId = urlQuery.queryItemValue("geographId").toULongLong();
+  ID ownerId = urlQuery.queryItemValue("ownerId").toULongLong();
+  ID fixtureTypeId = urlQuery.queryItemValue("fixtureTypeId").toULongLong();
+  ID substationId = urlQuery.queryItemValue("substationId").toULongLong();
+  ID modeId = urlQuery.queryItemValue("modeId").toULongLong();
+  ID contractId = urlQuery.queryItemValue("contractId").toULongLong();
+  ID nodeId = urlQuery.queryItemValue("nodeId").toULongLong();
+  return selSimple<Fixture>(session, geopraphId, ownerId, fixtureTypeId, substationId, modeId, contractId, nodeId);
+}
+
+template <>
+QHttpServerResponse RestRouter<Fixture>::post(const SessionShared& session, const QHttpServerRequest& req) const {
+  return postSimple<Fixture, FixtureInsertParameters>(session, req);
+}
+
+template <>
+QHttpServerResponse RestRouter<Fixture>::patch(const SessionShared& session, const QHttpServerRequest& req) const {
+  return patchSimple<Fixture, FixtureUpdateParameters>(session, req);
+}
+
+template <>
+QHttpServerResponse RestRouter<Fixture>::del(const SessionShared& session, const QHttpServerRequest& req) const {
+  return delSimple<Fixture>(session, req);
+}
+
+template <>
 QString RestRouter<FixtureType>::getPath() const {
-  return "/api2/fixture/type";
+  return "/api2/fixture-type";
 }
 
 template <>
@@ -20,7 +55,7 @@ QHttpServerResponse RestRouter<FixtureType>::get(const SessionShared& session, c
 
 template <>
 QString RestRouter<FixtureHeightType>::getPath() const {
-  return "/api2/fixture/heightType";
+  return "/api2/fixture-height-type";
 }
 
 template <>

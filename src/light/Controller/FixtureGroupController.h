@@ -2,6 +2,7 @@
 #define FIXTUREGROUPCONTROLLER_H
 
 #include "Controller.h"
+#include "Fixture.h"
 #include "FixtureGroup.h"
 
 namespace light {
@@ -52,7 +53,7 @@ class Updater<FixtureGroup, Crud> : public SessionOwner
 public:
   template <typename... Args>
   void upd(const QList<FixtureGroupUpdateParameters>& params) {
-    FixtureGroupSharedList newFixtureGroups;
+    FixtureGroupSharedList fixtureGroups;
 
     Crud<FixtureGroup> fixtureGroupCrud;
     fixtureGroupCrud.setSession(getSession());
@@ -67,10 +68,44 @@ public:
       fixtureGroup->setType(fixtureGroupTypeCrud.selById(param.groupTypeId));
       fixtureGroup->setOwner(contragentCrud.selById(param.ownerId));
 
-      newFixtureGroups << fixtureGroup;
+      fixtureGroups << fixtureGroup;
     }
 
-    fixtureGroupCrud.save(newFixtureGroups);
+    fixtureGroupCrud.save(fixtureGroups);
+  }
+};
+
+template <template <typename> class Crud>
+class DeleterFromList<FixtureGroup, Crud> : public SessionOwner
+{
+public:
+  void del(ID listId, const IDList& ids) {
+    Crud<FixtureGroup> fixtureGroupCrud;
+    fixtureGroupCrud.setSession(getSession());
+    FixtureGroupShared fixtureGroup = fixtureGroupCrud.selById(listId);
+    for (ID id : ids) {
+      fixtureGroup->removeFixture(id);
+    }
+    fixtureGroupCrud.save({fixtureGroup});
+  }
+};
+
+template <template <typename> class Crud>
+class InserterToList<FixtureGroup, Crud> : public SessionOwner
+{
+public:
+  void add(ID listId, const IDList& ids) {
+    Crud<FixtureGroup> fixtureGroupCrud;
+    fixtureGroupCrud.setSession(getSession());
+    FixtureGroupShared fixtureGroup = fixtureGroupCrud.selById(listId);
+
+    Crud<Fixture> fixtureCrud;
+    fixtureCrud.setSession(getSession());
+    for (auto id : ids) {
+      auto fixture = fixtureCrud.selById(id);
+      fixtureGroup->addFixture(fixture);
+    }
+    fixtureGroupCrud.save({fixtureGroup});
   }
 };
 
