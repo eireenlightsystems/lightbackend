@@ -1,14 +1,15 @@
-#ifndef EQUIPMENTTYPE_H
-#define EQUIPMENTTYPE_H
+#ifndef SUBSTATION_H
+#define SUBSTATION_H
 
 #include "typedefs.h"
 
+#include <QString>
+
 namespace light {
-class EquipmentType
+class Substation
 {
 public:
-  EquipmentType() = default;
-  virtual ~EquipmentType() = default;
+  Substation() = default;
 
   ID getId() const;
   void setId(const ID& value);
@@ -19,15 +20,15 @@ public:
   QString getName() const;
   void setName(const QString& value);
 
-  QString getModel() const;
-  void setModel(const QString& value);
+  double getPower() const;
+  void setPower(double value);
 
 private:
   ID id{0};
   QString code;
   QString name;
-  QString model;
+  double power{0.0};
 };
 } // namespace light
 
-#endif // EQUIPMENTTYPE_H
+#endif // SUBSTATION_H

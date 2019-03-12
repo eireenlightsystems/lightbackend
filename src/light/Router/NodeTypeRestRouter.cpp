@@ -21,7 +21,7 @@ QHttpServerResponse RestRouter<NodeType>::get(const SessionShared& session, cons
 }
 
 template <>
-QList<QHttpServerRequest::Method> RestRouter<NodeType>::getAsseccibleMethods() const {
+QList<QHttpServerRequest::Method> RestRouter<NodeType>::getAccessibleMethods() const {
   return {QHttpServerRequest::Method::Get};
 }
 

@@ -6,10 +6,10 @@
 #include "Controller.h"
 #include "FromJsonConverter.h"
 #include "HttpServerConverters.h"
+#include "InternalServerErrorException.h"
 #include "NotImplementedException.h"
 #include "PostgresCrud.h"
 #include "ToJsonConverter.h"
-#include "InternalServerErrorException.h"
 
 namespace light {
 
@@ -23,11 +23,15 @@ public:
   QHttpServerResponse post(const SessionShared& session, const QHttpServerRequest& req) const override;
   QHttpServerResponse patch(const SessionShared& session, const QHttpServerRequest& req) const override;
   QHttpServerResponse del(const SessionShared& session, const QHttpServerRequest& req) const override;
+  QHttpServerResponse delById(const SessionShared& session, ID id) const override;
+
+  QHttpServerResponse addItemToList(const SessionShared& session, ID listId, ID itemId) const override;
+  QHttpServerResponse delItemFromList(const SessionShared& session, ID listId, ID itemId) const override;
   void registerApi(QHttpServer& httpServer) const override;
   QString getPath() const override;
 
 protected:
-  QList<QHttpServerRequest::Method> getAsseccibleMethods() const;
+  QList<QHttpServerRequest::Method> getAccessibleMethods() const;
 };
 
 template <typename T>
@@ -59,8 +63,31 @@ QHttpServerResponse RestRouter<T>::del(const SessionShared& session, const QHttp
 }
 
 template <typename T>
+QHttpServerResponse RestRouter<T>::delById(const SessionShared& session, ID id) const {
+  Q_UNUSED(session)
+  Q_UNUSED(id)
+  return QHttpServerResponse(QHttpServerResponse::StatusCode::NotFound);
+}
+
+template <typename T>
+QHttpServerResponse RestRouter<T>::addItemToList(const SessionShared& session, ID listId, ID itemId) const {
+  Q_UNUSED(session)
+  Q_UNUSED(listId)
+  Q_UNUSED(itemId)
+  return QHttpServerResponse(QHttpServerResponse::StatusCode::NotFound);
+}
+
+template <typename T>
+QHttpServerResponse RestRouter<T>::delItemFromList(const SessionShared& session, ID listId, ID itemId) const {
+  Q_UNUSED(session)
+  Q_UNUSED(listId)
+  Q_UNUSED(itemId)
+  return QHttpServerResponse(QHttpServerResponse::StatusCode::NotFound);
+}
+
+template <typename T>
 void RestRouter<T>::registerApi(QHttpServer& httpServer) const {
-  QList<QHttpServerRequest::Method> accessibleMethods = getAsseccibleMethods();
+  QList<QHttpServerRequest::Method> accessibleMethods = getAccessibleMethods();
   if (accessibleMethods.contains(QHttpServerRequest::Method::Get)) {
     httpServer.route(getPath(), QHttpServerRequest::Method::Get, [](const QHttpServerRequest& req) {
       auto routeFunction = [](const QHttpServerRequest& req) {
@@ -103,11 +130,43 @@ void RestRouter<T>::registerApi(QHttpServer& httpServer) const {
       };
       return baseRouteFunction(routeFunction, req);
     });
+
+    const QString deleteByIdPath = QString("%1/<arg>").arg(getPath());
+    httpServer.route(deleteByIdPath, QHttpServerRequest::Method::Delete, [](ID id) {
+      auto routeFunction = [](ID id) {
+	auto session = HttpServerWrapper::singleton()->getLightBackend()->getSession();
+	RestRouter<T> router;
+	return router.delById(session, id);
+      };
+      return baseRouteFunction(routeFunction, id);
+    });
   }
+
+  const QString deleteItemPath = QString("%1/<arg>/item/<arg>").arg(getPath());
+  httpServer.route(
+      deleteItemPath, QHttpServerRequest::Method::Delete, [](ID listId, ID itemId) {
+	auto routeFunction = [listId, itemId]() {
+	  auto session = HttpServerWrapper::singleton()->getLightBackend()->getSession();
+	  RestRouter<T> router;
+	  return router.delItemFromList(session, listId, itemId);
+	};
+	return baseRouteFunction(routeFunction);
+      });
+
+  const QString addItemPath = QString("%1/<arg>/item/<arg>").arg(getPath());
+  httpServer.route(
+      deleteItemPath, QHttpServerRequest::Method::Post, [](ID listId, ID itemId) {
+	auto routeFunction = [listId, itemId]() {
+	  auto session = HttpServerWrapper::singleton()->getLightBackend()->getSession();
+	  RestRouter<T> router;
+	  return router.addItemToList(session, listId, itemId);
+	};
+	return baseRouteFunction(routeFunction);
+      });
 }
 
 template <typename T>
-QList<QHttpServerRequest::Method> RestRouter<T>::getAsseccibleMethods() const {
+QList<QHttpServerRequest::Method> RestRouter<T>::getAccessibleMethods() const {
   return {QHttpServerRequest::Method::Get,
 	  QHttpServerRequest::Method::Post,
 	  QHttpServerRequest::Method::Patch,
@@ -160,6 +219,14 @@ QHttpServerResponse patchSimple(const SessionShared& session, const QHttpServerR
 }
 
 template <typename T>
+QHttpServerResponse delByIds(const SessionShared& session, const IDList& ids) {
+  Controller<T, PostgresqlGateway::PostgresCrud> controller;
+  controller.setSession(session);
+  controller.del(ids);
+  return QHttpServerResponse(QHttpServerResponder::StatusCode::Ok);
+}
+
+template <typename T>
 QHttpServerResponse delSimple(const SessionShared& session, const QHttpServerRequest& req) {
   JsonToIds converter;
   converter.convert(req.body());
@@ -167,10 +234,7 @@ QHttpServerResponse delSimple(const SessionShared& session, const QHttpServerReq
     throw BadRequestException(converter.getErrorText());
   }
   auto ids = converter.getIds();
-  Controller<T, PostgresqlGateway::PostgresCrud> controller;
-  controller.setSession(session);
-  controller.del(ids);
-  return QHttpServerResponse(QHttpServerResponder::StatusCode::Ok);
+  return delByIds<T>(session, ids);
 }
 
 } // namespace light

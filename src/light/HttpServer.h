@@ -40,6 +40,7 @@ private:
   void createNodeRoutes();
   void createGeographRoutes();
   void createGatewayRouters();
+  void createFixtureRouters();
   void createFixtureGroupRouters();
 
 private:

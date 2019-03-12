@@ -27,6 +27,45 @@ public:
   quint8 getSpeedDown() const;
   void setSpeedDown(const quint8& value);
 
+  ContractShared getContract() const;
+  ID getContractId() const;
+  void setContract(const ContractShared& value);
+
+  SubstationShared getSubstation() const;
+  ID getSubstationId() const;
+  void setSubstation(const SubstationShared& value);
+
+  ContragentShared getInstaller() const;
+  ID getInstallerId() const;
+  void setInstaller(const ContragentShared& value);
+
+  FixtureHeightTypeShared getHeightType() const;
+  ID getHeightTypeId() const;
+  void setHeightType(const FixtureHeightTypeShared& value);
+
+  NodeShared getNode() const;
+  ID getNodeId() const;
+  void setNode(const NodeShared& value);
+
+  double getLatitude() const;
+  double getLongitude() const;
+
+  GeographShared getGeograph() const;
+  ID getGeographId() const;
+
+  FixtureTypeShared getType() const;
+  ID getTypeId() const;
+  void setType(const FixtureTypeShared& value);
+
+  ContragentShared getOwner() const;
+  void setOwner(const ContragentShared& value);
+
+  QString getComment() const;
+  void setComment(const QString& value);
+
+  double getPrice() const;
+  void setPrice(double value);
+
 private:
   ID id{0};
   bool hasGatewayLink{false};
@@ -34,6 +73,15 @@ private:
   quint8 workLevel{0};
   quint8 speedUp{0};
   quint8 speedDown{0};
+  ContractShared contract;
+  FixtureTypeShared type;
+  SubstationShared substation;
+  ContragentShared installer;
+  FixtureHeightTypeShared heightType;
+  NodeShared node;
+  ContragentShared owner;
+  double price{0.0};
+  QString comment;
 };
 } // namespace light
 

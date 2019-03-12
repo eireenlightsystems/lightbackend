@@ -1,6 +1,7 @@
 #include "FixtureGroup.h"
 
 #include "Contragent.h"
+#include "Fixture.h"
 #include "FixtureGroupType.h"
 
 namespace light {
@@ -79,6 +80,24 @@ void FixtureGroup::setCoordinate(const QGeoCoordinate& value) {
 
 void FixtureGroup::setCoordinate(double latitude, double longitude) {
   coordinate = QGeoCoordinate(latitude, longitude);
+}
+
+FixtureSharedList FixtureGroup::getFixtures() const {
+  return fixtures;
+}
+
+void FixtureGroup::setFixtures(const FixtureSharedList& value) {
+  fixtures = value;
+}
+
+void FixtureGroup::removeFixture(ID fixtureId) {
+  fixtures.erase(std::remove_if(fixtures.begin(), fixtures.end(), [fixtureId](const FixtureShared& fixture) {
+    return fixture->getId() == fixtureId;
+  }));
+}
+
+void FixtureGroup::addFixture(const FixtureShared& fixture) {
+  fixtures << fixture;
 }
 
 } // namespace light

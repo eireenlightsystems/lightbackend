@@ -44,6 +44,20 @@ public:
 };
 
 template <typename T, template <typename> class Crud>
+class DeleterFromList : public SessionOwner
+{
+public:
+  void del(ID listId, const IDList & ids);
+};
+
+template <typename T, template <typename> class Crud>
+class InserterToList : public SessionOwner
+{
+public:
+  void add(ID listId, const IDList & ids);
+};
+
+template <typename T, template <typename> class Crud>
 class Controller
 {
 public:
@@ -58,9 +72,13 @@ public:
 
   template <typename... Args>
   void ins(Args&&... args);
+
   template <typename... Args>
   void upd(Args&&... args);
+
   void del(const IDList& ids) const;
+  void delFromList(ID listId, const IDList & ids) const;
+  void addToList(ID listId, const IDList & ids) const;
 
   SessionShared getSession() const;
   void setSession(const SessionShared& value);
@@ -102,6 +120,20 @@ void Controller<T, Crud>::del(const IDList& ids) const {
   Deleter<T, Crud> deleter;
   deleter.setSession(session);
   deleter.del(qAsConst(objects));
+}
+
+template <typename T, template <typename> class Crud>
+void Controller<T, Crud>::delFromList(ID listId, const IDList & ids) const {
+  DeleterFromList<T, Crud> deleter;
+  deleter.setSession(session);
+  deleter.del(listId, ids);
+}
+
+template <typename T, template <typename> class Crud>
+void Controller<T, Crud>::addToList(ID listId, const IDList & ids) const {
+  InserterToList<T, Crud> inserter;
+  inserter.setSession(session);
+  inserter.add(listId, ids);
 }
 
 template <typename T, template <typename> class Crud>
