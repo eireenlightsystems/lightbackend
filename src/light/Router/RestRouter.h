@@ -74,7 +74,7 @@ QHttpServerResponse RestRouter<T>::addItemToList(const SessionShared& session, c
   Q_UNUSED(session)
   Q_UNUSED(listId)
   Q_UNUSED(req)
-  return QHttpServerResponse(QHttpServerResponse::StatusCode::Forbidden);
+  return QHttpServerResponse(QHttpServerResponse::StatusCode::NotFound);
 }
 
 template <typename T>
