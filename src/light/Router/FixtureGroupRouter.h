@@ -24,9 +24,10 @@ template <>
 QHttpServerResponse RestRouter<FixtureGroup>::delById(const SessionShared& session, ID id) const;
 
 template <>
-QHttpServerResponse RestRouter<FixtureGroup>::delItemFromList(const SessionShared& session,
-							      ID listId,
-							      ID itemId) const;
+QHttpServerResponse RestRouter<FixtureGroup>::addItemToList(const SessionShared& session, const QHttpServerRequest& req, ID listId) const;
+
+template <>
+QHttpServerResponse RestRouter<FixtureGroup>::delItemFromList(const SessionShared& session, const QHttpServerRequest& req, ID listId) const;
 
 template <>
 QString RestRouter<FixtureGroupType>::getPath() const;
