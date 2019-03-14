@@ -8,6 +8,7 @@
 #include "FixtureGroupRouter.h"
 #include "FixtureLightLevelCommand.h"
 #include "FixtureLightSpeedCommand.h"
+#include "FixtureRestRouter.h"
 #include "GatewayRestRouter.h"
 #include "GeographRestRouter.h"
 #include "HttpServerConverters.h"
@@ -16,7 +17,6 @@
 #include "NodeToJson.h"
 #include "NodeTypeRestRouter.h"
 #include "SharedTypes.h"
-#include "FixtureRestRouter.h"
 
 #include <QException>
 #include <QHttpServerResponse>

@@ -74,7 +74,7 @@ QHttpServerResponse RestRouter<T>::addItemToList(const SessionShared& session, I
   Q_UNUSED(session)
   Q_UNUSED(listId)
   Q_UNUSED(itemId)
-  return QHttpServerResponse(QHttpServerResponse::StatusCode::NotFound);
+  return QHttpServerResponse(QHttpServerResponse::StatusCode::Forbidden);
 }
 
 template <typename T>
@@ -155,7 +155,7 @@ void RestRouter<T>::registerApi(QHttpServer& httpServer) const {
 
   const QString addItemPath = QString("%1/<arg>/item/<arg>").arg(getPath());
   httpServer.route(
-      deleteItemPath, QHttpServerRequest::Method::Post, [](ID listId, ID itemId) {
+      addItemPath, QHttpServerRequest::Method::Post, [](ID listId, ID itemId) {
 	auto routeFunction = [listId, itemId]() {
 	  auto session = HttpServerWrapper::singleton()->getLightBackend()->getSession();
 	  RestRouter<T> router;
