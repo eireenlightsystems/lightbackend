@@ -38,19 +38,31 @@ QHttpServerResponse RestRouter<FixtureGroup>::delById(const SessionShared& sessi
 }
 
 template <>
-QHttpServerResponse RestRouter<FixtureGroup>::addItemToList(const SessionShared& session, ID listId, ID itemId) const {
+QHttpServerResponse RestRouter<FixtureGroup>::addItemToList(const SessionShared& session, const QHttpServerRequest& req, ID listId) const {
+  JsonToIds converter;
+  converter.convert(req.body());
+  if (!converter.getIdValid()) {
+    throw BadRequestException(converter.getErrorText());
+  }
+  auto ids = converter.getIds();
   Controller<FixtureGroup, PostgresqlGateway::PostgresCrud> controller;
   controller.setSession(session);
-  controller.addToList(listId, {itemId});
+  controller.addToList(listId, ids);
   return QHttpServerResponse(QHttpServerResponder::StatusCode::Ok);
 }
 
 template <>
 QHttpServerResponse
-RestRouter<FixtureGroup>::delItemFromList(const SessionShared& session, ID listId, ID itemId) const {
+RestRouter<FixtureGroup>::delItemFromList(const SessionShared& session, const QHttpServerRequest& req, ID listId) const {
+  JsonToIds converter;
+  converter.convert(req.body());
+  if (!converter.getIdValid()) {
+    throw BadRequestException(converter.getErrorText());
+  }
+  auto ids = converter.getIds();
   Controller<FixtureGroup, PostgresqlGateway::PostgresCrud> controller;
   controller.setSession(session);
-  controller.delFromList(listId, {itemId});
+  controller.delFromList(listId, ids);
   return QHttpServerResponse(QHttpServerResponder::StatusCode::Ok);
 }
 

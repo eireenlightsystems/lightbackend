@@ -25,8 +25,8 @@ public:
   QHttpServerResponse del(const SessionShared& session, const QHttpServerRequest& req) const override;
   QHttpServerResponse delById(const SessionShared& session, ID id) const override;
 
-  QHttpServerResponse addItemToList(const SessionShared& session, ID listId, ID itemId) const override;
-  QHttpServerResponse delItemFromList(const SessionShared& session, ID listId, ID itemId) const override;
+  QHttpServerResponse addItemToList(const SessionShared& session, const QHttpServerRequest& req, ID listId) const override;
+  QHttpServerResponse delItemFromList(const SessionShared& session, const QHttpServerRequest& req, ID listId) const override;
   void registerApi(QHttpServer& httpServer) const override;
   QString getPath() const override;
 
@@ -70,18 +70,18 @@ QHttpServerResponse RestRouter<T>::delById(const SessionShared& session, ID id) 
 }
 
 template <typename T>
-QHttpServerResponse RestRouter<T>::addItemToList(const SessionShared& session, ID listId, ID itemId) const {
+QHttpServerResponse RestRouter<T>::addItemToList(const SessionShared& session, const QHttpServerRequest& req, ID listId) const {
   Q_UNUSED(session)
   Q_UNUSED(listId)
-  Q_UNUSED(itemId)
+  Q_UNUSED(req)
   return QHttpServerResponse(QHttpServerResponse::StatusCode::Forbidden);
 }
 
 template <typename T>
-QHttpServerResponse RestRouter<T>::delItemFromList(const SessionShared& session, ID listId, ID itemId) const {
+QHttpServerResponse RestRouter<T>::delItemFromList(const SessionShared& session, const QHttpServerRequest& req, ID listId) const {
   Q_UNUSED(session)
   Q_UNUSED(listId)
-  Q_UNUSED(itemId)
+  Q_UNUSED(req)
   return QHttpServerResponse(QHttpServerResponse::StatusCode::NotFound);
 }
 
@@ -142,26 +142,26 @@ void RestRouter<T>::registerApi(QHttpServer& httpServer) const {
     });
   }
 
-  const QString deleteItemPath = QString("%1/<arg>/item/<arg>").arg(getPath());
+  const QString deleteItemPath = QString("%1/<arg>/item").arg(getPath());
   httpServer.route(
-      deleteItemPath, QHttpServerRequest::Method::Delete, [](ID listId, ID itemId) {
-	auto routeFunction = [listId, itemId]() {
+      deleteItemPath, QHttpServerRequest::Method::Delete, [](ID listId, const QHttpServerRequest& req) {
+	auto routeFunction = [listId](const QHttpServerRequest& req) {
 	  auto session = HttpServerWrapper::singleton()->getLightBackend()->getSession();
 	  RestRouter<T> router;
-	  return router.delItemFromList(session, listId, itemId);
+	  return router.delItemFromList(session, req, listId);
 	};
-	return baseRouteFunction(routeFunction);
+	return baseRouteFunction(routeFunction, req);
       });
 
-  const QString addItemPath = QString("%1/<arg>/item/<arg>").arg(getPath());
+  const QString addItemPath = QString("%1/<arg>/item").arg(getPath());
   httpServer.route(
-      addItemPath, QHttpServerRequest::Method::Post, [](ID listId, ID itemId) {
-	auto routeFunction = [listId, itemId]() {
+      addItemPath, QHttpServerRequest::Method::Post, [](ID listId, const QHttpServerRequest& req) {
+	auto routeFunction = [listId](const QHttpServerRequest& req) {
 	  auto session = HttpServerWrapper::singleton()->getLightBackend()->getSession();
 	  RestRouter<T> router;
-	  return router.addItemToList(session, listId, itemId);
+	  return router.addItemToList(session, req, listId);
 	};
-	return baseRouteFunction(routeFunction);
+	return baseRouteFunction(routeFunction, req);
       });
 }
 

@@ -27,8 +27,8 @@ public:
   virtual QHttpServerResponse del(const SessionShared& session, const QHttpServerRequest& req) const = 0;
   virtual QHttpServerResponse delById(const SessionShared& session, ID id) const = 0;
 
-  virtual QHttpServerResponse addItemToList(const SessionShared& session, ID listId, ID itemId) const = 0;
-  virtual QHttpServerResponse delItemFromList(const SessionShared& session, ID listId, ID itemId) const = 0;
+  virtual QHttpServerResponse addItemToList(const SessionShared& session, const QHttpServerRequest& req, ID listId) const = 0;
+  virtual QHttpServerResponse delItemFromList(const SessionShared& session, const QHttpServerRequest& req, ID listId) const = 0;
   virtual void registerApi(QHttpServer& httpServer) const = 0;
 
   virtual QString getPath() const = 0;
