@@ -38,6 +38,11 @@ public:
   void setCoordinate(const QGeoCoordinate& value);
   void setCoordinate(double latitude, double longitude);
 
+  FixtureSharedList getFixtures() const;
+  void setFixtures(const FixtureSharedList &value);
+  void removeFixture(ID fixtureId);
+  void addFixture(const FixtureShared &fixture);
+
 private:
   ID id{0};
   QString name;
@@ -45,6 +50,7 @@ private:
   GeographShared geograph;
   FixtureGroupTypeShared type;
   QGeoCoordinate coordinate;
+  FixtureSharedList fixtures;
 };
 
 } // namespace light

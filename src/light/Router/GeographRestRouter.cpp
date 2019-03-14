@@ -20,7 +20,7 @@ QHttpServerResponse RestRouter<Geograph>::get(const SessionShared& session, cons
 }
 
 template <>
-QList<QHttpServerRequest::Method> RestRouter<Geograph>::getAsseccibleMethods() const {
+QList<QHttpServerRequest::Method> RestRouter<Geograph>::getAccessibleMethods() const {
   return {QHttpServerRequest::Method::Get};
 }
 

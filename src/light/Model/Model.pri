@@ -20,6 +20,9 @@ HEADERS += \
     $$PWD/Gateway.h \
     $$PWD/Equipment.h \
     $$PWD/EquipmentOwner.h \
+    $$PWD/FixtureType.h \
+    $$PWD/FixtureHeightType.h \
+    $$PWD/Substation.h \
     $$PWD/FixtureGroup.h \
     $$PWD/FixtureGroupType.h
 
@@ -39,5 +42,8 @@ SOURCES += \
     $$PWD/Gateway.cpp \
     $$PWD/Equipment.cpp \
     $$PWD/EquipmentOwner.cpp \
+    $$PWD/FixtureType.cpp \
+    $$PWD/FixtureHeightType.cpp \
+    $$PWD/Substation.cpp \
     $$PWD/FixtureGroup.cpp \
     $$PWD/FixtureGroupType.cpp

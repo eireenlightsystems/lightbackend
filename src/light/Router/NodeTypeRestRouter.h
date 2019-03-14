@@ -12,7 +12,7 @@ template<>
 QHttpServerResponse RestRouter<NodeType>::get(const SessionShared& session, const QHttpServerRequest& req) const;
 
 template<>
-QList<QHttpServerRequest::Method> RestRouter<NodeType>::getAsseccibleMethods() const;
+QList<QHttpServerRequest::Method> RestRouter<NodeType>::getAccessibleMethods() const;
 
 } // namespace light
 

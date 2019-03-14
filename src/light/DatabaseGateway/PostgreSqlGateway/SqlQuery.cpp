@@ -3,6 +3,7 @@
 #include "DatabaseException.h"
 
 #include <QDebug>
+#include <QElapsedTimer>
 #include <QSqlError>
 
 namespace light {
@@ -55,6 +56,11 @@ void SqlQuery::execBatch() {
   }
 }
 
+void SqlQuery::finish() {
+  if (query)
+    query->finish();
+}
+
 QSharedPointer<QSqlQuery> SqlQuery::getQuery() const {
   return query;
 }
@@ -62,6 +68,10 @@ QSharedPointer<QSqlQuery> SqlQuery::getQuery() const {
 void SqlQuery::tryReconnect() {
   if (!db.isOpen())
     db.open();
+}
+
+QVariant idToVariant(ID id) {
+  return id ? id : QVariant();
 }
 
 } // namespace PostgresqlGateway

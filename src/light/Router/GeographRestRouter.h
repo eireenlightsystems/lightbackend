@@ -12,7 +12,7 @@ template <>
 QHttpServerResponse RestRouter<Geograph>::get(const SessionShared& session, const QHttpServerRequest& req) const;
 
 template <>
-QList<QHttpServerRequest::Method> RestRouter<Geograph>::getAsseccibleMethods() const;
+QList<QHttpServerRequest::Method> RestRouter<Geograph>::getAccessibleMethods() const;
 
 } // namespace light
 
