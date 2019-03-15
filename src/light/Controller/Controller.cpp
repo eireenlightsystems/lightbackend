@@ -2,5 +2,4 @@
 
 #include "Session.h"
 
-namespace light {
-} // namespace light
+namespace light {} // namespace light

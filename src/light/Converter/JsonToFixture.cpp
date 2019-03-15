@@ -4,7 +4,7 @@
 #include <QVariant>
 
 namespace light {
-
+/*
 template <>
 FixtureInsertParameters FromJsonConverter<FixtureInsertParameters>::parse(const QJsonObject& jsonObject) {
   FixtureInsertParameters insertParameters;
@@ -35,5 +35,5 @@ FixtureUpdateParameters FromJsonConverter<FixtureUpdateParameters>::parse(const 
 
   return updateParameters;
 }
-
+*/
 } // namespace light
