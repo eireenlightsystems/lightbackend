@@ -55,13 +55,14 @@ protected:
   Controller<T, CRUD> createController() const {
     Controller<T, CRUD> controller;
     controller.setSession(getSession());
-    return  controller;
+    return controller;
   }
 
   virtual QVariantHash parseUrlQuery(const QUrlQuery& urlQuery) const {
     QVariantHash params;
     for (const auto& item : urlQuery.queryItems()) {
-      params[item.first] = QVariant(item.second.toULongLong());
+      QVariant id = item.second.isEmpty() ? QVariant() : QVariant(item.second.toULongLong());
+      params[item.first] = id;
     }
     return params;
   }
