@@ -1,27 +1,17 @@
 #ifndef CONTROLLER_H
 #define CONTROLLER_H
 
-#include "typedefs.h"
+#include "SessionOwner.h"
 #include <functional>
 
 namespace light {
-
-class SessionOwner
-{
-public:
-  SessionShared getSession() const;
-  void setSession(const SessionShared& value);
-
-private:
-  SessionShared session;
-};
 
 template <typename T, template <typename> class Crud>
 class Inserter : public SessionOwner
 {
 public:
   template <typename... Args>
-  void ins(Args&&... args);
+  IDList ins(Args&&... args);
 };
 
 template <typename T, template <typename> class Crud>
@@ -71,7 +61,7 @@ public:
   SharedList sel(Args&&...) const;
 
   template <typename... Args>
-  void ins(Args&&... args);
+  IDList ins(Args&&... args);
 
   template <typename... Args>
   void upd(Args&&... args);
@@ -99,10 +89,10 @@ typename Controller<T, Crud>::SharedList Controller<T, Crud>::sel(Args&&... args
 
 template <typename T, template <typename> class Crud>
 template <typename... Args>
-void Controller<T, Crud>::ins(Args&&... args) {
+IDList Controller<T, Crud>::ins(Args&&... args) {
   Inserter<T, Crud> inserter;
   inserter.setSession(session);
-  inserter.ins(std::forward<Args>(args)...);
+  return inserter.ins(std::forward<Args>(args)...);
 }
 
 template <typename T, template <typename> class Crud>

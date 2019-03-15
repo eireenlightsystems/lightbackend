@@ -2,11 +2,9 @@
 #define TEMPLATEROUTER_H
 
 #include "AbstractRestRouter.h"
+#include "RestRouter.h"
 
 namespace light {
-
-template <typename T>
-class RestRouter;
 
 template <typename T>
 class TemplateRouter : public AbstractRestRouter
@@ -41,9 +39,21 @@ void TemplateRouter<T>::registerGet(QHttpServer& httpServer) const {
     auto routeFunction = [](const QHttpServerRequest& req) {
       auto session = HttpServerWrapper::singleton()->getLightBackend()->getSession();
       RestRouter<T> router;
-      return router.get(session, req);
+      router.setSession(session);
+      return router.get(req);
     };
     return baseRouteFunction(routeFunction, req);
+  });
+
+  const QString getById = QString("%1/<arg>").arg(RestRouter<T>::path);
+  httpServer.route(getById, QHttpServerRequest::Method::Get, [](ID id) {
+    auto routeFunction = [](ID id) {
+      auto session = HttpServerWrapper::singleton()->getLightBackend()->getSession();
+      RestRouter<T> router;
+      router.setSession(session);
+      return router.get(id);
+    };
+    return baseRouteFunction(routeFunction, id);
   });
 }
 
@@ -54,7 +64,8 @@ void TemplateRouter<T>::registerPost(QHttpServer& httpServer) const {
       auto routeFunction = [](const QHttpServerRequest& req) {
 	auto session = HttpServerWrapper::singleton()->getLightBackend()->getSession();
 	RestRouter<T> router;
-	return router.post(session, req);
+	router.setSession(session);
+	return router.post(req);
       };
       return baseRouteFunction(routeFunction, req);
     });
@@ -68,9 +79,21 @@ void TemplateRouter<T>::registerPatch(QHttpServer& httpServer) const {
       auto routeFunction = [](const QHttpServerRequest& req) {
 	auto session = HttpServerWrapper::singleton()->getLightBackend()->getSession();
 	RestRouter<T> router;
-	return router.patch(session, req);
+	router.setSession(session);
+	return router.patch(req);
       };
       return baseRouteFunction(routeFunction, req);
+    });
+
+    const QString patchById = QString("%1/<arg>").arg(RestRouter<T>::path);
+    httpServer.route(patchById, QHttpServerRequest::Method::Patch, [](ID id, const QHttpServerRequest& req) {
+      auto routeFunction = [](ID id, const QHttpServerRequest& req) {
+	auto session = HttpServerWrapper::singleton()->getLightBackend()->getSession();
+	RestRouter<T> router;
+	router.setSession(session);
+	return router.patch(req, id);
+      };
+      return baseRouteFunction(routeFunction, id, req);
     });
   }
 }
@@ -82,7 +105,8 @@ void TemplateRouter<T>::registerDelete(QHttpServer& httpServer) const {
       auto routeFunction = [](const QHttpServerRequest& req) {
 	auto session = HttpServerWrapper::singleton()->getLightBackend()->getSession();
 	RestRouter<T> router;
-	return router.del(session, req);
+	router.setSession(session);
+	return router.del(req);
       };
       return baseRouteFunction(routeFunction, req);
     });
@@ -92,7 +116,8 @@ void TemplateRouter<T>::registerDelete(QHttpServer& httpServer) const {
       auto routeFunction = [](ID id) {
 	auto session = HttpServerWrapper::singleton()->getLightBackend()->getSession();
 	RestRouter<T> router;
-	return router.delById(session, id);
+	router.setSession(session);
+	return router.delById(id);
       };
       return baseRouteFunction(routeFunction, id);
     });
@@ -107,9 +132,21 @@ void TemplateRouter<T>::registerDeleteItemFromList(QHttpServer& httpServer) cons
       auto routeFunction = [listId, itemId]() {
 	auto session = HttpServerWrapper::singleton()->getLightBackend()->getSession();
 	RestRouter<T> router;
-	return router.delItemFromList(session, listId, itemId);
+	router.setSession(session);
+	return router.delItemFromList(listId, itemId);
       };
       return baseRouteFunction(routeFunction);
+    });
+
+    const QString deleteItemsPath = QString("%1/<arg>/item").arg(RestRouter<T>::path);
+    httpServer.route(deleteItemsPath, QHttpServerRequest::Method::Delete, [](ID listId, const QHttpServerRequest& req) {
+      auto routeFunction = [listId](const QHttpServerRequest& req) {
+	auto session = HttpServerWrapper::singleton()->getLightBackend()->getSession();
+	RestRouter<T> router;
+	router.setSession(session);
+	return router.delItemsFromList(req, listId);
+      };
+      return baseRouteFunction(routeFunction, req);
     });
   }
 }
@@ -122,9 +159,21 @@ void TemplateRouter<T>::registerAddItemToList(QHttpServer& httpServer) const {
       auto routeFunction = [listId, itemId]() {
 	auto session = HttpServerWrapper::singleton()->getLightBackend()->getSession();
 	RestRouter<T> router;
-	return router.addItemToList(session, listId, itemId);
+	router.setSession(session);
+	return router.addItemToList(listId, itemId);
       };
       return baseRouteFunction(routeFunction);
+    });
+
+    const QString addItemsPath = QString("%1/<arg>/item").arg(RestRouter<T>::path);
+    httpServer.route(addItemsPath, QHttpServerRequest::Method::Post, [](ID listId, const QHttpServerRequest& req) {
+      auto routeFunction = [](ID listId, const QHttpServerRequest& req) {
+	auto session = HttpServerWrapper::singleton()->getLightBackend()->getSession();
+	RestRouter<T> router;
+	router.setSession(session);
+	return router.addItemToList(req, listId);
+      };
+      return baseRouteFunction(routeFunction, listId, req);
     });
   }
 }

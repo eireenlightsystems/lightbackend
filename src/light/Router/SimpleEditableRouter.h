@@ -1,35 +1,104 @@
 #ifndef SIMPLEEDITABLEROUTER_H
 #define SIMPLEEDITABLEROUTER_H
 
-#include "TemplateRouter.h"
+#include "BadRequestException.h"
+#include "FromJsonConverter.h"
+#include "JsonToIds.h"
+#include "SimpleSelectableRouter.h"
+
+#include <QHttpServerRequest>
+#include <QHttpServerResponse>
 
 namespace light {
 
 template <typename T>
-class SimpleEditableRouter : public TemplateRouter<T>
+class SimpleEditableRouter : public SimpleSelectableRouter<T>
 {
-  constexpr static bool isEditable = true;
 public:
+  constexpr static bool isEditable = true;
+
   SimpleEditableRouter() = default;
   ~SimpleEditableRouter() override = default;
 
-  QHttpServerResponse post(const SessionShared& session, const QHttpServerRequest& req) const {
-    FromJsonConverter<InsertPatameter> converter;
+  QHttpServerResponse post(const QHttpServerRequest& req) const {
+    Controller<T, CRUD> controller;
+    controller.setSession(this->getSession());
+    const auto params = fromBody(req.body());
+    const IDList idList = controller.ins(params);
+    QString result;
+    if (idList.count() > 1) {
+      QStringList idsString;
+      std::transform(
+	  idList.begin(), idList.end(), std::back_inserter(idsString), [](ID id) { return QString::number(id); });
+      result = "[" + idsString.join(",") + "]";
+    } else {
+      result = QString::number(idList.first());
+    }
+    return QHttpServerResponse(result);
+  }
+
+  QHttpServerResponse patch(const QHttpServerRequest& req) const {
+    Controller<T, CRUD> controller;
+    controller.setSession(this->getSession());
+    const auto params = fromBody(req.body());
+    controller.upd(params);
+    return QHttpServerResponse(QHttpServerResponse::StatusCode::Ok);
+  }
+
+  QHttpServerResponse patch(const QHttpServerRequest& req, ID id) const {
+    Controller<T, CRUD> controller;
+    controller.setSession(this->getSession());
+    const auto params = fromBody(req.body());
+    controller.upd(id, params.first());
+    return QHttpServerResponse(QHttpServerResponse::StatusCode::Ok);
+  }
+
+  QHttpServerResponse del(const QHttpServerRequest& req) const {
+    JsonToIds converter;
     converter.convert(req.body());
     if (!converter.getIdValid()) {
       throw BadRequestException(converter.getErrorText());
     }
-    auto parameters = converter.getParameters();
-
-    Controller<Object, PostgresqlGateway::PostgresCrud> controller;
-    controller.setSession(session);
-    controller.ins(parameters);
-    return QHttpServerResponse(QHttpServerResponse::StatusCode::Ok);
+    auto ids = converter.getIds();
+    return delList(ids);
   }
-  QHttpServerResponse patch(const SessionShared& session, const QHttpServerRequest& req) const;
-  QHttpServerResponse del(const SessionShared& session, const QHttpServerRequest& req) const;
-  QHttpServerResponse delById(const SessionShared& session, ID id) const;
+  QHttpServerResponse delById(ID id) const {
+    return delList({id});
+  }
 
+protected:
+  QHttpServerResponse delList(const IDList& ids) const {
+    Controller<T, PostgresqlGateway::PostgresCrud> controller;
+    controller.setSession(this->getSession());
+    controller.del(ids);
+    return QHttpServerResponse(QHttpServerResponder::StatusCode::Ok);
+  }
+
+  QList<QVariantHash> fromBody(const QByteArray& data) const {
+    QJsonParseError parseError;
+    QJsonDocument jDoc = QJsonDocument::fromJson(data, &parseError);
+    if (parseError.error != QJsonParseError::NoError) {
+      qDebug() << parseError.errorString();
+      throw BadRequestException(parseError.errorString());
+    }
+
+    QJsonArray array;
+    if (jDoc.isObject()) {
+      array << jDoc.object();
+    } else if (jDoc.isArray()) {
+      array = jDoc.array();
+    } else {
+      throw BadRequestException("Ошибка разбора тела запроса");
+    }
+
+    QList<QVariantHash> result;
+    for (const auto value : array) {
+      auto object = value.toObject();
+      result << object.toVariantHash();
+    }
+
+    return result;
+  }
 };
 
 } // namespace light

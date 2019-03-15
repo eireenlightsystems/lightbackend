@@ -5,12 +5,13 @@
 #include "GatewayController.h"
 
 namespace light {
-
+/*
 template<>
 GatewayInsertParameters FromJsonConverter<GatewayInsertParameters>::parse(const QJsonObject& jsonObject);
 
 template<>
 GatewayUpdateParameters FromJsonConverter<GatewayUpdateParameters>::parse(const QJsonObject& jsonObject);
+*/
 } // namespace light
 
 #endif // JSONTOGATEWAYCONVERTER_H

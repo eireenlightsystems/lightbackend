@@ -6,7 +6,8 @@ HEADERS += \
     $$PWD/AbstractDeviceErrorSaver.h \
     $$PWD/AbstractFixtureCommandGateway.h \
     $$PWD/CommandsController.h \
-    $$PWD/SchedulerGateway.h
+    $$PWD/SchedulerGateway.h \
+    $$PWD/GatewayTypeDef.h
 
 SOURCES += \
     $$PWD/InMemoryDatabaseGateway.cpp \

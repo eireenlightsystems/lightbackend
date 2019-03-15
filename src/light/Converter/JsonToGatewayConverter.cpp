@@ -5,7 +5,7 @@
 #include <QVariant>
 
 namespace light {
-
+/*
 template <>
 GatewayInsertParameters FromJsonConverter<GatewayInsertParameters>::parse(const QJsonObject& jsonObject) {
   GatewayInsertParameters insertParameters;
@@ -29,5 +29,5 @@ GatewayUpdateParameters FromJsonConverter<GatewayUpdateParameters>::parse(const 
   updateParameters.gatewayTypeId = insertParameters.gatewayTypeId;
   return updateParameters;
 }
-
+*/
 } // namespace light

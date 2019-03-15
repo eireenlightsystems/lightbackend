@@ -21,7 +21,8 @@ HEADERS += \
     $$PWD/FixtureHeightTypeToJson.h \
     $$PWD/SubstationToJson.h \
     $$PWD/FixtureToJson.h \
-    $$PWD/JsonToFixture.h
+    $$PWD/JsonToFixture.h \
+    $$PWD/JsonToIds.h
 
 SOURCES += \
     $$PWD/NodeToJson.cpp \
@@ -44,4 +45,5 @@ SOURCES += \
     $$PWD/FixtureHeightTypeToJson.cpp \
     $$PWD/SubstationToJson.cpp \
     $$PWD/FixtureToJson.cpp \
-    $$PWD/JsonToFixture.cpp
+    $$PWD/JsonToFixture.cpp \
+    $$PWD/JsonToIds.cpp
