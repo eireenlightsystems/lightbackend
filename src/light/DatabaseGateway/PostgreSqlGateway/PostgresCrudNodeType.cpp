@@ -18,6 +18,16 @@ NodeTypeSharedList PostgresCrud<NodeType>::sel<>() const {
 }
 
 template <>
+template <>
+NodeTypeSharedList PostgresCrud<NodeType>::sel<QVariantHash>(const QVariantHash filters) const {
+  if (filters.isEmpty()) {
+    return sel();
+  }
+
+  return NodeTypeSharedList();
+}
+
+template <>
 NodeTypeSharedList PostgresCrud<NodeType>::sel(const IDList& ids) const {
   NodeTypeSharedList result;
   const QString sql = "select id_node_type, code_node_type "

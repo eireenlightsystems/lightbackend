@@ -12,6 +12,10 @@ template <>
 SubstationSharedList PostgresCrud<Substation>::sel<>() const;
 
 template <>
+template <>
+SubstationSharedList PostgresCrud<Substation>::sel<QVariantHash>(const QVariantHash filters) const;
+
+template <>
 SubstationSharedList PostgresCrud<Substation>::sel(const IDList& ids) const;
 
 template <>

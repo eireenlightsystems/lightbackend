@@ -18,6 +18,16 @@ ContragentSharedList PostgresCrud<Contragent>::sel<>() const {
 }
 
 template <>
+template <>
+ContragentSharedList PostgresCrud<Contragent>::sel<QVariantHash>(const QVariantHash filters) const {
+  if (filters.isEmpty()) {
+    return sel();
+  }
+
+  return ContragentSharedList();
+}
+
+template <>
 ContragentSharedList PostgresCrud<Contragent>::sel(const IDList& ids) const {
   ContragentSharedList result;
   const QString sql = "select id_contragent, code, name "

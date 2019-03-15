@@ -18,6 +18,16 @@ FixtureHeightTypeSharedList PostgresCrud<FixtureHeightType>::sel<>() const {
 }
 
 template <>
+template <>
+FixtureHeightTypeSharedList PostgresCrud<FixtureHeightType>::sel<QVariantHash>(const QVariantHash filters) const {
+  if (filters.isEmpty()) {
+    return sel();
+  }
+
+  return FixtureHeightTypeSharedList();
+}
+
+template <>
 FixtureHeightTypeSharedList PostgresCrud<FixtureHeightType>::sel(const IDList& ids) const {
   FixtureHeightTypeSharedList result;
   const QString sql = "select id_height_type, code, name "

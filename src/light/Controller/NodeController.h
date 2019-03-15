@@ -4,7 +4,7 @@
 #include "Controller.h"
 #include "Node.h"
 
-#include <QDebug>
+#include <QVariant>
 
 namespace light {
 
@@ -28,7 +28,7 @@ class Inserter<Node, Crud> : public SessionOwner
 {
 public:
   template <typename... Args>
-  void ins(const QList<NodeInsertParameters> params) {
+  IDList ins(const QList<QVariantHash>& params) {
     NodeSharedList newNodes;
 
     Crud<Contract> contractCrud;
@@ -39,18 +39,40 @@ public:
     geographCrud.setSession(getSession());
 
     for (const auto& param : params) {
-      auto contract = contractCrud.selById(param.contractId);
-      auto nodeType = nodeTypeCrud.selById(param.nodeTypeId);
-      auto geograph = geographCrud.selById(param.geographId);
-
       auto newNode = NodeShared::create();
-      newNode->setCoordinate(param.coordinate);
-      newNode->setPrice(param.price);
-      newNode->setComment(param.comment);
+      if (param.contains("contractId")) {
+	ID contractId = param.value("contractId").value<ID>();
+	auto contract = contractCrud.selById(contractId);
+	newNode->setContract(contract);
+      }
 
-      newNode->setGeograph(geograph);
-      newNode->setContract(contract);
-      newNode->setNodeType(nodeType);
+      if (param.contains("nodeTypeId")) {
+	ID nodeTypeId = param.value("nodeTypeId").value<ID>();
+	auto nodeType = nodeTypeCrud.selById(nodeTypeId);
+	newNode->setNodeType(nodeType);
+      }
+
+      if (param.contains("geographId")) {
+	ID geographId = param.value("geographId").value<ID>();
+	auto geograph = geographCrud.selById(geographId);
+	newNode->setGeograph(geograph);
+      }
+
+      if (param.contains("n_coordinate") and param.contains("e_coordinate")) {
+	double latitude = param.value("n_coordinate").toDouble();
+	double longitude = param.value("e_coordinate").toDouble();
+	newNode->setCoordinate(latitude, longitude);
+      }
+
+      if (param.contains("price")) {
+	double price = param.value("price").toDouble();
+	newNode->setPrice(price);
+      }
+
+      if (param.contains("comment")) {
+	QString comment = param.value("comment").toString();
+	newNode->setComment(comment);
+      }
 
       newNodes << newNode;
     }
@@ -58,6 +80,11 @@ public:
     Crud<Node> nodeCrud;
     nodeCrud.setSession(getSession());
     nodeCrud.save(newNodes);
+    IDList result;
+    std::transform(newNodes.begin(), newNodes.end(), std::back_inserter(result), [](const NodeShared& node) {
+      return node->getId();
+    });
+    return result;
   }
 };
 
@@ -72,7 +99,7 @@ class Updater<Node, Crud> : public SessionOwner
 {
 public:
   template <typename... Args>
-  void upd(const QList<NodeUpdateParameters> params) {
+  void upd(const QList<QVariantHash>& params) {
     NodeSharedList nodes;
 
     Crud<Node> nodeCrud;
@@ -85,45 +112,93 @@ public:
     geographCrud.setSession(getSession());
 
     for (const auto& param : params) {
-      NodeShared node = nodeCrud.selById(param.nodeId);
-      node->setCoordinate(param.coordinate);
-      node->setPrice(param.price);
-      node->setComment(param.comment);
-
-      if (node->getContractId() != param.contractId) {
-	auto contract = contractCrud.selById(param.contractId);
+      ID nodeId = param.value("nodeId").value<ID>();
+      NodeShared node = nodeCrud.selById(nodeId);
+      if (param.contains("contractId")) {
+	ID contractId = param.value("contractId").value<ID>();
+	auto contract = contractCrud.selById(contractId);
 	node->setContract(contract);
       }
 
-      if (node->getNodeTypeId() != param.nodeTypeId) {
-	auto nodeType = nodeTypeCrud.selById(param.nodeTypeId);
+      if (param.contains("nodeTypeId")) {
+	ID nodeTypeId = param.value("nodeTypeId").value<ID>();
+	auto nodeType = nodeTypeCrud.selById(nodeTypeId);
 	node->setNodeType(nodeType);
       }
 
-      if (node->getGeographId() != param.geographId) {
-	auto geograph = geographCrud.selById(param.geographId);
+      if (param.contains("geographId")) {
+	ID geographId = param.value("geographId").value<ID>();
+	auto geograph = geographCrud.selById(geographId);
 	node->setGeograph(geograph);
       }
+
+      if (param.contains("n_coordinate") and param.contains("e_coordinate")) {
+	double latitude = param.value("n_coordinate").toDouble();
+	double longitude = param.value("e_coordinate").toDouble();
+	node->setCoordinate(latitude, longitude);
+      }
+
+      if (param.contains("price")) {
+	double price = param.value("price").toDouble();
+	node->setPrice(price);
+      }
+
+      if (param.contains("comment")) {
+	QString comment = param.value("comment").toString();
+	node->setComment(comment);
+      }
+
       nodes << node;
     }
 
     nodeCrud.save(nodes);
   }
 
-  template <typename... Args>
-  void upd(const QList<NodeCoordinateParameters> params) {
-    NodeSharedList nodes;
-
+  void upd(ID id, const QVariantHash& param) {
     Crud<Node> nodeCrud;
     nodeCrud.setSession(getSession());
+    Crud<Contract> contractCrud;
+    contractCrud.setSession(getSession());
+    Crud<NodeType> nodeTypeCrud;
+    nodeTypeCrud.setSession(getSession());
+    Crud<Geograph> geographCrud;
+    geographCrud.setSession(getSession());
 
-    for (const auto& param : params) {
-      NodeShared node = nodeCrud.selById(param.nodeId);
-      node->setCoordinate(param.coordinate);
-      nodes << node;
+    NodeShared node = nodeCrud.selById(id);
+    if (param.contains("contractId")) {
+      ID contractId = param.value("contractId").value<ID>();
+      auto contract = contractCrud.selById(contractId);
+      node->setContract(contract);
     }
 
-    nodeCrud.save(nodes);
+    if (param.contains("nodeTypeId")) {
+      ID nodeTypeId = param.value("nodeTypeId").value<ID>();
+      auto nodeType = nodeTypeCrud.selById(nodeTypeId);
+      node->setNodeType(nodeType);
+    }
+
+    if (param.contains("geographId")) {
+      ID geographId = param.value("geographId").value<ID>();
+      auto geograph = geographCrud.selById(geographId);
+      node->setGeograph(geograph);
+    }
+
+    if (param.contains("n_coordinate") and param.contains("e_coordinate")) {
+      double latitude = param.value("n_coordinate").toDouble();
+      double longitude = param.value("e_coordinate").toDouble();
+      node->setCoordinate(latitude, longitude);
+    }
+
+    if (param.contains("price")) {
+      double price = param.value("price").toDouble();
+      node->setPrice(price);
+    }
+
+    if (param.contains("comment")) {
+      QString comment = param.value("comment").toString();
+      node->setComment(comment);
+    }
+    nodeCrud.save({node});
   }
 };
 

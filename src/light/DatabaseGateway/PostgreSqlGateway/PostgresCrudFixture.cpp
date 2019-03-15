@@ -40,6 +40,29 @@ FixtureSharedList PostgresCrud<Fixture>::sel<ID, ID, ID, ID, ID, ID, ID>(ID geog
 }
 
 template <>
+template <>
+FixtureSharedList PostgresCrud<Fixture>::sel<QVariantHash>(const QVariantHash filters) const {
+  FixtureSharedList result;
+  const QString sql =
+      "select id_fixture, id_contract, id_fixture_type, id_installer, id_substation, "
+      "id_height_type, id_owner, id_node, work_level, standby_level, speed_zero_to_full, speed_full_to_zero, comments "
+      "from fixture_pkg_i.fixture_vwf(:id_geograph, :id_owner, :id_fixture_type, :id_substation, :id_mode, "
+      ":id_contract, "
+      ":id_node)";
+  const BindParamsType bindParams{
+      {":id_geograph", filters.value("geographId")},
+      {":id_owner", filters.value("ownerId")},
+      {":id_fixture_type", filters.value("fixtureTypeId")},
+      {":id_substation", filters.value("substationId")},
+      {":id_mode", filters.value("modeId")},
+      {":id_contract", filters.value("contractId")},
+      {":id_node", filters.value("nodeId")},
+  };
+  result << selBase(sql, bindParams);
+  return result;
+}
+
+template <>
 FixtureSharedList PostgresCrud<Fixture>::sel(const IDList& ids) const {
   FixtureSharedList result;
   const QString sql =

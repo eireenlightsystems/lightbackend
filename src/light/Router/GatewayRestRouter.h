@@ -1,42 +1,33 @@
 #ifndef GATEWAYRESTROUTER_H
 #define GATEWAYRESTROUTER_H
 
+#include "GatewayController.h"
+#include "PostgresCrudGateway.h"
 #include "RestRouter.h"
+#include "SimpleEditableRouter.h"
 
 namespace light {
 
-template<>
-QString RestRouter<Gateway>::getPath() const;
+template <>
+class RestRouter<Gateway> : public SimpleEditableRouter<Gateway>
+{
+public:
+  constexpr static const char* path = "/api2/gateway";
+};
 
-template<>
-QHttpServerResponse RestRouter<Gateway>::get(const SessionShared& session, const QHttpServerRequest& req) const;
+template <>
+class RestRouter<EquipmentOwner> : public SimpleSelectableRouter<EquipmentOwner>
+{
+public:
+  constexpr static const char* path = "/api2/gateway-owner";
+};
 
-template<>
-QHttpServerResponse RestRouter<Gateway>::post(const SessionShared& session, const QHttpServerRequest& req) const;
-
-template<>
-QHttpServerResponse RestRouter<Gateway>::patch(const SessionShared& session, const QHttpServerRequest& req) const;
-
-template<>
-QHttpServerResponse RestRouter<Gateway>::del(const SessionShared& session, const QHttpServerRequest& req) const;
-
-template<>
-QString RestRouter<EquipmentOwner>::getPath() const;
-
-template<>
-QHttpServerResponse RestRouter<EquipmentOwner>::get(const SessionShared& session, const QHttpServerRequest& req) const;
-
-template<>
-QList<QHttpServerRequest::Method> RestRouter<EquipmentOwner>::getAccessibleMethods() const;
-
-template<>
-QString RestRouter<GatewayType>::getPath() const;
-
-template<>
-QHttpServerResponse RestRouter<GatewayType>::get(const SessionShared& session, const QHttpServerRequest& req) const;
-
-template<>
-QList<QHttpServerRequest::Method> RestRouter<GatewayType>::getAccessibleMethods() const;
+template <>
+class RestRouter<GatewayType> : public SimpleSelectableRouter<GatewayType>
+{
+public:
+  constexpr static const char* path = "/api2/gateway-type";
+};
 
 } // namespace light
 

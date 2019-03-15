@@ -18,6 +18,16 @@ SubstationSharedList PostgresCrud<Substation>::sel<>() const {
 }
 
 template <>
+template <>
+SubstationSharedList PostgresCrud<Substation>::sel<QVariantHash>(const QVariantHash filters) const {
+  if(filters.isEmpty()) {
+    return sel();
+  }
+
+  return SubstationSharedList();
+}
+
+template <>
 SubstationSharedList PostgresCrud<Substation>::sel(const IDList& ids) const {
   SubstationSharedList result;
   const QString sql = "select id_substation, code, name, power "

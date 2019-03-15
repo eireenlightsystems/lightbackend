@@ -12,6 +12,10 @@ template <>
 GeographSharedList PostgresCrud<Geograph>::sel<>() const;
 
 template <>
+template <>
+GeographSharedList PostgresCrud<Geograph>::sel<QVariantHash>(const QVariantHash filters) const;
+
+template <>
 GeographSharedList PostgresCrud<Geograph>::sel(const IDList& ids) const;
 
 template <>

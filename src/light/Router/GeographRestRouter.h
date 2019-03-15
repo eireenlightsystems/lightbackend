@@ -2,17 +2,16 @@
 #define GEOGRAPHRESTROUTER_H
 
 #include "RestRouter.h"
+#include "SimpleEditableRouter.h"
 
 namespace light {
 
 template <>
-QString RestRouter<Geograph>::getPath() const;
-
-template <>
-QHttpServerResponse RestRouter<Geograph>::get(const SessionShared& session, const QHttpServerRequest& req) const;
-
-template <>
-QList<QHttpServerRequest::Method> RestRouter<Geograph>::getAccessibleMethods() const;
+class RestRouter<Geograph> : public SimpleSelectableRouter<Geograph>
+{
+public:
+  constexpr static const char* path = "/api2/geograph";
+};
 
 } // namespace light
 

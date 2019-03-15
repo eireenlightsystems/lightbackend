@@ -14,12 +14,7 @@
 #include <QHttpServerRequest>
 
 namespace light {
-
-template <>
-QString RestRouter<Gateway>::getPath() const {
-  return "/api2/gateway";
-}
-
+/*
 template <>
 QHttpServerResponse RestRouter<Gateway>::get(const SessionShared& session, const QHttpServerRequest& req) const {
   const auto urlQuery = req.query();
@@ -30,21 +25,6 @@ QHttpServerResponse RestRouter<Gateway>::get(const SessionShared& session, const
   ID nodeId = urlQuery.queryItemValue("nodeId").toULongLong();
 
   return selSimple<Gateway>(session, geopraphId, ownerId, gatewayTypeId, contractId, nodeId);
-}
-
-template <>
-QHttpServerResponse RestRouter<Gateway>::post(const SessionShared& session, const QHttpServerRequest& req) const {
-  return postSimple<Gateway, GatewayInsertParameters>(session, req);
-}
-
-template <>
-QHttpServerResponse RestRouter<Gateway>::patch(const SessionShared& session, const QHttpServerRequest& req) const {
-  return patchSimple<Gateway, GatewayUpdateParameters>(session, req);
-}
-
-template <>
-QHttpServerResponse RestRouter<Gateway>::del(const SessionShared& session, const QHttpServerRequest& req) const {
-  return delSimple<Gateway>(session, req);
 }
 
 template <>
@@ -100,5 +80,6 @@ template <>
 QList<QHttpServerRequest::Method> RestRouter<GatewayType>::getAccessibleMethods() const {
   return {QHttpServerRequest::Method::Get};
 }
+*/
 
 } // namespace light

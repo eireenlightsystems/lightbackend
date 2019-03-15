@@ -14,76 +14,29 @@
 namespace light {
 
 template <typename T>
+class RestRouter;
+
+/*
+template <typename T>
 class RestRouter : public AbstractRestRouter
 {
 public:
   RestRouter() = default;
 
-  QHttpServerResponse get(const SessionShared& session, const QHttpServerRequest& req) const override;
-  QHttpServerResponse post(const SessionShared& session, const QHttpServerRequest& req) const override;
-  QHttpServerResponse patch(const SessionShared& session, const QHttpServerRequest& req) const override;
-  QHttpServerResponse del(const SessionShared& session, const QHttpServerRequest& req) const override;
-  QHttpServerResponse delById(const SessionShared& session, ID id) const override;
+//  QHttpServerResponse get(const SessionShared& session, const QHttpServerRequest& req) const override;
+//  QHttpServerResponse post(const SessionShared& session, const QHttpServerRequest& req) const override;
+//  QHttpServerResponse patch(const SessionShared& session, const QHttpServerRequest& req) const override;
+//  QHttpServerResponse del(const SessionShared& session, const QHttpServerRequest& req) const override;
+//  QHttpServerResponse delById(const SessionShared& session, ID id) const override;
 
-  QHttpServerResponse addItemToList(const SessionShared& session, const QHttpServerRequest& req, ID listId) const override;
-  QHttpServerResponse delItemFromList(const SessionShared& session, const QHttpServerRequest& req, ID listId) const override;
+//  QHttpServerResponse addItemToList(const SessionShared& session, const QHttpServerRequest& req, ID listId) const override;
+//  QHttpServerResponse delItemFromList(const SessionShared& session, const QHttpServerRequest& req, ID listId) const override;
   void registerApi(QHttpServer& httpServer) const override;
-  QString getPath() const override;
+//  QString getPath() const override;
 
 protected:
   QList<QHttpServerRequest::Method> getAccessibleMethods() const;
 };
-
-template <typename T>
-QHttpServerResponse RestRouter<T>::get(const SessionShared& session, const QHttpServerRequest& req) const {
-  Q_UNUSED(session)
-  Q_UNUSED(req)
-  return QHttpServerResponse(QHttpServerResponse::StatusCode::NotFound);
-}
-
-template <typename T>
-QHttpServerResponse RestRouter<T>::post(const SessionShared& session, const QHttpServerRequest& req) const {
-  Q_UNUSED(session)
-  Q_UNUSED(req)
-  return QHttpServerResponse(QHttpServerResponse::StatusCode::NotFound);
-}
-
-template <typename T>
-QHttpServerResponse RestRouter<T>::patch(const SessionShared& session, const QHttpServerRequest& req) const {
-  Q_UNUSED(session)
-  Q_UNUSED(req)
-  return QHttpServerResponse(QHttpServerResponse::StatusCode::NotFound);
-}
-
-template <typename T>
-QHttpServerResponse RestRouter<T>::del(const SessionShared& session, const QHttpServerRequest& req) const {
-  Q_UNUSED(session)
-  Q_UNUSED(req)
-  return QHttpServerResponse(QHttpServerResponse::StatusCode::NotFound);
-}
-
-template <typename T>
-QHttpServerResponse RestRouter<T>::delById(const SessionShared& session, ID id) const {
-  Q_UNUSED(session)
-  Q_UNUSED(id)
-  return QHttpServerResponse(QHttpServerResponse::StatusCode::NotFound);
-}
-
-template <typename T>
-QHttpServerResponse RestRouter<T>::addItemToList(const SessionShared& session, const QHttpServerRequest& req, ID listId) const {
-  Q_UNUSED(session)
-  Q_UNUSED(listId)
-  Q_UNUSED(req)
-  return QHttpServerResponse(QHttpServerResponse::StatusCode::NotFound);
-}
-
-template <typename T>
-QHttpServerResponse RestRouter<T>::delItemFromList(const SessionShared& session, const QHttpServerRequest& req, ID listId) const {
-  Q_UNUSED(session)
-  Q_UNUSED(listId)
-  Q_UNUSED(req)
-  return QHttpServerResponse(QHttpServerResponse::StatusCode::NotFound);
-}
 
 template <typename T>
 void RestRouter<T>::registerApi(QHttpServer& httpServer) const {
@@ -155,7 +108,7 @@ void RestRouter<T>::registerApi(QHttpServer& httpServer) const {
 
   const QString addItemPath = QString("%1/<arg>/item").arg(getPath());
   httpServer.route(
-      addItemPath, QHttpServerRequest::Method::Post, [](ID listId, const QHttpServerRequest& req) {
+      deleteItemPath, QHttpServerRequest::Method::Post, [](ID listId, ID itemId) {
 	auto routeFunction = [listId](const QHttpServerRequest& req) {
 	  auto session = HttpServerWrapper::singleton()->getLightBackend()->getSession();
 	  RestRouter<T> router;
@@ -236,7 +189,7 @@ QHttpServerResponse delSimple(const SessionShared& session, const QHttpServerReq
   auto ids = converter.getIds();
   return delByIds<T>(session, ids);
 }
-
+*/
 } // namespace light
 
 #endif // RESTROUTER_H

@@ -12,6 +12,10 @@ template <>
 FixtureHeightTypeSharedList PostgresCrud<FixtureHeightType>::sel<>() const;
 
 template <>
+template <>
+FixtureHeightTypeSharedList PostgresCrud<FixtureHeightType>::sel<QVariantHash>(const QVariantHash filters) const;
+
+template <>
 FixtureHeightTypeSharedList PostgresCrud<FixtureHeightType>::sel(const IDList& ids) const;
 
 template <>

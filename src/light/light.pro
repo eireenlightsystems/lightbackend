@@ -1,6 +1,6 @@
 QT -= gui
 QT += httpserver mqtt sql
-CONFIG += c++11 console
+CONFIG += c++17 console
 CONFIG -= app_bundle
 
 include(../3rdparty/qtservice/src/qtservice.pri)
@@ -40,7 +40,8 @@ HEADERS += \
     LigthBackend.h \
     HttpServerConverters.h \
     DeviceCommandsController.h \
-    Session.h
+    Session.h \
+    SessionOwner.h
 
 SOURCES += \
     main.cpp \
@@ -51,7 +52,8 @@ SOURCES += \
     LigthBackend.cpp \
     HttpServerConverters.cpp \
     DeviceCommandsController.cpp \
-    Session.cpp
+    Session.cpp \
+    SessionOwner.cpp
 
 DISTFILES += \
     lightbackend.conf \

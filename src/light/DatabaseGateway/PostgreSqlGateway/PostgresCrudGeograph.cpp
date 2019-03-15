@@ -20,6 +20,16 @@ GeographSharedList PostgresCrud<Geograph>::sel<>() const {
 }
 
 template <>
+template <>
+GeographSharedList PostgresCrud<Geograph>::sel<QVariantHash>(const QVariantHash filters) const {
+  if(filters.isEmpty()) {
+    return  sel();
+  }
+
+  return GeographSharedList();
+}
+
+template <>
 GeographSharedList PostgresCrud<Geograph>::sel(const IDList& ids) const {
   GeographSharedList result;
   const QString sql = "select id_geograph, code, name, fullname "

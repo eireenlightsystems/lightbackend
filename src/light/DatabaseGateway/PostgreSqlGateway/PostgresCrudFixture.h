@@ -12,6 +12,10 @@ template <>
 FixtureSharedList PostgresCrud<Fixture>::sel<ID, ID, ID, ID, ID, ID, ID>(ID geographId, ID ownerId, ID fixtureTypeId, ID substationId, ID modeId, ID contractId, ID nodeId) const;
 
 template <>
+template <>
+FixtureSharedList PostgresCrud<Fixture>::sel<QVariantHash>(const QVariantHash filters) const;
+
+template <>
 FixtureSharedList PostgresCrud<Fixture>::sel(const IDList& ids) const;
 
 template <>

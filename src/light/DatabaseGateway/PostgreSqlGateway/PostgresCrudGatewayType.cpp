@@ -18,6 +18,16 @@ GatewayTypeSharedList PostgresCrud<GatewayType>::sel<>() const {
 }
 
 template <>
+template <>
+GatewayTypeSharedList PostgresCrud<GatewayType>::sel<QVariantHash>(const QVariantHash filters) const {
+  if(filters.isEmpty()) {
+    return sel();
+  }
+
+  return GatewayTypeSharedList();
+}
+
+template <>
 GatewayTypeSharedList PostgresCrud<GatewayType>::sel(const IDList& ids) const {
   GatewayTypeSharedList result;
   const QString sql = "select id_gateway_type, code_gateway_type "

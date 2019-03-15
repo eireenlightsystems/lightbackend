@@ -55,6 +55,24 @@ NodeSharedList PostgresCrud<Node>::sel<ID, ID, ID, ID, ID>(ID geopraphId,
 }
 
 template <>
+template <>
+NodeSharedList PostgresCrud<Node>::sel<QVariantHash>(const QVariantHash filters) const {
+  NodeSharedList result;
+  const QString sql =
+      "select id_node, n_coordinate, e_coordinate, price, comments, id_owner, id_contract, id_geograph, id_node_type "
+      "from node_pkg_i.node_vwf(:id_geograph, :id_owner, :id_node_type, :id_contract, :id_gateway) ";
+  const BindParamsType bindParams{
+      {":id_geograph", filters.value("geopraphId")},
+      {":id_owner", filters.value("ownerId")},
+      {":id_node_type", filters.value("nodeTypeId")},
+      {":id_contract", filters.value("contractId")},
+      {":id_gateway", filters.value("gatewayId")},
+  };
+  result = selBase(sql, bindParams);
+  return result;
+}
+
+template <>
 void PostgresCrud<Node>::ins(const NodeShared& node) const {
   const QString insertSql = "select node_pkg_i.save(:action, :id_node, :id_contract, :id_equipment_type, "
 			    ":id_geograph, :n_coordinate, :e_coordinate, :price, :comments)";
@@ -70,6 +88,7 @@ void PostgresCrud<Node>::ins(const NodeShared& node) const {
       {":comments", node->getComment()},
   };
   auto query = buildAndExecQuery<InsertQuery>(insertSql, bindParams, session);
+  node->setId(query.getInsertedId());
 }
 
 template <>

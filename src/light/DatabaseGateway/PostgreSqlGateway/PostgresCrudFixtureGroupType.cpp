@@ -18,6 +18,16 @@ FixtureGroupTypeSharedList PostgresCrud<FixtureGroupType>::sel<>() const {
 }
 
 template <>
+template <>
+FixtureGroupTypeSharedList PostgresCrud<FixtureGroupType>::sel<QVariantHash>(const QVariantHash filters) const {
+  if (filters.isEmpty()) {
+    return sel();
+  }
+
+  return FixtureGroupTypeSharedList();
+}
+
+template <>
 FixtureGroupTypeSharedList PostgresCrud<FixtureGroupType>::sel(const IDList& ids) const {
   FixtureGroupTypeSharedList result;
   const QString sql = "select id_fixture_group_type, name_fixture_group_type "

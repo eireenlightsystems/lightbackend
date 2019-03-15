@@ -18,6 +18,16 @@ EquipmentOwnerSharedList PostgresCrud<EquipmentOwner>::sel<>() const {
 }
 
 template <>
+template <>
+EquipmentOwnerSharedList PostgresCrud<EquipmentOwner>::sel<QVariantHash>(const QVariantHash filters) const {
+  if(filters.isEmpty()) {
+    return  sel();
+  }
+
+  return EquipmentOwnerSharedList();
+}
+
+template <>
 EquipmentOwnerSharedList PostgresCrud<EquipmentOwner>::sel(const IDList& ids) const {
   EquipmentOwnerSharedList result;
   const QString sql = "select id_owner, name_owner "
