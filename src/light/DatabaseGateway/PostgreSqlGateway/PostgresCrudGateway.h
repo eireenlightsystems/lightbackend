@@ -18,7 +18,9 @@ GatewaySharedList PostgresCrud<Gateway>::sel<ID, ID, ID, ID, ID>(ID geopraphId,
 								 ID contractId,
 								 ID nodeId) const;
 
-
+template <>
+template <>
+GatewaySharedList PostgresCrud<Gateway>::sel<QVariantHash>(const QVariantHash filters) const;
 
 template <>
 void PostgresCrud<Gateway>::ins(const GatewayShared& gateway) const;

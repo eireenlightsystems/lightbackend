@@ -53,6 +53,24 @@ GatewaySharedList PostgresCrud<Gateway>::sel<ID, ID, ID, ID, ID>(ID geopraphId,
 }
 
 template <>
+template <>
+GatewaySharedList PostgresCrud<Gateway>::sel<QVariantHash>(const QVariantHash filters) const {
+  GatewaySharedList result;
+  const QString sql =
+      "select id_gateway, price, comments, id_owner, id_contract, id_node, id_gateway_type "
+      "from gateway_pkg_i.gateway_vwf(:id_geograph, :id_owner, :id_gateway_type, :id_contract, :id_node) ";
+  const BindParamsType bindParams{
+      {":id_geograph", filters.value("geopraphId")},
+      {":id_owner", filters.value("ownerId")},
+      {":id_gateway_type", filters.value("gatewayTypeId")},
+      {":id_contract", filters.value("contractId")},
+      {":id_node", filters.value("nodeId")},
+  };
+  result = selBase(sql, bindParams);
+  return result;
+}
+
+template <>
 void PostgresCrud<Gateway>::ins(const GatewayShared& gateway) const {
   const QString saveSql = "select gateway_pkg_i.save(:action, :id_gateway, :id_contract, :id_equipment_type, "
 			  ":id_node, :price, :comments)";

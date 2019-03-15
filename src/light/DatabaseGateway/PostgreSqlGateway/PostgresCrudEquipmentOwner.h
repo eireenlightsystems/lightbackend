@@ -12,6 +12,10 @@ template <>
 EquipmentOwnerSharedList PostgresCrud<EquipmentOwner>::sel<>() const;
 
 template <>
+template <>
+EquipmentOwnerSharedList PostgresCrud<EquipmentOwner>::sel<QVariantHash>(const QVariantHash filters) const;
+
+template <>
 EquipmentOwnerSharedList PostgresCrud<EquipmentOwner>::sel(const IDList& ids) const;
 
 template <>
