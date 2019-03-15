@@ -19,6 +19,10 @@ NodeSharedList PostgresCrud<Node>::sel<ID, ID, ID, ID, ID>(ID geopraphId,
 							   ID gatewayId) const;
 
 template <>
+template <>
+NodeSharedList PostgresCrud<Node>::sel<QVariantHash>(const QVariantHash filters) const;
+
+template <>
 void PostgresCrud<Node>::ins(const NodeShared& node) const;
 
 template <>

@@ -13,15 +13,6 @@ class RestRouter<Gateway> : public SimpleEditableRouter<Gateway>
 {
 public:
   constexpr static const char* path = "/api2/gateway";
-
-protected:
-  QVariantHash parseUrlQuery(const QUrlQuery& urlQuery) const override {
-    QVariantHash params;
-    for (const auto& item : urlQuery.queryItems()) {
-      params[item.first] = QVariant(item.second.toULongLong());
-    }
-    return params;
-  }
 };
 
 template <>

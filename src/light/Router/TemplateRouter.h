@@ -133,7 +133,7 @@ void TemplateRouter<T>::registerDeleteItemFromList(QHttpServer& httpServer) cons
 	auto session = HttpServerWrapper::singleton()->getLightBackend()->getSession();
 	RestRouter<T> router;
 	router.setSession(session);
-	return router.delItemFromList(listId, itemId);
+	return router.delListItem(listId, itemId);
       };
       return baseRouteFunction(routeFunction);
     });
@@ -144,7 +144,7 @@ void TemplateRouter<T>::registerDeleteItemFromList(QHttpServer& httpServer) cons
 	auto session = HttpServerWrapper::singleton()->getLightBackend()->getSession();
 	RestRouter<T> router;
 	router.setSession(session);
-	return router.delItemsFromList(req, listId);
+	return router.delListItems(req, listId);
       };
       return baseRouteFunction(routeFunction, req);
     });
@@ -160,7 +160,7 @@ void TemplateRouter<T>::registerAddItemToList(QHttpServer& httpServer) const {
 	auto session = HttpServerWrapper::singleton()->getLightBackend()->getSession();
 	RestRouter<T> router;
 	router.setSession(session);
-	return router.addItemToList(listId, itemId);
+	return router.postListItem(listId, itemId);
       };
       return baseRouteFunction(routeFunction);
     });
@@ -171,7 +171,7 @@ void TemplateRouter<T>::registerAddItemToList(QHttpServer& httpServer) const {
 	auto session = HttpServerWrapper::singleton()->getLightBackend()->getSession();
 	RestRouter<T> router;
 	router.setSession(session);
-	return router.addItemToList(req, listId);
+	return router.postListItems(req, listId);
       };
       return baseRouteFunction(routeFunction, listId, req);
     });

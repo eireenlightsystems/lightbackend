@@ -5,17 +5,16 @@
 #include "BadInputDataException.h"
 #include "BadRequestException.h"
 #include "DatabaseException.h"
-//#include "FixtureGroupRouter.h"
+#include "FixtureGroupRouter.h"
 #include "FixtureLightLevelCommand.h"
 #include "FixtureLightSpeedCommand.h"
-//#include "FixtureRestRouter.h"
+#include "FixtureRestRouter.h"
 #include "GatewayRestRouter.h"
-//#include "GeographRestRouter.h"
+#include "GeographRestRouter.h"
 #include "HttpServerConverters.h"
 #include "InternalServerErrorException.h"
-//#include "NodeRestRouter.h"
+#include "NodeRestRouter.h"
 #include "NodeToJson.h"
-//#include "NodeTypeRestRouter.h"
 #include "SharedTypes.h"
 
 #include <QException>
@@ -181,19 +180,16 @@ void HttpServerWrapper::createLightSpeedRoutes() {
 }
 
 void HttpServerWrapper::createNodeRoutes() {
-//  RestRouter<Node> nodeRouter;
-//  nodeRouter.registerApi(httpServer);
+  TemplateRouter<Node> nodeRouter;
+  nodeRouter.registerApi(httpServer);
 
-//  RestRouter<NodeType> nodeTypeRouter;
-//  nodeTypeRouter.registerApi(httpServer);
-
-//  RestRouter<NodeCoordinate> nodeCoordinateRouter;
-//  nodeCoordinateRouter.registerApi(httpServer);
+  TemplateRouter<NodeType> nodeTypeRouter;
+  nodeTypeRouter.registerApi(httpServer);
 }
 
 void HttpServerWrapper::createGeographRoutes() {
-//  RestRouter<Geograph> geographRouter;
-//  geographRouter.registerApi(httpServer);
+  TemplateRouter<Geograph> geographRouter;
+  geographRouter.registerApi(httpServer);
 }
 
 void HttpServerWrapper::createGatewayRouters() {
@@ -208,28 +204,28 @@ void HttpServerWrapper::createGatewayRouters() {
 }
 
 void HttpServerWrapper::createFixtureRouters() {
-//  RestRouter<Fixture> fixtureRouter;
-//  fixtureRouter.registerApi(httpServer);
+  TemplateRouter<Fixture> fixtureRouter;
+  fixtureRouter.registerApi(httpServer);
 
-//  RestRouter<FixtureType> fixtureTypeRouter;
-//  fixtureTypeRouter.registerApi(httpServer);
+  TemplateRouter<FixtureType> fixtureTypeRouter;
+  fixtureTypeRouter.registerApi(httpServer);
 
-//  RestRouter<FixtureHeightType> fixtureHeightTypeRouter;
-//  fixtureHeightTypeRouter.registerApi(httpServer);
+  TemplateRouter<FixtureHeightType> fixtureHeightTypeRouter;
+  fixtureHeightTypeRouter.registerApi(httpServer);
 
-//  RestRouter<Substation> substationRouter;
-//  substationRouter.registerApi(httpServer);
+  TemplateRouter<Substation> substationRouter;
+  substationRouter.registerApi(httpServer);
 }
 
 void HttpServerWrapper::createFixtureGroupRouters() {
-//  RestRouter<FixtureGroup> fixtureGroupRouter;
-//  fixtureGroupRouter.registerApi(httpServer);
+  TemplateRouter<FixtureGroup> fixtureGroupRouter;
+  fixtureGroupRouter.registerApi(httpServer);
 
-//  RestRouter<FixtureGroupType> fixtureGroupTypeRouter;
-//  fixtureGroupTypeRouter.registerApi(httpServer);
+  TemplateRouter<FixtureGroupType> fixtureGroupTypeRouter;
+  fixtureGroupTypeRouter.registerApi(httpServer);
 
-//  RestRouter<FixtureGroupOwner> ownerRouter;
-//  ownerRouter.registerApi(httpServer);
+  TemplateRouter<FixtureGroupOwner> ownerRouter;
+  ownerRouter.registerApi(httpServer);
 }
 
 template <typename RouteFunction, typename... Args>

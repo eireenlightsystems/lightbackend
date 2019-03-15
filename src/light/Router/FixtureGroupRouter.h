@@ -1,47 +1,34 @@
 #ifndef FIXTUREGROUPROUTER_H
 #define FIXTUREGROUPROUTER_H
 
+#include "FixtureGroupController.h"
 #include "RestRouter.h"
+#include "SimpleEditableListRouter.h"
+#include "FixtureGroup.h"
+#include "FixtureGroupType.h"
 
 namespace light {
 
 template <>
-QString RestRouter<FixtureGroup>::getPath() const;
+class RestRouter<FixtureGroup> : public SimpleEditableListRouter<FixtureGroup>
+{
+public:
+  constexpr static const char* path = "/api2/fixture-group";
+};
 
 template <>
-QHttpServerResponse RestRouter<FixtureGroup>::get(const SessionShared& session, const QHttpServerRequest& req) const;
+class RestRouter<FixtureGroupType> : public SimpleSelectableRouter<FixtureGroupType>
+{
+public:
+  constexpr static const char* path = "/api2/fixture-group-type";
+};
 
 template <>
-QHttpServerResponse RestRouter<FixtureGroup>::post(const SessionShared& session, const QHttpServerRequest& req) const;
-
-template <>
-QHttpServerResponse RestRouter<FixtureGroup>::patch(const SessionShared& session, const QHttpServerRequest& req) const;
-
-template <>
-QHttpServerResponse RestRouter<FixtureGroup>::del(const SessionShared& session, const QHttpServerRequest& req) const;
-
-template <>
-QHttpServerResponse RestRouter<FixtureGroup>::delById(const SessionShared& session, ID id) const;
-
-template <>
-QHttpServerResponse RestRouter<FixtureGroup>::addItemToList(const SessionShared& session, const QHttpServerRequest& req, ID listId) const;
-
-template <>
-QHttpServerResponse RestRouter<FixtureGroup>::delItemFromList(const SessionShared& session, const QHttpServerRequest& req, ID listId) const;
-
-template <>
-QString RestRouter<FixtureGroupType>::getPath() const;
-
-template <>
-QHttpServerResponse RestRouter<FixtureGroupType>::get(const SessionShared& session,
-						      const QHttpServerRequest& req) const;
-
-template <>
-QString RestRouter<FixtureGroupOwner>::getPath() const;
-
-template <>
-QHttpServerResponse RestRouter<FixtureGroupOwner>::get(const SessionShared& session,
-						       const QHttpServerRequest& req) const;
+class RestRouter<FixtureGroupOwner> : public SimpleSelectableRouter<Contragent>
+{
+public:
+  constexpr static const char* path = "/api2/fixture-group-owner";
+};
 
 } // namespace light
 

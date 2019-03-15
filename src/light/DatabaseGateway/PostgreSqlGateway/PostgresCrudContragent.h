@@ -12,6 +12,10 @@ template <>
 ContragentSharedList PostgresCrud<Contragent>::sel<>() const;
 
 template <>
+template <>
+ContragentSharedList PostgresCrud<Contragent>::sel<QVariantHash>(const QVariantHash filters) const;
+
+template <>
 ContragentSharedList PostgresCrud<Contragent>::sel(const IDList& ids) const;
 
 template <>

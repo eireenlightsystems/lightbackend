@@ -63,6 +63,26 @@ FixtureGroupSharedList PostgresCrud<FixtureGroup>::sel<ID, ID>(ID ownerId, ID ty
 }
 
 template <>
+template <>
+FixtureGroupSharedList PostgresCrud<FixtureGroup>::sel<QVariantHash>(const QVariantHash filters) const {
+  FixtureGroupSharedList result;
+  const QString sql = "select id_fixture_group, id_fixture_group_type, id_owner, id_geograph, name_fixture_group, "
+		      "n_coordinate, e_coordinate "
+		      "from fixture_group_pkg_i.fixture_group_vwf(:id_owner, :id_fixture_group_type) ";
+  const BindParamsType bindParams{
+      {":id_owner", filters.value("ownerId")},
+      {":id_fixture_group_type", filters.value("fixtureGroupTypeId")},
+  };
+  result << selBase(sql, bindParams);
+
+  for (auto fixtureGroup : result) {
+    fixtureGroup->setFixtures(selectFixtures(fixtureGroup, session));
+  }
+
+  return result;
+}
+
+template <>
 FixtureGroupSharedList PostgresCrud<FixtureGroup>::sel(const IDList& ids) const {
   FixtureGroupSharedList result;
   const QString sql = "select id_fixture_group, id_fixture_group_type, id_owner, id_geograph, name_fixture_group, "
@@ -99,6 +119,7 @@ void PostgresCrud<FixtureGroup>::ins(const FixtureGroupShared& fixtureGroup) con
   };
   auto query = buildAndExecQuery<InsertQuery>(saveSql, bindParams, session);
   auto groupId = query.getInsertedId();
+  fixtureGroup->setId(groupId);
 
   const QString saveItemSql = "select fixture_pkg_i.ins_fixture_in_group(:id_fixture_group, :id_fixture)";
   InsertQuery insertItemQuery(session->getDb());

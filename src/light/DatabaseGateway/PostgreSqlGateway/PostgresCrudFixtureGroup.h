@@ -9,7 +9,11 @@ namespace PostgresqlGateway {
 
 template <>
 template <>
-GatewaySharedList PostgresCrud<Gateway>::sel<ID, ID>(ID ownerId, ID typeId) const;
+FixtureGroupSharedList PostgresCrud<FixtureGroup>::sel<ID, ID>(ID ownerId, ID typeId) const;
+
+template <>
+template <>
+FixtureGroupSharedList PostgresCrud<FixtureGroup>::sel<QVariantHash>(const QVariantHash filters) const;
 
 template <>
 FixtureGroupSharedList PostgresCrud<FixtureGroup>::sel(const IDList& ids) const;

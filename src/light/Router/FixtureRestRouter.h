@@ -1,57 +1,39 @@
 #ifndef FIXTURERESTROUTER_H
 #define FIXTURERESTROUTER_H
 
+#include "FixtureController.h"
 #include "RestRouter.h"
-#include "FixtureType.h"
-#include "FixtureHeightType.h"
-#include "Substation.h"
+#include "SimpleEditableRouter.h"
 
 namespace light {
 
 template <>
-QString RestRouter<Fixture>::getPath() const;
+class RestRouter<Fixture> : public SimpleEditableRouter<Fixture>
+{
+public:
+  constexpr static const char* path = "/api2/fixture";
+};
 
 template <>
-QHttpServerResponse RestRouter<Fixture>::get(const SessionShared& session, const QHttpServerRequest& req) const;
+class RestRouter<FixtureType> : public SimpleSelectableRouter<GatewayType>
+{
+public:
+  constexpr static const char* path = "/api2/fixture-type";
+};
 
 template <>
-QHttpServerResponse RestRouter<Fixture>::post(const SessionShared& session, const QHttpServerRequest& req) const;
+class RestRouter<FixtureHeightType> : public SimpleSelectableRouter<FixtureHeightType>
+{
+public:
+  constexpr static const char* path = "/api2/fixture-height-type";
+};
 
 template <>
-QHttpServerResponse RestRouter<Fixture>::patch(const SessionShared& session, const QHttpServerRequest& req) const;
-
-template <>
-QHttpServerResponse RestRouter<Fixture>::del(const SessionShared& session, const QHttpServerRequest& req) const;
-
-template <>
-QHttpServerResponse RestRouter<Fixture>::delById(const SessionShared& session, ID id) const;
-
-template <>
-QString RestRouter<FixtureType>::getPath() const;
-
-template<>
-QList<QHttpServerRequest::Method> RestRouter<FixtureType>::getAccessibleMethods() const;
-
-template <>
-QHttpServerResponse RestRouter<FixtureType>::get(const SessionShared& session, const QHttpServerRequest& req) const;
-
-template <>
-QString RestRouter<FixtureHeightType>::getPath() const;
-
-template<>
-QList<QHttpServerRequest::Method> RestRouter<FixtureHeightType>::getAccessibleMethods() const;
-
-template <>
-QHttpServerResponse RestRouter<FixtureHeightType>::get(const SessionShared& session, const QHttpServerRequest& req) const;
-
-template <>
-QString RestRouter<Substation>::getPath() const;
-
-template<>
-QList<QHttpServerRequest::Method> RestRouter<Substation>::getAccessibleMethods() const;
-
-template <>
-QHttpServerResponse RestRouter<Substation>::get(const SessionShared& session, const QHttpServerRequest& req) const;
+class RestRouter<Substation> : public SimpleSelectableRouter<Substation>
+{
+public:
+  constexpr static const char* path = "/api2/substation";
+};
 
 } // namespace light
 

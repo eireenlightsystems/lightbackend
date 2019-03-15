@@ -20,9 +20,8 @@ public:
   SimpleEditableRouter() = default;
   ~SimpleEditableRouter() override = default;
 
-  QHttpServerResponse post(const QHttpServerRequest& req) const {
-    Controller<T, CRUD> controller;
-    controller.setSession(this->getSession());
+  virtual QHttpServerResponse post(const QHttpServerRequest& req) const {
+    auto controller = this->createController();
     const auto params = fromBody(req.body());
     const IDList idList = controller.ins(params);
     QString result;
@@ -37,23 +36,21 @@ public:
     return QHttpServerResponse(result);
   }
 
-  QHttpServerResponse patch(const QHttpServerRequest& req) const {
-    Controller<T, CRUD> controller;
-    controller.setSession(this->getSession());
+  virtual QHttpServerResponse patch(const QHttpServerRequest& req) const {
+    auto controller = this->createController();
     const auto params = fromBody(req.body());
     controller.upd(params);
     return QHttpServerResponse(QHttpServerResponse::StatusCode::Ok);
   }
 
-  QHttpServerResponse patch(const QHttpServerRequest& req, ID id) const {
-    Controller<T, CRUD> controller;
-    controller.setSession(this->getSession());
+  virtual QHttpServerResponse patch(const QHttpServerRequest& req, ID id) const {
+    auto controller = this->createController();
     const auto params = fromBody(req.body());
     controller.upd(id, params.first());
     return QHttpServerResponse(QHttpServerResponse::StatusCode::Ok);
   }
 
-  QHttpServerResponse del(const QHttpServerRequest& req) const {
+  virtual QHttpServerResponse del(const QHttpServerRequest& req) const {
     JsonToIds converter;
     converter.convert(req.body());
     if (!converter.getIdValid()) {
@@ -62,14 +59,14 @@ public:
     auto ids = converter.getIds();
     return delList(ids);
   }
-  QHttpServerResponse delById(ID id) const {
+
+  virtual QHttpServerResponse delById(ID id) const {
     return delList({id});
   }
 
 protected:
   QHttpServerResponse delList(const IDList& ids) const {
-    Controller<T, PostgresqlGateway::PostgresCrud> controller;
-    controller.setSession(this->getSession());
+    auto controller = this->createController();
     controller.del(ids);
     return QHttpServerResponse(QHttpServerResponder::StatusCode::Ok);
   }

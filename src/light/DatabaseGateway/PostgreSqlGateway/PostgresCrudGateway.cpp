@@ -84,6 +84,7 @@ void PostgresCrud<Gateway>::ins(const GatewayShared& gateway) const {
       {":comments", gateway->getComment()},
   };
   auto query = buildAndExecQuery<InsertQuery>(saveSql, bindParams, session);
+  gateway->setId(query.getInsertedId());
 }
 
 template <>

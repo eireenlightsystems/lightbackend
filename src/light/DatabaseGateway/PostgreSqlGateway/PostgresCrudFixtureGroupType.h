@@ -12,6 +12,10 @@ template <>
 FixtureGroupTypeSharedList PostgresCrud<FixtureGroupType>::sel<>() const;
 
 template <>
+template <>
+FixtureGroupTypeSharedList PostgresCrud<FixtureGroupType>::sel<QVariantHash>(const QVariantHash filters) const;
+
+template <>
 FixtureGroupTypeSharedList PostgresCrud<FixtureGroupType>::sel(const IDList& ids) const;
 
 template <>

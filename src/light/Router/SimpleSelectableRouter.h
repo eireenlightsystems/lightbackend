@@ -24,9 +24,8 @@ public:
   SimpleSelectableRouter() = default;
   ~SimpleSelectableRouter() override = default;
 
-  QHttpServerResponse get(ID id) {
-    Controller<T, CRUD> controller;
-    controller.setSession(getSession());
+  virtual QHttpServerResponse get(ID id) {
+    auto controller = createController();
     auto objects = controller.sel(IDList{id});
 
     ToJsonConverter<T> converter;
@@ -38,10 +37,9 @@ public:
     return QHttpServerResponse("text/json", jsonDocument.toJson());
   }
 
-  QHttpServerResponse get(const QHttpServerRequest& req) {
+  virtual QHttpServerResponse get(const QHttpServerRequest& req) {
     auto queryItems = parseUrlQuery(req.query());
-    Controller<T, CRUD> controller;
-    controller.setSession(getSession());
+    auto controller = createController();
     auto objects = controller.sel(queryItems);
 
     ToJsonConverter<T> converter;
@@ -54,11 +52,20 @@ public:
   }
 
 protected:
-  virtual QVariantHash parseUrlQuery(const QUrlQuery& urlQuery) const {
-    Q_UNUSED(urlQuery)
-    return QVariantHash();
+  Controller<T, CRUD> createController() const {
+    Controller<T, CRUD> controller;
+    controller.setSession(getSession());
+    return  controller;
   }
-};
+
+  virtual QVariantHash parseUrlQuery(const QUrlQuery& urlQuery) const {
+    QVariantHash params;
+    for (const auto& item : urlQuery.queryItems()) {
+      params[item.first] = QVariant(item.second.toULongLong());
+    }
+    return params;
+  }
+}; // namespace light
 } // namespace light
 
 #endif // SIMPLESELECTABLEROUTER_H

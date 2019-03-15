@@ -12,6 +12,10 @@ template <>
 NodeTypeSharedList PostgresCrud<NodeType>::sel<>() const;
 
 template <>
+template <>
+NodeTypeSharedList PostgresCrud<NodeType>::sel<QVariantHash>(const QVariantHash filters) const;
+
+template <>
 NodeTypeSharedList PostgresCrud<NodeType>::sel(const IDList& ids) const;
 
 template <>

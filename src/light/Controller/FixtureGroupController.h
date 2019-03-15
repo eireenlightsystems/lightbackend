@@ -5,6 +5,8 @@
 #include "Fixture.h"
 #include "FixtureGroup.h"
 
+#include <QVariant>
+
 namespace light {
 
 struct FixtureGroupInsertParameters
@@ -24,7 +26,7 @@ class Inserter<FixtureGroup, Crud> : public SessionOwner
 {
 public:
   template <typename... Args>
-  void ins(const QList<FixtureGroupInsertParameters>& params) {
+  IDList ins(const QList<QVariantHash>& params) {
     FixtureGroupSharedList newFixtureGroups;
 
     Crud<FixtureGroupType> fixtureGroupTypeCrud;
@@ -34,9 +36,23 @@ public:
 
     for (const auto& param : params) {
       auto newFixtureGroup = FixtureGroupShared::create();
-      newFixtureGroup->setName(param.name);
-      newFixtureGroup->setType(fixtureGroupTypeCrud.selById(param.groupTypeId));
-      newFixtureGroup->setOwner(contragentCrud.selById(param.ownerId));
+      if (param.contains("fixtureGroupName")) {
+
+	QString name = param.value("fixtureGroupName").toString();
+	newFixtureGroup->setName(name);
+      }
+
+      if (param.contains("fixtureGroupTypeId")) {
+	ID groupTypeId = param.value("fixtureGroupTypeId").value<ID>();
+	auto fixtureGroupType = fixtureGroupTypeCrud.selById(groupTypeId);
+	newFixtureGroup->setType(fixtureGroupType);
+      }
+
+      if (param.contains("ownerId")) {
+	ID ownerId = param.value("ownerId").value<ID>();
+	auto contragent = contragentCrud.selById(ownerId);
+	newFixtureGroup->setOwner(contragent);
+      }
 
       newFixtureGroups << newFixtureGroup;
     }
@@ -44,6 +60,12 @@ public:
     Crud<FixtureGroup> fixtureGroupCrud;
     fixtureGroupCrud.setSession(getSession());
     fixtureGroupCrud.save(newFixtureGroups);
+    IDList result;
+    std::transform(newFixtureGroups.begin(),
+		   newFixtureGroups.end(),
+		   std::back_inserter(result),
+		   [](const FixtureGroupShared& fixtureGroup) { return fixtureGroup->getId(); });
+    return result;
   }
 };
 
@@ -52,7 +74,7 @@ class Updater<FixtureGroup, Crud> : public SessionOwner
 {
 public:
   template <typename... Args>
-  void upd(const QList<FixtureGroupUpdateParameters>& params) {
+  void upd(const QList<QVariantHash>& params) {
     FixtureGroupSharedList fixtureGroups;
 
     Crud<FixtureGroup> fixtureGroupCrud;
@@ -63,15 +85,57 @@ public:
     contragentCrud.setSession(getSession());
 
     for (const auto& param : params) {
-      FixtureGroupShared fixtureGroup = fixtureGroupCrud.selById(param.groupId);
-      fixtureGroup->setName(param.name);
-      fixtureGroup->setType(fixtureGroupTypeCrud.selById(param.groupTypeId));
-      fixtureGroup->setOwner(contragentCrud.selById(param.ownerId));
+      ID groupId = param.value("fixtureGroupId").value<ID>();
+      FixtureGroupShared fixtureGroup = fixtureGroupCrud.selById(groupId);
+      if (param.contains("fixtureGroupName")) {
+	QString name = param.value("fixtureGroupName").toString();
+	fixtureGroup->setName(name);
+      }
+
+      if (param.contains("fixtureGroupTypeId")) {
+	ID groupTypeId = param.value("fixtureGroupTypeId").value<ID>();
+	auto fixtureGroupType = fixtureGroupTypeCrud.selById(groupTypeId);
+	fixtureGroup->setType(fixtureGroupType);
+      }
+
+      if (param.contains("ownerId")) {
+	ID ownerId = param.value("ownerId").value<ID>();
+	auto contragent = contragentCrud.selById(ownerId);
+	fixtureGroup->setOwner(contragent);
+      }
 
       fixtureGroups << fixtureGroup;
     }
 
     fixtureGroupCrud.save(fixtureGroups);
+  }
+
+  void upd(ID id, const QVariantHash& param) {
+    Crud<FixtureGroup> fixtureGroupCrud;
+    fixtureGroupCrud.setSession(getSession());
+    Crud<FixtureGroupType> fixtureGroupTypeCrud;
+    fixtureGroupTypeCrud.setSession(getSession());
+    Crud<Contragent> contragentCrud;
+    contragentCrud.setSession(getSession());
+
+    FixtureGroupShared fixtureGroup = fixtureGroupCrud.selById(id);
+    if (param.contains("fixtureGroupName")) {
+      QString name = param.value("fixtureGroupName").toString();
+      fixtureGroup->setName(name);
+    }
+
+    if (param.contains("fixtureGroupTypeId")) {
+      ID groupTypeId = param.value("fixtureGroupTypeId").value<ID>();
+      auto fixtureGroupType = fixtureGroupTypeCrud.selById(groupTypeId);
+      fixtureGroup->setType(fixtureGroupType);
+    }
+
+    if (param.contains("ownerId")) {
+      ID ownerId = param.value("ownerId").value<ID>();
+      auto contragent = contragentCrud.selById(ownerId);
+      fixtureGroup->setOwner(contragent);
+    }
+    fixtureGroupCrud.save({fixtureGroup});
   }
 };
 
