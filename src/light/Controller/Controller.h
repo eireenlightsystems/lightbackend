@@ -48,7 +48,7 @@ public:
 };
 
 template <typename T, template <typename> class Crud>
-class Controller
+class Controller : public SessionOwner
 {
 public:
   using Shared = QSharedPointer<T>;
@@ -57,39 +57,25 @@ public:
   Controller() = default;
   ~Controller() = default;
 
-  template <typename... Args>
-  SharedList sel(Args&&...) const;
-
-  template <typename... Args>
-  IDList ins(Args&&... args);
-
-  template <typename... Args>
-  void upd(Args&&... args);
-
-  void del(const IDList& ids) const;
-  void delFromList(ID listId, const IDList & ids) const;
-  void addToList(ID listId, const IDList & ids) const;
-
-  SessionShared getSession() const;
-  void setSession(const SessionShared& value);
+  virtual SharedList sel(const QList<QVariantHash>& filters) const;
+  virtual IDList ins(const QList<QVariantHash>& params) = 0;
+  virtual void upd(const QList<QVariantHash>& params) = 0;
+  virtual void del(const IDList& ids) const;
+  virtual void delFromList(ID listId, const IDList & ids) const;
+  virtual void addToList(ID listId, const IDList & ids) const;
 
 protected:
   Crud<T> createCrud() const;
-
-private:
-  SessionShared session;
 };
 
 template <typename T, template <typename> class Crud>
-template <typename... Args>
-typename Controller<T, Crud>::SharedList Controller<T, Crud>::sel(Args&&... args) const {
+typename Controller<T, Crud>::SharedList Controller<T, Crud>::sel(const QList<QVariantHash>& filters) const {
   auto crud = createCrud();
-  return crud.sel(std::forward<Args>(args)...);
+  return crud.sel(filters);
 }
 
 template <typename T, template <typename> class Crud>
-template <typename... Args>
-IDList Controller<T, Crud>::ins(Args&&... args) {
+IDList Controller<T, Crud>::ins(const QList<QVariantHash>& params) {
   Inserter<T, Crud> inserter;
   inserter.setSession(session);
   return inserter.ins(std::forward<Args>(args)...);
@@ -108,7 +94,7 @@ void Controller<T, Crud>::del(const IDList& ids) const {
   auto crud = createCrud();
   auto objects = crud.sel(qAsConst(ids));
   Deleter<T, Crud> deleter;
-  deleter.setSession(session);
+  deleter.setSession(getSession());
   deleter.del(qAsConst(objects));
 }
 
@@ -131,16 +117,6 @@ Crud<T> Controller<T, Crud>::createCrud() const {
   Crud<T> crud;
   crud.setSession(session);
   return crud;
-}
-
-template <typename T, template <typename> class Crud>
-SessionShared Controller<T, Crud>::getSession() const {
-  return session;
-}
-
-template <typename T, template <typename> class Crud>
-void Controller<T, Crud>::setSession(const SessionShared& value) {
-  session = value;
 }
 
 } // namespace light
