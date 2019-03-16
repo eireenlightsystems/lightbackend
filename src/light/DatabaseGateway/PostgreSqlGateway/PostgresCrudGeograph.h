@@ -8,18 +8,14 @@ namespace light {
 namespace PostgresqlGateway {
 
 template <>
-template <>
-GeographSharedList PostgresCrud<Geograph>::sel<>() const;
+class PostgresCrud<Geograph> : public Reader<Geograph>
+{
+public:
+  PostgresCrud();
 
-template <>
-template <>
-GeographSharedList PostgresCrud<Geograph>::sel<QVariantHash>(const QVariantHash filters) const;
-
-template <>
-GeographSharedList PostgresCrud<Geograph>::sel(const IDList& ids) const;
-
-template <>
-GeographShared PostgresCrud<Geograph>::parse(const QSqlRecord& record) const;
+protected:
+  Shared parse(const QSqlRecord& record) const override;
+};
 
 } // namespace PostgresqlGateway
 } // namespace light

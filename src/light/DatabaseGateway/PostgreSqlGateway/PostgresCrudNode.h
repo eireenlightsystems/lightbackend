@@ -8,31 +8,17 @@ namespace light {
 namespace PostgresqlGateway {
 
 template <>
-NodeSharedList PostgresCrud<Node>::sel(const IDList& ids) const;
+class PostgresCrud<Node> : public Editor<Node>
+{
+public:
+  PostgresCrud();
 
-template <>
-template <>
-NodeSharedList PostgresCrud<Node>::sel<ID, ID, ID, ID, ID>(ID geopraphId,
-							   ID ownerId,
-							   ID nodeTypeId,
-							   ID contractId,
-							   ID gatewayId) const;
-
-template <>
-template <>
-NodeSharedList PostgresCrud<Node>::sel<QVariantHash>(const QVariantHash filters) const;
-
-template <>
-void PostgresCrud<Node>::ins(const NodeShared& node) const;
-
-template <>
-void PostgresCrud<Node>::upd(const NodeShared& node) const;
-
-template <>
-void PostgresCrud<Node>::del(const NodeSharedList& nodes) const;
-
-template <>
-NodeShared PostgresCrud<Node>::parse(const QSqlRecord& record) const;
+protected:
+  Shared parse(const QSqlRecord& record) const override;
+  BindParamsType getSelectParams(const QVariantHash& filters) const override;
+  BindParamsType getInsertParams(const Shared& object) const override;
+  BindParamsType getUpdateParams(const Shared& object) const override;
+};
 
 } // namespace PostgresqlGateway
 } // namespace light

@@ -8,27 +8,17 @@ namespace light {
 namespace PostgresqlGateway {
 
 template <>
-template <>
-FixtureSharedList PostgresCrud<Fixture>::sel<ID, ID, ID, ID, ID, ID, ID>(ID geographId, ID ownerId, ID fixtureTypeId, ID substationId, ID modeId, ID contractId, ID nodeId) const;
+class PostgresCrud<Fixture> : public Editor<Fixture>
+{
+public:
+  PostgresCrud();
 
-template <>
-template <>
-FixtureSharedList PostgresCrud<Fixture>::sel<QVariantHash>(const QVariantHash filters) const;
-
-template <>
-FixtureSharedList PostgresCrud<Fixture>::sel(const IDList& ids) const;
-
-template <>
-void PostgresCrud<Fixture>::ins(const FixtureShared& fixture) const;
-
-template <>
-void PostgresCrud<Fixture>::upd(const FixtureShared& fixture) const;
-
-template <>
-void PostgresCrud<Fixture>::del(const FixtureSharedList& fixtures) const;
-
-template <>
-FixtureShared PostgresCrud<Fixture>::parse(const QSqlRecord& record) const;
+protected:
+  Shared parse(const QSqlRecord& record) const override;
+  BindParamsType getSelectParams(const QVariantHash& filters) const override;
+  BindParamsType getInsertParams(const Shared& object) const override;
+  BindParamsType getUpdateParams(const Shared& object) const override;
+};
 
 } // namespace PostgresqlGateway
 } // namespace light

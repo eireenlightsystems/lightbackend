@@ -6,23 +6,15 @@
 namespace light {
 namespace PostgresqlGateway {
 
-template <>
-EquipmentTypeSharedList PostgresCrud<EquipmentType>::sel(const IDList& ids) const {
-  EquipmentTypeSharedList result;
-  const QString sql = "select id_equipment_type, code, name, model "
-		      "from equipment_type_pkg.equipment_type_vw "
-		      "where id_equipment_type = :id_equipment_type";
-  for (auto id : ids) {
-    const BindParamsType bindParams{
-	{":id_equipment_type", id},
-    };
-    result << selBase(sql, bindParams);
-  }
-  return result;
+PostgresCrud<EquipmentType>::PostgresCrud() {
+  setIdField("id_equipment_type");
+  setFields(QStringList() << getIdField() << "code"
+			  << "name"
+			  << "model");
+  setView("equipment_type_pkg.equipment_type_vw");
 }
 
-template <>
-EquipmentTypeShared PostgresCrud<EquipmentType>::parse(const QSqlRecord& record) const {
+Reader<EquipmentType>::Shared PostgresCrud<EquipmentType>::parse(const QSqlRecord& record) const {
   auto equipmentType = EquipmentTypeShared::create();
   equipmentType->setId(record.value(0).value<ID>());
   equipmentType->setCode(record.value(1).toString());

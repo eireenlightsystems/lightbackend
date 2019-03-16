@@ -6,34 +6,17 @@
 namespace light {
 namespace PostgresqlGateway {
 
-template <>
-template <>
-FixtureTypeSharedList PostgresCrud<FixtureType>::sel<>() const {
-  FixtureTypeSharedList result;
-  const QString sql = "select id_fixture_type, code_fixture_type, model_fixture_type, length, width, height "
-		      "from fixture_pkg_i.fixture_type_vw";
-  const BindParamsType bindParams{};
-  result << selBase(sql, bindParams);
-  return result;
+PostgresCrud<FixtureType>::PostgresCrud() {
+  setIdField("id_fixture_type");
+  setFields(QStringList() << getIdField() << "code_fixture_type"
+			  << "model_fixture_type"
+			  << "length"
+			  << "width"
+			  << "height");
+  setView("fixture_pkg_i.fixture_type_vw");
 }
 
-template <>
-FixtureTypeSharedList PostgresCrud<FixtureType>::sel(const IDList& ids) const {
-  FixtureTypeSharedList result;
-  const QString sql = "select id_fixture_type, code_fixture_type, model_fixture_type, length, width, height "
-		      "from fixture_pkg_i.fixture_type_vw "
-		      "where id_fixture_type = :id_fixture_type";
-  for (auto id : ids) {
-    const BindParamsType bindParams{
-	{":id_fixture_type", id},
-    };
-    result << selBase(sql, bindParams);
-  }
-  return result;
-}
-
-template <>
-FixtureTypeShared PostgresCrud<FixtureType>::parse(const QSqlRecord& record) const {
+Reader<FixtureType>::Shared PostgresCrud<FixtureType>::parse(const QSqlRecord& record) const {
   auto fixtureType = FixtureTypeShared::create();
   fixtureType->setId(record.value(0).value<ID>());
   fixtureType->setCode(record.value(1).toString());

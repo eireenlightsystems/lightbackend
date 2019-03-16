@@ -91,9 +91,12 @@ void FixtureGroup::setFixtures(const FixtureSharedList& value) {
 }
 
 void FixtureGroup::removeFixture(ID fixtureId) {
-  fixtures.erase(std::remove_if(fixtures.begin(), fixtures.end(), [fixtureId](const FixtureShared& fixture) {
+  auto it = std::remove_if(fixtures.begin(), fixtures.end(), [fixtureId](const FixtureShared& fixture) {
     return fixture->getId() == fixtureId;
-  }));
+  });
+  if(it != fixtures.end()) {
+    fixtures.erase(it);
+  }
 }
 
 void FixtureGroup::addFixture(const FixtureShared& fixture) {

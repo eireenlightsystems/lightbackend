@@ -6,23 +6,14 @@
 namespace light {
 namespace PostgresqlGateway {
 
-template <>
-ContractSharedList PostgresCrud<Contract>::sel(const IDList& ids) const {
-  ContractSharedList result;
-  const QString sql = "select id_contract, code_contract, name_contract "
-		      "from contract_pkg_i.contract_show_vw "
-		      "where id_contract = :id_contract";
-  for (auto id : ids) {
-    const BindParamsType bindParams{
-	{":id_contract", id},
-    };
-    result << selBase(sql, bindParams);
-  }
-  return result;
+PostgresCrud<Contract>::PostgresCrud() {
+  setIdField("id_contract");
+  setFields(QStringList() << getIdField() << "code_contract"
+			  << "name_contract");
+  setView("contract_pkg_i.contract_show_vw");
 }
 
-template <>
-ContractShared PostgresCrud<Contract>::parse(const QSqlRecord& record) const {
+Reader<Contract>::Shared PostgresCrud<Contract>::parse(const QSqlRecord& record) const {
   auto contract = ContractShared::create();
   contract->setId(record.value(0).value<ID>());
   contract->setCode(record.value(1).toString());

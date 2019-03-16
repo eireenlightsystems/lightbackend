@@ -2,7 +2,9 @@
 #define GATEWAYRESTROUTER_H
 
 #include "GatewayController.h"
+#include "PostgresCrudEquipmentOwner.h"
 #include "PostgresCrudGateway.h"
+#include "PostgresCrudGatewayType.h"
 #include "RestRouter.h"
 #include "SimpleEditableRouter.h"
 
