@@ -33,8 +33,7 @@ PostgresCrud<FixtureGroup>::PostgresCrud() {
   setDeleteSql("select fixture_group_pkg_i.del(:id)");
 }
 
-Editor<FixtureGroup>::Shared
-light::PostgresqlGateway::PostgresCrud<FixtureGroup>::parse(const QSqlRecord& record) const {
+Editor<FixtureGroup>::Shared PostgresCrud<FixtureGroup>::parse(const QSqlRecord& record) const {
   auto fixtureGroup = FixtureGroupShared::create();
   fixtureGroup->setId(record.value(0).value<ID>());
 
@@ -61,16 +60,14 @@ light::PostgresqlGateway::PostgresCrud<FixtureGroup>::parse(const QSqlRecord& re
   return fixtureGroup;
 }
 
-BindParamsType
-light::PostgresqlGateway::PostgresCrud<FixtureGroup>::getSelectParams(const QVariantHash& filters) const {
+BindParamsType PostgresCrud<FixtureGroup>::getSelectParams(const QVariantHash& filters) const {
   return BindParamsType{
       {":id_owner", filters.value("ownerId")},
       {":id_fixture_group_type", filters.value("fixtureGroupTypeId")},
   };
 }
 
-BindParamsType
-light::PostgresqlGateway::PostgresCrud<FixtureGroup>::getInsertParams(const Editor::Shared& fixtureGroup) const {
+BindParamsType PostgresCrud<FixtureGroup>::getInsertParams(const Editor::Shared& fixtureGroup) const {
   return BindParamsType{
       {":action", "ins"},
       {":id_fixture_group", QVariant()},
@@ -80,8 +77,7 @@ light::PostgresqlGateway::PostgresCrud<FixtureGroup>::getInsertParams(const Edit
   };
 }
 
-BindParamsType
-light::PostgresqlGateway::PostgresCrud<FixtureGroup>::getUpdateParams(const Editor::Shared& fixtureGroup) const {
+BindParamsType PostgresCrud<FixtureGroup>::getUpdateParams(const Editor::Shared& fixtureGroup) const {
   return BindParamsType{
       {":action", "upd"},
       {":id_fixture_group", fixtureGroup->getId()},
@@ -91,7 +87,7 @@ light::PostgresqlGateway::PostgresCrud<FixtureGroup>::getUpdateParams(const Edit
   };
 }
 
-void light::PostgresqlGateway::PostgresCrud<FixtureGroup>::ins(const Editor::Shared& fixtureGroup) const {
+void PostgresCrud<FixtureGroup>::ins(const Editor::Shared& fixtureGroup) const {
   Editor<FixtureGroup>::ins(fixtureGroup);
 
   const QString saveItemSql = "select fixture_pkg_i.ins_fixture_in_group(:id_fixture_group, :id_fixture)";
@@ -107,7 +103,7 @@ void light::PostgresqlGateway::PostgresCrud<FixtureGroup>::ins(const Editor::Sha
   }
 }
 
-void light::PostgresqlGateway::PostgresCrud<FixtureGroup>::upd(const Editor::Shared& fixtureGroup) const {
+void PostgresCrud<FixtureGroup>::upd(const Editor::Shared& fixtureGroup) const {
   Editor<FixtureGroup>::upd(fixtureGroup);
 
   auto fixtures = fixtureGroup->getFixtures();
