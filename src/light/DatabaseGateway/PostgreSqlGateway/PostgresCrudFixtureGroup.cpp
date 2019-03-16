@@ -10,7 +10,6 @@
 #include "UpdateQuery.h"
 
 #include <QDebug>
-#include <QElapsedTimer>
 #include <QSet>
 #include <QSqlRecord>
 #include <QVariant>
@@ -18,14 +17,24 @@
 namespace light {
 namespace PostgresqlGateway {
 
+const QList<Field> fixtureGroupFields{
+    {"id_fixture_group", "id_fixture_group", true},
+    {"name_fixture_group", "name_fixture_group", false},
+    {"n_coordinate", "n_coordinate", false},
+    {"e_coordinate", "e_coordinate", false},
+
+    {"id_fixture_group_type", "id_fixture_group_type", false},
+    {"name_fixture_group_type", "name_fixture_group_type", false},
+
+    {"id_owner", "id_owner", false},
+    {"code_owner", "code_owner", false},
+
+    {"id_geograph", "id_geograph", false},
+    {"code_geograph", "code_geograph", false},
+};
+
 PostgresCrud<FixtureGroup>::PostgresCrud() {
-  setIdField("id_fixture_group");
-  setFields(QStringList() << getIdField() << "id_fixture_group_type"
-			  << "id_owner"
-			  << "id_geograph"
-			  << "name_fixture_group"
-			  << "n_coordinate"
-			  << "e_coordinate");
+  setFields(fixtureGroupFields);
   setView("fixture_group_pkg_i.fixture_group_vwf(:id_owner, :id_fixture_group_type)");
   setInsertSql("select fixture_group_pkg_i.save(:action, :id_fixture_group, :id_fixture_group_type, :id_owner, "
 	       ":name_fixture_group)");
@@ -35,27 +44,27 @@ PostgresCrud<FixtureGroup>::PostgresCrud() {
 
 Editor<FixtureGroup>::Shared PostgresCrud<FixtureGroup>::parse(const QSqlRecord& record) const {
   auto fixtureGroup = FixtureGroupShared::create();
-  fixtureGroup->setId(record.value(0).value<ID>());
+  fixtureGroup->setId(record.value(getIdAlias()).value<ID>());
 
-  auto idType = record.value(1).value<ID>();
-
+//  auto idType = record.value(getFiledAlias("id_fixture_group_type")).value<ID>();
   PostgresCrud<FixtureGroupType> typeCrud;
   typeCrud.setSession(getSession());
-  fixtureGroup->setType(typeCrud.selById(idType));
+  fixtureGroup->setType(typeCrud.parse(record));
 
-  auto ownerId = record.value(2).value<ID>();
+  //  auto ownerId = record.value(getFiledAlias("id_owner")).value<ID>();
   PostgresCrud<Contragent> contragentCrud;
   contragentCrud.setSession(getSession());
-  fixtureGroup->setOwner(contragentCrud.selById(ownerId));
+  fixtureGroup->setOwner(contragentCrud.parse(record));
 
-  auto geographId = record.value(3).value<ID>();
+  //  auto geographId = record.value(getFiledAlias("id_geograph")).value<ID>();
   PostgresCrud<Geograph> geographCrud;
   geographCrud.setSession(getSession());
-  fixtureGroup->setGeograph(geographCrud.selById(geographId));
+  fixtureGroup->setGeograph(geographCrud.parse(record));
 
-  auto name = record.value(4).toString();
+  auto name = record.value(getFiledAlias("name_fixture_group")).toString();
   fixtureGroup->setName(name);
-  fixtureGroup->setCoordinate(record.value(5).toDouble(), record.value(6).toDouble());
+  fixtureGroup->setCoordinate(record.value(getFiledAlias("n_coordinate")).toDouble(),
+			      record.value(getFiledAlias("e_coordinate")).toDouble());
 
   return fixtureGroup;
 }

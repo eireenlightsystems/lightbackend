@@ -46,6 +46,13 @@ Collection select(const QString& sql, const BindParamsType params, ParseFunction
   return result;
 }
 
+struct Field
+{
+  QString name;
+  QString alias;
+  bool isId;
+};
+
 template <typename T>
 class Reader : public SessionOwner
 {
@@ -82,20 +89,6 @@ public:
     return selBase(getSelectSql(), getSelectParams(filters));
   }
 
-  QStringList getFields() const {
-    return fields;
-  }
-  void setFields(const QStringList& value) {
-    fields = value;
-  }
-
-  QString getIdField() const {
-    return idField;
-  }
-  void setIdField(const QString& value) {
-    idField = value;
-  }
-
   QString getView() const {
     return view;
   }
@@ -104,21 +97,43 @@ public:
   }
 
   QString getIdPlaceholder() const {
-    return QString(":%1").arg(idField);
+    return QString(":%1").arg(idField.name);
   }
 
-protected:
+  QList<Field> getFields() const {
+    return fields.values();
+  }
+  void setFields(const QList<Field>& newFields) {
+    fields.clear();
+    for (const Field& f : newFields) {
+      if (f.isId) {
+	idField = f;
+      }
+      fields[f.alias] = f;
+    }
+  }
+
   virtual Shared parse(const QSqlRecord& record) const = 0;
+
+protected:
   virtual BindParamsType getSelectParams(const QVariantHash& filters) const {
     Q_UNUSED(filters)
     return BindParamsType();
   }
   QString getSelectByIdSql() const {
-    return QString("select %1 from %2 where %3 = :%3").arg(fields.join(", "), view, idField);
+    return QString("select %1 from %2 where %3 = :%3").arg(getSelectItems(), view, idField.name);
   }
 
   QString getSelectSql() const {
-    return QString("select %1 from %2").arg(fields.join(", "), view);
+    return QString("select %1 from %2").arg(getSelectItems(), view);
+  }
+
+  QString getSelectItems() const {
+    QStringList selectItems;
+    for (const auto& f : fields) {
+      selectItems << QString("%1 as %2").arg(f.name, f.alias);
+    }
+    return selectItems.join(", ");
   }
 
   SharedList selBase(const QString& sql, const BindParamsType& params) const {
@@ -126,10 +141,17 @@ protected:
     return select<SharedList>(sql, params, parser, this->getSession());
   }
 
+  QString getIdAlias() const {
+    return idField.alias;
+  }
+  QString getFiledAlias(const QString& value) const {
+    return fields.value(value).alias;
+  }
+
 private:
-  QStringList fields;
-  QString idField;
   QString view;
+  QHash<QString, Field> fields;
+  Field idField;
 };
 
 template <typename T>

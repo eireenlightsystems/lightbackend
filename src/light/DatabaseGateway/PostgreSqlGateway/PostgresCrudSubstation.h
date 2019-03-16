@@ -12,8 +12,6 @@ class PostgresCrud<Substation> : public Reader<Substation>
 {
 public:
   PostgresCrud();
-
-protected:
   Shared parse(const QSqlRecord& record) const override;
 };
 

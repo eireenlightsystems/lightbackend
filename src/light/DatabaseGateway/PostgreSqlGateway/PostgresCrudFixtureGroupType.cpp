@@ -6,16 +6,20 @@
 namespace light {
 namespace PostgresqlGateway {
 
+const QList<Field> fixtureGroupTypeFields{
+    {"id_fixture_group_type", "id_fixture_group_type", true},
+    {"name_fixture_group_type", "name_fixture_group_type", false},
+};
+
 PostgresCrud<FixtureGroupType>::PostgresCrud() {
-  setIdField("id_fixture_group_type");
-  setFields(QStringList() << getIdField() << "name_fixture_group_type");
+  setFields(fixtureGroupTypeFields);
   setView("fixture_group_pkg_i.fixture_group_type_vw");
 }
 
 Reader<FixtureGroupType>::Shared PostgresCrud<FixtureGroupType>::parse(const QSqlRecord& record) const {
   auto type = FixtureGroupTypeShared::create();
-  type->setId(record.value(0).value<ID>());
-  type->setName(record.value(1).toString());
+  type->setId(record.value(getIdAlias()).value<ID>());
+  type->setName(record.value(getFiledAlias("name_fixture_group_type")).toString());
   return type;
 }
 

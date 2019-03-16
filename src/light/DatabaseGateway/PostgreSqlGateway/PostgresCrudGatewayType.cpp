@@ -6,16 +6,20 @@
 namespace light {
 namespace PostgresqlGateway {
 
+const QList<Field> gatewayTypeFields{
+    {"id_gateway_type", "id_gateway_type", true},
+    {"code_gateway_type", "code_gateway_type", false},
+};
+
 PostgresCrud<GatewayType>::PostgresCrud() {
-  setIdField("id_gateway_type");
-  setFields(QStringList() << getIdField() << "code_gateway_type");
+  setFields(gatewayTypeFields);
   setView("gateway_pkg_i.gateway_type_vw");
 }
 
 Reader<GatewayType>::Shared PostgresCrud<GatewayType>::parse(const QSqlRecord& record) const {
   auto gatewayType = GatewayTypeShared::create();
-  gatewayType->setId(record.value(0).value<ID>());
-  gatewayType->setCode(record.value(1).toString());
+  gatewayType->setId(record.value(getIdAlias()).value<ID>());
+  gatewayType->setCode(record.value(getFiledAlias("code_gateway_type")).toString());
   return gatewayType;
 }
 

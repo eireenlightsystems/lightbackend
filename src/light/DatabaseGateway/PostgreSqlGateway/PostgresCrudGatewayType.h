@@ -12,8 +12,6 @@ class PostgresCrud<GatewayType> : public Reader<GatewayType>
 {
 public:
   PostgresCrud();
-
-protected:
   Shared parse(const QSqlRecord& record) const override;
 };
 

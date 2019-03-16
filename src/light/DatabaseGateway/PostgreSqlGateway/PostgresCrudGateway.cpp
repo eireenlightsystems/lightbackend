@@ -13,14 +13,25 @@
 namespace light {
 namespace PostgresqlGateway {
 
+const QList<Field> gatewayFields {
+    {"id_gateway", "id_gateway", true},
+    {"price", "price_gateway", false},
+    {"comments", "comments_gateway", false},
+
+    {"id_node", "id_node", false},
+
+    {"id_owner", "id_contragent", false},
+    {"id_owner", "code_contragent", false},
+
+    {"id_contract", "id_contract", false},
+    {"code_contract", "code_contract", false},
+
+    {"id_gateway_type", "id_gateway_type", false},
+    {"code_gateway_type", "code_gateway_type", false},
+};
+
 PostgresCrud<Gateway>::PostgresCrud() {
-  setIdField("id_gateway");
-  setFields(QStringList() << getIdField() << "price"
-			  << "comments"
-			  << "id_owner"
-			  << "id_contract"
-			  << "id_node"
-			  << "id_gateway_type");
+  setFields(gatewayFields);
   setView("gateway_pkg_i.gateway_vwf(:id_geograph, :id_owner, :id_gateway_type, :id_contract, :id_node)");
   setInsertSql("select gateway_pkg_i.save(:action, :id_gateway, :id_contract, :id_equipment_type, "
 	       ":id_node, :price, :comments)");
@@ -30,29 +41,29 @@ PostgresCrud<Gateway>::PostgresCrud() {
 
 Editor<Gateway>::Shared PostgresCrud<Gateway>::parse(const QSqlRecord& record) const {
   auto gateway = GatewayShared::create();
-  gateway->setId(record.value(0).value<ID>());
-  gateway->setPrice(record.value(1).toDouble());
-  gateway->setComment(record.value(2).toString());
+  gateway->setId(record.value(getIdAlias()).value<ID>());
+  gateway->setPrice(record.value(getFiledAlias("price_gateway")).toDouble());
+  gateway->setComment(record.value(getFiledAlias("comments_gateway")).toString());
 
-  auto ownerId = record.value(3).value<ID>();
+//  auto ownerId = record.value(3).value<ID>();
   PostgresCrud<EquipmentOwner> equipmentOwnerCrud;
   equipmentOwnerCrud.setSession(getSession());
-  gateway->setOwner(equipmentOwnerCrud.selById(ownerId));
+  gateway->setOwner(equipmentOwnerCrud.parse(record));
 
-  auto contractId = record.value(4).value<ID>();
+//  auto contractId = record.value(4).value<ID>();
   PostgresCrud<Contract> contractCrud;
   contractCrud.setSession(getSession());
-  gateway->setContract(contractCrud.selById(contractId));
+  gateway->setContract(contractCrud.parse(record));
 
-  auto geographId = record.value(5).value<ID>();
+  auto nodeId = record.value(getFiledAlias("id_node")).value<ID>();
   PostgresCrud<Node> nodeCrud;
   nodeCrud.setSession(getSession());
-  gateway->setNode(nodeCrud.selById(geographId));
+  gateway->setNode(nodeCrud.selById(nodeId));
 
-  auto gatewayTypeId = record.value(6).value<ID>();
+//  auto gatewayTypeId = record.value(6).value<ID>();
   PostgresCrud<GatewayType> gatewayTypeCrud;
   gatewayTypeCrud.setSession(getSession());
-  gateway->setGatewayType(gatewayTypeCrud.selById(gatewayTypeId));
+  gateway->setGatewayType(gatewayTypeCrud.parse(record));
 
   return gateway;
 }

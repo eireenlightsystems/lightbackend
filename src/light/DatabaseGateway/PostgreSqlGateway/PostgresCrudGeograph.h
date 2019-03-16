@@ -12,8 +12,6 @@ class PostgresCrud<Geograph> : public Reader<Geograph>
 {
 public:
   PostgresCrud();
-
-protected:
   Shared parse(const QSqlRecord& record) const override;
 };
 

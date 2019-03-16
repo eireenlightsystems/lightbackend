@@ -6,16 +6,20 @@
 namespace light {
 namespace PostgresqlGateway {
 
+const QList<Field> nodeTypeFields{
+    {"id_node_type", "id_node_type", true},
+    {"code_node_type", "code_node_type", false},
+};
+
 PostgresCrud<NodeType>::PostgresCrud() {
-  setIdField("id_node_type");
-  setFields(QStringList() << getIdField() << "code_node_type");
+  setFields(nodeTypeFields);
   setView("node_pkg_i.node_type_vw");
 }
 
 Reader<NodeType>::Shared PostgresCrud<NodeType>::parse(const QSqlRecord& record) const {
   auto nodeType = NodeTypeShared::create();
-  nodeType->setId(record.value(0).value<ID>());
-  nodeType->setCode(record.value(1).toString());
+  nodeType->setId(record.value(getIdAlias()).value<ID>());
+  nodeType->setCode(record.value(getFiledAlias("code_node_type")).toString());
   return nodeType;
 }
 

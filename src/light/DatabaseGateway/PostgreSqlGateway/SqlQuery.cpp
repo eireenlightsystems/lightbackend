@@ -20,6 +20,7 @@ SqlQuery::SqlQuery(const SqlQuery& other) {
 }
 
 void SqlQuery::prepare(const QString& sql) {
+//  qDebug() << sql;
   if (!query->prepare(sql)) {
     const QString errorText = query->lastError().text();
     tryReconnect();

@@ -6,19 +6,24 @@
 namespace light {
 namespace PostgresqlGateway {
 
+const QList<Field> equipmentTypeFields{
+    {"id_equipment_type", "id_equipment_type", true},
+    {"code", "code_equipment_type", false},
+    {"name", "name_equipment_type", false},
+    {"model", "model_equipment_type", false},
+};
+
 PostgresCrud<EquipmentType>::PostgresCrud() {
-  setIdField("id_equipment_type");
-  setFields(QStringList() << getIdField() << "code"
-			  << "name"
-			  << "model");
+  setFields(equipmentTypeFields);
   setView("equipment_type_pkg.equipment_type_vw");
 }
 
 Reader<EquipmentType>::Shared PostgresCrud<EquipmentType>::parse(const QSqlRecord& record) const {
   auto equipmentType = EquipmentTypeShared::create();
-  equipmentType->setId(record.value(0).value<ID>());
-  equipmentType->setCode(record.value(1).toString());
-  equipmentType->setName(record.value(2).toString());
+  equipmentType->setId(record.value(getIdAlias()).value<ID>());
+  equipmentType->setCode(record.value(getFiledAlias("code_equipment_type")).toString());
+  equipmentType->setName(record.value(getFiledAlias("name_equipment_type")).toString());
+  equipmentType->setModel(record.value(getFiledAlias("model_equipment_type")).toString());
   return equipmentType;
 }
 

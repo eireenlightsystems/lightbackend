@@ -7,14 +7,16 @@
 namespace light {
 namespace PostgresqlGateway {
 
+//44сек
+
 template <>
 class PostgresCrud<Fixture> : public Editor<Fixture>
 {
 public:
   PostgresCrud();
+  Shared parse(const QSqlRecord& record) const override;
 
 protected:
-  Shared parse(const QSqlRecord& record) const override;
   BindParamsType getSelectParams(const QVariantHash& filters) const override;
   BindParamsType getInsertParams(const Shared& object) const override;
   BindParamsType getUpdateParams(const Shared& object) const override;

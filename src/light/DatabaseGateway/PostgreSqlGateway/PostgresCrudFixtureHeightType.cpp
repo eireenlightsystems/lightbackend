@@ -6,18 +6,22 @@
 namespace light {
 namespace PostgresqlGateway {
 
+const QList<Field> fixtureHeightTypeFields{
+    {"id_height_type", "id_height_type", true},
+    {"code", "code_height_type", false},
+    {"name", "name_height_type", false},
+};
+
 PostgresCrud<FixtureHeightType>::PostgresCrud() {
-  setIdField("id_height_type");
-  setFields(QStringList() << getIdField() << "code"
-			  << "name");
+  setFields(fixtureHeightTypeFields);
   setView("fixture_pkg_i.height_type_vw");
 }
 
 Reader<FixtureHeightType>::Shared PostgresCrud<FixtureHeightType>::parse(const QSqlRecord& record) const {
   auto fixtureType = FixtureHeightTypeShared::create();
-  fixtureType->setId(record.value(0).value<ID>());
-  fixtureType->setCode(record.value(1).toString());
-  fixtureType->setName(record.value(2).toString());
+  fixtureType->setId(record.value(getIdAlias()).value<ID>());
+  fixtureType->setCode(record.value(getFiledAlias("code_height_type")).toString());
+  fixtureType->setName(record.value(getFiledAlias("name_height_type")).toString());
   return fixtureType;
 }
 

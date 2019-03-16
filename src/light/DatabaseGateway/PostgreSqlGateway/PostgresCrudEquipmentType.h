@@ -12,8 +12,6 @@ class PostgresCrud<EquipmentType> : public Reader<EquipmentType>
 {
 public:
   PostgresCrud();
-
-protected:
   Shared parse(const QSqlRecord& record) const override;
 };
 

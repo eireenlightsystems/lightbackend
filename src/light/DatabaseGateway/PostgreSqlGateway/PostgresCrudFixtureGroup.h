@@ -13,10 +13,10 @@ class PostgresCrud<FixtureGroup> : public Editor<FixtureGroup>
 public:
   PostgresCrud();
 
-protected:
   Shared parse(const QSqlRecord& record) const override;
   SharedList sel(const IDList& ids) const override;
   SharedList sel(const QVariantHash& filters) const override;
+protected:
   void ins(const Shared& object) const override;
   void upd(const Shared& object) const override;
   BindParamsType getSelectParams(const QVariantHash& filters) const override;

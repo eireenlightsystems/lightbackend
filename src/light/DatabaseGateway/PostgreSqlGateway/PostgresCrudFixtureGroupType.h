@@ -12,8 +12,6 @@ class PostgresCrud<FixtureGroupType> : public Reader<FixtureGroupType>
 {
 public:
   PostgresCrud();
-
-protected:
   Shared parse(const QSqlRecord& record) const override;
 };
 

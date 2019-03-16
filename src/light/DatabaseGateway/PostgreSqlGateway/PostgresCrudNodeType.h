@@ -12,8 +12,6 @@ class PostgresCrud<NodeType> : public Reader<NodeType>
 {
 public:
   PostgresCrud();
-
-protected:
   Shared parse(const QSqlRecord& record) const override;
 };
 

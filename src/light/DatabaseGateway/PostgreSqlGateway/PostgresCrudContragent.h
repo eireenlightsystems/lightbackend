@@ -12,8 +12,6 @@ class PostgresCrud<Contragent> : public Reader<Contragent>
 {
 public:
   PostgresCrud();
-
-protected:
   Shared parse(const QSqlRecord& record) const override;
 };
 
