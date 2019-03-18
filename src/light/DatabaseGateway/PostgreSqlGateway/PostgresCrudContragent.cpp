@@ -6,48 +6,22 @@
 namespace light {
 namespace PostgresqlGateway {
 
-template <>
-template <>
-ContragentSharedList PostgresCrud<Contragent>::sel<>() const {
-  ContragentSharedList result;
-  const QString sql = "select id_contragent, code, name "
-		      "from contragent_pkg.contragent_vw";
-  const BindParamsType bindParams{};
-  result << selBase(sql, bindParams);
-  return result;
+const QList<Field> contragentFields {
+    {"id_contragent", "id_contragent", true},
+    {"code", "code_contragent", false},
+    {"name", "name_contragent", false},
+};
+
+light::PostgresqlGateway::PostgresCrud<Contragent>::PostgresCrud() {
+  setFields(contragentFields);
+  setView("contragent_pkg.contragent_vw");
 }
 
-template <>
-template <>
-ContragentSharedList PostgresCrud<Contragent>::sel<QVariantHash>(const QVariantHash filters) const {
-  if (filters.isEmpty()) {
-    return sel();
-  }
-
-  return ContragentSharedList();
-}
-
-template <>
-ContragentSharedList PostgresCrud<Contragent>::sel(const IDList& ids) const {
-  ContragentSharedList result;
-  const QString sql = "select id_contragent, code, name "
-		      "from contragent_pkg.contragent_vw "
-		      "where id_contragent = :id_contragent";
-  for (auto id : ids) {
-    const BindParamsType bindParams{
-	{":id_contragent", id},
-    };
-    result << selBase(sql, bindParams);
-  }
-  return result;
-}
-
-template <>
-ContragentShared PostgresCrud<Contragent>::parse(const QSqlRecord& record) const {
+Reader<Contragent>::Shared light::PostgresqlGateway::PostgresCrud<Contragent>::parse(const QSqlRecord& record) const {
   auto contragent = ContragentShared::create();
-  contragent->setId(record.value(0).value<ID>());
-  contragent->setCode(record.value(1).toString());
-  contragent->setName(record.value(2).toString());
+  contragent->setId(record.value(getIdAlias()).value<ID>());
+  contragent->setCode(record.value(getFiledAlias("code_contragent")).toString());
+  contragent->setName(record.value(getFiledAlias("name_contragent")).toString());
   return contragent;
 }
 

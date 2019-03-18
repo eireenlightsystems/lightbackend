@@ -8,27 +8,27 @@ namespace light {
 namespace PostgresqlGateway {
 
 template <>
-template <>
-FixtureGroupSharedList PostgresCrud<FixtureGroup>::sel<ID, ID>(ID ownerId, ID typeId) const;
+class PostgresCrud<FixtureGroup> : public Editor<FixtureGroup>
+{
+public:
+  PostgresCrud();
 
-template <>
-template <>
-FixtureGroupSharedList PostgresCrud<FixtureGroup>::sel<QVariantHash>(const QVariantHash filters) const;
+  Shared parse(const QSqlRecord& record) const override;
+  SharedList sel(const IDList& ids) const override;
+  SharedList sel(const QVariantHash& filters) const override;
+protected:
+  void ins(const Shared& object) const override;
+  void upd(const Shared& object) const override;
+  BindParamsType getSelectParams(const QVariantHash& filters) const override;
+  BindParamsType getInsertParams(const Shared& object) const override;
+  BindParamsType getUpdateParams(const Shared& object) const override;
 
-template <>
-FixtureGroupSharedList PostgresCrud<FixtureGroup>::sel(const IDList& ids) const;
-
-template <>
-void PostgresCrud<FixtureGroup>::ins(const FixtureGroupShared& fixtureGroup) const;
-
-template <>
-void PostgresCrud<FixtureGroup>::upd(const FixtureGroupShared& fixtureGroup) const;
-
-template <>
-void PostgresCrud<FixtureGroup>::del(const FixtureGroupSharedList& fixtureGroups) const;
-
-template <>
-FixtureGroupShared PostgresCrud<FixtureGroup>::parse(const QSqlRecord& record) const;
+private:
+  FixtureSharedList selectFixtures(const FixtureGroupShared& fixtureGroup) const;
+  QSet<ID> selectCurrentFixtureIds(const FixtureGroupShared& fixtureGroup) const;
+  void insertNewFixtureToGroup(const QSet<ID> idsToInsert, const FixtureGroupShared& fixtureGroup) const;
+  void deleteFixtureFromGroup(const QSet<ID> idsToDelete, const FixtureGroupShared& fixtureGroup) const;
+};
 
 } // namespace PostgresqlGateway
 } // namespace light

@@ -5,6 +5,7 @@
 #include "FromJsonConverter.h"
 #include "JsonToIds.h"
 #include "SimpleSelectableRouter.h"
+#include "Controller.h"
 
 #include <QHttpServerRequest>
 #include <QHttpServerResponse>

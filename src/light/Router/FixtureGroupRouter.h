@@ -6,6 +6,8 @@
 #include "SimpleEditableListRouter.h"
 #include "FixtureGroup.h"
 #include "FixtureGroupType.h"
+#include "PostgresCrudFixtureGroup.h"
+#include "PostgresCrudFixtureGroupType.h"
 
 namespace light {
 

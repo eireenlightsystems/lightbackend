@@ -4,6 +4,11 @@
 #include "NodeController.h"
 #include "RestRouter.h"
 #include "SimpleEditableRouter.h"
+#include "PostgresCrudNode.h"
+#include "PostgresCrudNodeType.h"
+#include "PostgresCrudContract.h"
+#include "PostgresCrudGeograph.h"
+
 
 namespace light {
 

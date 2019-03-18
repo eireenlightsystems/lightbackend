@@ -6,47 +6,20 @@
 namespace light {
 namespace PostgresqlGateway {
 
-template <>
-template <>
-GatewayTypeSharedList PostgresCrud<GatewayType>::sel<>() const {
-  GatewayTypeSharedList result;
-  const QString sql = "select id_gateway_type, code_gateway_type "
-		      "from gateway_pkg_i.gateway_type_vw";
-  const BindParamsType bindParams{};
-  result << selBase(sql, bindParams);
-  return result;
+const QList<Field> gatewayTypeFields{
+    {"id_gateway_type", "id_gateway_type", true},
+    {"code_gateway_type", "code_gateway_type", false},
+};
+
+PostgresCrud<GatewayType>::PostgresCrud() {
+  setFields(gatewayTypeFields);
+  setView("gateway_pkg_i.gateway_type_vw");
 }
 
-template <>
-template <>
-GatewayTypeSharedList PostgresCrud<GatewayType>::sel<QVariantHash>(const QVariantHash filters) const {
-  if(filters.isEmpty()) {
-    return sel();
-  }
-
-  return GatewayTypeSharedList();
-}
-
-template <>
-GatewayTypeSharedList PostgresCrud<GatewayType>::sel(const IDList& ids) const {
-  GatewayTypeSharedList result;
-  const QString sql = "select id_gateway_type, code_gateway_type "
-		      "from gateway_pkg_i.gateway_type_vw "
-		      "where id_gateway_type = :id_gateway_type";
-  for (auto id : ids) {
-    const BindParamsType bindParams{
-	{":id_gateway_type", id},
-    };
-    result << selBase(sql, bindParams);
-  }
-  return result;
-}
-
-template <>
-GatewayTypeShared PostgresCrud<GatewayType>::parse(const QSqlRecord& record) const {
+Reader<GatewayType>::Shared PostgresCrud<GatewayType>::parse(const QSqlRecord& record) const {
   auto gatewayType = GatewayTypeShared::create();
-  gatewayType->setId(record.value(0).value<ID>());
-  gatewayType->setCode(record.value(1).toString());
+  gatewayType->setId(record.value(getIdAlias()).value<ID>());
+  gatewayType->setCode(record.value(getFiledAlias("code_gateway_type")).toString());
   return gatewayType;
 }
 

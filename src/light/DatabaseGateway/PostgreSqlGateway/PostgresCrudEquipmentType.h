@@ -8,10 +8,12 @@ namespace light {
 namespace PostgresqlGateway {
 
 template <>
-EquipmentTypeSharedList PostgresCrud<EquipmentType>::sel(const IDList& ids) const;
-
-template <>
-EquipmentTypeShared PostgresCrud<EquipmentType>::parse(const QSqlRecord& record) const;
+class PostgresCrud<EquipmentType> : public Reader<EquipmentType>
+{
+public:
+  PostgresCrud();
+  Shared parse(const QSqlRecord& record) const override;
+};
 
 } // namespace PostgresqlGateway
 } // namespace light

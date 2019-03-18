@@ -8,18 +8,12 @@ namespace light {
 namespace PostgresqlGateway {
 
 template <>
-template <>
-FixtureGroupTypeSharedList PostgresCrud<FixtureGroupType>::sel<>() const;
-
-template <>
-template <>
-FixtureGroupTypeSharedList PostgresCrud<FixtureGroupType>::sel<QVariantHash>(const QVariantHash filters) const;
-
-template <>
-FixtureGroupTypeSharedList PostgresCrud<FixtureGroupType>::sel(const IDList& ids) const;
-
-template <>
-FixtureGroupTypeShared PostgresCrud<FixtureGroupType>::parse(const QSqlRecord& record) const;
+class PostgresCrud<FixtureGroupType> : public Reader<FixtureGroupType>
+{
+public:
+  PostgresCrud();
+  Shared parse(const QSqlRecord& record) const override;
+};
 
 } // namespace PostgresqlGateway
 } // namespace light

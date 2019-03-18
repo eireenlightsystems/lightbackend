@@ -2,6 +2,13 @@
 #define FIXTURERESTROUTER_H
 
 #include "FixtureController.h"
+#include "PostgresCrudContract.h"
+#include "PostgresCrudContragent.h"
+#include "PostgresCrudFixture.h"
+#include "PostgresCrudFixtureHeightType.h"
+#include "PostgresCrudFixtureType.h"
+#include "PostgresCrudNode.h"
+#include "PostgresCrudSubstation.h"
 #include "RestRouter.h"
 #include "SimpleEditableRouter.h"
 

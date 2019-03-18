@@ -8,7 +8,7 @@
 #include <QGeoCoordinate>
 
 namespace light {
-
+/*
 template <>
 NodeInsertParameters FromJsonConverter<NodeInsertParameters>::parse(const QJsonObject& jsonObject);
 
@@ -17,7 +17,7 @@ NodeUpdateParameters FromJsonConverter<NodeUpdateParameters>::parse(const QJsonO
 
 template <>
 NodeCoordinateParameters FromJsonConverter<NodeCoordinateParameters>::parse(const QJsonObject& jsonObject);
-
+*/
 } // namespace light
 
 #endif // JSONTONODECONVERTER_H
