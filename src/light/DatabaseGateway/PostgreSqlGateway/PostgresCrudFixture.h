@@ -7,8 +7,6 @@
 namespace light {
 namespace PostgresqlGateway {
 
-//44сек
-
 template <>
 class PostgresCrud<Fixture> : public Editor<Fixture>
 {

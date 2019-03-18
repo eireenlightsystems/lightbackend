@@ -18,7 +18,7 @@ namespace light {
 template <>
 QJsonObject ToJsonConverter<Fixture>::toJson(const FixtureShared& fixture) const {
   QJsonObject fixtureJson;
-  fixtureJson["id"] = QJsonValue::fromVariant(fixture->getId());
+  fixtureJson["fixtureId"] = QJsonValue::fromVariant(fixture->getId());
   fixtureJson["standbyLevel"] = fixture->getStandbyLevel();
   fixtureJson["workLevel"] = fixture->getStandbyLevel();
   fixtureJson["speedUp"] = fixture->getSpeedUp();

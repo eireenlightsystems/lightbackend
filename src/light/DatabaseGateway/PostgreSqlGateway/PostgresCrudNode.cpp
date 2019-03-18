@@ -47,10 +47,10 @@ PostgresCrud<Node>::PostgresCrud() {
 Editor<Node>::Shared PostgresCrud<Node>::parse(const QSqlRecord& record) const {
   auto node = NodeShared::create();
   node->setId(record.value(getIdAlias()).value<ID>());
-  node->setCoordinate(record.value(getFiledAlias("n_coordinate_node")).toDouble(),
-		      record.value(getFiledAlias("e_coordinate_node")).toDouble());
-  node->setPrice(record.value(getFiledAlias("price_node")).toDouble());
-  node->setComment(record.value(getFiledAlias("comments_node")).toString());
+  node->setCoordinate(record.value(getFiledAlias("n_coordinate")).toDouble(),
+		      record.value(getFiledAlias("e_coordinate")).toDouble());
+  node->setPrice(record.value(getFiledAlias("price")).toDouble());
+  node->setComment(record.value(getFiledAlias("comments")).toString());
 
   PostgresCrud<EquipmentOwner> equipmentOwnerCrud;
   equipmentOwnerCrud.setSession(getSession());
