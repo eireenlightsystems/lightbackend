@@ -8,6 +8,7 @@ class Exception : public QException
 {
 public:
   explicit Exception(const QString& errorText);
+  ~Exception() override = default;
   Exception(const Exception & other) = default;
   const char* what() const noexcept override;
 

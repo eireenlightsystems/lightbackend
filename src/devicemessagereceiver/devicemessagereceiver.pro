@@ -22,7 +22,7 @@ HEADERS += \
     AbstractDeviceErrorSaver.h \
     PostgresDeviceErrorSaver.h \
     SharedTypes.h \
-    typedefs.h
+    DeviceMessageReceiverTypeDefs.h
 
 SOURCES += \
     main.cpp \

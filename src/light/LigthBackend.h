@@ -2,7 +2,6 @@
 #define LIGHTBACKEND_H
 
 #include "PostgresConnectionInfo.h"
-#include "SharedTypes.h"
 #include "typedefs.h"
 
 #include <QObject>
@@ -35,7 +34,6 @@ private:
   PostgresConnectionInfo readConnectionInfoFromSettings() const;
   void initInMemoryDb();
   void initPostgres();
-  void initErrorController();
   void initCommandController();
   void initFixtureCommandController();
 
@@ -45,7 +43,6 @@ private:
   DeviceCommandsControllerShared deviceCommandController;
   CommandsControllerShared fixturesCommandsController;
   SchedulerGatewayShared schedulerGateway;
-  AbstractDeviceErrorSaverShared deviceErrorSaver;
   SessionShared session;
 };
 

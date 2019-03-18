@@ -2,8 +2,9 @@
 #define ABSTRACTFIXTURECOMMANDGATEWAY_H
 
 #include "CommandStatus.h"
-#include "SharedTypes.h"
 #include "typedefs.h"
+
+#include <QDateTime>
 
 namespace light {
 struct FixtureCommandsFilter

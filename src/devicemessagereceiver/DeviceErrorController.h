@@ -1,7 +1,7 @@
 #ifndef DEVICEERRORCONTROLLER_H
 #define DEVICEERRORCONTROLLER_H
 #include "SharedTypes.h"
-#include "typedefs.h"
+#include "DeviceMessageReceiverTypeDefs.h"
 
 #include <QObject>
 #include <QSharedPointer>

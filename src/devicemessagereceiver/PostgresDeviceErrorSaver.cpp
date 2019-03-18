@@ -9,7 +9,7 @@
 
 namespace DeviceMessageReceiver {
 
-bool PostgresDeviceErrorSaver::open(const PostgresConnectionInfo& connectionInfo) {
+bool PostgresDeviceErrorSaver::open(const light::PostgresConnectionInfo& connectionInfo) {
   db = QSqlDatabase::addDatabase("QPSQL", "errorsaver");
   db.setHostName(connectionInfo.hostName);
   db.setPort(connectionInfo.port);
@@ -46,7 +46,7 @@ ID PostgresDeviceErrorSaver::findFixtureId(const DeviceError& error) {
 				   "where gn.id_gateway = :id_gateway "
 				   "and gn.num_node = :num_node "
 				   "limit 1";
-  PostgresqlGateway::SelectQuery findFixtureIdQuery(db);
+  light::PostgresqlGateway::SelectQuery findFixtureIdQuery(db);
   findFixtureIdQuery.prepare(findFixtureIdSql);
   findFixtureIdQuery.bind({
       {":id_gateway", error.gatewayId},
@@ -61,7 +61,7 @@ ID PostgresDeviceErrorSaver::findFixtureId(const DeviceError& error) {
 
 void PostgresDeviceErrorSaver::insertFixtureProblem(ID fixtureId, quint8 errorCode) {
   const QString insertProblemSql = "select problem_fixture_pkg_i.ins(:id_fixture, :error_code)";
-  PostgresqlGateway::InsertQuery query(db);
+  light::PostgresqlGateway::InsertQuery query(db);
   query.prepare(insertProblemSql);
   query.bind({
       {":id_fixture", fixtureId},

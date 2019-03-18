@@ -1,7 +1,7 @@
 #ifndef SHAREDTYPES_H
 #define SHAREDTYPES_H
 
-#include "typedefs.h"
+#include "DeviceMessageReceiverTypeDefs.h"
 
 #include <QDateTime>
 #include <QtGlobal>

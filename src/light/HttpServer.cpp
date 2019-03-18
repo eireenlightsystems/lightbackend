@@ -15,7 +15,6 @@
 #include "InternalServerErrorException.h"
 #include "NodeRestRouter.h"
 #include "NodeToJson.h"
-#include "SharedTypes.h"
 
 #include <QException>
 #include <QHttpServerResponse>

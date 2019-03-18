@@ -1,7 +1,6 @@
 #ifndef COMMANDSSCHEDULER_H
 #define COMMANDSSCHEDULER_H
 
-#include "SharedTypes.h"
 #include "typedefs.h"
 
 #include <QDateTime>

@@ -1,7 +1,8 @@
-#ifndef TYPEDEFS_H
-#define TYPEDEFS_H
+#ifndef DEVICEMESSAGERECEIVERTYPEDEFS_H
+#define DEVICEMESSAGERECEIVERTYPEDEFS_H
 
 #include <QSharedPointer>
+#include "typedefs.h"
 
 #define DeclareShared(ClassName)                       \
   class ClassName;                                     \
@@ -12,11 +13,11 @@ DeclareShared(QMqttClient);
 
 namespace DeviceMessageReceiver {
 
-using ID = qulonglong;
+using ID = light::ID;
 
 DeclareShared(MqttDeviceErrorSubscriber);
 DeclareShared(AbstractDeviceErrorSaver);
 
-}
+} // namespace DeviceMessageReceiver
 
-#endif // TYPEDEFS_H
+#endif // DEVICEMESSAGERECEIVERTYPEDEFS_H

@@ -14,7 +14,7 @@ class PostgresDeviceErrorSaver : public AbstractDeviceErrorSaver
 public:
   PostgresDeviceErrorSaver() = default;
   void saveError(const DeviceError& error) override;
-  bool open(const PostgresConnectionInfo& connectionInfo);
+  bool open(const light::PostgresConnectionInfo& connectionInfo);
 
 private:
   ID findFixtureId(const DeviceError& error);

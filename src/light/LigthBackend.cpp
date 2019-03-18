@@ -1,11 +1,8 @@
 #include "LigthBackend.h"
 
-#include "AbstractDeviceErrorSaver.h"
 #include "CommandsController.h"
 #include "DeviceCommandsController.h"
-#include "DeviceErrorController.h"
 #include "InMemoryDatabaseGateway.h"
-#include "PostgresDeviceErrorSaver.h"
 #include "PostgresFixtureCommandFacadeGateway.h"
 #include "SchedulerGateway.h"
 #include "Session.h"
@@ -22,7 +19,6 @@ void LigthBackend::init(const QString& hostName, quint16 port) {
   initMqttClient(hostName, port);
   initFixtureCommandController();
   initDatabase();
-  initErrorController();
   initCommandController();
 }
 
@@ -96,19 +92,8 @@ void LigthBackend::initPostgres() {
   schedulerGateway->setGateways(
       {fixtureCommandGateway, fixtureCommandGateway, fixtureCommandGateway, fixtureCommandGateway});
 
-  auto postgresDeviceErrorSaver = PostgresDeviceErrorSaverShared::create();
-  if (!postgresDeviceErrorSaver->open(connectionInfo)) {
-    qApp->quit();
-  }
-  deviceErrorSaver = postgresDeviceErrorSaver;
   session = SessionShared::create();
   session->setDb(fixtureCommandGateway->getDb());
-}
-
-void LigthBackend::initErrorController() {
-  devideErrorController = DeviceErrorControllerShared::create();
-  devideErrorController->setMqttCilent(mqttClient);
-  devideErrorController->setDeviceErrorSaver(deviceErrorSaver);
 }
 
 void LigthBackend::initCommandController() {

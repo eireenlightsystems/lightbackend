@@ -1,7 +1,6 @@
 #ifndef DEVICECOMMANDSCONTROLLER_H
 #define DEVICECOMMANDSCONTROLLER_H
 
-#include "SharedTypes.h"
 #include "typedefs.h"
 
 #include <QObject>
