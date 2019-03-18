@@ -52,6 +52,10 @@ Editor<FixtureGroup>::Shared PostgresCrud<FixtureGroup>::parse(const QSqlRecord&
 
   PostgresCrud<Contragent> contragentCrud;
   contragentCrud.setSession(getSession());
+  contragentCrud.setFields({
+      {"id_contragent", "id_owner", true},
+      {"code_contragent", "code_owner", false},
+  });
   fixtureGroup->setOwner(contragentCrud.parse(record));
 
   PostgresCrud<Geograph> geographCrud;
