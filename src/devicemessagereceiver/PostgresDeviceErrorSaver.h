@@ -8,7 +8,7 @@
 #include <QSqlDatabase>
 #include <QString>
 
-namespace light {
+namespace DeviceMessageReceiver {
 class PostgresDeviceErrorSaver : public AbstractDeviceErrorSaver
 {
 public:

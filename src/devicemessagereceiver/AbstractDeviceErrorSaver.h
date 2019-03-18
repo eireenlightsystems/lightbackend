@@ -3,7 +3,7 @@
 
 #include "SharedTypes.h"
 
-namespace light {
+namespace DeviceMessageReceiver {
 class AbstractDeviceErrorSaver
 {
 public:

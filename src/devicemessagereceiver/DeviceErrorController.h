@@ -9,7 +9,7 @@
 
 class QMqttClient;
 
-namespace light {
+namespace DeviceMessageReceiver {
 
 class DeviceErrorSaver;
 class MqttDeviceErrorSubscriber;

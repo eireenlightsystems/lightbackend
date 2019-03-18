@@ -5,7 +5,7 @@
 
 #include <QMqttClient>
 
-namespace light {
+namespace DeviceMessageReceiver {
 DeviceErrorController::DeviceErrorController(QObject* parent)
   : QObject(parent), errorSubscriber(new MqttDeviceErrorSubscriber) {
   errorSubscriber->setTopic("/devices/error");
@@ -40,4 +40,4 @@ AbstractDeviceErrorSaverShared DeviceErrorController::getDeviceErrorSaver() cons
 void DeviceErrorController::setDeviceErrorSaver(const AbstractDeviceErrorSaverShared& value) {
   deviceErrorSaver = value;
 }
-} // namespace light
+} // namespace DeviceMessageReceiver

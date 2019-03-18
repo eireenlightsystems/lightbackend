@@ -6,7 +6,7 @@
 #include <QMqttClient>
 #include <QMqttSubscription>
 
-namespace light {
+namespace DeviceMessageReceiver {
 MqttDeviceErrorSubscriber::MqttDeviceErrorSubscriber(QObject* parent) : QObject(parent) {
 }
 

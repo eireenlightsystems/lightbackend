@@ -7,7 +7,7 @@
 #include <QSqlError>
 #include <QSqlQuery>
 
-namespace light {
+namespace DeviceMessageReceiver {
 
 bool PostgresDeviceErrorSaver::open(const PostgresConnectionInfo& connectionInfo) {
   db = QSqlDatabase::addDatabase("QPSQL", "errorsaver");

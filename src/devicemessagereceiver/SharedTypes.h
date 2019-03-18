@@ -6,7 +6,7 @@
 #include <QDateTime>
 #include <QtGlobal>
 
-namespace light {
+namespace DeviceMessageReceiver {
 
 struct DeviceError
 {

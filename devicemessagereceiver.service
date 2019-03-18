@@ -1,5 +1,5 @@
 [Unit]
-Description=Light site backend service
+Description=Device message reveicer
 After=network.target
 After=systemd-user-sessions.service
 After=network-online.target
@@ -7,8 +7,8 @@ After=network-online.target
 [Service]
 User=lightbackend
 Type=forking
-ExecStart=/opt/light/backend/bin/light
-ExecStop=/opt/light/backend/bin/light -t
+ExecStart=/opt/light/backend/bin/device_message_receiver
+ExecStop=/opt/light/backend/bin/device_message_receiver -t
 Restart=always
 
 [Install]

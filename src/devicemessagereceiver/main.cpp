@@ -35,10 +35,9 @@ int main(int argc, char* argv[]) {
 #ifdef LOG_TO_SYSLOG
   qInstallMessageHandler(syslogMessageHandler);
 #endif
-
   QString tmpPath = QDir::tempPath();
   QSettings::setPath(QSettings::NativeFormat, QSettings::SystemScope, tmpPath);
   //  qWarning("(Example uses dummy settings file: %s/QtSoftware.conf)", tmpPath.toLatin1().constData());
-  light::Service service(argc, argv);
+  DeviceMessageReceiver::Service service(argc, argv);
   return service.exec();
 }

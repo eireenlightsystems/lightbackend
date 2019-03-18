@@ -11,7 +11,7 @@ class QMqttSubscription;
 class QMqttTopicName;
 class QByteArray;
 
-namespace light {
+namespace DeviceMessageReceiver {
 class MqttDeviceErrorSubscriber : public QObject
 {
   Q_OBJECT

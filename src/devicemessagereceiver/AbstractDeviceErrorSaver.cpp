@@ -1,6 +1,6 @@
 #include "AbstractDeviceErrorSaver.h"
 
-namespace light {
+namespace DeviceMessageReceiver {
 AbstractDeviceErrorSaver::~AbstractDeviceErrorSaver() {
 }
 } // namespace light

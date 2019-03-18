@@ -5,7 +5,6 @@
 namespace light {
 
 Service::Service(int argc, char** argv) : QtService<QCoreApplication>(argc, argv, "Light backend") {
-  qDebug() << Q_FUNC_INFO;
 }
 
 void Service::start() {

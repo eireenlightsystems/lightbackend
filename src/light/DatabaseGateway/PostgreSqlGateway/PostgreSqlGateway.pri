@@ -2,7 +2,6 @@ INCLUDEPATH +=  \
     $$PWD
 
 HEADERS += \
-    $$PWD/PostgresDeviceErrorSaver.h \
     $$PWD/PostgresConnectionInfo.h \
     $$PWD/PostgresFixtureCommandGateway.h \
     $$PWD/PostgresFixtureLightLevelCommandGateway.h \
@@ -36,7 +35,6 @@ HEADERS += \
 
 
 SOURCES += \
-    $$PWD/PostgresDeviceErrorSaver.cpp \
     $$PWD/PostgresFixtureCommandGateway.cpp \
     $$PWD/PostgresFixtureLightLevelCommandGateway.cpp \
     $$PWD/PostgresFixtureLightSpeedCommandGateway.cpp \
