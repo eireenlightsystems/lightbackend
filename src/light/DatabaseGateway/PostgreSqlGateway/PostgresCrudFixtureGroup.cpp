@@ -46,17 +46,14 @@ Editor<FixtureGroup>::Shared PostgresCrud<FixtureGroup>::parse(const QSqlRecord&
   auto fixtureGroup = FixtureGroupShared::create();
   fixtureGroup->setId(record.value(getIdAlias()).value<ID>());
 
-//  auto idType = record.value(getFiledAlias("id_fixture_group_type")).value<ID>();
   PostgresCrud<FixtureGroupType> typeCrud;
   typeCrud.setSession(getSession());
   fixtureGroup->setType(typeCrud.parse(record));
 
-  //  auto ownerId = record.value(getFiledAlias("id_owner")).value<ID>();
   PostgresCrud<Contragent> contragentCrud;
   contragentCrud.setSession(getSession());
   fixtureGroup->setOwner(contragentCrud.parse(record));
 
-  //  auto geographId = record.value(getFiledAlias("id_geograph")).value<ID>();
   PostgresCrud<Geograph> geographCrud;
   geographCrud.setSession(getSession());
   fixtureGroup->setGeograph(geographCrud.parse(record));

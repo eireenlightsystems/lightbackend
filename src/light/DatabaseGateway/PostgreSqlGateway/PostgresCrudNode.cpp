@@ -17,8 +17,8 @@ namespace PostgresqlGateway {
 
 const QList<Field> nodeFields{
     {"id_node", "id_node", true},
-    {"n_coordinate", "n_coordinate", false},
-    {"e_coordinate", "e_coordinate", false},
+    {"n_coordinate", "n_coordinate_node", false},
+    {"e_coordinate", "e_coordinate_node", false},
     {"price", "price_node", false},
     {"comments", "comments_node", false},
 
@@ -47,27 +47,23 @@ PostgresCrud<Node>::PostgresCrud() {
 Editor<Node>::Shared PostgresCrud<Node>::parse(const QSqlRecord& record) const {
   auto node = NodeShared::create();
   node->setId(record.value(getIdAlias()).value<ID>());
-  node->setCoordinate(record.value(getFiledAlias("n_coordinate")).toDouble(),
-		      record.value(getFiledAlias("e_coordinate")).toDouble());
+  node->setCoordinate(record.value(getFiledAlias("n_coordinate_node")).toDouble(),
+		      record.value(getFiledAlias("e_coordinate_node")).toDouble());
   node->setPrice(record.value(getFiledAlias("price_node")).toDouble());
   node->setComment(record.value(getFiledAlias("comments_node")).toString());
 
-//  auto ownerId = record.value(5).value<ID>();
   PostgresCrud<EquipmentOwner> equipmentOwnerCrud;
   equipmentOwnerCrud.setSession(getSession());
   node->setOwner(equipmentOwnerCrud.parse(record));
 
-//  auto contractId = record.value(6).value<ID>();
   PostgresCrud<Contract> contractCrud;
   contractCrud.setSession(getSession());
   node->setContract(contractCrud.parse(record));
 
-//  auto geographId = record.value(7).value<ID>();
   PostgresCrud<Geograph> geographCrud;
   geographCrud.setSession(getSession());
   node->setGeograph(geographCrud.parse(record));
 
-//  auto nodeTypeId = record.value(8).value<ID>();
   PostgresCrud<NodeType> nodeTypeCrud;
   nodeTypeCrud.setSession(getSession());
   node->setNodeType(nodeTypeCrud.parse(record));

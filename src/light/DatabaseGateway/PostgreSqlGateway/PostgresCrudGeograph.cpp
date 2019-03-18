@@ -23,9 +23,9 @@ PostgresCrud<Geograph>::PostgresCrud() {
 Reader<Geograph>::Shared PostgresCrud<Geograph>::parse(const QSqlRecord& record) const {
   auto geograph = GeographShared::create();
   geograph->setId(record.value(getIdAlias()).value<ID>());
-  geograph->setCode(record.value(getFiledAlias("code_geograph")).toString());
-  geograph->setName(record.value(getFiledAlias("name_geograph")).toString());
-  geograph->setFullName(record.value(getFiledAlias("fullname_geograph")).toString());
+  geograph->setCode(record.value(getFiledAlias("code")).toString());
+  geograph->setName(record.value(getFiledAlias("name")).toString());
+  geograph->setFullName(record.value(getFiledAlias("fullname")).toString());
   return geograph;
 }
 

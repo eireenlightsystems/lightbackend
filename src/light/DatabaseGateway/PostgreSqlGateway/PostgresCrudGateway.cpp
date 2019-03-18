@@ -45,12 +45,10 @@ Editor<Gateway>::Shared PostgresCrud<Gateway>::parse(const QSqlRecord& record) c
   gateway->setPrice(record.value(getFiledAlias("price_gateway")).toDouble());
   gateway->setComment(record.value(getFiledAlias("comments_gateway")).toString());
 
-//  auto ownerId = record.value(3).value<ID>();
   PostgresCrud<EquipmentOwner> equipmentOwnerCrud;
   equipmentOwnerCrud.setSession(getSession());
   gateway->setOwner(equipmentOwnerCrud.parse(record));
 
-//  auto contractId = record.value(4).value<ID>();
   PostgresCrud<Contract> contractCrud;
   contractCrud.setSession(getSession());
   gateway->setContract(contractCrud.parse(record));
@@ -60,7 +58,6 @@ Editor<Gateway>::Shared PostgresCrud<Gateway>::parse(const QSqlRecord& record) c
   nodeCrud.setSession(getSession());
   gateway->setNode(nodeCrud.selById(nodeId));
 
-//  auto gatewayTypeId = record.value(6).value<ID>();
   PostgresCrud<GatewayType> gatewayTypeCrud;
   gatewayTypeCrud.setSession(getSession());
   gateway->setGatewayType(gatewayTypeCrud.parse(record));

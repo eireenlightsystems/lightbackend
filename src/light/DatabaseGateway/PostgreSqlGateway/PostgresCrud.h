@@ -109,7 +109,7 @@ public:
       if (f.isId) {
 	idField = f;
       }
-      fields[f.alias] = f;
+      fields[f.name] = f;
     }
   }
 

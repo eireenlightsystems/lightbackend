@@ -10,13 +10,14 @@
 #include "PostgresCrudSubstation.h"
 #include "UpdateQuery.h"
 
+#include <QDebug>
 #include <QSqlRecord>
 #include <QVariant>
 
 namespace light {
 namespace PostgresqlGateway {
 
-const QList<Field> fixtureFields {
+const QList<Field> fixtureFields{
     {"id_fixture", "id_fixture", true},
     {"work_level", "work_level", false},
     {"standby_level", "standby_level", false},
@@ -44,6 +45,10 @@ const QList<Field> fixtureFields {
     {"code_owner", "code_owner", false},
 
     {"id_node", "id_node", false},
+    {"n_coordinate", "n_coordinate_node", false},
+    {"e_coordinate", "e_coordinate_node", false},
+    {"id_geograph", "id_geograph", false},
+    {"code_geograph", "code_geograph", false},
 };
 
 PostgresCrud<Fixture>::PostgresCrud() {
@@ -58,6 +63,7 @@ PostgresCrud<Fixture>::PostgresCrud() {
 }
 
 Editor<Fixture>::Shared PostgresCrud<Fixture>::parse(const QSqlRecord& record) const {
+  qDebug() << record;
   auto fixture = FixtureShared::create();
   fixture->setId(record.value(getIdAlias()).value<ID>());
 
@@ -69,10 +75,13 @@ Editor<Fixture>::Shared PostgresCrud<Fixture>::parse(const QSqlRecord& record) c
   typeCrud.setSession(getSession());
   fixture->setType(typeCrud.parse(record));
 
-  auto installerId = record.value(getFiledAlias("id_installer")).value<ID>();
   PostgresCrud<Contragent> installerCrud;
   installerCrud.setSession(getSession());
-  fixture->setInstaller(installerCrud.selById(installerId));
+  installerCrud.setFields({
+      {"id_contragent", "id_installer", true},
+      {"code_contragent", "code_installer", false},
+  });
+  fixture->setInstaller(installerCrud.parse(record));
 
   PostgresCrud<Substation> substationCrud;
   substationCrud.setSession(getSession());
@@ -82,15 +91,17 @@ Editor<Fixture>::Shared PostgresCrud<Fixture>::parse(const QSqlRecord& record) c
   heightTypeCrud.setSession(getSession());
   fixture->setHeightType(heightTypeCrud.parse(record));
 
-  auto ownerId = record.value(getFiledAlias("id_owner")).value<ID>();
   PostgresCrud<Contragent> ownerCrud;
   ownerCrud.setSession(getSession());
-  fixture->setOwner(ownerCrud.selById(ownerId));
+  ownerCrud.setFields({
+      {"id_contragent", "id_owner", true},
+      {"code_contragent", "code_owner", false},
+  });
+  fixture->setOwner(ownerCrud.parse(record));
 
-  auto nodeId = record.value(getFiledAlias("id_node")).value<ID>();
   PostgresCrud<Node> nodeCrud;
   nodeCrud.setSession(getSession());
-  fixture->setNode(nodeCrud.selById(nodeId));
+  fixture->setNode(nodeCrud.parse(record));
 
   fixture->setWorkLevel(record.value(getFiledAlias("work_level")).value<quint8>());
   fixture->setStandbyLevel(record.value(getFiledAlias("standby_level")).value<quint8>());

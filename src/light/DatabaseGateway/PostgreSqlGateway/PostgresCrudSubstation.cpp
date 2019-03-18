@@ -21,9 +21,9 @@ PostgresCrud<Substation>::PostgresCrud() {
 Reader<Substation>::Shared PostgresCrud<Substation>::parse(const QSqlRecord& record) const {
   auto substation = SubstationShared::create();
   substation->setId(record.value(getIdAlias()).value<ID>());
-  substation->setCode(record.value(getFiledAlias("code_substation")).toString());
-  substation->setName(record.value(getFiledAlias("name_substation")).toString());
-  substation->setPower(record.value(getFiledAlias("power_substation")).toDouble());
+  substation->setCode(record.value(getFiledAlias("code")).toString());
+  substation->setName(record.value(getFiledAlias("name")).toString());
+  substation->setPower(record.value(getFiledAlias("power")).toDouble());
   return substation;
 }
 
