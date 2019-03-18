@@ -63,7 +63,6 @@ PostgresCrud<Fixture>::PostgresCrud() {
 }
 
 Editor<Fixture>::Shared PostgresCrud<Fixture>::parse(const QSqlRecord& record) const {
-  qDebug() << record;
   auto fixture = FixtureShared::create();
   fixture->setId(record.value(getIdAlias()).value<ID>());
 
