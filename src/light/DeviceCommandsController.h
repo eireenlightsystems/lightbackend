@@ -11,15 +11,15 @@ class DeviceCommandsController : public QObject
   Q_OBJECT
 public:
   explicit DeviceCommandsController(QObject* parent = nullptr);
-  void setMqttClient(const QMqttClientShared& mqttClient);
+//  void setMqttClient(const QMqttClientShared& mqttClient);
   void setCommandController(const CommandsControllerShared& commandController);
 
   QDateTime getCheckCommandDateTime() const;
-  CommandsSchedulerShared getCommandsWatchDog() const;
-  MqttDeviceCommandPublisherShared getDeviceCommandPublisher() const;
+//  CommandsSchedulerShared getCommandsWatchDog() const;
+//  MqttDeviceCommandPublisherShared getDeviceCommandPublisher() const;
 
-  SchedulerGatewayShared getSchedulerGateway() const;
-  void setSchedulerGateway(const SchedulerGatewayShared &value);
+//  SchedulerGatewayShared getSchedulerGateway() const;
+//  void setSchedulerGateway(const SchedulerGatewayShared &value);
 
 public slots:
   void setFixturesLightLevel(const FixtureLightLevelCommandSharedList& commands);
@@ -30,10 +30,8 @@ private slots:
   void onSchedulerTimeout(const QDateTime& datetime);
 
 private:
-  CommandsSchedulerShared commandsScheduler;
-  MqttDeviceCommandPublisherShared deviceCommandPublisher;
   CommandsControllerShared commandController;
-  SchedulerGatewayShared schedulerGateway;
+//  SchedulerGatewayShared schedulerGateway;
 };
 } // namespace light
 

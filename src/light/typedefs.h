@@ -8,8 +8,6 @@
   using ClassName##Shared = QSharedPointer<ClassName>; \
   using ClassName##SharedList = QList<ClassName##Shared>;
 
-DeclareShared(QMqttClient);
-
 namespace light {
 
 using ID = qulonglong;
@@ -20,19 +18,15 @@ DeclareShared(Session);
 DeclareShared(AbstractDeviceCommand);
 DeclareShared(FixtureSwitchOnDeviceCommand);
 DeclareShared(SpeedToLightBaseDeviceCommand);
-DeclareShared(DeviceErrorSaver);
-DeclareShared(CommandsScheduler);
+
 DeclareShared(MqttDeviceCommandPublisher);
 DeclareShared(SpeedToLightUpDeviceCommand);
 DeclareShared(SpeedToLightDownDeviceCommand);
 DeclareShared(DeviceCommandsController);
-
 DeclareShared(AbstractDictionaryGateway);
-DeclareShared(SchedulerGateway);
 DeclareShared(InMemoryDatabaseGateway);
 DeclareShared(InMemoryDictionaryGateway);
 DeclareShared(CommandsController);
-DeclareShared(SchedulerGateway);
 DeclareShared(Fixture);
 DeclareShared(AbstractFixtureCommandFacadeGateway);
 DeclareShared(AbstractFixtureGateway);

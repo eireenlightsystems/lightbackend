@@ -1,10 +1,10 @@
 QT -= gui
 QT += httpserver mqtt sql
+
 CONFIG += c++17 console
 CONFIG -= app_bundle
 
 include(../3rdparty/qtservice/src/qtservice.pri)
-include(./Mqtt/Mqtt.pri)
 include(./DatabaseGateway/DatabaseGateway.pri)
 include(./DeviceCommand/DeviceCommand.pri)
 include(./Model/Model.pri)
@@ -24,7 +24,6 @@ DEFINES += QT_DEPRECATED_WARNINGS
 HEADERS += \
     Service.h \
     HttpServer.h \
-    CommandsScheduler.h \
     typedefs.h \
     LigthBackend.h \
     HttpServerConverters.h \
@@ -36,7 +35,6 @@ SOURCES += \
     main.cpp \
     Service.cpp \
     HttpServer.cpp \
-    CommandsScheduler.cpp \
     LigthBackend.cpp \
     HttpServerConverters.cpp \
     DeviceCommandsController.cpp \
@@ -44,8 +42,7 @@ SOURCES += \
     SessionOwner.cpp
 
 DISTFILES += \
-    lightbackend.conf \
-    commandscheduler.conf
+    lightbackend.conf
 
 target.path = /opt/light/backend/bin
 INSTALLS += target

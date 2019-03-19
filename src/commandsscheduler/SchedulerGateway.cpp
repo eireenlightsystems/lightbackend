@@ -1,13 +1,17 @@
 #include "SchedulerGateway.h"
 
 #include "AbstractFixtureCommandGateway.h"
+#include "CommandsSchedulerTypeDefs.h"
 #include "Fixture.h"
 #include "FixtureLightLevelCommand.h"
 #include "FixtureLightSpeedCommand.h"
 
 #include <QDebug>
 
-namespace light {
+using FixtureSharedList = light::FixtureSharedList;
+using FixtureShared = light::FixtureShared;
+
+namespace CommandsScheduler {
 QDateTime SchedulerGateway::getClosestCommandDateTime() const {
   return gateways.deviceCommandGateway->getClosestDeviceCommandDateTime();
 }
@@ -24,7 +28,7 @@ void SchedulerGateway::markAsSentLightLevel(const QDateTime& dateTime) {
     auto fixture = gateways.fixtureGateway->selectFixture(command->getFixtureId());
     fixture->setStandbyLevel(command->getStandbyLevel());
     fixture->setWorkLevel(command->getWorkLevel());
-    command->setStatus(CommandStatus::Done);
+    command->setStatus(light::CommandStatus::Done);
 
     fixtures << fixture;
   }
@@ -43,15 +47,15 @@ void SchedulerGateway::markAsSentLightSpeed(const QDateTime& dateTime) {
       fixture = gateways.fixtureGateway->selectFixture(command->getFixtureId());
     }
     switch (command->getDirectionType()) {
-      case FixtureLightSpeedCommand::FixtureLightSpeedDirectionType::None: break;
-      case FixtureLightSpeedCommand::FixtureLightSpeedDirectionType::StandbyToWork:
+      case light::FixtureLightSpeedCommand::FixtureLightSpeedDirectionType::None: break;
+      case light::FixtureLightSpeedCommand::FixtureLightSpeedDirectionType::StandbyToWork:
 	fixture->setSpeedUp(command->getSpeed());
 	break;
-      case FixtureLightSpeedCommand::FixtureLightSpeedDirectionType::WorkToStandby:
+      case light::FixtureLightSpeedCommand::FixtureLightSpeedDirectionType::WorkToStandby:
 	fixture->setSpeedDown(command->getSpeed());
 	break;
     }
-    command->setStatus(CommandStatus::Done);
+    command->setStatus(light::CommandStatus::Done);
 
     fixtures[fixture->getId()] = fixture;
   }
@@ -66,4 +70,4 @@ SchedulerGateway::Gateways SchedulerGateway::getGateways() const {
 void SchedulerGateway::setGateways(const Gateways& value) {
   gateways = value;
 }
-} // namespace light
+} // namespace CommandsScheduler

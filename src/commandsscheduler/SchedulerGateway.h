@@ -3,16 +3,16 @@
 
 #include "typedefs.h"
 
-namespace light {
+namespace CommandsScheduler {
 class SchedulerGateway
 {
 public:
   struct Gateways
   {
-    AbstractFixtureGatewayShared fixtureGateway;
-    AbstractFixtureLightLevelCommandGatewayShared lightLevelCommandGateway;
-    AbstractFixtureLightSpeedCommandGatewayShared lightSpeedCommandGateway;
-    AbstractDeviceCommandGatewayShared deviceCommandGateway;
+    light::AbstractFixtureGatewayShared fixtureGateway;
+    light::AbstractFixtureLightLevelCommandGatewayShared lightLevelCommandGateway;
+    light::AbstractFixtureLightSpeedCommandGatewayShared lightSpeedCommandGateway;
+    light::AbstractDeviceCommandGatewayShared deviceCommandGateway;
   };
 
   SchedulerGateway() = default;
@@ -21,7 +21,7 @@ public:
   void markAsSentCommandsByDateTime(const QDateTime& dateTime);
 
   Gateways getGateways() const;
-  void setGateways(const Gateways &value);
+  void setGateways(const Gateways& value);
 
 private:
   void markAsSentLightLevel(const QDateTime& dateTime);
@@ -30,6 +30,6 @@ private:
 private:
   Gateways gateways;
 };
-} // namespace light
+} // namespace CommandsScheduler
 
 #endif // SCHEDULERGATEWAY_H

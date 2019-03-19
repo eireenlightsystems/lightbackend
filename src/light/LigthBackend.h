@@ -15,7 +15,7 @@ class LigthBackend : public QObject
   Q_OBJECT
 public:
   explicit LigthBackend(QObject* parent = nullptr);
-  void init(const QString& hostName, quint16 port);
+  void init();
   FixtureLightLevelCommandSharedList
   getFixtureLightLevelCommandsByDateTimeRange(const FixtureCommandsFilter& filter) const;
   FixtureLightSpeedCommandSharedList
@@ -29,7 +29,6 @@ public slots:
   void deleteFixturesCommands(const QList<ID>& commands);
 
 private:
-  void initMqttClient(const QString& hostName, quint16 port);
   void initDatabase();
   PostgresConnectionInfo readConnectionInfoFromSettings() const;
   void initInMemoryDb();
@@ -38,10 +37,8 @@ private:
   void initFixtureCommandController();
 
 private:
-  QMqttClientShared mqttClient;
   DeviceCommandsControllerShared deviceCommandController;
   CommandsControllerShared fixturesCommandsController;
-  SchedulerGatewayShared schedulerGateway;
   SessionShared session;
 };
 

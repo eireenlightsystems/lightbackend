@@ -81,13 +81,13 @@ MqttConnectionInfo DeviceErrorController::readMqttConnectionInfoFromSettings() c
   settings.beginGroup("Mqtt");
   connectionInfo.hostName = settings.value("hostName").toString();
   connectionInfo.port = settings.value("port").value<quint16>();
-  connectionInfo.clientId = settings.value("clientId").toString();
+  connectionInfo.clientId = settings.value("deviceMessageReceiverClientId").toString();
   settings.endGroup();
 
   return connectionInfo;
 }
 
 QString DeviceErrorController::getSettingsPath() const {
-  return qApp->applicationDirPath() + "/devicemessagereceiver.conf";
+  return qApp->applicationDirPath() + "/lightbackend.conf";
 }
 } // namespace DeviceMessageReceiver

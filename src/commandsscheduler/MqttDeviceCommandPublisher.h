@@ -1,15 +1,14 @@
 #ifndef MQTTDEVICECOMMANDPUBLISHER_H
 #define MQTTDEVICECOMMANDPUBLISHER_H
 
-#include "AbstractDeviceCommand.h"
-#include "typedefs.h"
+#include "CommandsSchedulerTypeDefs.h"
 
 #include <QObject>
 #include <QSharedPointer>
 
 class QMqttClient;
 
-namespace light {
+namespace CommandsScheduler {
 
 class MqttDeviceCommandPublisher : public QObject
 {
@@ -21,11 +20,11 @@ public:
   void setMqttClient(const QMqttClientShared& value);
 
 public slots:
-  void publish(const AbstractDeviceCommandSharedList& commands);
+  void publish(const light::AbstractDeviceCommandSharedList& commands);
 
 private:
   QMqttClientShared mqttClient;
 };
-} // namespace light
+} // namespace CommandsScheduler
 
 #endif // MQTTDEVICECOMMANDPUBLISHER_H

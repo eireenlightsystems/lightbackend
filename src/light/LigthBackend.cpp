@@ -4,7 +4,6 @@
 #include "DeviceCommandsController.h"
 #include "InMemoryDatabaseGateway.h"
 #include "PostgresFixtureCommandFacadeGateway.h"
-#include "SchedulerGateway.h"
 #include "Session.h"
 
 #include <QCoreApplication>
@@ -15,8 +14,7 @@ namespace light {
 LigthBackend::LigthBackend(QObject* parent) : QObject(parent) {
 }
 
-void LigthBackend::init(const QString& hostName, quint16 port) {
-  initMqttClient(hostName, port);
+void LigthBackend::init() {
   initFixtureCommandController();
   initDatabase();
   initCommandController();
@@ -44,17 +42,8 @@ void LigthBackend::deleteFixturesCommands(const QList<ID>& commands) {
   deviceCommandController->deleteFixturesCommands(commands);
 }
 
-void LigthBackend::initMqttClient(const QString& hostName, quint16 port) {
-  mqttClient = QMqttClientShared::create();
-  mqttClient->setHostname(hostName);
-  mqttClient->setPort(port);
-  mqttClient->setClientId("DatabaseProvider");
-  mqttClient->setCleanSession(false);
-  mqttClient->connectToHost();
-}
-
 void LigthBackend::initDatabase() {
-  schedulerGateway = SchedulerGatewayShared::create();
+//  schedulerGateway = SchedulerGatewayShared::create();
   //  initInMemoryDb();
   initPostgres();
 }
@@ -79,7 +68,7 @@ PostgresConnectionInfo LigthBackend::readConnectionInfoFromSettings() const {
 void LigthBackend::initInMemoryDb() {
   auto inMemoryGateway = InMemoryDatabaseGatewayShared::create();
   fixturesCommandsController->setFixtureCommandGateway(inMemoryGateway);
-  schedulerGateway->setGateways({inMemoryGateway, inMemoryGateway, inMemoryGateway, inMemoryGateway});
+//  schedulerGateway->setGateways({inMemoryGateway, inMemoryGateway, inMemoryGateway, inMemoryGateway});
 }
 
 void LigthBackend::initPostgres() {
@@ -89,8 +78,8 @@ void LigthBackend::initPostgres() {
     qApp->quit();
   }
   fixturesCommandsController->setFixtureCommandGateway(fixtureCommandGateway);
-  schedulerGateway->setGateways(
-      {fixtureCommandGateway, fixtureCommandGateway, fixtureCommandGateway, fixtureCommandGateway});
+//  schedulerGateway->setGateways(
+//      {fixtureCommandGateway, fixtureCommandGateway, fixtureCommandGateway, fixtureCommandGateway});
 
   session = SessionShared::create();
   session->setDb(fixtureCommandGateway->getDb());
@@ -98,9 +87,9 @@ void LigthBackend::initPostgres() {
 
 void LigthBackend::initCommandController() {
   deviceCommandController = DeviceCommandsControllerShared::create();
-  deviceCommandController->setMqttClient(mqttClient);
+//  deviceCommandController->setMqttClient(mqttClient);
   deviceCommandController->setCommandController(fixturesCommandsController);
-  deviceCommandController->setSchedulerGateway(schedulerGateway);
+//  deviceCommandController->setSchedulerGateway(schedulerGateway);
 }
 
 void LigthBackend::initFixtureCommandController() {
