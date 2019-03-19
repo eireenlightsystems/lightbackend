@@ -1,7 +1,8 @@
 #ifndef DEVICEERRORCONTROLLER_H
 #define DEVICEERRORCONTROLLER_H
-#include "SharedTypes.h"
 #include "DeviceMessageReceiverTypeDefs.h"
+#include "PostgresConnectionInfo.h"
+#include "SharedTypes.h"
 
 #include <QObject>
 #include <QSharedPointer>
@@ -14,27 +15,38 @@ namespace DeviceMessageReceiver {
 class DeviceErrorSaver;
 class MqttDeviceErrorSubscriber;
 
+struct MqttConnectionInfo
+{
+  QString hostName;
+  quint16 port;
+  QString clientId;
+};
+
 class DeviceErrorController : public QObject
 {
   Q_OBJECT
 public:
   explicit DeviceErrorController(QObject* parent = nullptr);
-
-  QMqttClientShared getMqttCilent() const;
-  void setMqttCilent(const QMqttClientShared& value);
-
-  AbstractDeviceErrorSaverShared getDeviceErrorSaver() const;
-  void setDeviceErrorSaver(const AbstractDeviceErrorSaverShared& value);
+  void init();
 
 private slots:
   void onMqttConnected();
   void onDeviceErrorReceived(const DeviceError& error);
 
 private:
-  AbstractDeviceErrorSaverShared deviceErrorSaver;
+  void initSubscriber();
+  void initDatabase();
+  void initMqtt();
+  light::PostgresConnectionInfo readConnectionInfoFromSettings() const;
+  void initMqttClient(const MqttConnectionInfo &connectionInfo);
+  MqttConnectionInfo readMqttConnectionInfoFromSettings() const;
+  QString getSettingsPath() const;
+
+private:
+  PostgresDeviceErrorSaverShared deviceErrorSaver;
   MqttDeviceErrorSubscriberShared errorSubscriber;
   QMqttClientShared mqttClient;
 };
-} // namespace light
+} // namespace DeviceMessageReceiver
 
 #endif // DEVICEERRORCONTROLLER_H

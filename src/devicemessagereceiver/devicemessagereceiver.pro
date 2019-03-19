@@ -31,7 +31,7 @@ SOURCES += \
     AbstractDeviceErrorSaver.cpp \
     MqttDeviceErrorSubscriber.cpp \
     PostgresDeviceErrorSaver.cpp
-S
+
 DISTFILES += \
   devicemessagereceiver.conf \
 

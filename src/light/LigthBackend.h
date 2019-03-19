@@ -39,7 +39,6 @@ private:
 
 private:
   QMqttClientShared mqttClient;
-  DeviceErrorControllerShared devideErrorController;
   DeviceCommandsControllerShared deviceCommandController;
   CommandsControllerShared fixturesCommandsController;
   SchedulerGatewayShared schedulerGateway;

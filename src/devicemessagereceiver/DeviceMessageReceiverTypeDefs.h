@@ -17,6 +17,8 @@ using ID = light::ID;
 
 DeclareShared(MqttDeviceErrorSubscriber);
 DeclareShared(AbstractDeviceErrorSaver);
+DeclareShared(DeviceErrorController);
+DeclareShared(PostgresDeviceErrorSaver);
 
 } // namespace DeviceMessageReceiver
 

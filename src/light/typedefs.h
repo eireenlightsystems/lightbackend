@@ -25,7 +25,6 @@ DeclareShared(CommandsScheduler);
 DeclareShared(MqttDeviceCommandPublisher);
 DeclareShared(SpeedToLightUpDeviceCommand);
 DeclareShared(SpeedToLightDownDeviceCommand);
-DeclareShared(DeviceErrorController);
 DeclareShared(DeviceCommandsController);
 
 DeclareShared(AbstractDictionaryGateway);
@@ -34,14 +33,12 @@ DeclareShared(InMemoryDatabaseGateway);
 DeclareShared(InMemoryDictionaryGateway);
 DeclareShared(CommandsController);
 DeclareShared(SchedulerGateway);
-DeclareShared(PostgresDeviceErrorSaver);
 DeclareShared(Fixture);
 DeclareShared(AbstractFixtureCommandFacadeGateway);
 DeclareShared(AbstractFixtureGateway);
 DeclareShared(AbstractFixtureLightLevelCommandGateway);
 DeclareShared(AbstractFixtureLightSpeedCommandGateway);
 DeclareShared(AbstractDeviceCommandGateway);
-
 DeclareShared(FixtureCommand);
 DeclareShared(FixtureLightLevelCommand);
 DeclareShared(FixtureLightSpeedCommand);

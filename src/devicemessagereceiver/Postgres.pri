@@ -6,7 +6,7 @@ INCLUDEPATH += $$LIGHT_PATH $$EXCEPTION_PATH $$POSTGRESQL_OBJECT_PATH
 
 HEADERS += \
     $$LIGHT_PATH/typedefs.h \
-    $$POSTGRESQL_OBJECT_PATH/PostresConnectionInfo.h \
+    $$POSTGRESQL_OBJECT_PATH/PostgresConnectionInfo.h \
     $$POSTGRESQL_OBJECT_PATH/SqlQuery.h \
     $$POSTGRESQL_OBJECT_PATH/SelectQuery.h \
     $$POSTGRESQL_OBJECT_PATH/InsertQuery.h \

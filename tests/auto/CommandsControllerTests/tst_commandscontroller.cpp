@@ -9,7 +9,6 @@
 #include "FixtureLightLevelCommand.h"
 #include "InMemoryDatabaseGateway.h"
 #include "MissingFixtureGatewayLinkException.h"
-#include "typedefs.h"
 
 #include <QtTest>
 
