@@ -4,6 +4,7 @@
 #include "SchedulerGateway.h"
 
 #include <QCoreApplication>
+#include <QDateTime>
 #include <QMqttClient>
 #include <QSettings>
 
@@ -21,10 +22,13 @@ void CommandsSchedulerController::init() {
 }
 
 void CommandsSchedulerController::onSchedulerTimeout() {
-  //  auto commands = commandController->getDeviceCommandsByDateTime(datetime);
-  //  deviceCommandPublisher->publish(commands);
-  //  schedulerGateway->markAsSentCommandsByDateTime(datetime);
-  //  scheduler->checkUpdates();
+  auto closestDatetime = schedulerGateway->getClosestCommandDateTime();
+  auto currentDatetime = QDateTime::currentDateTime();
+  if (closestDatetime <= currentDatetime) {
+    auto commands = commandController->getDeviceCommandsByDateTime(datetime);
+    deviceCommandPublisher->publish(commands);
+    schedulerGateway->markAsSentCommandsByDateTime(datetime);
+  }
 }
 
 void CommandsSchedulerController::onMqttConnected() {
