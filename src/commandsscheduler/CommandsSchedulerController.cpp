@@ -1,6 +1,7 @@
 #include "CommandsSchedulerController.h"
 
 #include "MqttDeviceCommandPublisher.h"
+#include "PostgresFixtureCommandFacadeGateway.h"
 #include "SchedulerGateway.h"
 
 #include <QCoreApplication>
@@ -19,15 +20,18 @@ CommandsSchedulerController::CommandsSchedulerController(QObject* parent)
 }
 
 void CommandsSchedulerController::init() {
+  initMqtt();
+  initTimer();
+  initDatabase();
 }
 
 void CommandsSchedulerController::onSchedulerTimeout() {
   auto closestDatetime = schedulerGateway->getClosestCommandDateTime();
   auto currentDatetime = QDateTime::currentDateTime();
   if (closestDatetime <= currentDatetime) {
-    auto commands = commandController->getDeviceCommandsByDateTime(datetime);
+    auto commands = fixtureCommandFacade->selectDeviceInCommandsInQueue(closestDatetime);
     deviceCommandPublisher->publish(commands);
-    schedulerGateway->markAsSentCommandsByDateTime(datetime);
+    schedulerGateway->markAsSentCommandsByDateTime(closestDatetime);
   }
 }
 
@@ -82,6 +86,35 @@ int CommandsSchedulerController::readIntervalFromSettings() const {
   settings.endGroup();
 
   return interval;
+}
+
+void CommandsSchedulerController::initDatabase() {
+  fixtureCommandFacade = light::PostgresqlGateway::PostgresFixtureCommandFacadeGatewayShared::create();
+  auto connectionInfo = readConnectionInfoFromSettings();
+  fixtureCommandFacade->open(connectionInfo);
+  SchedulerGateway::Gateways gateways;
+  gateways.fixtureGateway = fixtureCommandFacade;
+  gateways.deviceCommandGateway = fixtureCommandFacade;
+  gateways.lightLevelCommandGateway = fixtureCommandFacade;
+  gateways.lightSpeedCommandGateway = fixtureCommandFacade;
+  schedulerGateway->setGateways(gateways);
+}
+
+light::PostgresConnectionInfo CommandsSchedulerController::readConnectionInfoFromSettings() const {
+  light::PostgresConnectionInfo connectionInfo;
+
+  QSettings settings(getSettingsPath(), QSettings::IniFormat);
+  settings.beginGroup("Database");
+  connectionInfo.hostName = settings.value("hostName").toString();
+  connectionInfo.port = settings.value("port").toInt();
+  connectionInfo.databaseName = settings.value("databaseName").toString();
+  connectionInfo.userName = settings.value("username").toString();
+  connectionInfo.password = settings.value("password").toString();
+  settings.endGroup();
+
+  qDebug() << connectionInfo.hostName << connectionInfo.port << connectionInfo.databaseName << connectionInfo.userName;
+
+  return connectionInfo;
 }
 
 } // namespace CommandsScheduler

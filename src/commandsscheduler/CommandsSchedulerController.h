@@ -2,6 +2,7 @@
 #define COMMANDSSCHEDULERCONTROLLER_H
 
 #include "CommandsSchedulerTypeDefs.h"
+#include "PostgresConnectionInfo.h"
 
 #include <QTimer>
 
@@ -28,17 +29,19 @@ private slots:
 private:
   void initMqtt();
   MqttConnectionInfo readMqttConnectionInfoFromSettings() const;
-  void initMqttClient(const MqttConnectionInfo &connectionInfo);
+  void initMqttClient(const MqttConnectionInfo& connectionInfo);
   QString getSettingsPath() const;
   void initTimer();
   int readIntervalFromSettings() const;
+  void initDatabase();
+  light::PostgresConnectionInfo readConnectionInfoFromSettings() const;
 
 private:
   QMqttClientShared mqttClient;
   SchedulerGatewayShared schedulerGateway;
   MqttDeviceCommandPublisherShared deviceCommandPublisher;
   QTimer timer;
-//  light::CommandsControllerShared commandController;
+  light::PostgresqlGateway::PostgresFixtureCommandFacadeGatewayShared fixtureCommandFacade;
 };
 
 } // namespace CommandsScheduler
