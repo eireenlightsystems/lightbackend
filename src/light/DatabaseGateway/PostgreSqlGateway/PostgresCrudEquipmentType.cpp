@@ -21,9 +21,9 @@ PostgresCrud<EquipmentType>::PostgresCrud() {
 Reader<EquipmentType>::Shared PostgresCrud<EquipmentType>::parse(const QSqlRecord& record) const {
   auto equipmentType = EquipmentTypeShared::create();
   equipmentType->setId(record.value(getIdAlias()).value<ID>());
-  equipmentType->setCode(record.value(getFiledAlias("code_equipment_type")).toString());
-  equipmentType->setName(record.value(getFiledAlias("name_equipment_type")).toString());
-  equipmentType->setModel(record.value(getFiledAlias("model_equipment_type")).toString());
+  equipmentType->setCode(record.value(getFieldAlias("code_equipment_type")).toString());
+  equipmentType->setName(record.value(getFieldAlias("name_equipment_type")).toString());
+  equipmentType->setModel(record.value(getFieldAlias("model_equipment_type")).toString());
   return equipmentType;
 }
 

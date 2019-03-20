@@ -24,12 +24,12 @@ PostgresCrud<FixtureType>::PostgresCrud() {
 Reader<FixtureType>::Shared PostgresCrud<FixtureType>::parse(const QSqlRecord& record) const {
   auto fixtureType = FixtureTypeShared::create();
   fixtureType->setId(record.value(getIdAlias()).value<ID>());
-  fixtureType->setCode(record.value(getFiledAlias("code_fixture_type")).toString());
-  fixtureType->setModel(record.value(getFiledAlias("model_fixture_type")).toString());
-  fixtureType->setLenght(record.value(getFiledAlias("length_fixture_type")).toDouble());
-  fixtureType->setWidth(record.value(getFiledAlias("width_fixture_type")).toDouble());
-  fixtureType->setHeight(record.value(getFiledAlias("height_fixture_type")).toDouble());
-  fixtureType->setWeight(record.value(getFiledAlias("weight_fixture_type")).toDouble());
+  fixtureType->setCode(record.value(getFieldAlias("code_fixture_type")).toString());
+  fixtureType->setModel(record.value(getFieldAlias("model_fixture_type")).toString());
+  fixtureType->setLenght(record.value(getFieldAlias("length_fixture_type")).toDouble());
+  fixtureType->setWidth(record.value(getFieldAlias("width_fixture_type")).toDouble());
+  fixtureType->setHeight(record.value(getFieldAlias("height_fixture_type")).toDouble());
+  fixtureType->setWeight(record.value(getFieldAlias("weight_fixture_type")).toDouble());
   return fixtureType;
 }
 

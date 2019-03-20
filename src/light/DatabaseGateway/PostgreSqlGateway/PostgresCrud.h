@@ -144,7 +144,7 @@ protected:
   QString getIdAlias() const {
     return idField.alias;
   }
-  QString getFiledAlias(const QString& value) const {
+  QString getFieldAlias(const QString& value) const {
     return fields.value(value).alias;
   }
 

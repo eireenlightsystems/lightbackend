@@ -19,7 +19,7 @@ PostgresCrud<EquipmentOwner>::PostgresCrud() {
 Reader<EquipmentOwner>::Shared PostgresCrud<EquipmentOwner>::parse(const QSqlRecord& record) const {
   auto contragent = EquipmentOwnerShared::create();
   contragent->setId(record.value(getIdAlias()).value<ID>());
-  contragent->setName(record.value(getFiledAlias("name_owner")).toString());
+  contragent->setName(record.value(getFieldAlias("name_owner")).toString());
   return contragent;
 }
 

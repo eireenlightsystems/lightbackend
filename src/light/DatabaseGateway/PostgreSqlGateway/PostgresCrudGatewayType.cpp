@@ -19,7 +19,7 @@ PostgresCrud<GatewayType>::PostgresCrud() {
 Reader<GatewayType>::Shared PostgresCrud<GatewayType>::parse(const QSqlRecord& record) const {
   auto gatewayType = GatewayTypeShared::create();
   gatewayType->setId(record.value(getIdAlias()).value<ID>());
-  gatewayType->setCode(record.value(getFiledAlias("code_gateway_type")).toString());
+  gatewayType->setCode(record.value(getFieldAlias("code_gateway_type")).toString());
   return gatewayType;
 }
 
