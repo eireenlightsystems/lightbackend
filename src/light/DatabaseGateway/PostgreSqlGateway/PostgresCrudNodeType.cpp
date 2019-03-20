@@ -19,7 +19,7 @@ PostgresCrud<NodeType>::PostgresCrud() {
 Reader<NodeType>::Shared PostgresCrud<NodeType>::parse(const QSqlRecord& record) const {
   auto nodeType = NodeTypeShared::create();
   nodeType->setId(record.value(getIdAlias()).value<ID>());
-  nodeType->setCode(record.value(getFiledAlias("code_node_type")).toString());
+  nodeType->setCode(record.value(getFieldAlias("code_node_type")).toString());
   return nodeType;
 }
 

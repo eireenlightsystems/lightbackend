@@ -20,8 +20,8 @@ light::PostgresqlGateway::PostgresCrud<Contragent>::PostgresCrud() {
 Reader<Contragent>::Shared light::PostgresqlGateway::PostgresCrud<Contragent>::parse(const QSqlRecord& record) const {
   auto contragent = ContragentShared::create();
   contragent->setId(record.value(getIdAlias()).value<ID>());
-  contragent->setCode(record.value(getFiledAlias("code_contragent")).toString());
-  contragent->setName(record.value(getFiledAlias("name_contragent")).toString());
+  contragent->setCode(record.value(getFieldAlias("code")).toString());
+  contragent->setName(record.value(getFieldAlias("name")).toString());
   return contragent;
 }
 

@@ -54,7 +54,7 @@ Editor<FixtureGroup>::Shared PostgresCrud<FixtureGroup>::parse(const QSqlRecord&
   contragentCrud.setSession(getSession());
   contragentCrud.setFields({
       {"id_contragent", "id_owner", true},
-      {"code_contragent", "code_owner", false},
+      {"code", "code_owner", false},
   });
   fixtureGroup->setOwner(contragentCrud.parse(record));
 
@@ -62,10 +62,10 @@ Editor<FixtureGroup>::Shared PostgresCrud<FixtureGroup>::parse(const QSqlRecord&
   geographCrud.setSession(getSession());
   fixtureGroup->setGeograph(geographCrud.parse(record));
 
-  auto name = record.value(getFiledAlias("name_fixture_group")).toString();
+  auto name = record.value(getFieldAlias("name_fixture_group")).toString();
   fixtureGroup->setName(name);
-  fixtureGroup->setCoordinate(record.value(getFiledAlias("n_coordinate")).toDouble(),
-			      record.value(getFiledAlias("e_coordinate")).toDouble());
+  fixtureGroup->setCoordinate(record.value(getFieldAlias("n_coordinate")).toDouble(),
+			      record.value(getFieldAlias("e_coordinate")).toDouble());
 
   return fixtureGroup;
 }

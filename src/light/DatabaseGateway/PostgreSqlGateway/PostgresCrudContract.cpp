@@ -20,8 +20,8 @@ PostgresCrud<Contract>::PostgresCrud() {
 Reader<Contract>::Shared PostgresCrud<Contract>::parse(const QSqlRecord& record) const {
   auto contract = ContractShared::create();
   contract->setId(record.value(getIdAlias()).value<ID>());
-  contract->setCode(record.value(getFiledAlias("code_contract")).toString());
-  contract->setName(record.value(getFiledAlias("name_contract")).toString());
+  contract->setCode(record.value(getFieldAlias("code_contract")).toString());
+  contract->setName(record.value(getFieldAlias("name_contract")).toString());
   return contract;
 }
 

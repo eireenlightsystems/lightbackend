@@ -78,7 +78,7 @@ Editor<Fixture>::Shared PostgresCrud<Fixture>::parse(const QSqlRecord& record) c
   installerCrud.setSession(getSession());
   installerCrud.setFields({
       {"id_contragent", "id_installer", true},
-      {"code_contragent", "code_installer", false},
+      {"code", "code_installer", false},
   });
   fixture->setInstaller(installerCrud.parse(record));
 
@@ -94,7 +94,7 @@ Editor<Fixture>::Shared PostgresCrud<Fixture>::parse(const QSqlRecord& record) c
   ownerCrud.setSession(getSession());
   ownerCrud.setFields({
       {"id_contragent", "id_owner", true},
-      {"code_contragent", "code_owner", false},
+      {"code", "code_owner", false},
   });
   fixture->setOwner(ownerCrud.parse(record));
 
@@ -102,11 +102,11 @@ Editor<Fixture>::Shared PostgresCrud<Fixture>::parse(const QSqlRecord& record) c
   nodeCrud.setSession(getSession());
   fixture->setNode(nodeCrud.parse(record));
 
-  fixture->setWorkLevel(record.value(getFiledAlias("work_level")).value<quint8>());
-  fixture->setStandbyLevel(record.value(getFiledAlias("standby_level")).value<quint8>());
-  fixture->setSpeedUp(record.value(getFiledAlias("speed_zero_to_full")).value<quint8>());
-  fixture->setSpeedDown(record.value(getFiledAlias("speed_full_to_zero")).value<quint8>());
-  fixture->setComment(record.value(getFiledAlias("comments")).toString());
+  fixture->setWorkLevel(record.value(getFieldAlias("work_level")).value<quint8>());
+  fixture->setStandbyLevel(record.value(getFieldAlias("standby_level")).value<quint8>());
+  fixture->setSpeedUp(record.value(getFieldAlias("speed_zero_to_full")).value<quint8>());
+  fixture->setSpeedDown(record.value(getFieldAlias("speed_full_to_zero")).value<quint8>());
+  fixture->setComment(record.value(getFieldAlias("comments")).toString());
 
   return fixture;
 }

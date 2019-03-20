@@ -19,7 +19,7 @@ PostgresCrud<FixtureGroupType>::PostgresCrud() {
 Reader<FixtureGroupType>::Shared PostgresCrud<FixtureGroupType>::parse(const QSqlRecord& record) const {
   auto type = FixtureGroupTypeShared::create();
   type->setId(record.value(getIdAlias()).value<ID>());
-  type->setName(record.value(getFiledAlias("name_fixture_group_type")).toString());
+  type->setName(record.value(getFieldAlias("name_fixture_group_type")).toString());
   return type;
 }
 
