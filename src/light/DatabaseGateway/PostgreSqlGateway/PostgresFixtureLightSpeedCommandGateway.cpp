@@ -76,7 +76,7 @@ void PostgresFixtureLightSpeedCommandGateway::saveLightSpeedCommands(
   getDb().transaction();
 
   for (const auto& c : commands) {
-    if (c->getCommandId()) {
+    if (c->getId()) {
       updateLightSpeedCommand(c);
     } else {
       insertLightSpeedCommand(c);
@@ -96,7 +96,7 @@ void PostgresFixtureLightSpeedCommandGateway::deleteLightSpeedCommands(
   std::transform(commands.begin(),
 		 commands.end(),
 		 std::back_inserter(bindIds),
-		 [](FixtureLightSpeedCommandShared command) { return QVariant(command->getCommandId()); });
+		 [](FixtureLightSpeedCommandShared command) { return QVariant(command->getId()); });
   BindParamsType bindParams{
       {":id_command", bindIds},
   };
@@ -113,7 +113,7 @@ PostgresFixtureLightSpeedCommandGateway::selectBase(const QString& sql, const Bi
 FixtureLightSpeedCommandShared
 PostgresFixtureLightSpeedCommandGateway::parseLightSpeedCommand(const QSqlRecord& record) const {
   auto fixtureLightSpeedCommand = FixtureLightSpeedCommandShared::create();
-  fixtureLightSpeedCommand->setCommandId(record.value(0).value<ID>());
+  fixtureLightSpeedCommand->setId(record.value(0).value<ID>());
   fixtureLightSpeedCommand->setStatus(record.value(1).value<CommandStatus>());
   fixtureLightSpeedCommand->setFixtureId(record.value(2).value<ID>());
   fixtureLightSpeedCommand->setStartDateTime(record.value(3).toDateTime());
@@ -147,7 +147,7 @@ void PostgresFixtureLightSpeedCommandGateway::updateLightSpeedCommand(const Fixt
   ID commandTypeId =
       command->getDirectionType() == FixtureLightSpeedCommand::FixtureLightSpeedDirectionType::StandbyToWork ? 4 : 5;
   BindParamsType bindParams{
-      {":id_command", command->getCommandId()},
+      {":id_command", command->getId()},
       {":id_command_type", commandTypeId},
       {":id_command_status", command->getStatus()},
       {":id_fixture", command->getFixtureId()},

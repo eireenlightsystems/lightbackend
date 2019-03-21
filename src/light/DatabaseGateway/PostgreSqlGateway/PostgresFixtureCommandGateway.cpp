@@ -44,7 +44,7 @@ void PostgresFixtureCommandGateway::deleteCommands(const FixtureCommandSharedLis
   const QString deleteFromComandSql = "select command_pkg_i.del(:id_command)";
   QVariantList bindIds;
   std::transform(commands.begin(), commands.end(), std::back_inserter(bindIds), [](const FixtureCommandShared c) {
-    return QVariant(c->getCommandId());
+    return QVariant(c->getId());
   });
   BindParamsType bindParams{
       {":id_command", bindIds},
@@ -60,7 +60,7 @@ FixtureCommandSharedList PostgresFixtureCommandGateway::selectBase(const QString
 
 FixtureCommandShared PostgresFixtureCommandGateway::parseFixtureCommand(const QSqlRecord& record) const {
   auto fixtureLightLevelCommand = FixtureCommandShared::create();
-  fixtureLightLevelCommand->setCommandId(record.value(0).value<ID>());
+  fixtureLightLevelCommand->setId(record.value(0).value<ID>());
   fixtureLightLevelCommand->setStatus(record.value(1).value<CommandStatus>());
   fixtureLightLevelCommand->setFixtureId(record.value(2).value<ID>());
   fixtureLightLevelCommand->setStartDateTime(record.value(3).toDateTime());

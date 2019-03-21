@@ -4,6 +4,7 @@
 #include "AbstractFixtureCommandGateway.h"
 #include "BadInputDataException.h"
 #include "BadRequestException.h"
+#include "FixtureCommandRestRouter.h"
 #include "DatabaseException.h"
 #include "FixtureGroupRouter.h"
 #include "FixtureLightLevelCommand.h"
@@ -15,12 +16,12 @@
 #include "InternalServerErrorException.h"
 #include "NodeRestRouter.h"
 #include "NodeToJson.h"
+#include "TemplateRouter.h"
 
 #include <QException>
 #include <QHttpServerResponse>
 #include <QJsonDocument>
 #include <QJsonObject>
-#include <TemplateRouter.h>
 
 namespace light {
 HttpServerWrapper::HttpServerWrapper(QObject* parent) : QObject(parent) {
@@ -66,6 +67,16 @@ void HttpServerWrapper::setLightBackend(const QSharedPointer<LigthBackend>& valu
 }
 
 void HttpServerWrapper::createCommandsRoutes() {
+  TemplateRouter<FixtureCommand> fixtureCommandRouter;
+  fixtureCommandRouter.registerApi(httpServer);
+
+  TemplateRouter<FixtureLightLevelCommand> fixtureLightLevelCommandRouter;
+  fixtureLightLevelCommandRouter.registerApi(httpServer);
+
+  TemplateRouter<FixtureLightSpeedCommand> fixtureLightSpeedCommandRouter;
+  fixtureLightSpeedCommandRouter.registerApi(httpServer);
+
+  /*
   httpServer.route("/api2/fixture/command", QHttpServerRequest::Method::Delete, [](const QHttpServerRequest& req) {
     auto routeFunction = [](const QHttpServerRequest& req) {
       auto provider = HttpServerWrapper::singleton()->getLightBackend();
@@ -80,9 +91,11 @@ void HttpServerWrapper::createCommandsRoutes() {
     };
     return baseRouteFunction(routeFunction, req);
   });
+  */
 }
 
 void HttpServerWrapper::createLightLevelRoutes() {
+  /*
   httpServer.route(
       "/api2/fixture/command/lightlevel", QHttpServerRequest::Method::Get, [](const QHttpServerRequest& req) {
 	auto routeFunction = [](const QHttpServerRequest& req) {
@@ -128,54 +141,57 @@ void HttpServerWrapper::createLightLevelRoutes() {
 	};
 	return baseRouteFunction(routeFunction, req);
       });
+*/
 }
 
 void HttpServerWrapper::createLightSpeedRoutes() {
-  httpServer.route(
-      "/api2/fixture/command/lightspeed", QHttpServerRequest::Method::Get, [](const QHttpServerRequest& req) {
-	auto routeFunction = [](const QHttpServerRequest& req) {
-	  CommandStatus commandStatus = CommandStatus(req.query().queryItemValue("statusId").toInt());
-	  ID fixtureId = req.query().queryItemValue("fixtureId").toULong();
-	  QString from = req.query().queryItemValue("startDateTime");
-	  QString to = req.query().queryItemValue("endDateTime");
-	  auto provider = HttpServerWrapper::singleton()->getLightBackend();
-	  QDateTime dtFrom = QDateTime::fromString(from, Qt::ISODate);
-	  if (!dtFrom.isValid()) {
-	    throw BadRequestException("invalid startDateTime");
-	  }
-	  QDateTime dtTo = QDateTime::fromString(to, Qt::ISODate);
-	  if (!dtTo.isValid()) {
-	    throw BadRequestException("invalid endDateTime");
-	  }
-	  FixtureCommandsFilter filter{commandStatus, fixtureId, dtFrom, dtTo};
-	  auto commands = provider->getFixtureLightSpeedCommandsByDateTimeRange(filter);
-	  FixtureLightSpeedCommandsToJson converter;
-	  converter.convert(commands);
-	  if (!converter.getIdValid()) {
-	    throw InternalServerErrorException(converter.getErrorText());
-	  }
+  /*
+    httpServer.route(
+	"/api2/fixture/command/lightspeed", QHttpServerRequest::Method::Get, [](const QHttpServerRequest& req) {
+	  auto routeFunction = [](const QHttpServerRequest& req) {
+	    CommandStatus commandStatus = CommandStatus(req.query().queryItemValue("statusId").toInt());
+	    ID fixtureId = req.query().queryItemValue("fixtureId").toULong();
+	    QString from = req.query().queryItemValue("startDateTime");
+	    QString to = req.query().queryItemValue("endDateTime");
+	    auto provider = HttpServerWrapper::singleton()->getLightBackend();
+	    QDateTime dtFrom = QDateTime::fromString(from, Qt::ISODate);
+	    if (!dtFrom.isValid()) {
+	      throw BadRequestException("invalid startDateTime");
+	    }
+	    QDateTime dtTo = QDateTime::fromString(to, Qt::ISODate);
+	    if (!dtTo.isValid()) {
+	      throw BadRequestException("invalid endDateTime");
+	    }
+	    FixtureCommandsFilter filter{commandStatus, fixtureId, dtFrom, dtTo};
+	    auto commands = provider->getFixtureLightSpeedCommandsByDateTimeRange(filter);
+	    FixtureLightSpeedCommandsToJson converter;
+	    converter.convert(commands);
+	    if (!converter.getIdValid()) {
+	      throw InternalServerErrorException(converter.getErrorText());
+	    }
 
-	  auto jsonDocument = converter.getJsonDocument();
-	  return QHttpServerResponse("text/json", jsonDocument.toJson());
-	};
-	return baseRouteFunction(routeFunction, req);
-      });
+	    auto jsonDocument = converter.getJsonDocument();
+	    return QHttpServerResponse("text/json", jsonDocument.toJson());
+	  };
+	  return baseRouteFunction(routeFunction, req);
+	});
 
-  httpServer.route(
-      "/api2/fixture/command/lightspeed", QHttpServerRequest::Method::Post, [](const QHttpServerRequest& req) {
-	auto routeFunction = [](const QHttpServerRequest& req) {
-	  auto provider = HttpServerWrapper::singleton()->getLightBackend();
-	  JsonToFixtureLightSpeedCommands converter;
-	  converter.convert(req.body());
-	  if (!converter.getIdValid()) {
-	    throw InternalServerErrorException(converter.getErrorText());
-	  }
-	  auto lightUpSpeedCommands = converter.getLightUpSpeedCommands();
-	  provider->setFixturesLightSpeed(lightUpSpeedCommands);
-	  return QHttpServerResponse(QHttpServerResponder::StatusCode::Ok);
-	};
-	return baseRouteFunction(routeFunction, req);
-      });
+    httpServer.route(
+	"/api2/fixture/command/lightspeed", QHttpServerRequest::Method::Post, [](const QHttpServerRequest& req) {
+	  auto routeFunction = [](const QHttpServerRequest& req) {
+	    auto provider = HttpServerWrapper::singleton()->getLightBackend();
+	    JsonToFixtureLightSpeedCommands converter;
+	    converter.convert(req.body());
+	    if (!converter.getIdValid()) {
+	      throw InternalServerErrorException(converter.getErrorText());
+	    }
+	    auto lightUpSpeedCommands = converter.getLightUpSpeedCommands();
+	    provider->setFixturesLightSpeed(lightUpSpeedCommands);
+	    return QHttpServerResponse(QHttpServerResponder::StatusCode::Ok);
+	  };
+	  return baseRouteFunction(routeFunction, req);
+	});
+  */
 }
 
 void HttpServerWrapper::createNodeRoutes() {

@@ -13,8 +13,8 @@ public:
   FixtureCommand() = default;
   virtual ~FixtureCommand();
 
-  ID getCommandId() const;
-  void setCommandId(const ID& value);
+  ID getId() const;
+  void setId(const ID& value);
 
   ID getFixtureId() const;
   void setFixtureId(const ID& value);
@@ -28,7 +28,7 @@ public:
   bool getDeletable() const;
 
 private:
-  ID commandId{0};
+  ID id{0};
   ID fixtureId{0};
   QDateTime startDateTime;
   CommandStatus status{CommandStatus::None};

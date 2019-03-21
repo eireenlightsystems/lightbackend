@@ -52,11 +52,11 @@ void FixtureCommands::fixtureCommand() {
 
   {
     light::FixtureCommand command;
-    command.setCommandId(commandId);
+    command.setId(commandId);
     command.setFixtureId(fixtureId);
     command.setStartDateTime(startDateTime);
 
-    QVERIFY(command.getCommandId() == commandId);
+    QVERIFY(command.getId() == commandId);
     QVERIFY(command.getFixtureId() == fixtureId);
     QVERIFY(command.getStartDateTime() == startDateTime);
   }

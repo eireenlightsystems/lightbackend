@@ -63,7 +63,7 @@ public:
   Reader() = default;
   ~Reader() override = default;
 
-  Shared selById(ID id) const {
+  virtual Shared selById(ID id) const {
     auto objects = sel(IDList{id});
     if (objects.count()) {
       return objects.first();

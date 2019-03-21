@@ -14,7 +14,7 @@ namespace light {
 template <typename T>
 T JsonToFuxtureCommandBaseConverter::createAndBaseParse(const QJsonObject& object) const {
   auto command = T::create();
-  command->setCommandId(object.value("commandId").toVariant().value<ID>());
+  command->setId(object.value("commandId").toVariant().value<ID>());
   command->setFixtureId(object.value("fixtureId").toVariant().value<ID>());
   auto startDateTime = QDateTime::fromString(object.value("startDateTime").toString(), Qt::ISODate);
   command->setStartDateTime(startDateTime);
@@ -25,7 +25,7 @@ void FixtureLightLevelCommandsToJson::convert(const FixtureLightLevelCommandShar
   QJsonArray jsonCommands;
   for (const auto& c : commands) {
     QJsonObject command;
-    command["commandId"] = QJsonValue::fromVariant(c->getCommandId());
+    command["commandId"] = QJsonValue::fromVariant(c->getId());
     command["statusId"] = c->getStatus();
     command["startDateTime"] = c->getStartDateTime().toString("yyyy-MM-dd hh:mm");
     command["workLevel"] = c->getWorkLevel();
@@ -83,7 +83,7 @@ void FixtureLightSpeedCommandsToJson::convert(const FixtureLightSpeedCommandShar
   QJsonArray jsonCommands;
   for (const auto& c : commands) {
     QJsonObject command;
-    command["commandId"] = QJsonValue::fromVariant(c->getCommandId());
+    command["commandId"] = QJsonValue::fromVariant(c->getId());
     command["statusId"] = c->getStatus();
     command["startDateTime"] = c->getStartDateTime().toString("yyyy-MM-dd hh:mm");
     command["speedDirectionId"] = static_cast<int>(c->getDirectionType());

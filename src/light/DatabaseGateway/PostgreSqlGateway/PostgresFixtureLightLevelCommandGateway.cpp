@@ -77,7 +77,7 @@ void PostgresFixtureLightLevelCommandGateway::saveLightLevelCommands(
     const FixtureLightLevelCommandSharedList& commands) {
   getDb().transaction();
   for (auto command : commands) {
-    if (command->getCommandId()) {
+    if (command->getId()) {
       updateLightLevelCommand(command);
     } else {
       insertLightLevelCommand(command);
@@ -97,7 +97,7 @@ void PostgresFixtureLightLevelCommandGateway::deleteLightLevelCommands(
   std::transform(commands.begin(),
 		 commands.end(),
 		 std::back_inserter(bindIds),
-		 [](FixtureLightLevelCommandShared command) { return QVariant(command->getCommandId()); });
+		 [](FixtureLightLevelCommandShared command) { return QVariant(command->getId()); });
   BindParamsType bindParams{
       {":id_command", bindIds},
   };
@@ -114,7 +114,7 @@ PostgresFixtureLightLevelCommandGateway::selectBase(const QString& sql, const Bi
 FixtureLightLevelCommandShared
 PostgresFixtureLightLevelCommandGateway::parseLightLevelCommand(const QSqlRecord& record) const {
   auto fixtureLightLevelCommand = FixtureLightLevelCommandShared::create();
-  fixtureLightLevelCommand->setCommandId(record.value(0).value<ID>());
+  fixtureLightLevelCommand->setId(record.value(0).value<ID>());
   fixtureLightLevelCommand->setStatus(record.value(1).value<CommandStatus>());
   fixtureLightLevelCommand->setFixtureId(record.value(2).value<ID>());
   fixtureLightLevelCommand->setStartDateTime(record.value(3).toDateTime());
@@ -142,7 +142,7 @@ void PostgresFixtureLightLevelCommandGateway::updateLightLevelCommand(const Fixt
   const QString sql = "select command_switchon_pkg_i.upd(:id_command, :id_command_type, :id_command_status, "
 		      ":id_fixture, :start_date_time, :work_level, :standby_level)";
   BindParamsType bindParams{
-      {":id_command", command->getCommandId()},
+      {":id_command", command->getId()},
       {":id_command_type", 2},
       {":id_command_status", command->getStatus()},
       {":id_fixture", command->getFixtureId()},

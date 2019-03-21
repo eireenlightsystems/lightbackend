@@ -73,7 +73,7 @@ void CommandsController::checkCommandBeforeDelete(const FixtureCommandSharedList
     std::transform(notDeletableCommands.cbegin(),
 		   notDeletableCommands.cend(),
 		   std::back_inserter(commandsIds),
-		   [](const FixtureCommandShared& c) { return c->getCommandId(); });
+		   [](const FixtureCommandShared& c) { return c->getId(); });
     throw DeleteCommandException(commandsIds);
   }
 }

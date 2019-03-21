@@ -147,10 +147,10 @@ void InMemoryDatabaseGateway::saveLightLevelCommand(const FixtureLightLevelComma
 
 void InMemoryDatabaseGateway::saveLightLevelCommands(const FixtureLightLevelCommandSharedList& commands) {
   for (auto command : commands) {
-    command->setCommandId(generateId());
+    command->setId(generateId());
     auto switchOnCommand = FixtureSwitchOnDeviceCommandShared::create(1, 1, 1, 1);
     switchOnCommand->setDateTime(command->getStartDateTime());
-    switchOnCommand->setCommandId(command->getCommandId());
+    switchOnCommand->setCommandId(command->getId());
     switchOnCommand->setWorkLevel(command->getWorkLevel());
     switchOnCommand->setStandbyLevel(command->getStandbyLevel());
     allDeviceComands.insertMulti(command->getStartDateTime(), switchOnCommand);
@@ -184,7 +184,7 @@ void InMemoryDatabaseGateway::deleteCommands(const FixtureCommandSharedList& fix
   std::transform(fixtureCommands.begin(),
 		 fixtureCommands.end(),
 		 std::back_inserter(ids),
-		 [](const FixtureCommandSharedList::value_type& c) { return c->getCommandId(); });
+		 [](const FixtureCommandSharedList::value_type& c) { return c->getId(); });
 
   for (auto commandId : ids) {
     QMutableMapIterator<QDateTime, AbstractDeviceCommandShared> allDeviceComandsIterator(allDeviceComands);
@@ -199,7 +199,7 @@ void InMemoryDatabaseGateway::deleteCommands(const FixtureCommandSharedList& fix
     while (allComandsIterator.hasNext()) {
       allComandsIterator.next();
       auto& currentCommand = allComandsIterator.value();
-      if (currentCommand->getCommandId() == commandId) {
+      if (currentCommand->getId() == commandId) {
 	allComandsIterator.remove();
       }
     }
