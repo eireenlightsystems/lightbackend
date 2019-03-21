@@ -1,6 +1,7 @@
 #ifndef GEOGRAPHRESTROUTER_H
 #define GEOGRAPHRESTROUTER_H
 
+#include "Geograph.h"
 #include "RestRouter.h"
 #include "SimpleEditableRouter.h"
 

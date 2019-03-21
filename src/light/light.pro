@@ -1,5 +1,5 @@
 QT -= gui
-QT += httpserver mqtt sql
+QT += httpserver sql
 
 CONFIG += c++17 console
 CONFIG -= app_bundle
@@ -26,8 +26,6 @@ HEADERS += \
     HttpServer.h \
     typedefs.h \
     LigthBackend.h \
-    HttpServerConverters.h \
-    DeviceCommandsController.h \
     Session.h \
     SessionOwner.h
 
@@ -36,8 +34,6 @@ SOURCES += \
     Service.cpp \
     HttpServer.cpp \
     LigthBackend.cpp \
-    HttpServerConverters.cpp \
-    DeviceCommandsController.cpp \
     Session.cpp \
     SessionOwner.cpp
 

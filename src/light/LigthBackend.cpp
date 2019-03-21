@@ -1,50 +1,20 @@
 #include "LigthBackend.h"
 
-#include "CommandsController.h"
-#include "DeviceCommandsController.h"
-#include "InMemoryDatabaseGateway.h"
-#include "PostgresFixtureCommandFacadeGateway.h"
 #include "Session.h"
 
 #include <QCoreApplication>
-#include <QMqttClient>
 #include <QSettings>
+#include <QDebug>
 
 namespace light {
 LigthBackend::LigthBackend(QObject* parent) : QObject(parent) {
 }
 
 void LigthBackend::init() {
-  initFixtureCommandController();
   initDatabase();
-  initCommandController();
-}
-
-FixtureLightLevelCommandSharedList
-LigthBackend::getFixtureLightLevelCommandsByDateTimeRange(const FixtureCommandsFilter& filter) const {
-  return fixturesCommandsController->getFixtureLightLevelCommandsByDateTimeRange(filter);
-}
-
-FixtureLightSpeedCommandSharedList
-LigthBackend::getFixtureLightSpeedCommandsByDateTimeRange(const FixtureCommandsFilter& filter) const {
-  return fixturesCommandsController->getFixtureLightSpeedCommandsByDateTimeRange(filter);
-}
-
-void LigthBackend::switchOnFixtures(const FixtureLightLevelCommandSharedList& commands) {
-  deviceCommandController->setFixturesLightLevel(commands);
-}
-
-void LigthBackend::setFixturesLightSpeed(const FixtureLightSpeedCommandSharedList& commands) {
-  deviceCommandController->setFixturesLightSpeed(commands);
-}
-
-void LigthBackend::deleteFixturesCommands(const QList<ID>& commands) {
-  deviceCommandController->deleteFixturesCommands(commands);
 }
 
 void LigthBackend::initDatabase() {
-//  schedulerGateway = SchedulerGatewayShared::create();
-  //  initInMemoryDb();
   initPostgres();
 }
 
@@ -65,39 +35,21 @@ PostgresConnectionInfo LigthBackend::readConnectionInfoFromSettings() const {
   return connectionInfo;
 }
 
-void LigthBackend::initInMemoryDb() {
-  auto inMemoryGateway = InMemoryDatabaseGatewayShared::create();
-  fixturesCommandsController->setFixtureCommandGateway(inMemoryGateway);
-//  schedulerGateway->setGateways({inMemoryGateway, inMemoryGateway, inMemoryGateway, inMemoryGateway});
-}
-
 void LigthBackend::initPostgres() {
   const PostgresConnectionInfo connectionInfo = readConnectionInfoFromSettings();
-  auto fixtureCommandGateway = PostgresqlGateway::PostgresFixtureCommandFacadeGatewayShared::create();
-  if (!fixtureCommandGateway->open(connectionInfo)) {
-    qApp->quit();
-  }
-  fixturesCommandsController->setFixtureCommandGateway(fixtureCommandGateway);
-//  schedulerGateway->setGateways(
-//      {fixtureCommandGateway, fixtureCommandGateway, fixtureCommandGateway, fixtureCommandGateway});
 
+  QSqlDatabase db = QSqlDatabase::addDatabase("QPSQL", "light");
+  db.setHostName(connectionInfo.hostName);
+  db.setPort(connectionInfo.port);
+  db.setDatabaseName(connectionInfo.databaseName);
+  db.setUserName(connectionInfo.userName);
+  db.setPassword(connectionInfo.password);
+  db.open();
   session = SessionShared::create();
-  session->setDb(fixtureCommandGateway->getDb());
+  session->setDb(db);
 }
 
-void LigthBackend::initCommandController() {
-  deviceCommandController = DeviceCommandsControllerShared::create();
-//  deviceCommandController->setMqttClient(mqttClient);
-  deviceCommandController->setCommandController(fixturesCommandsController);
-//  deviceCommandController->setSchedulerGateway(schedulerGateway);
-}
-
-void LigthBackend::initFixtureCommandController() {
-  fixturesCommandsController = CommandsControllerShared::create();
-}
-
-SessionShared LigthBackend::getSession() const
-{
+SessionShared LigthBackend::getSession() const {
   return session;
 }
 

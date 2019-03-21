@@ -17,14 +17,4 @@ HEADERS += \
 
 SOURCES += \
   $$PWD/AbstractRestRouter.cpp \
-  $$PWD/GeographRestRouter.cpp \
-  $$PWD/GatewayRestRouter.cpp \
-  $$PWD/NodeRestRouter.cpp \
-  $$PWD/RestRouter.cpp \
-  $$PWD/FixtureRestRouter.cpp \
-  $$PWD/FixtureGroupRouter.cpp \
-  $$PWD/TemplateRouter.cpp \
-  $$PWD/SimpleEditableRouter.cpp \
-  $$PWD/SimpleSelectableRouter.cpp \
-    $$PWD/SimpleEditableListRouter.cpp \
     $$PWD/FixtureCommandRestRouter.cpp

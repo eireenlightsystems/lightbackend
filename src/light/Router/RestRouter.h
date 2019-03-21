@@ -5,7 +5,6 @@
 #include "BadRequestException.h"
 #include "Controller.h"
 #include "FromJsonConverter.h"
-#include "HttpServerConverters.h"
 #include "InternalServerErrorException.h"
 #include "NotImplementedException.h"
 #include "PostgresCrud.h"

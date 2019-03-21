@@ -1,6 +1,10 @@
 #ifndef ABSTRACTRESTROUTER_H
 #define ABSTRACTRESTROUTER_H
 
+#include "BadInputDataException.h"
+#include "BadRequestException.h"
+#include "DatabaseException.h"
+#include "HttpServer.h"
 #include "typedefs.h"
 
 #include <QHttpServerRequest>
@@ -8,30 +12,16 @@
 #include <QJsonDocument>
 #include <functional>
 
-#include "BadInputDataException.h"
-#include "BadRequestException.h"
-#include "DatabaseException.h"
-#include "HttpServer.h"
-
-#include <QJsonDocument>
-
 namespace light {
 
 class AbstractRestRouter
 {
 public:
   virtual ~AbstractRestRouter() = 0;
-//  virtual QHttpServerResponse get(const SessionShared& session, const QHttpServerRequest& req) const = 0;
-//  virtual QHttpServerResponse post(const SessionShared& session, const QHttpServerRequest& req) const = 0;
-//  virtual QHttpServerResponse patch(const SessionShared& session, const QHttpServerRequest& req) const = 0;
-//  virtual QHttpServerResponse del(const SessionShared& session, const QHttpServerRequest& req) const = 0;
-//  virtual QHttpServerResponse delById(const SessionShared& session, ID id) const = 0;
-//  virtual QHttpServerResponse addItemToList(const SessionShared& session, ID listId, ID itemId) const = 0;
-//  virtual QHttpServerResponse delItemFromList(const SessionShared& session, ID listId, ID itemId) const = 0;
-
   virtual void registerApi(QHttpServer& httpServer) const = 0;
 
-//  virtual QString getPath() const = 0;
+  static QJsonDocument errorStringToJson(const char* error);
+  static QJsonDocument errorStringToJson(const QString& error);
 
 protected:
   template <typename RouteFunction, typename... Args>
@@ -49,19 +39,19 @@ QHttpServerResponse AbstractRestRouter::baseRouteFunction(RouteFunction routeFun
     }
     return routeFunction(std::forward<Args>(args)...);
   } catch (const BadRequestException& badRequest) {
-    jsonDocument = HttpServerWrapper::errorStringToJson(badRequest.getErrorText());
+    jsonDocument = AbstractRestRouter::errorStringToJson(badRequest.getErrorText());
     statusCode = QHttpServerResponder::StatusCode::BadRequest;
   } catch (const BadInputDataException& exeption) {
-    jsonDocument = HttpServerWrapper::errorStringToJson(exeption.getErrorText());
+    jsonDocument = AbstractRestRouter::errorStringToJson(exeption.getErrorText());
     statusCode = QHttpServerResponder::StatusCode::BadRequest;
   } catch (const DatabaseException& exeption) {
-    jsonDocument = HttpServerWrapper::errorStringToJson(exeption.getErrorText());
+    jsonDocument = AbstractRestRouter::errorStringToJson(exeption.getErrorText());
     statusCode = QHttpServerResponder::StatusCode::InternalServerError;
   } catch (const Exception& exeption) {
-    jsonDocument = HttpServerWrapper::errorStringToJson(exeption.getErrorText());
+    jsonDocument = AbstractRestRouter::errorStringToJson(exeption.getErrorText());
     statusCode = QHttpServerResponder::StatusCode::InternalServerError;
   } catch (...) {
-    jsonDocument = HttpServerWrapper::errorStringToJson(QString("Unknown error"));
+    jsonDocument = AbstractRestRouter::errorStringToJson(QString("Unknown error"));
     statusCode = QHttpServerResponder::StatusCode::InternalServerError;
   }
   return QHttpServerResponse("text/json", jsonDocument.toJson(), statusCode);
