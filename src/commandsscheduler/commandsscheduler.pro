@@ -5,6 +5,7 @@ CONFIG += c++17 console
 CONFIG -= app_bundle
 
 include(../3rdparty/qtservice/src/qtservice.pri)
+include(./DeviceCommand/DeviceCommand.pri)
 include(Light.pri)
 
 unix: {

@@ -1,6 +1,5 @@
 #include "SchedulerGateway.h"
 
-#include "AbstractFixtureCommandGateway.h"
 #include "CommandsSchedulerTypeDefs.h"
 #include "Fixture.h"
 #include "FixtureLightLevelCommand.h"

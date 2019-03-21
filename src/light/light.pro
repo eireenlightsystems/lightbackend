@@ -6,7 +6,6 @@ CONFIG -= app_bundle
 
 include(../3rdparty/qtservice/src/qtservice.pri)
 include(./DatabaseGateway/DatabaseGateway.pri)
-include(./DeviceCommand/DeviceCommand.pri)
 include(./Model/Model.pri)
 include(./Exception/Exception.pri)
 include(./Controller/Controller.pri)

@@ -3,8 +3,6 @@
 
 #include "SessionOwner.h"
 
-#include <functional>
-
 namespace light {
 
 template <typename T, template <typename> class Crud>
