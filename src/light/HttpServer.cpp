@@ -1,25 +1,13 @@
 #include "HttpServer.h"
 
-#include "AbstractDeviceCommand.h"
-#include "BadInputDataException.h"
-#include "BadRequestException.h"
-#include "DatabaseException.h"
 #include "FixtureCommandRestRouter.h"
 #include "FixtureGroupRouter.h"
-#include "FixtureLightLevelCommand.h"
-#include "FixtureLightSpeedCommand.h"
 #include "FixtureRestRouter.h"
 #include "GatewayRestRouter.h"
 #include "GeographRestRouter.h"
-#include "InternalServerErrorException.h"
 #include "NodeRestRouter.h"
 #include "NodeToJson.h"
 #include "TemplateRouter.h"
-
-#include <QException>
-#include <QHttpServerResponse>
-#include <QJsonDocument>
-#include <QJsonObject>
 
 namespace light {
 HttpServerWrapper::HttpServerWrapper(QObject* parent) : QObject(parent) {
