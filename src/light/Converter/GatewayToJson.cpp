@@ -14,7 +14,6 @@
 
 namespace light {
 
-template <>
 QJsonObject ToJsonConverter<Gateway>::toJson(const GatewayShared& gateway) const {
   QJsonObject gatewayJson;
   gatewayJson["id"] = QJsonValue::fromVariant(gateway->getId());

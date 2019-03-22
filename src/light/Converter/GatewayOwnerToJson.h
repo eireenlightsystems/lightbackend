@@ -6,7 +6,12 @@
 namespace light {
 
 template <>
-QJsonObject ToJsonConverter<EquipmentOwner>::toJson(const EquipmentOwnerShared& equipmentOwner) const;
+class ToJsonConverter<EquipmentOwner> : public ToJsonConverterTemplate<EquipmentOwner>
+{
+public:
+  QJsonObject toJson(const EquipmentOwnerShared& contragent) const override;
+};
+
 }
 
 #endif // GATEWAYOWNERTOJSON_H

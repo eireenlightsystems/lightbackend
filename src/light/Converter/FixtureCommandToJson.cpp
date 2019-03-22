@@ -11,13 +11,11 @@
 
 namespace light {
 
-template <>
 QJsonObject ToJsonConverter<FixtureCommand>::toJson(const FixtureCommandShared& command) const {
   Q_UNUSED(command)
   throw NotImplementedException(Q_FUNC_INFO);
 }
 
-template <>
 QJsonObject
 ToJsonConverter<FixtureLightLevelCommand>::toJson(const FixtureLightLevelCommandShared& lightLevelCommand) const {
   QJsonObject commandJson;
@@ -29,7 +27,6 @@ ToJsonConverter<FixtureLightLevelCommand>::toJson(const FixtureLightLevelCommand
   return commandJson;
 }
 
-template <>
 QJsonObject
 ToJsonConverter<FixtureLightSpeedCommand>::toJson(const FixtureLightSpeedCommandShared& lightSpeedCommand) const {
   QJsonObject commandJson;

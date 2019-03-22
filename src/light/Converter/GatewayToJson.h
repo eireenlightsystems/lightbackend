@@ -6,7 +6,11 @@
 namespace light {
 
 template <>
-QJsonObject ToJsonConverter<Gateway>::toJson(const GatewayShared& gateway) const;
+class ToJsonConverter<Gateway> : public ToJsonConverterTemplate<Gateway>
+{
+public:
+  QJsonObject toJson(const GatewayShared& contragent) const override;
+};
 
 } // namespace light
 

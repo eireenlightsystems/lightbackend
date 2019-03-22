@@ -8,6 +8,7 @@
 #include "PostgresCrudFixtureLightSpeedCommand.h"
 #include "RestRouter.h"
 #include "SimpleEditableRouter.h"
+#include "FixtureCommandToJson.h"
 
 namespace light {
 

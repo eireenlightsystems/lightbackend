@@ -2,19 +2,33 @@
 #define FIXTURECOMMANDTOJSON_H
 
 #include "ToJsonConverter.h"
+#include "FixtureCommand.h"
+#include "FixtureLightLevelCommand.h"
+#include "FixtureLightSpeedCommand.h"
 
 namespace light {
 
 template <>
-QJsonObject ToJsonConverter<FixtureCommand>::toJson(const FixtureCommandShared& command) const;
+class ToJsonConverter<FixtureCommand> : public ToJsonConverterTemplate<FixtureCommand>
+{
+public:
+  QJsonObject toJson(const FixtureCommandShared& contragent) const override;
+};
 
 template <>
-QJsonObject
-ToJsonConverter<FixtureLightLevelCommand>::toJson(const FixtureLightLevelCommandShared& lightLevelCommand) const;
+class ToJsonConverter<FixtureLightLevelCommand> : public ToJsonConverterTemplate<FixtureLightLevelCommand>
+{
+public:
+  QJsonObject toJson(const FixtureLightLevelCommandShared& contragent) const override;
+};
 
 template <>
-QJsonObject
-ToJsonConverter<FixtureLightSpeedCommand>::toJson(const FixtureLightSpeedCommandShared& lightSpeedCommand) const;
+class ToJsonConverter<FixtureLightSpeedCommand> : public ToJsonConverterTemplate<FixtureLightSpeedCommand>
+{
+public:
+  QJsonObject toJson(const FixtureLightSpeedCommandShared& contragent) const override;
+};
+
 } // namespace light
 
 #endif // FIXTURECOMMANDTOJSON_H

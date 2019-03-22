@@ -8,7 +8,6 @@
 
 namespace light {
 
-template <>
 QJsonObject ToJsonConverter<FixtureType>::toJson(const FixtureTypeShared& fixtureType) const {
   QJsonObject fixtureTypeJson;
   fixtureTypeJson["id"] = QJsonValue::fromVariant(fixtureType->getId());

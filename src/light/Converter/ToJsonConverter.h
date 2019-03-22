@@ -9,22 +9,25 @@
 namespace light {
 
 template <typename T>
-class ToJsonConverter : public BaseJsonConverter
+class ToJsonConverter;
+
+template <typename T>
+class ToJsonConverterTemplate : public BaseJsonConverter
 {
 public:
   using SharedObject = QSharedPointer<T>;
   using SharedObjectList = QList<SharedObject>;
 
-  ToJsonConverter() = default;
-  ~ToJsonConverter() override = default;
+  ToJsonConverterTemplate() = default;
+  ~ToJsonConverterTemplate() override = default;
   void convert(const SharedObjectList& objects);
 
 protected:
-  QJsonObject toJson(const SharedObject& object) const;
+  virtual QJsonObject toJson(const SharedObject& object) const = 0;
 };
 
 template <typename T>
-void ToJsonConverter<T>::convert(const SharedObjectList& objects) {
+void ToJsonConverterTemplate<T>::convert(const SharedObjectList& objects) {
   QJsonArray jsonObjects;
   for (const auto& o : objects) {
     jsonObjects << toJson(o);

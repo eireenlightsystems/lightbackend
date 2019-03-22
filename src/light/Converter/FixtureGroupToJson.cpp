@@ -11,7 +11,6 @@
 
 namespace light {
 
-template <>
 QJsonObject ToJsonConverter<FixtureGroup>::toJson(const FixtureGroupShared& fixtureGroup) const {
   QJsonObject fixtureGroupJson;
   fixtureGroupJson["fixtureGroupId"] = QJsonValue::fromVariant(fixtureGroup->getId());
@@ -32,7 +31,7 @@ QJsonObject ToJsonConverter<FixtureGroup>::toJson(const FixtureGroupShared& fixt
   }
 
   auto geograph = fixtureGroup->getGeograph();
-  if(geograph) {
+  if (geograph) {
     fixtureGroupJson["geographId"] = QJsonValue::fromVariant(geograph->getId());
     fixtureGroupJson["geographCode"] = geograph->getCode();
   }

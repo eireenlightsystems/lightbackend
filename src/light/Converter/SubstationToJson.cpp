@@ -8,7 +8,6 @@
 
 namespace light {
 
-template <>
 QJsonObject ToJsonConverter<Substation>::toJson(const SubstationShared& substation) const {
   QJsonObject substationJson;
   substationJson["id"] = QJsonValue::fromVariant(substation->getId());
