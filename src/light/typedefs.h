@@ -14,25 +14,7 @@ using ID = qulonglong;
 using IDList = QList<ID>;
 
 DeclareShared(Session);
-
-DeclareShared(AbstractDeviceCommand);
-DeclareShared(FixtureSwitchOnDeviceCommand);
-DeclareShared(SpeedToLightBaseDeviceCommand);
-
-DeclareShared(MqttDeviceCommandPublisher);
-DeclareShared(SpeedToLightUpDeviceCommand);
-DeclareShared(SpeedToLightDownDeviceCommand);
-DeclareShared(DeviceCommandsController);
-DeclareShared(AbstractDictionaryGateway);
-DeclareShared(InMemoryDatabaseGateway);
-DeclareShared(InMemoryDictionaryGateway);
-DeclareShared(CommandsController);
 DeclareShared(Fixture);
-DeclareShared(AbstractFixtureCommandFacadeGateway);
-DeclareShared(AbstractFixtureGateway);
-DeclareShared(AbstractFixtureLightLevelCommandGateway);
-DeclareShared(AbstractFixtureLightSpeedCommandGateway);
-DeclareShared(AbstractDeviceCommandGateway);
 DeclareShared(FixtureCommand);
 DeclareShared(FixtureLightLevelCommand);
 DeclareShared(FixtureLightSpeedCommand);
@@ -52,12 +34,6 @@ DeclareShared(Substation);
 DeclareShared(FixtureGroup);
 DeclareShared(FixtureGroupType);
 DeclareShared(FixtureGroupOwner);
-
-DeclareShared(AbstractRestRouter);
-
-namespace PostgresqlGateway {
-DeclareShared(PostgresFixtureCommandFacadeGateway);
-}
 
 } // namespace light
 
