@@ -18,21 +18,21 @@ template <>
 class RestRouter<FixtureGroup> : public SimpleEditableListRouter<FixtureGroup>
 {
 public:
-  constexpr static const char* path = "/api2/fixture-group";
+  constexpr static const char* path = "fixture-group";
 };
 
 template <>
 class RestRouter<FixtureGroupType> : public SimpleSelectableRouter<FixtureGroupType>
 {
 public:
-  constexpr static const char* path = "/api2/fixture-group-type";
+  constexpr static const char* path = "fixture-group-type";
 };
 
 template <>
 class RestRouter<FixtureGroupOwner> : public SimpleSelectableRouter<Contragent>
 {
 public:
-  constexpr static const char* path = "/api2/fixture-group-owner";
+  constexpr static const char* path = "fixture-group-owner";
 };
 
 } // namespace light

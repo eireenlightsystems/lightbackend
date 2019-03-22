@@ -17,14 +17,14 @@ template <>
 class RestRouter<Node> : public SimpleEditableRouter<Node>
 {
 public:
-  constexpr static const char* path = "/api2/node";
+  constexpr static const char* path = "node";
 };
 
 template <>
 class RestRouter<NodeType> : public SimpleSelectableRouter<NodeType>
 {
 public:
-  constexpr static const char* path = "/api2/node-type";
+  constexpr static const char* path = "node-type";
 };
 
 } // namespace light

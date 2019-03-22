@@ -22,28 +22,28 @@ template <>
 class RestRouter<Fixture> : public SimpleEditableRouter<Fixture>
 {
 public:
-  constexpr static const char* path = "/api2/fixture";
+  constexpr static const char* path = "fixture";
 };
 
 template <>
 class RestRouter<FixtureType> : public SimpleSelectableRouter<GatewayType>
 {
 public:
-  constexpr static const char* path = "/api2/fixture-type";
+  constexpr static const char* path = "fixture-type";
 };
 
 template <>
 class RestRouter<FixtureHeightType> : public SimpleSelectableRouter<FixtureHeightType>
 {
 public:
-  constexpr static const char* path = "/api2/fixture-height-type";
+  constexpr static const char* path = "fixture-height-type";
 };
 
 template <>
 class RestRouter<Substation> : public SimpleSelectableRouter<Substation>
 {
 public:
-  constexpr static const char* path = "/api2/substation";
+  constexpr static const char* path = "substation";
 };
 
 } // namespace light
