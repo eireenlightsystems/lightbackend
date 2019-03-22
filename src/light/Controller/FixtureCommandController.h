@@ -146,7 +146,7 @@ IDList Controller<FixtureLightSpeedCommand, Crud>::ins(const QList<QVariantHash>
     }
 
     if (param.contains("speed")) {
-      newCommand->setSpeed(param.value("standbyLevel").value<quint8>());
+      newCommand->setSpeed(param.value("speed").value<quint8>());
     }
     newCommands << newCommand;
   }

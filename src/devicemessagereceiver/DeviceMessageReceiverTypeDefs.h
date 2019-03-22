@@ -5,9 +5,8 @@
 
 DeclareShared(QMqttClient);
 
+namespace light {
 namespace DeviceMessageReceiver {
-
-using ID = light::ID;
 
 DeclareShared(MqttDeviceErrorSubscriber);
 DeclareShared(AbstractDeviceErrorSaver);
@@ -15,5 +14,6 @@ DeclareShared(DeviceErrorController);
 DeclareShared(PostgresDeviceErrorSaver);
 
 } // namespace DeviceMessageReceiver
+} // namespace light
 
 #endif // DEVICEMESSAGERECEIVERTYPEDEFS_H

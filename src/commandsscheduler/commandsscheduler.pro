@@ -21,20 +21,23 @@ HEADERS += \
     MqttDeviceCommandPublisher.h \
     CommandsSchedulerTypeDefs.h \
     CommandsSchedulerController.h \
-    AbstractDeviceCommandPostgresCrud.h \
     FixtureSwitchOnDeviceCommandPostgresCrud.h \
     SchedulerFixture.h \
-    SpeedToLightBaseDeviceCommandPostgresCrud.h
+    SpeedToLightBaseDeviceCommandPostgresCrud.h \
+    SchedulerFixturePostgresCrud.h \
+    CommandsSchedulerControllerBuilder.h \
+    MqttConnectionInfo.h
 
 SOURCES += \
     main.cpp \
     Service.cpp \
     MqttDeviceCommandPublisher.cpp \
     CommandsSchedulerController.cpp \
-    AbstractDeviceCommandPostgresCrud.cpp \
     FixtureSwitchOnDeviceCommandPostgresCrud.cpp \
     SchedulerFixture.cpp \
-    SpeedToLightBaseDeviceCommandPostgresCrud.cpp
+    SpeedToLightBaseDeviceCommandPostgresCrud.cpp \
+    SchedulerFixturePostgresCrud.cpp \
+    CommandsSchedulerControllerBuilder.cpp
 
 DISTFILES += \
     commandsscheduler.conf

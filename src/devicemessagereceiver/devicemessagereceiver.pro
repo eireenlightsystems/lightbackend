@@ -22,7 +22,9 @@ HEADERS += \
     AbstractDeviceErrorSaver.h \
     PostgresDeviceErrorSaver.h \
     SharedTypes.h \
-    DeviceMessageReceiverTypeDefs.h
+    DeviceMessageReceiverTypeDefs.h \
+    DeviceErrorControllerBuilder.h \
+    MqttConnectionInfo.h
 
 SOURCES += \
     main.cpp \
@@ -30,7 +32,8 @@ SOURCES += \
     DeviceErrorController.cpp \
     AbstractDeviceErrorSaver.cpp \
     MqttDeviceErrorSubscriber.cpp \
-    PostgresDeviceErrorSaver.cpp
+    PostgresDeviceErrorSaver.cpp \
+    DeviceErrorControllerBuilder.cpp
 
 DISTFILES += \
     devicemessagereceiver.conf

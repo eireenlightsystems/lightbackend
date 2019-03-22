@@ -3,28 +3,17 @@
 #include "FixtureSwitchOnDeviceCommandPostgresCrud.h"
 #include "MqttDeviceCommandPublisher.h"
 #include "SchedulerFixture.h"
-#include "SchedulerGateway.h"
+#include "SchedulerFixturePostgresCrud.h"
 #include "SpeedToLightBaseDeviceCommandPostgresCrud.h"
 
-#include <QCoreApplication>
 #include <QDateTime>
 #include <QMqttClient>
-#include <QSettings>
 
 namespace light {
 namespace CommandsScheduler {
 
-CommandsSchedulerController::CommandsSchedulerController(QObject* parent)
-  : QObject(parent)
-  , mqttClient(QMqttClientShared::create())
-  , deviceCommandPublisher(MqttDeviceCommandPublisherShared::create()) {
+CommandsSchedulerController::CommandsSchedulerController(QObject* parent) : QObject(parent) {
   connect(&timer, &QTimer::timeout, this, &CommandsSchedulerController::onSchedulerTimeout);
-}
-
-void CommandsSchedulerController::init() {
-  initMqtt();
-  initTimer();
-  initDatabase();
 }
 
 void CommandsSchedulerController::onSchedulerTimeout() {
@@ -38,79 +27,15 @@ void CommandsSchedulerController::onMqttConnected() {
   timer.start();
 }
 
-void CommandsSchedulerController::initMqtt() {
-  auto connectionInfo = readMqttConnectionInfoFromSettings();
-  initMqttClient(connectionInfo);
-  connect(mqttClient.data(), &QMqttClient::connected, this, &CommandsSchedulerController::onMqttConnected);
-}
-
-MqttConnectionInfo CommandsSchedulerController::readMqttConnectionInfoFromSettings() const {
-  MqttConnectionInfo connectionInfo;
-
-  QSettings settings(getSettingsPath(), QSettings::IniFormat);
-  settings.beginGroup("Mqtt");
-  connectionInfo.hostName = settings.value("hostName").toString();
-  connectionInfo.port = settings.value("port").value<quint16>();
-  connectionInfo.clientId = settings.value("commandSchedulerClientId").toString();
-  settings.endGroup();
-
-  return connectionInfo;
-}
-
-void CommandsSchedulerController::initMqttClient(const MqttConnectionInfo& connectionInfo) {
-  mqttClient->setHostname(connectionInfo.hostName);
-  mqttClient->setPort(connectionInfo.port);
-  mqttClient->setClientId(connectionInfo.clientId);
-  mqttClient->setCleanSession(false);
-  mqttClient->connectToHost();
-}
-
-QString CommandsSchedulerController::getSettingsPath() const {
-  return qApp->applicationDirPath() + "/commandsscheduler.conf";
-}
-
-void CommandsSchedulerController::initTimer() {
-  auto interval = readIntervalFromSettings();
-  timer.setSingleShot(false);
-  timer.setInterval(interval);
-}
-
-int CommandsSchedulerController::readIntervalFromSettings() const {
-  int interval;
-
-  QSettings settings(getSettingsPath(), QSettings::IniFormat);
-  settings.beginGroup("Scheduler");
-  interval = settings.value("interval").toInt();
-  settings.endGroup();
-
-  return interval;
-}
-
-void CommandsSchedulerController::initDatabase() {
-  session = SessionShared::create();
-  auto connectionInfo = readConnectionInfoFromSettings();
-}
-
-light::PostgresConnectionInfo CommandsSchedulerController::readConnectionInfoFromSettings() const {
-  light::PostgresConnectionInfo connectionInfo;
-
-  QSettings settings(getSettingsPath(), QSettings::IniFormat);
-  settings.beginGroup("Database");
-  connectionInfo.hostName = settings.value("hostName").toString();
-  connectionInfo.port = settings.value("port").toInt();
-  connectionInfo.databaseName = settings.value("databaseName").toString();
-  connectionInfo.userName = settings.value("username").toString();
-  connectionInfo.password = settings.value("password").toString();
-  settings.endGroup();
-
-  qDebug() << connectionInfo.hostName << connectionInfo.port << connectionInfo.databaseName << connectionInfo.userName;
-
-  return connectionInfo;
+void CommandsSchedulerController::onMqttDisconnected() {
+  timer.stop();
 }
 
 void CommandsSchedulerController::publishSwitchOnCommand(const QDateTime& datetime) {
   PostgresqlGateway::PostgresCrud<CommandsScheduler::FixtureSwitchOnDeviceCommand> crud;
   crud.setSession(session);
+  PostgresqlGateway::PostgresCrud<CommandsScheduler::SchedulerFixture> fixtureCrud;
+  fixtureCrud.setSession(session);
   const QVariantHash params{
       {"dateTime", datetime},
   };
@@ -123,18 +48,21 @@ void CommandsSchedulerController::publishSwitchOnCommand(const QDateTime& dateti
 	fixture->setStandbyLevel(c->getStandbyLevel());
 	c->setStatus(CommandStatus::Done);
 	crud.save(c);
+	fixtureCrud.save(c->getFixture());
       }
     }
   }
 }
 
 void CommandsSchedulerController::publishSpeedCommand(const QDateTime& datetime) {
-  PostgresqlGateway::PostgresCrud<CommandsScheduler::SpeedToLightBaseDeviceCommand> crud;
-  crud.setSession(session);
+  PostgresqlGateway::PostgresCrud<CommandsScheduler::SpeedToLightBaseDeviceCommand> commandCrud;
+  commandCrud.setSession(session);
+  PostgresqlGateway::PostgresCrud<CommandsScheduler::SchedulerFixture> fixtureCrud;
+  fixtureCrud.setSession(session);
   const QVariantHash params{
       {"dateTime", datetime},
   };
-  auto speedCommands = crud.sel(params);
+  auto speedCommands = commandCrud.sel(params);
   if (speedCommands.count()) {
     for (auto c : speedCommands) {
       if (deviceCommandPublisher->publish({c})) {
@@ -144,10 +72,49 @@ void CommandsSchedulerController::publishSpeedCommand(const QDateTime& datetime)
 	} else if (c->getCommandNumber() == CommandNumber::SpeedToLightDown) {
 	  fixture->setSpeedDown(c->getSpeed());
 	}
-	crud.save(c);
+	commandCrud.save(c);
+	fixtureCrud.save(c->getFixture());
       }
     }
   }
+}
+
+SessionShared CommandsSchedulerController::getSession() const {
+  return session;
+}
+
+void CommandsSchedulerController::setSession(const SessionShared& value) {
+  session = value;
+}
+
+MqttDeviceCommandPublisherShared CommandsSchedulerController::getDeviceCommandPublisher() const {
+  return deviceCommandPublisher;
+}
+
+void CommandsSchedulerController::setDeviceCommandPublisher(const MqttDeviceCommandPublisherShared& value) {
+  deviceCommandPublisher = value;
+}
+
+QMqttClientShared CommandsSchedulerController::getMqttClient() const {
+  return mqttClient;
+}
+
+void CommandsSchedulerController::setMqttClient(const QMqttClientShared& value) {
+  mqttClient = value;
+  connect(mqttClient.data(), &QMqttClient::connected, this, &CommandsSchedulerController::onMqttConnected);
+  connect(mqttClient.data(), &QMqttClient::disconnected, this, &CommandsSchedulerController::onMqttDisconnected);
+  if (mqttClient->state() == QMqttClient::Connected) {
+    onMqttConnected();
+  }
+}
+
+int CommandsSchedulerController::getTimerInterval() const {
+  return timer.interval();
+}
+
+void CommandsSchedulerController::setTimerInterval(int interval) {
+  timer.setSingleShot(false);
+  timer.setInterval(interval);
 }
 
 } // namespace CommandsScheduler

@@ -2,8 +2,10 @@
 #define SERVICE_H
 
 #include "DeviceMessageReceiverTypeDefs.h"
+
 #include <qtservice.h>
 
+namespace light {
 namespace DeviceMessageReceiver {
 
 class Service : public QtService<QCoreApplication>
@@ -16,7 +18,7 @@ public:
 private:
   DeviceErrorControllerShared deviceErrorController;
 };
-
 } // namespace DeviceMessageReceiver
+} // namespace light
 
 #endif // SERVICE_H

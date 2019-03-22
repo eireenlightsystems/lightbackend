@@ -6,6 +6,7 @@
 #include <QDateTime>
 #include <QtGlobal>
 
+namespace light {
 namespace DeviceMessageReceiver {
 
 struct DeviceError
@@ -15,6 +16,7 @@ struct DeviceError
   quint8 deviceNumber;
   quint8 errorCode;
 };
+} // namespace DeviceMessageReceiver
 } // namespace light
 
 #endif // SHAREDTYPES_H

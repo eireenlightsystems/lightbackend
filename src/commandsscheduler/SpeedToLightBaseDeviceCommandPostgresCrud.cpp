@@ -1,6 +1,7 @@
 #include "SpeedToLightBaseDeviceCommandPostgresCrud.h"
 
 #include "NotImplementedException.h"
+#include "SchedulerFixturePostgresCrud.h"
 
 namespace light {
 namespace PostgresqlGateway {
@@ -36,6 +37,12 @@ PostgresCrud<CommandsScheduler::SpeedToLightBaseDeviceCommand>::parse(const QSql
   fixtureLightSpeedCommand->setLastNode(record.value(fixtureLightSpeedCommand->getFirstNode()).value<quint8>());
   fixtureLightSpeedCommand->setDeviceNumber(record.value(getFieldAlias("device_number")).value<quint8>());
   fixtureLightSpeedCommand->setSpeed(record.value(getFieldAlias("speed")).value<quint8>());
+
+  PostgresCrud<CommandsScheduler::SchedulerFixture> fixtureCrud;
+  fixtureCrud.setSession(getSession());
+  ID fixtureId = record.value(getFieldAlias("id_fixture")).value<ID>();
+  auto fixture = fixtureCrud.selById(fixtureId);
+  fixtureLightSpeedCommand->setFixture(fixture);
   return fixtureLightSpeedCommand;
 }
 

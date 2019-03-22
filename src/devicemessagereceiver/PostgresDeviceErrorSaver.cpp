@@ -7,6 +7,7 @@
 #include <QSqlError>
 #include <QSqlQuery>
 
+namespace light {
 namespace DeviceMessageReceiver {
 
 bool PostgresDeviceErrorSaver::open(const light::PostgresConnectionInfo& connectionInfo) {
@@ -33,7 +34,6 @@ void PostgresDeviceErrorSaver::saveError(const DeviceError& error) {
     db.rollback();
     return;
   }
-
 
   insertFixtureProblem(fixtureId, error.errorCode);
   db.commit();
@@ -69,5 +69,6 @@ void PostgresDeviceErrorSaver::insertFixtureProblem(ID fixtureId, quint8 errorCo
   });
   query.exec();
 }
+} // namespace DeviceMessageReceiver
 
 } // namespace light

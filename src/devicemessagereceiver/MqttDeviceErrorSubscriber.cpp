@@ -6,14 +6,9 @@
 #include <QMqttClient>
 #include <QMqttSubscription>
 
+namespace light {
 namespace DeviceMessageReceiver {
 MqttDeviceErrorSubscriber::MqttDeviceErrorSubscriber(QObject* parent) : QObject(parent) {
-}
-
-void MqttDeviceErrorSubscriber::subscribe(const QSharedPointer<QMqttClient>& mqttClient) {
-  QMqttTopicFilter topicFilter{topic};
-  subscription = mqttClient->subscribe(topic, 2);
-  connect(subscription, &QMqttSubscription::messageReceived, this, &MqttDeviceErrorSubscriber::onMessageReceived);
 }
 
 void MqttDeviceErrorSubscriber::onMessageReceived(QMqttMessage msg) {
@@ -32,6 +27,24 @@ void MqttDeviceErrorSubscriber::onMessageReceived(QMqttMessage msg) {
   emit deviceErrorReceived(error);
 }
 
+void MqttDeviceErrorSubscriber::subscribe() {
+  QMqttTopicFilter topicFilter{topic};
+  subscription = mqttClient->subscribe(topic, 2);
+  connect(subscription, &QMqttSubscription::messageReceived, this, &MqttDeviceErrorSubscriber::onMessageReceived);
+}
+
+QMqttClientShared MqttDeviceErrorSubscriber::getMqttClient() const {
+  return mqttClient;
+}
+
+void MqttDeviceErrorSubscriber::setMqttClient(const QMqttClientShared& value) {
+  mqttClient = value;
+  connect(mqttClient.data(), &QMqttClient::connected, this, &MqttDeviceErrorSubscriber::subscribe);
+  if (mqttClient->state() == QMqttClient::Connected) {
+    subscribe();
+  }
+}
+
 QString MqttDeviceErrorSubscriber::getTopic() const {
   return topic;
 }
@@ -39,4 +52,5 @@ QString MqttDeviceErrorSubscriber::getTopic() const {
 void MqttDeviceErrorSubscriber::setTopic(const QString& value) {
   topic = value;
 }
+} // namespace DeviceMessageReceiver
 } // namespace light

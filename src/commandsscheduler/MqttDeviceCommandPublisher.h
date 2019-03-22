@@ -20,11 +20,15 @@ public:
   QMqttClientShared getMqttClient() const;
   void setMqttClient(const QMqttClientShared& value);
 
+  QString getTopic() const;
+  void setTopic(const QString& value);
+
 public slots:
   bool publish(const AbstractDeviceCommandSharedList& commands);
 
 private:
   QMqttClientShared mqttClient;
+  QString topic;
 };
 } // namespace CommandsScheduler
 } // namespace light

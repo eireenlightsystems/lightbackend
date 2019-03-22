@@ -2,6 +2,7 @@
 
 #include "CommandsSchedulerTypeDefs.h"
 #include "NotImplementedException.h"
+#include "SchedulerFixturePostgresCrud.h"
 
 namespace light {
 namespace PostgresqlGateway {
@@ -19,7 +20,7 @@ const QList<Field> fixtureSwitchOnDeviceCommandFields{
 
 PostgresCrud<CommandsScheduler::FixtureSwitchOnDeviceCommand>::PostgresCrud() {
   setFields(fixtureSwitchOnDeviceCommandFields);
-  setView("command_switchon_pkg_i.device_command_switchon_allinfo_vw");
+  setView("command_switchon_pkg_i.device_command_switchon_vw");
   setUpdateSql("select command_switchon_pkg_i.set_command_status(:id_command, :id_command_status)");
 }
 
@@ -34,6 +35,12 @@ PostgresCrud<CommandsScheduler::FixtureSwitchOnDeviceCommand>::parse(const QSqlR
   fixtureSwitchonCommand->setDeviceNumber(record.value(getFieldAlias("device_number")).value<quint8>());
   fixtureSwitchonCommand->setWorkLevel(record.value(getFieldAlias("work_level")).value<quint8>());
   fixtureSwitchonCommand->setStandbyLevel(record.value(getFieldAlias("standby_level")).value<quint8>());
+
+  PostgresCrud<CommandsScheduler::SchedulerFixture> fixtureCrud;
+  fixtureCrud.setSession(getSession());
+  ID fixtureId = record.value(getFieldAlias("id_fixture")).value<ID>();
+  auto fixture = fixtureCrud.selById(fixtureId);
+  fixtureSwitchonCommand->setFixture(fixture);
   return fixtureSwitchonCommand;
 }
 

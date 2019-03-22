@@ -11,6 +11,7 @@ class QMqttSubscription;
 class QMqttTopicName;
 class QByteArray;
 
+namespace light {
 namespace DeviceMessageReceiver {
 class MqttDeviceErrorSubscriber : public QObject
 {
@@ -21,19 +22,21 @@ public:
   QString getTopic() const;
   void setTopic(const QString& value);
 
+  QMqttClientShared getMqttClient() const;
+  void setMqttClient(const QMqttClientShared& value);
+
 signals:
   void deviceErrorReceived(const DeviceError& error);
 
-public slots:
-  void subscribe(const QSharedPointer<QMqttClient>& mqttClient);
-
 private slots:
   void onMessageReceived(QMqttMessage msg);
+  void subscribe();
 
 private:
   QString topic;
   QMqttSubscription* subscription = nullptr;
+  QMqttClientShared mqttClient;
 };
-
+} // namespace DeviceMessageReceiver
 } // namespace light
 #endif // MQTTDEVICEERRORSUBSCRIVER_H
