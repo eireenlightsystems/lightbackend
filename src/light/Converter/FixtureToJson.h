@@ -6,7 +6,12 @@
 namespace light {
 
 template <>
-QJsonObject ToJsonConverter<Fixture>::toJson(const FixtureShared& fixture) const;
+class ToJsonConverter<Fixture> : public ToJsonConverterTemplate<Fixture>
+{
+public:
+  QJsonObject toJson(const FixtureShared& contragent) const override;
+};
+
 }
 
 #endif // FIXTURETOJSON_H

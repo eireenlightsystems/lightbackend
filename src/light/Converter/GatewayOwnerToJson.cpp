@@ -8,7 +8,6 @@
 
 namespace light {
 
-template <>
 QJsonObject ToJsonConverter<EquipmentOwner>::toJson(const EquipmentOwnerShared& equipmentOwner) const {
   QJsonObject ownerJson;
   ownerJson["id"] = QJsonValue::fromVariant(equipmentOwner->getId());

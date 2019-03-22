@@ -6,7 +6,12 @@
 namespace light {
 
 template <>
-QJsonObject ToJsonConverter<Substation>::toJson(const SubstationShared& substation) const;
+class ToJsonConverter<Substation> : public ToJsonConverterTemplate<Substation>
+{
+public:
+  QJsonObject toJson(const SubstationShared& contragent) const override;
+};
+
 }
 
 #endif // SUBSTATIONTOJSON_H

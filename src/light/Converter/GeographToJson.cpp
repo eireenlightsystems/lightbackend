@@ -9,7 +9,6 @@
 
 namespace light {
 
-template <>
 QJsonObject ToJsonConverter<Geograph>::toJson(const GeographShared& geograph) const {
   QJsonObject geographJson;
   geographJson["id"] = QJsonValue::fromVariant(geograph->getId());

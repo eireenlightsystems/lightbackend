@@ -7,6 +7,9 @@
 #include "PostgresCrudGatewayType.h"
 #include "RestRouter.h"
 #include "SimpleEditableRouter.h"
+#include "GatewayToJson.h"
+#include "GatewayOwnerToJson.h"
+#include "GatewayTypeToJson.h"
 
 namespace light {
 

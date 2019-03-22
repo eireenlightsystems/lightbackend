@@ -11,6 +11,10 @@
 #include "PostgresCrudSubstation.h"
 #include "RestRouter.h"
 #include "SimpleEditableRouter.h"
+#include "FixtureToJson.h"
+#include "FixtureHeightTypeToJson.h"
+#include "FixtureTypeToJson.h"
+#include "SubstationToJson.h"
 
 namespace light {
 

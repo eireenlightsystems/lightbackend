@@ -13,7 +13,6 @@
 
 namespace light {
 
-template <>
 QJsonObject ToJsonConverter<Node>::toJson(const NodeShared& node) const {
   QJsonObject nodeJson;
   nodeJson["nodeId"] = QJsonValue::fromVariant(node->getId());

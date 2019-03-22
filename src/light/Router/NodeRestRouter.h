@@ -8,7 +8,8 @@
 #include "PostgresCrudNodeType.h"
 #include "PostgresCrudContract.h"
 #include "PostgresCrudGeograph.h"
-
+#include "NodeToJson.h"
+#include "NodeTypeToJson.h"
 
 namespace light {
 

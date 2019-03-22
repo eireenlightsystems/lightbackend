@@ -8,6 +8,9 @@
 #include "FixtureGroupType.h"
 #include "PostgresCrudFixtureGroup.h"
 #include "PostgresCrudFixtureGroupType.h"
+#include "FixtureGroupToJson.h"
+#include "FixtureGroupTypeToJson.h"
+#include "ContragentToJson.h"
 
 namespace light {
 
