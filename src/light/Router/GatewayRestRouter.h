@@ -17,21 +17,21 @@ template <>
 class RestRouter<Gateway> : public SimpleEditableRouter<Gateway>
 {
 public:
-  constexpr static const char* path = "/api2/gateway";
+  constexpr static const char* path = "gateway";
 };
 
 template <>
 class RestRouter<EquipmentOwner> : public SimpleSelectableRouter<EquipmentOwner>
 {
 public:
-  constexpr static const char* path = "/api2/gateway-owner";
+  constexpr static const char* path = "gateway-owner";
 };
 
 template <>
 class RestRouter<GatewayType> : public SimpleSelectableRouter<GatewayType>
 {
 public:
-  constexpr static const char* path = "/api2/gateway-type";
+  constexpr static const char* path = "gateway-type";
 };
 
 } // namespace light

@@ -12,7 +12,7 @@ template <>
 class RestRouter<Geograph> : public SimpleSelectableRouter<Geograph>
 {
 public:
-  constexpr static const char* path = "/api2/geograph";
+  constexpr static const char* path = "geograph";
 };
 
 } // namespace light
