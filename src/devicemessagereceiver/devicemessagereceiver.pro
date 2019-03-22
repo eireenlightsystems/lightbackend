@@ -32,5 +32,12 @@ SOURCES += \
     MqttDeviceErrorSubscriber.cpp \
     PostgresDeviceErrorSaver.cpp
 
+DISTFILES += \
+    devicemessagereceiver.conf
+
 target.path = /opt/light/backend/bin
 INSTALLS += target
+
+config.path = /opt/light/backend/bin
+config.files = $$DISTFILES
+INSTALLS += config

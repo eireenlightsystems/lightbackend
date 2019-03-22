@@ -88,6 +88,6 @@ MqttConnectionInfo DeviceErrorController::readMqttConnectionInfoFromSettings() c
 }
 
 QString DeviceErrorController::getSettingsPath() const {
-  return qApp->applicationDirPath() + "/lightbackend.conf";
+  return qApp->applicationDirPath() + "/devicemessagereceiver.conf";
 }
 } // namespace DeviceMessageReceiver
