@@ -3,15 +3,15 @@
 
 #include <AbstractDeviceCommand.h>
 
-class AbstractDeviceCommandTestWrapper : public light::AbstractDeviceCommand
+class AbstractDeviceCommandTestWrapper : public light::CommandsScheduler::AbstractDeviceCommand
 {
 public:
   AbstractDeviceCommandTestWrapper() = default;
   AbstractDeviceCommandTestWrapper(ulong gatewayId,
-			quint8 firstNode,
-			quint8 lastNode,
-			quint8 deviceNumber,
-				   light::CommandNumber commandNumber);
+				   quint8 firstNode,
+				   quint8 lastNode,
+				   quint8 deviceNumber,
+				   light::CommandsScheduler::CommandNumber commandNumber);
   void fromRawData(const QByteArray& rawData) override;
 };
 

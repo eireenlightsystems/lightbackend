@@ -2,7 +2,7 @@ TEMPLATE = subdirs
 
 SUBDIRS += \
     DeviceCommandsTests \
-    FixtureCommandsTests \
-    CommandsSchedulerTests \
-    CommandsControllerTests
+    FixtureCommandsTests
+# Temporary excluded
+#    CommandsControllerTests
 

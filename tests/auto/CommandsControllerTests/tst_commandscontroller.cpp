@@ -7,7 +7,6 @@
 #include "DeleteCommandException.h"
 #include "Fixture.h"
 #include "FixtureLightLevelCommand.h"
-#include "InMemoryDatabaseGateway.h"
 #include "MissingFixtureGatewayLinkException.h"
 
 #include <QtTest>

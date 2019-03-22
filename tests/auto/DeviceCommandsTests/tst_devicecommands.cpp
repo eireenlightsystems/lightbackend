@@ -6,7 +6,7 @@
 #include <SpeedToLightDownDeviceCommand.h>
 #include <QDebug>
 
-Q_DECLARE_METATYPE(light::CommandNumber)
+Q_DECLARE_METATYPE(light::CommandsScheduler::CommandNumber)
 
 class DeviceCommands : public QObject
 {
@@ -50,10 +50,10 @@ void DeviceCommands::FixtureAbstractDeviceCommandSetter_data() {
   QTest::addColumn<quint8>("firstNode");
   QTest::addColumn<quint8>("lastNode");
   QTest::addColumn<quint8>("deviceNumber");
-  QTest::addColumn<light::CommandNumber>("commandNumber");
+  QTest::addColumn<light::CommandsScheduler::CommandNumber>("commandNumber");
 
   QTest::newRow("simple") << light::ID(1) << QDateTime::currentDateTime() << ulong(100) << quint8(1) << quint8(255)
-			  << quint8(2) << light::CommandNumber::SpeedToLightUp;
+			  << quint8(2) << light::CommandsScheduler::CommandNumber::SpeedToLightUp;
 }
 
 void DeviceCommands::FixtureAbstractDeviceCommandSetter() {
@@ -63,7 +63,7 @@ void DeviceCommands::FixtureAbstractDeviceCommandSetter() {
   QFETCH(quint8, firstNode);
   QFETCH(quint8, lastNode);
   QFETCH(quint8, deviceNumber);
-  QFETCH(light::CommandNumber, commandNumber);
+  QFETCH(light::CommandsScheduler::CommandNumber, commandNumber);
 
   {
     AbstractDeviceCommandTestWrapper command1(gatewayId, firstNode, lastNode, deviceNumber, commandNumber);
@@ -76,7 +76,7 @@ void DeviceCommands::FixtureAbstractDeviceCommandSetter() {
 
   {
     AbstractDeviceCommandTestWrapper command2;
-    command2.setCommandId(commandId);
+    command2.setId(commandId);
     command2.setDateTime(dateTime);
     command2.setGatewayId(gatewayId);
     command2.setFirstNode(firstNode);
@@ -84,7 +84,7 @@ void DeviceCommands::FixtureAbstractDeviceCommandSetter() {
     command2.setDeviceNumber(deviceNumber);
     command2.setCommandNumber(commandNumber);
 
-    QVERIFY(command2.getCommandId() == commandId);
+    QVERIFY(command2.getId() == commandId);
     QVERIFY(command2.getDateTime() == dateTime);
     QVERIFY(command2.getGatewayId() == gatewayId);
     QVERIFY(command2.getFirstNode() == firstNode);
@@ -117,7 +117,7 @@ void DeviceCommands::FixtureSwitchOnDeviceCommandSetter() {
   QFETCH(quint8, standbyLevel);
 
   {
-    light::FixtureSwitchOnDeviceCommand command1(gatewayId, firstNode, lastNode, deviceNumber);
+    light::CommandsScheduler::FixtureSwitchOnDeviceCommand command1(gatewayId, firstNode, lastNode, deviceNumber);
     QVERIFY(command1.getGatewayId() == gatewayId);
     QVERIFY(command1.getFirstNode() == firstNode);
     QVERIFY(command1.getLastNode() == lastNode);
@@ -125,7 +125,7 @@ void DeviceCommands::FixtureSwitchOnDeviceCommandSetter() {
   }
 
   {
-    light::FixtureSwitchOnDeviceCommand command2;
+    light::CommandsScheduler::FixtureSwitchOnDeviceCommand command2;
     command2.setWorkLevel(workLevel);
     command2.setStandbyLevel(standbyLevel);
 
@@ -155,7 +155,7 @@ void DeviceCommands::FixtureSwitchOnDeviceCommandRawData() {
   QFETCH(QByteArray, rawData);
 
   {
-    light::FixtureSwitchOnDeviceCommand command;
+    light::CommandsScheduler::FixtureSwitchOnDeviceCommand command;
     command.setFirstNode(firstNode);
     command.setLastNode(lastNode);
     command.setDeviceNumber(deviceNumber);
@@ -167,7 +167,7 @@ void DeviceCommands::FixtureSwitchOnDeviceCommandRawData() {
   }
 
   {
-    light::FixtureSwitchOnDeviceCommand command;
+    light::CommandsScheduler::FixtureSwitchOnDeviceCommand command;
     command.fromRawData(rawData);
     QVERIFY(command.getFirstNode() == firstNode);
     QVERIFY(command.getLastNode() == lastNode);
@@ -178,19 +178,19 @@ void DeviceCommands::FixtureSwitchOnDeviceCommandRawData() {
 }
 
 void DeviceCommands::FixtureSpeedToLightBaseDeviceCommandSetter_data() {
-  QTest::addColumn<light::CommandNumber>("commandNumber");
+  QTest::addColumn<light::CommandsScheduler::CommandNumber>("commandNumber");
   QTest::addColumn<ulong>("gatewayId");
   QTest::addColumn<quint8>("firstNode");
   QTest::addColumn<quint8>("lastNode");
   QTest::addColumn<quint8>("deviceNumber");
   QTest::addColumn<quint8>("speed");
 
-  QTest::newRow("simple") << light::CommandNumber::SpeedToLightUp << ulong(100) << quint8(1) << quint8(255) << quint8(2)
+  QTest::newRow("simple") << light::CommandsScheduler::CommandNumber::SpeedToLightUp << ulong(100) << quint8(1) << quint8(255) << quint8(2)
 			  << quint8(77);
 }
 
 void DeviceCommands::FixtureSpeedToLightBaseDeviceCommandSetter() {
-  QFETCH(light::CommandNumber, commandNumber);
+  QFETCH(light::CommandsScheduler::CommandNumber, commandNumber);
   QFETCH(ulong, gatewayId);
   QFETCH(quint8, firstNode);
   QFETCH(quint8, lastNode);
@@ -198,7 +198,7 @@ void DeviceCommands::FixtureSpeedToLightBaseDeviceCommandSetter() {
   QFETCH(quint8, speed);
 
   {
-    light::SpeedToLightBaseDeviceCommand command1(gatewayId, firstNode, lastNode, deviceNumber, commandNumber);
+    light::CommandsScheduler::SpeedToLightBaseDeviceCommand command1(gatewayId, firstNode, lastNode, deviceNumber, commandNumber);
     QVERIFY(command1.getCommandNumber() == commandNumber);
     QVERIFY(command1.getGatewayId() == gatewayId);
     QVERIFY(command1.getFirstNode() == firstNode);
@@ -207,17 +207,17 @@ void DeviceCommands::FixtureSpeedToLightBaseDeviceCommandSetter() {
   }
 
   {
-    light::SpeedToLightUpDeviceCommand command;
-    QVERIFY(command.getCommandNumber() == light::CommandNumber::SpeedToLightUp);
+    light::CommandsScheduler::SpeedToLightUpDeviceCommand command;
+    QVERIFY(command.getCommandNumber() == light::CommandsScheduler::CommandNumber::SpeedToLightUp);
   }
 
   {
-    light::SpeedToLightDownDeviceCommand command;
-    QVERIFY(command.getCommandNumber() == light::CommandNumber::SpeedToLightDown);
+    light::CommandsScheduler::SpeedToLightDownDeviceCommand command;
+    QVERIFY(command.getCommandNumber() == light::CommandsScheduler::CommandNumber::SpeedToLightDown);
   }
 
   {
-    light::SpeedToLightBaseDeviceCommand command2;
+    light::CommandsScheduler::SpeedToLightBaseDeviceCommand command2;
     command2.setCommandNumber(commandNumber);
     command2.setSpeed(speed);
 
@@ -227,20 +227,20 @@ void DeviceCommands::FixtureSpeedToLightBaseDeviceCommandSetter() {
 
 void DeviceCommands::FixtureSpeedToLightBaseDeviceCommandRawData_data()
 {
-  QTest::addColumn<light::CommandNumber>("commandNumber");
+  QTest::addColumn<light::CommandsScheduler::CommandNumber>("commandNumber");
   QTest::addColumn<quint8>("firstNode");
   QTest::addColumn<quint8>("lastNode");
   QTest::addColumn<quint8>("deviceNumber");
   QTest::addColumn<quint8>("speed");
   QTest::addColumn<QByteArray>("rawData");
 
-  QTest::newRow("simple") << light::CommandNumber::SpeedToLightUp << quint8(1) << quint8(255) << quint8(2) << quint8(99)
+  QTest::newRow("simple") << light::CommandsScheduler::CommandNumber::SpeedToLightUp << quint8(1) << quint8(255) << quint8(2) << quint8(99)
 			  << QByteArray("\x01\xff\x02\x01\x63");
 }
 
 void DeviceCommands::FixtureSpeedToLightBaseDeviceCommandRawData()
 {
-  QFETCH(light::CommandNumber, commandNumber);
+  QFETCH(light::CommandsScheduler::CommandNumber, commandNumber);
   QFETCH(quint8, firstNode);
   QFETCH(quint8, lastNode);
   QFETCH(quint8, deviceNumber);
@@ -248,7 +248,7 @@ void DeviceCommands::FixtureSpeedToLightBaseDeviceCommandRawData()
   QFETCH(QByteArray, rawData);
 
   {
-    light::SpeedToLightBaseDeviceCommand command;
+    light::CommandsScheduler::SpeedToLightBaseDeviceCommand command;
     command.setCommandNumber(commandNumber);
     command.setFirstNode(firstNode);
     command.setLastNode(lastNode);
@@ -258,7 +258,7 @@ void DeviceCommands::FixtureSpeedToLightBaseDeviceCommandRawData()
   }
 
   {
-    light::SpeedToLightBaseDeviceCommand command;
+    light::CommandsScheduler::SpeedToLightBaseDeviceCommand command;
     command.fromRawData(rawData);
     QVERIFY(command.getCommandNumber() == commandNumber);
     QVERIFY(command.getFirstNode() == firstNode);
