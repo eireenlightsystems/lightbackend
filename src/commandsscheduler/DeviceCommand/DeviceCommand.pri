@@ -7,7 +7,8 @@ HEADERS += \
     $$PWD/SpeedToLightDownDeviceCommand.h \
     $$PWD/SpeedToLightUpDeviceCommand.h \
     $$PWD/SwitchOffDeviceCommand.h \
-    $$PWD/SpeedToLightBaseDeviceCommand.h
+    $$PWD/SpeedToLightBaseDeviceCommand.h \
+    $$PWD/FixtureCommand.h
 
 SOURCES += \
     $$PWD/AbstractDeviceCommand.cpp \
@@ -15,4 +16,5 @@ SOURCES += \
     $$PWD/SpeedToLightDownDeviceCommand.cpp \
     $$PWD/SpeedToLightUpDeviceCommand.cpp \
     $$PWD/SwitchOffDeviceCommand.cpp \
-    $$PWD/SpeedToLightBaseDeviceCommand.cpp
+    $$PWD/SpeedToLightBaseDeviceCommand.cpp \
+    $$PWD/FixtureCommand.cpp

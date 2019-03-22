@@ -1,11 +1,11 @@
 #ifndef FIXTURESWITCHONDEVICECOMMAND_H
 #define FIXTURESWITCHONDEVICECOMMAND_H
 
-#include "AbstractDeviceCommand.h"
+#include "FixtureCommand.h"
 
 namespace light {
-
-class FixtureSwitchOnDeviceCommand : public AbstractDeviceCommand
+namespace CommandsScheduler {
+class FixtureSwitchOnDeviceCommand : public FixtureCommand
 {
 public:
   FixtureSwitchOnDeviceCommand();
@@ -13,7 +13,7 @@ public:
   ~FixtureSwitchOnDeviceCommand() override = default;
 
   QByteArray getRawData() const override;
-  void fromRawData(const QByteArray &rawData) override;
+  void fromRawData(const QByteArray& rawData) override;
 
   quint8 getWorkLevel() const;
   void setWorkLevel(quint8 value);
@@ -25,7 +25,7 @@ private:
   quint8 workLevel{0};
   quint8 standbyLevel{0};
 };
-
+} // namespace CommandsScheduler
 } // namespace light
 
 #endif // FIXTURESWITCHONDEVICECOMMAND_H

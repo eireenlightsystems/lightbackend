@@ -1,20 +1,22 @@
 #include "CommandsSchedulerController.h"
 
+#include "FixtureSwitchOnDeviceCommandPostgresCrud.h"
 #include "MqttDeviceCommandPublisher.h"
-#include "PostgresFixtureCommandFacadeGateway.h"
+#include "SchedulerFixture.h"
 #include "SchedulerGateway.h"
+#include "SpeedToLightBaseDeviceCommandPostgresCrud.h"
 
 #include <QCoreApplication>
 #include <QDateTime>
 #include <QMqttClient>
 #include <QSettings>
 
+namespace light {
 namespace CommandsScheduler {
 
 CommandsSchedulerController::CommandsSchedulerController(QObject* parent)
   : QObject(parent)
   , mqttClient(QMqttClientShared::create())
-  , schedulerGateway(SchedulerGatewayShared::create())
   , deviceCommandPublisher(MqttDeviceCommandPublisherShared::create()) {
   connect(&timer, &QTimer::timeout, this, &CommandsSchedulerController::onSchedulerTimeout);
 }
@@ -26,13 +28,9 @@ void CommandsSchedulerController::init() {
 }
 
 void CommandsSchedulerController::onSchedulerTimeout() {
-  auto closestDatetime = schedulerGateway->getClosestCommandDateTime();
-  auto currentDatetime = QDateTime::currentDateTime();
-  if (closestDatetime <= currentDatetime) {
-    auto commands = fixtureCommandFacade->selectDeviceInCommandsInQueue(closestDatetime);
-    deviceCommandPublisher->publish(commands);
-    schedulerGateway->markAsSentCommandsByDateTime(closestDatetime);
-  }
+  const auto currentDateTime = QDateTime::currentDateTime();
+  publishSwitchOnCommand(currentDateTime);
+  publishSpeedCommand(currentDateTime);
 }
 
 void CommandsSchedulerController::onMqttConnected() {
@@ -68,7 +66,7 @@ void CommandsSchedulerController::initMqttClient(const MqttConnectionInfo& conne
 }
 
 QString CommandsSchedulerController::getSettingsPath() const {
-  return qApp->applicationDirPath() + "/lightbackend.conf";
+  return qApp->applicationDirPath() + "/commandsscheduler.conf";
 }
 
 void CommandsSchedulerController::initTimer() {
@@ -89,15 +87,8 @@ int CommandsSchedulerController::readIntervalFromSettings() const {
 }
 
 void CommandsSchedulerController::initDatabase() {
-  fixtureCommandFacade = light::PostgresqlGateway::PostgresFixtureCommandFacadeGatewayShared::create();
+  session = SessionShared::create();
   auto connectionInfo = readConnectionInfoFromSettings();
-  fixtureCommandFacade->open(connectionInfo);
-  SchedulerGateway::Gateways gateways;
-  gateways.fixtureGateway = fixtureCommandFacade;
-  gateways.deviceCommandGateway = fixtureCommandFacade;
-  gateways.lightLevelCommandGateway = fixtureCommandFacade;
-  gateways.lightSpeedCommandGateway = fixtureCommandFacade;
-  schedulerGateway->setGateways(gateways);
 }
 
 light::PostgresConnectionInfo CommandsSchedulerController::readConnectionInfoFromSettings() const {
@@ -117,4 +108,47 @@ light::PostgresConnectionInfo CommandsSchedulerController::readConnectionInfoFro
   return connectionInfo;
 }
 
+void CommandsSchedulerController::publishSwitchOnCommand(const QDateTime& datetime) {
+  PostgresqlGateway::PostgresCrud<CommandsScheduler::FixtureSwitchOnDeviceCommand> crud;
+  crud.setSession(session);
+  const QVariantHash params{
+      {"dateTime", datetime},
+  };
+  auto lightLevelCommands = crud.sel(params);
+  if (lightLevelCommands.count()) {
+    for (auto c : lightLevelCommands) {
+      if (deviceCommandPublisher->publish({c})) {
+	auto fixture = c->getFixture();
+	fixture->setWorkLevel(c->getWorkLevel());
+	fixture->setStandbyLevel(c->getStandbyLevel());
+	c->setStatus(CommandStatus::Done);
+	crud.save(c);
+      }
+    }
+  }
+}
+
+void CommandsSchedulerController::publishSpeedCommand(const QDateTime& datetime) {
+  PostgresqlGateway::PostgresCrud<CommandsScheduler::SpeedToLightBaseDeviceCommand> crud;
+  crud.setSession(session);
+  const QVariantHash params{
+      {"dateTime", datetime},
+  };
+  auto speedCommands = crud.sel(params);
+  if (speedCommands.count()) {
+    for (auto c : speedCommands) {
+      if (deviceCommandPublisher->publish({c})) {
+	auto fixture = c->getFixture();
+	if (c->getCommandNumber() == CommandNumber::SpeedToLightUp) {
+	  fixture->setSpeedUp(c->getSpeed());
+	} else if (c->getCommandNumber() == CommandNumber::SpeedToLightDown) {
+	  fixture->setSpeedDown(c->getSpeed());
+	}
+	crud.save(c);
+      }
+    }
+  }
+}
+
 } // namespace CommandsScheduler
+} // namespace light

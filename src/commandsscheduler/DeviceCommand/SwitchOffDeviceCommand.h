@@ -4,7 +4,7 @@
 #include "AbstractDeviceCommand.h"
 
 namespace light {
-
+namespace CommandsScheduler {
 class SwitchOffDeviceCommand : public AbstractDeviceCommand
 {
 public:
@@ -12,6 +12,6 @@ public:
   SwitchOffDeviceCommand(ulong gatewayId, quint8 firstNode, quint8 lastNode, quint8 deviceNumber);
 };
 
+} // namespace CommandsScheduler
 } // namespace light
-
 #endif // SWITCHOFFDEVICECOMMAND_H

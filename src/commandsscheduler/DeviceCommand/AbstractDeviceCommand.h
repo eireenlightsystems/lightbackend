@@ -1,13 +1,14 @@
 #ifndef ABSTRACTDEVICECOMMAND_H
 #define ABSTRACTDEVICECOMMAND_H
 
+#include "CommandStatus.h"
 #include "typedefs.h"
 
 #include <QByteArray>
 #include <QDateTime>
 
 namespace light {
-
+namespace CommandsScheduler {
 enum class CommandNumber : quint8
 {
   None = 0,
@@ -28,7 +29,7 @@ public:
 			CommandNumber commandNumber);
   virtual ~AbstractDeviceCommand() = default;
   virtual QByteArray getRawData() const;
-  virtual void fromRawData(const QByteArray &rawData) = 0;
+  virtual void fromRawData(const QByteArray& rawData) = 0;
 
   ulong getGatewayId() const;
   void setGatewayId(ulong value);
@@ -45,21 +46,26 @@ public:
   quint8 getDeviceNumber() const;
   void setDeviceNumber(const quint8& value);
 
-  ID getCommandId() const;
-  void setCommandId(const ID& value);
+  ID getId() const;
+  void setId(const ID& value);
 
   QDateTime getDateTime() const;
   void setDateTime(const QDateTime& value);
 
+  CommandStatus getStatus() const;
+  void setStatus(const CommandStatus& value);
+
 private:
-  ID commandId{0};
+  ID Id{0};
   QDateTime dateTime;
   ulong gatewayId{0};
   quint8 firstNode{0};
   quint8 lastNode{0};
   quint8 deviceNumber{0};
   CommandNumber commandNumber{CommandNumber::None};
+  CommandStatus status;
 };
+} // namespace CommandsScheduler
 } // namespace light
 
 #endif // ABSTRACTDEVICECOMMAND_H

@@ -1,18 +1,19 @@
 #ifndef SPEEDTOLIGHTBASEDEVICECOMMAND_H
 #define SPEEDTOLIGHTBASEDEVICECOMMAND_H
 
-#include "AbstractDeviceCommand.h"
+#include "FixtureCommand.h"
 
 namespace light {
-class SpeedToLightBaseDeviceCommand : public AbstractDeviceCommand
+namespace CommandsScheduler {
+class SpeedToLightBaseDeviceCommand : public FixtureCommand
 {
 public:
   SpeedToLightBaseDeviceCommand() = default;
   SpeedToLightBaseDeviceCommand(ulong gatewayId,
-			  quint8 firstNode,
-			  quint8 lastNode,
-			  quint8 deviceNumber,
-			  CommandNumber commandNumber);
+				quint8 firstNode,
+				quint8 lastNode,
+				quint8 deviceNumber,
+				CommandNumber commandNumber);
   QByteArray getRawData() const override;
   void fromRawData(const QByteArray& rawData) override;
 
@@ -22,6 +23,7 @@ public:
 private:
   quint8 speed;
 };
+} // namespace CommandsScheduler
 } // namespace light
 
 #endif // SPEEDTOLIGHTBASEDEVICECOMMAND_H

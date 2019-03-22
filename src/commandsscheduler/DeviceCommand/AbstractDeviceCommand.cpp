@@ -3,7 +3,7 @@
 #include <QDataStream>
 
 namespace light {
-
+namespace CommandsScheduler {
 AbstractDeviceCommand::AbstractDeviceCommand(ulong gatewayId,
 					     quint8 firstNode,
 					     quint8 lastNode,
@@ -66,12 +66,12 @@ void AbstractDeviceCommand::setDeviceNumber(const quint8& value) {
   deviceNumber = value;
 }
 
-ID AbstractDeviceCommand::getCommandId() const {
-  return commandId;
+ID AbstractDeviceCommand::getId() const {
+  return Id;
 }
 
-void AbstractDeviceCommand::setCommandId(const ID& value) {
-  commandId = value;
+void AbstractDeviceCommand::setId(const ID& value) {
+  Id = value;
 }
 
 QDateTime AbstractDeviceCommand::getDateTime() const {
@@ -82,4 +82,12 @@ void AbstractDeviceCommand::setDateTime(const QDateTime& value) {
   dateTime = value;
 }
 
+CommandStatus AbstractDeviceCommand::getStatus() const {
+  return status;
+}
+
+void AbstractDeviceCommand::setStatus(const CommandStatus& value) {
+  status = value;
+}
+} // namespace CommandsScheduler
 } // namespace light

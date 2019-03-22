@@ -18,17 +18,30 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 HEADERS += \
     Service.h \
-    SchedulerGateway.h \
     MqttDeviceCommandPublisher.h \
     CommandsSchedulerTypeDefs.h \
-    CommandsSchedulerController.h
+    CommandsSchedulerController.h \
+    AbstractDeviceCommandPostgresCrud.h \
+    FixtureSwitchOnDeviceCommandPostgresCrud.h \
+    SchedulerFixture.h \
+    SpeedToLightBaseDeviceCommandPostgresCrud.h
 
 SOURCES += \
     main.cpp \
     Service.cpp \
-    SchedulerGateway.cpp \
     MqttDeviceCommandPublisher.cpp \
-    CommandsSchedulerController.cpp
+    CommandsSchedulerController.cpp \
+    AbstractDeviceCommandPostgresCrud.cpp \
+    FixtureSwitchOnDeviceCommandPostgresCrud.cpp \
+    SchedulerFixture.cpp \
+    SpeedToLightBaseDeviceCommandPostgresCrud.cpp
+
+DISTFILES += \
+    commandsscheduler.conf
 
 target.path = /opt/light/backend/bin
 INSTALLS += target
+
+config.path = /opt/light/backend/bin
+config.files = $$DISTFILES
+INSTALLS += config

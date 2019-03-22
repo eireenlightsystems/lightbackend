@@ -38,6 +38,6 @@ int main(int argc, char* argv[]) {
 #endif
   QString tmpPath = QDir::tempPath();
   QSettings::setPath(QSettings::NativeFormat, QSettings::SystemScope, tmpPath);
-  CommandsScheduler::Service service(argc, argv);
+  light::CommandsScheduler::Service service(argc, argv);
   return service.exec();
 }

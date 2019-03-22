@@ -3,12 +3,13 @@
 #include <QDataStream>
 
 namespace light {
+namespace CommandsScheduler {
 SpeedToLightBaseDeviceCommand::SpeedToLightBaseDeviceCommand(ulong gatewayId,
 							     quint8 firstNode,
 							     quint8 lastNode,
 							     quint8 deviceNumber,
 							     CommandNumber commandNumber)
-  : AbstractDeviceCommand(gatewayId, firstNode, lastNode, deviceNumber, commandNumber), speed{0} {
+  : FixtureCommand(gatewayId, firstNode, lastNode, deviceNumber, commandNumber), speed{0} {
 }
 
 QByteArray SpeedToLightBaseDeviceCommand::getRawData() const {
@@ -38,4 +39,5 @@ quint8 SpeedToLightBaseDeviceCommand::getSpeed() const {
 void SpeedToLightBaseDeviceCommand::setSpeed(const quint8& value) {
   speed = value;
 }
+} // namespace CommandsScheduler
 } // namespace light

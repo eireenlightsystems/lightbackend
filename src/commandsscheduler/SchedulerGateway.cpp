@@ -10,6 +10,7 @@
 using FixtureSharedList = light::FixtureSharedList;
 using FixtureShared = light::FixtureShared;
 
+namespace light {
 namespace CommandsScheduler {
 QDateTime SchedulerGateway::getClosestCommandDateTime() const {
   return gateways.deviceCommandGateway->getClosestDeviceCommandDateTime();
@@ -61,12 +62,6 @@ void SchedulerGateway::markAsSentLightSpeed(const QDateTime& dateTime) {
   gateways.lightSpeedCommandGateway->saveLightSpeedCommands(lightSpeedCommands);
   gateways.fixtureGateway->saveFixtures(fixtures.values());
 }
-
-SchedulerGateway::Gateways SchedulerGateway::getGateways() const {
-  return gateways;
-}
-
-void SchedulerGateway::setGateways(const Gateways& value) {
-  gateways = value;
-}
 } // namespace CommandsScheduler
+
+} // namespace light

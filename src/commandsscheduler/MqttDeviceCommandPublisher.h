@@ -8,6 +8,7 @@
 
 class QMqttClient;
 
+namespace light {
 namespace CommandsScheduler {
 
 class MqttDeviceCommandPublisher : public QObject
@@ -20,11 +21,12 @@ public:
   void setMqttClient(const QMqttClientShared& value);
 
 public slots:
-  void publish(const light::AbstractDeviceCommandSharedList& commands);
+  bool publish(const AbstractDeviceCommandSharedList& commands);
 
 private:
   QMqttClientShared mqttClient;
 };
 } // namespace CommandsScheduler
+} // namespace light
 
 #endif // MQTTDEVICECOMMANDPUBLISHER_H

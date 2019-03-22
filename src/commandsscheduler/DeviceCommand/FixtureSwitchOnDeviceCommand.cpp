@@ -2,7 +2,7 @@
 
 #include <QDataStream>
 namespace light {
-
+namespace CommandsScheduler {
 FixtureSwitchOnDeviceCommand::FixtureSwitchOnDeviceCommand() {
   setCommandNumber(CommandNumber::FixtureSwitchOn);
 }
@@ -11,7 +11,7 @@ FixtureSwitchOnDeviceCommand::FixtureSwitchOnDeviceCommand(ulong gatewayId,
 							   quint8 firstNode,
 							   quint8 lastNode,
 							   quint8 deviceNumber)
-  : AbstractDeviceCommand(gatewayId, firstNode, lastNode, deviceNumber, CommandNumber::FixtureSwitchOn) {
+  : FixtureCommand(gatewayId, firstNode, lastNode, deviceNumber, CommandNumber::FixtureSwitchOn) {
 }
 
 QByteArray FixtureSwitchOnDeviceCommand::getRawData() const {
@@ -48,4 +48,5 @@ quint8 FixtureSwitchOnDeviceCommand::getStandbyLevel() const {
 void FixtureSwitchOnDeviceCommand::setStandbyLevel(quint8 value) {
   standbyLevel = value;
 }
+} // namespace CommandsScheduler
 } // namespace light

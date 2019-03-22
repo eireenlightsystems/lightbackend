@@ -6,6 +6,7 @@
 
 #include <QTimer>
 
+namespace light {
 namespace CommandsScheduler {
 
 struct MqttConnectionInfo
@@ -35,15 +36,16 @@ private:
   int readIntervalFromSettings() const;
   void initDatabase();
   light::PostgresConnectionInfo readConnectionInfoFromSettings() const;
+  void publishSwitchOnCommand(const QDateTime& datetime);
+  void publishSpeedCommand(const QDateTime& datetime);
 
 private:
   QMqttClientShared mqttClient;
-  SchedulerGatewayShared schedulerGateway;
   MqttDeviceCommandPublisherShared deviceCommandPublisher;
   QTimer timer;
-  light::PostgresqlGateway::PostgresFixtureCommandFacadeGatewayShared fixtureCommandFacade;
+  SessionShared session;
 };
-
 } // namespace CommandsScheduler
+} // namespace light
 
 #endif // COMMANDSSCHEDULERCONTROLLER_H

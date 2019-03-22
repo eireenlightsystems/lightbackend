@@ -5,13 +5,20 @@
 
 DeclareShared(QMqttClient);
 
+namespace light {
 namespace CommandsScheduler {
-using ID = light::ID;
 
+DeclareShared(SchedulerFixture);
 DeclareShared(SchedulerGateway);
 DeclareShared(MqttDeviceCommandPublisher);
 DeclareShared(CommandsSchedulerController);
 
-} // namespace CommandsScheduler
+DeclareShared(AbstractDeviceCommand);
+DeclareShared(FixtureSwitchOnDeviceCommand);
+DeclareShared(SpeedToLightBaseDeviceCommand);
+DeclareShared(SpeedToLightUpDeviceCommand);
+DeclareShared(SpeedToLightDownDeviceCommand);
 
+} // namespace CommandsScheduler
+}
 #endif // COMMANDSSCHEDULERTYPEDEFS_H

@@ -4,12 +4,13 @@
 
 #include <QMqttClient>
 
+namespace light {
 namespace CommandsScheduler {
 MqttDeviceCommandPublisher::MqttDeviceCommandPublisher(QObject* parent) : QObject(parent) {
 }
 
-void MqttDeviceCommandPublisher::publish(const light::AbstractDeviceCommandSharedList& commands) {
-  if (mqttClient) {
+bool MqttDeviceCommandPublisher::publish(const AbstractDeviceCommandSharedList& commands) {
+  if (mqttClient and mqttClient->state() == QMqttClient::Connected) {
     for (const auto& command : commands) {
       const QString topic = QString("/gateway/%1").arg(command->getGatewayId());
       auto rawCommandData = command->getRawData();
@@ -17,7 +18,10 @@ void MqttDeviceCommandPublisher::publish(const light::AbstractDeviceCommandShare
       qDebug() << mqttClient->state() << "publish to topic" << topic << "data" << rawCommandData << "size"
 	       << rawCommandData.size();
     }
+    return true;
   }
+
+  return false;
 }
 
 QMqttClientShared MqttDeviceCommandPublisher::getMqttClient() const {
@@ -28,3 +32,4 @@ void MqttDeviceCommandPublisher::setMqttClient(const QMqttClientShared& value) {
   mqttClient = value;
 }
 } // namespace CommandsScheduler
+} // namespace light

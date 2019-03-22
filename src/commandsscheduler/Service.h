@@ -2,8 +2,10 @@
 #define SERVICE_H
 
 #include "CommandsSchedulerTypeDefs.h"
+
 #include <qtservice.h>
 
+namespace light {
 namespace CommandsScheduler {
 
 class Service : public QtService<QCoreApplication>
@@ -17,4 +19,5 @@ private:
   CommandsSchedulerControllerShared controller;
 };
 } // namespace CommandsScheduler
+} // namespace light
 #endif // SERVICE_H
