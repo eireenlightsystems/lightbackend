@@ -5,14 +5,13 @@
 namespace light {
 
 Service::Service(int argc, char** argv) : QtService<QCoreApplication>(argc, argv, "Light backend") {
-  qDebug() << Q_FUNC_INFO;
 }
 
 void Service::start() {
   //  QCoreApplication *app = application();
 
   mqttDatabaseProviderShared = QSharedPointer<LigthBackend>::create();
-  mqttDatabaseProviderShared->init("31.134.167.47", 1883);
+  mqttDatabaseProviderShared->init();
 
   httpServerWrapper = HttpServerWrapper::singleton();
   httpServerWrapper->setLightBackend(mqttDatabaseProviderShared);

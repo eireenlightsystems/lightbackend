@@ -1,0 +1,16 @@
+[Unit]
+Description=Device message reveicer
+After=network.target
+After=systemd-user-sessions.service
+After=network-online.target
+
+[Service]
+User=lightbackend
+Type=forking
+ExecStart=/opt/light/backend/bin/devicemessagereceiver
+ExecStop=/opt/light/backend/bin/devicemessagereceiver -t
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+

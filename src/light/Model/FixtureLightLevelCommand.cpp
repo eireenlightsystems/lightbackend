@@ -2,7 +2,7 @@
 
 namespace light {
 bool FixtureLightLevelCommand::operator==(const FixtureLightLevelCommand& other) {
-  return getCommandId() != other.getCommandId();
+  return getId() != other.getId();
 }
 
 bool FixtureLightLevelCommand::operator!=(const FixtureLightLevelCommand& other) {

@@ -24,19 +24,10 @@ public:
   QSharedPointer<LigthBackend> getLightBackend() const;
   void setLightBackend(const QSharedPointer<LigthBackend>& value);
 
-  template <typename RouteFunction, typename... Args>
-  static QHttpServerResponse baseRouteFunction(RouteFunction routeFunction, Args&&... args);
-
   bool isLoggedIn() const;
-
-protected:
-  template <typename Converter, typename BackendGetter>
-  QHttpServerResponse getFixturesCommandsBase(BackendGetter);
 
 private:
   void createCommandsRoutes();
-  void createLightLevelRoutes();
-  void createLightSpeedRoutes();
   void createNodeRoutes();
   void createGeographRoutes();
   void createGatewayRouters();

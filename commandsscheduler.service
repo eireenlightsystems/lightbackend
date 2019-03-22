@@ -1,0 +1,16 @@
+[Unit]
+Description=Commands Scheduler
+After=network.target
+After=systemd-user-sessions.service
+After=network-online.target
+
+[Service]
+User=lightbackend
+Type=forking
+ExecStart=/opt/light/backend/bin/commandsscheduler
+ExecStop=/opt/light/backend/bin/commandsscheduler -t
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+

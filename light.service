@@ -1,5 +1,5 @@
 [Unit]
-Description=Light backend service
+Description=Light site backend service
 After=network.target
 After=systemd-user-sessions.service
 After=network-online.target

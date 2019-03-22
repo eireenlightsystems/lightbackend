@@ -4,12 +4,12 @@ namespace light {
 FixtureCommand::~FixtureCommand() {
 }
 
-ID FixtureCommand::getCommandId() const {
-  return commandId;
+ID FixtureCommand::getId() const {
+  return id;
 }
 
-void FixtureCommand::setCommandId(const ID& value) {
-  commandId = value;
+void FixtureCommand::setId(const ID& value) {
+  id = value;
 }
 
 ID FixtureCommand::getFixtureId() const {

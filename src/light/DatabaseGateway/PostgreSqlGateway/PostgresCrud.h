@@ -63,7 +63,7 @@ public:
   Reader() = default;
   ~Reader() override = default;
 
-  Shared selById(ID id) const {
+  virtual Shared selById(ID id) const {
     auto objects = sel(IDList{id});
     if (objects.count()) {
       return objects.first();
@@ -120,11 +120,11 @@ protected:
     Q_UNUSED(filters)
     return BindParamsType();
   }
-  QString getSelectByIdSql() const {
+  virtual QString getSelectByIdSql() const {
     return QString("select %1 from %2 where %3 = :%3").arg(getSelectItems(), view, idField.name);
   }
 
-  QString getSelectSql() const {
+  virtual QString getSelectSql() const {
     return QString("select %1 from %2").arg(getSelectItems(), view);
   }
 
