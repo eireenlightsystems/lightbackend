@@ -7,7 +7,7 @@
 #include <QJsonObject>
 #include <QTextStream>
 
-using namespace light;
+using namespace light::CommandsScheduler;
 
 int main(int argc, char* argv[]) {
   QCoreApplication a(argc, argv);
