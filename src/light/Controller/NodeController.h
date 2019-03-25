@@ -56,11 +56,6 @@ IDList Controller<Node, Crud>::ins(const QList<QVariantHash>& params) {
       newNode->setCoordinate(latitude, longitude);
     }
 
-    if (param.contains("price")) {
-      double price = param.value("price").toDouble();
-      newNode->setPrice(price);
-    }
-
     if (param.contains("comment")) {
       QString comment = param.value("comment").toString();
       newNode->setComment(comment);
@@ -117,11 +112,6 @@ void Controller<Node, Crud>::upd(const QList<QVariantHash>& params) {
       double latitude = param.value("n_coordinate").toDouble();
       double longitude = param.value("e_coordinate").toDouble();
       node->setCoordinate(latitude, longitude);
-    }
-
-    if (param.contains("price")) {
-      double price = param.value("price").toDouble();
-      node->setPrice(price);
     }
 
     if (param.contains("comment")) {

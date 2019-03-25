@@ -9,32 +9,37 @@
 
 #include <QSqlRecord>
 #include <QVariant>
+#include <QDebug>
 
 namespace light {
 namespace PostgresqlGateway {
 
 const QList<Field> gatewayFields {
     {"id_gateway", "id_gateway", true},
-    {"price", "price_gateway", false},
     {"comments", "comments_gateway", false},
+    {"name_node_group", "name_node_group_gateway", false},
+    {"serial_number", "serial_number_gateway", false},
 
     {"id_node", "id_node", false},
 
-    {"id_owner", "id_contragent", false},
-    {"id_owner", "code_contragent", false},
+    {"id_owner", "id_owner", false},
+    {"code_owner", "code_owner", false},
 
     {"id_contract", "id_contract", false},
     {"code_contract", "code_contract", false},
 
     {"id_gateway_type", "id_gateway_type", false},
     {"code_gateway_type", "code_gateway_type", false},
+
+    {"id_geograph", "id_geograph", false},
+    {"code_geograph", "code_geograph", false},
 };
 
 PostgresCrud<Gateway>::PostgresCrud() {
   setFields(gatewayFields);
   setView("gateway_pkg_i.gateway_vwf(:id_geograph, :id_owner, :id_gateway_type, :id_contract, :id_node)");
   setInsertSql("select gateway_pkg_i.save(:action, :id_gateway, :id_contract, :id_equipment_type, "
-	       ":id_node, :price, :comments)");
+	       ":id_node, :name_node_group, :serial_number, :comments)");
   setUpdateSql(getInsertSql());
   setDeleteSql("select gateway_pkg_i.del(:id)");
 }
@@ -42,8 +47,9 @@ PostgresCrud<Gateway>::PostgresCrud() {
 Editor<Gateway>::Shared PostgresCrud<Gateway>::parse(const QSqlRecord& record) const {
   auto gateway = GatewayShared::create();
   gateway->setId(record.value(getIdAlias()).value<ID>());
-  gateway->setPrice(record.value(getFieldAlias("price_gateway")).toDouble());
-  gateway->setComment(record.value(getFieldAlias("comments_gateway")).toString());
+  gateway->setComment(record.value(getFieldAlias("comments")).toString());
+  gateway->setName(record.value(getFieldAlias("name_node_group")).toString());
+  gateway->setSerialNumber(record.value(getFieldAlias("serial_number")).toString());
 
   PostgresCrud<EquipmentOwner> equipmentOwnerCrud;
   equipmentOwnerCrud.setSession(getSession());
@@ -82,8 +88,9 @@ BindParamsType PostgresCrud<Gateway>::getInsertParams(const Editor::Shared& gate
       {":id_contract", gateway->getContract() ? gateway->getContractId() : QVariant()},
       {":id_equipment_type", gateway->getGatewayType() ? gateway->getGatewayTypeId() : QVariant()},
       {":id_node", gateway->getNode() ? gateway->getNodeId() : QVariant()},
-      {":price", gateway->getPrice()},
       {":comments", gateway->getComment()},
+      {":name_node_group", gateway->getName()},
+      {":serial_number", gateway->getSerialNumber()},
   };
 }
 
@@ -94,8 +101,9 @@ BindParamsType PostgresCrud<Gateway>::getUpdateParams(const Editor::Shared& gate
       {":id_contract", gateway->getContract() ? gateway->getContractId() : QVariant()},
       {":id_equipment_type", gateway->getGatewayType() ? gateway->getGatewayTypeId() : QVariant()},
       {":id_node", gateway->getNode() ? gateway->getNodeId() : QVariant()},
-      {":price", gateway->getPrice()},
       {":comments", gateway->getComment()},
+      {":name_node_group", gateway->getName()},
+      {":serial_number", gateway->getSerialNumber()},
   };
 }
 

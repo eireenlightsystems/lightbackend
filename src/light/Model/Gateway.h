@@ -21,9 +21,13 @@ public:
 
   GeographShared getGeograph() const override;
 
+  QString getName() const;
+  void setName(const QString& value);
+
 private:
   GatewayTypeShared gatewayType;
   NodeShared node;
+  QString name;
 };
 } // namespace light
 

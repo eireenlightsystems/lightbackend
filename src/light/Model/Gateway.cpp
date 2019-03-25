@@ -37,9 +37,17 @@ void Gateway::setNode(const NodeShared& value) {
 
 GeographShared Gateway::getGeograph() const {
   if (node)
-    node->getGeograph();
+    return node->getGeograph();
 
   return GeographShared();
+}
+
+QString Gateway::getName() const {
+  return name;
+}
+
+void Gateway::setName(const QString& value) {
+  name = value;
 }
 
 } // namespace light

@@ -3,6 +3,7 @@
 
 #include "Controller.h"
 #include "Gateway.h"
+#include "NodeController.h"
 
 #include <QVariant>
 
@@ -18,10 +19,18 @@ public:
   void upd(const QList<QVariantHash>& params) override;
   void upd(ID id, const QVariantHash& param) override;
   void delFromList(ID listId, const IDList& ids) override {
-
   }
   void addToList(ID listId, const IDList& ids) override {
-
+    Controller<Node, Crud> nodeController;
+    QList<QVariantHash> paramsList;
+    for (auto id : ids) {
+      const QVariantHash params{
+	  {"nodeId", id},
+	  //	  {"nodeId", },
+      };
+      paramsList << params;
+    }
+    nodeController.upd(paramsList);
   }
 };
 
@@ -36,7 +45,7 @@ IDList Controller<Gateway, Crud>::ins(const QList<QVariantHash>& params) {
   Crud<Node> nodeCrud;
   nodeCrud.setSession(this->getSession());
 
-  for (const auto& param : params)  {
+  for (const auto& param : params) {
     auto newGateway = GatewayShared::create();
     if (param.contains("contractId")) {
       ID contractId = param.value("contractId").value<ID>();
@@ -56,9 +65,14 @@ IDList Controller<Gateway, Crud>::ins(const QList<QVariantHash>& params) {
       newGateway->setNode(node);
     }
 
-    if (param.contains("price")) {
-      double price = param.value("price").toDouble();
-      newGateway->setPrice(price);
+    if (param.contains("serialNumber")) {
+      QString serialNumber = param.value("serialNumber").toString();
+      newGateway->setSerialNumber(serialNumber);
+    }
+
+    if (param.contains("nodeGroupName")) {
+      QString nodeGroupName = param.value("nodeGroupName").toString();
+      newGateway->setName(nodeGroupName);
     }
 
     if (param.contains("comment")) {
@@ -96,14 +110,19 @@ void Controller<Gateway, Crud>::upd(const QList<QVariantHash>& params) {
     ID gatewayId = param.value("gatewayId").value<ID>();
     GatewayShared gateway = gatewayCrud.selById(gatewayId);
 
-    if (param.contains("price")) {
-      double price = param.value("price").toDouble();
-      gateway->setPrice(price);
-    }
-
     if (param.contains("comment")) {
       QString comment = param.value("comment").toString();
       gateway->setComment(comment);
+    }
+
+    if (param.contains("serialNumber")) {
+      QString serialNumber = param.value("serialNumber").toString();
+      gateway->setSerialNumber(serialNumber);
+    }
+
+    if (param.contains("nodeGroupName")) {
+      QString nodeGroupName = param.value("nodeGroupName").toString();
+      gateway->setName(nodeGroupName);
     }
 
     if (param.contains("contractId")) {
