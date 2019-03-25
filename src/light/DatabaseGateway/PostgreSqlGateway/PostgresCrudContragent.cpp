@@ -12,7 +12,7 @@ const QList<Field> contragentFields {
     {"name", "name_contragent", false},
 };
 
-light::PostgresqlGateway::PostgresCrud<Contragent>::PostgresCrud() {
+PostgresCrud<Contragent>::PostgresCrud() {
   setFields(contragentFields);
   setView("contragent_pkg.contragent_vw");
 }

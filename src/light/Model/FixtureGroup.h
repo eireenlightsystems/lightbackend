@@ -1,13 +1,20 @@
 #ifndef FIXTUREGROUP_H
 #define FIXTUREGROUP_H
 
+#include "Contragent.h"
 #include "typedefs.h"
 
 #include <QGeoCoordinate>
 
 namespace light {
 
-class FixtureGroupOwner;
+class FixtureGroupOwner : public Contragent
+{
+public:
+  FixtureGroupOwner() = default;
+  explicit FixtureGroupOwner(const Contragent& other) : Contragent(other) {
+  }
+};
 
 class FixtureGroup
 {
@@ -39,9 +46,9 @@ public:
   void setCoordinate(double latitude, double longitude);
 
   FixtureSharedList getFixtures() const;
-  void setFixtures(const FixtureSharedList &value);
+  void setFixtures(const FixtureSharedList& value);
   void removeFixture(ID fixtureId);
-  void addFixture(const FixtureShared &fixture);
+  void addFixture(const FixtureShared& fixture);
 
 private:
   ID id{0};

@@ -9,7 +9,7 @@
 namespace light {
 
 template <template <typename> class Crud>
-class Controller<Gateway, Crud> : public EditableController<Gateway, Crud>
+class Controller<Gateway, Crud> : public EditableListController<Gateway, Crud>
 {
 public:
   Controller() = default;
@@ -17,6 +17,12 @@ public:
   IDList ins(const QList<QVariantHash>& params) override;
   void upd(const QList<QVariantHash>& params) override;
   void upd(ID id, const QVariantHash& param) override;
+  void delFromList(ID listId, const IDList& ids) override {
+
+  }
+  void addToList(ID listId, const IDList& ids) override {
+
+  }
 };
 
 template <template <typename> class Crud>
@@ -30,7 +36,7 @@ IDList Controller<Gateway, Crud>::ins(const QList<QVariantHash>& params) {
   Crud<Node> nodeCrud;
   nodeCrud.setSession(this->getSession());
 
-  for (const auto& param : params) {
+  for (const auto& param : params)  {
     auto newGateway = GatewayShared::create();
     if (param.contains("contractId")) {
       ID contractId = param.value("contractId").value<ID>();

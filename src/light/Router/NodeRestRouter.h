@@ -17,14 +17,18 @@ template <>
 class RestRouter<Node> : public SimpleEditableRouter<Node>
 {
 public:
-  constexpr static const char* path = "node";
+  QString getName() const override {
+    return "nodes";
+  }
 };
 
 template <>
 class RestRouter<NodeType> : public SimpleSelectableRouter<NodeType>
 {
 public:
-  constexpr static const char* path = "node-type";
+  QString getName() const override {
+    return "nodes-types";
+  }
 };
 
 } // namespace light

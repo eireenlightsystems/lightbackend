@@ -94,7 +94,7 @@ void FixtureGroup::removeFixture(ID fixtureId) {
   auto it = std::remove_if(fixtures.begin(), fixtures.end(), [fixtureId](const FixtureShared& fixture) {
     return fixture->getId() == fixtureId;
   });
-  if(it != fixtures.end()) {
+  if (it != fixtures.end()) {
     fixtures.erase(it);
   }
 }

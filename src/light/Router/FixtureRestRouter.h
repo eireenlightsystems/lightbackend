@@ -22,28 +22,36 @@ template <>
 class RestRouter<Fixture> : public SimpleEditableRouter<Fixture>
 {
 public:
-  constexpr static const char* path = "fixture";
+  QString getName() const override {
+    return "fixtures";
+  }
 };
 
 template <>
 class RestRouter<FixtureType> : public SimpleSelectableRouter<GatewayType>
 {
 public:
-  constexpr static const char* path = "fixture-type";
+  QString getName() const override {
+    return "fixtures-types";
+  }
 };
 
 template <>
 class RestRouter<FixtureHeightType> : public SimpleSelectableRouter<FixtureHeightType>
 {
 public:
-  constexpr static const char* path = "fixture-height-type";
+  QString getName() const override {
+    return "fixtures-height-types";
+  }
 };
 
 template <>
 class RestRouter<Substation> : public SimpleSelectableRouter<Substation>
 {
 public:
-  constexpr static const char* path = "substation";
+  QString getName() const override {
+    return "substations";
+  }
 };
 
 } // namespace light

@@ -2,9 +2,9 @@
 #define SIMPLEEDITABLEROUTER_H
 
 #include "BadRequestException.h"
+#include "Controller.h"
 #include "JsonToIds.h"
 #include "SimpleSelectableRouter.h"
-#include "Controller.h"
 
 #include <QHttpServerRequest>
 #include <QHttpServerResponse>
@@ -15,10 +15,14 @@ template <typename T>
 class SimpleEditableRouter : public SimpleSelectableRouter<T>
 {
 public:
-  constexpr static bool isEditable = true;
-
   SimpleEditableRouter() = default;
   ~SimpleEditableRouter() override = default;
+  void registerApi(QHttpServer& httpServer) const override {
+    SimpleSelectableRouter<T>::registerApi(httpServer);
+    registerPost(httpServer);
+    registerPatch(httpServer);
+    registerDelete(httpServer);
+  }
 
   virtual QHttpServerResponse post(const QHttpServerRequest& req) const {
     auto controller = this->createController();
@@ -95,6 +99,57 @@ protected:
     }
 
     return result;
+  }
+
+private:
+  void registerPost(QHttpServer& httpServer) const {
+    httpServer.route(this->getFullName(), QHttpServerRequest::Method::Post, [](const QHttpServerRequest& req) {
+      auto routeFunction = [](SessionShared session, const QHttpServerRequest& req) {
+	RestRouter<T> router;
+	router.setSession(session);
+	return router.post(req);
+      };
+      return AbstractRestRouter::baseRouteFunction(routeFunction, req);
+    });
+  }
+  void registerPatch(QHttpServer& httpServer) const {
+    httpServer.route(this->getFullName(), QHttpServerRequest::Method::Patch, [](const QHttpServerRequest& req) {
+      auto routeFunction = [](SessionShared session, const QHttpServerRequest& req) {
+	RestRouter<T> router;
+	router.setSession(session);
+	return router.patch(req);
+      };
+      return AbstractRestRouter::baseRouteFunction(routeFunction, req);
+    });
+
+    httpServer.route(
+	this->getIdFullName(), QHttpServerRequest::Method::Patch, [](ID id, const QHttpServerRequest& req) {
+	  auto routeFunction = [](SessionShared session, ID id, const QHttpServerRequest& req) {
+	    RestRouter<T> router;
+	    router.setSession(session);
+	    return router.patch(req, id);
+	  };
+	  return AbstractRestRouter::baseRouteFunction(routeFunction, id, req);
+	});
+  }
+  void registerDelete(QHttpServer& httpServer) const {
+    httpServer.route(this->getFullName(), QHttpServerRequest::Method::Delete, [](const QHttpServerRequest& req) {
+      auto routeFunction = [](SessionShared session, const QHttpServerRequest& req) {
+	RestRouter<T> router;
+	router.setSession(session);
+	return router.del(req);
+      };
+      return AbstractRestRouter::baseRouteFunction(routeFunction, req);
+    });
+
+    httpServer.route(this->getIdFullName(), QHttpServerRequest::Method::Delete, [](ID id) {
+      auto routeFunction = [](SessionShared session, ID id) {
+	RestRouter<T> router;
+	router.setSession(session);
+	return router.delById(id);
+      };
+      return AbstractRestRouter::baseRouteFunction(routeFunction, id);
+    });
   }
 };
 

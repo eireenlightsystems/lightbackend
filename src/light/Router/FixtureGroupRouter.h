@@ -1,16 +1,19 @@
 #ifndef FIXTUREGROUPROUTER_H
 #define FIXTUREGROUPROUTER_H
 
+#include "ContragentToJson.h"
+#include "FixtureGroup.h"
 #include "FixtureGroupController.h"
+#include "FixtureGroupOwnerToJson.h"
+#include "FixtureGroupToJson.h"
+#include "FixtureGroupType.h"
+#include "FixtureGroupTypeToJson.h"
+#include "PostgresCrudFixtureGroup.h"
+#include "PostgresCrudFixtureGroupOwner.h"
+#include "PostgresCrudFixtureGroupType.h"
 #include "RestRouter.h"
 #include "SimpleEditableListRouter.h"
-#include "FixtureGroup.h"
-#include "FixtureGroupType.h"
-#include "PostgresCrudFixtureGroup.h"
-#include "PostgresCrudFixtureGroupType.h"
-#include "FixtureGroupToJson.h"
-#include "FixtureGroupTypeToJson.h"
-#include "ContragentToJson.h"
+#include "FixtureController.h"
 
 namespace light {
 
@@ -18,21 +21,35 @@ template <>
 class RestRouter<FixtureGroup> : public SimpleEditableListRouter<FixtureGroup>
 {
 public:
-  constexpr static const char* path = "fixture-group";
+  QString getName() const override {
+    return "fixtures-groups";
+  }
+
+  QString getChildItemName() const override {
+    return "fixtures";
+  }
+
+  QHttpServerResponse getListItems(ID listId) override {
+    return getListItemsHelper<Fixture>(listId, "groupId");
+  }
 };
 
 template <>
 class RestRouter<FixtureGroupType> : public SimpleSelectableRouter<FixtureGroupType>
 {
 public:
-  constexpr static const char* path = "fixture-group-type";
+  QString getName() const override {
+    return "fixtures-groups-types";
+  }
 };
 
 template <>
-class RestRouter<FixtureGroupOwner> : public SimpleSelectableRouter<Contragent>
+class RestRouter<FixtureGroupOwner> : public SimpleSelectableRouter<FixtureGroupOwner>
 {
 public:
-  constexpr static const char* path = "fixture-group-owner";
+  QString getName() const override {
+    return "fixtures-groups-owners";
+  }
 };
 
 } // namespace light

@@ -3,15 +3,26 @@
 
 #include "SimpleEditableRouter.h"
 
+#include <QHttpServer>
+
 namespace light {
 
 template <typename T>
 class SimpleEditableListRouter : public SimpleEditableRouter<T>
 {
 public:
-  constexpr static bool isList = true;
+  constexpr static bool isContainer = true;
   SimpleEditableListRouter() = default;
   ~SimpleEditableListRouter() override = default;
+  virtual QString getChildItemName() const = 0;
+  virtual QHttpServerResponse getListItems(ID listId) = 0;
+
+  void registerApi(QHttpServer& httpServer) const override {
+    SimpleEditableRouter<T>::registerApi(httpServer);
+    registerGetListItems(httpServer);
+    registerDeleteItemFromList(httpServer);
+    registerAddItemToList(httpServer);
+  }
 
   virtual QHttpServerResponse postListItems(const QHttpServerRequest& req, ID listId) {
     JsonToIds converter;
@@ -47,6 +58,85 @@ public:
     auto controller = this->createController();
     controller.delFromList(listId, {itemId});
     return QHttpServerResponse(QHttpServerResponder::StatusCode::Ok);
+  }
+
+protected:
+  template<typename ChildType>
+  QHttpServerResponse getListItemsHelper(ID listId, const QString& paramName) {
+    const QVariantHash params{
+	{paramName, listId},
+    };
+
+    Controller<ChildType, CRUD> controller;
+    controller.setSession(this->getSession());
+    auto objects = controller.sel(params);
+
+    ToJsonConverter<ChildType> converter;
+    converter.convert(objects);
+    if (!converter.getIdValid()) {
+      throw InternalServerErrorException(converter.getErrorText());
+    }
+    QJsonDocument jsonDocument(converter.getJsonDocument());
+    return QHttpServerResponse("text/json", jsonDocument.toJson());
+  }
+
+  QString getChildFullName() const {
+    return QString("%1/<arg>/%2").arg(this->getFullName(), getChildItemName());
+  }
+
+  QString getChildIdFullName() const {
+    return getChildFullName() + "/" + "<arg>";
+  }
+
+private:
+  void registerGetListItems(QHttpServer& httpServer) const {
+    qDebug() << Q_FUNC_INFO << getChildFullName();
+    httpServer.route(getChildFullName(), QHttpServerRequest::Method::Get, [](ID listId) {
+      auto routeFunction = [listId](SessionShared session) {
+	RestRouter<T> router;
+	router.setSession(session);
+	return router.getListItems(listId);
+      };
+      return AbstractRestRouter::baseRouteFunction(routeFunction);
+    });
+  }
+  void registerDeleteItemFromList(QHttpServer& httpServer) const {
+    httpServer.route(getChildIdFullName(), QHttpServerRequest::Method::Delete, [](ID listId, ID itemId) {
+      auto routeFunction = [listId, itemId](SessionShared session) {
+	RestRouter<T> router;
+	router.setSession(session);
+	return router.delListItem(listId, itemId);
+      };
+      return AbstractRestRouter::baseRouteFunction(routeFunction);
+    });
+
+    httpServer.route(getChildFullName(), QHttpServerRequest::Method::Delete, [](ID listId, const QHttpServerRequest& req) {
+      auto routeFunction = [listId](SessionShared session, const QHttpServerRequest& req) {
+	RestRouter<T> router;
+	router.setSession(session);
+	return router.delListItems(req, listId);
+      };
+      return AbstractRestRouter::baseRouteFunction(routeFunction, req);
+    });
+  }
+  void registerAddItemToList(QHttpServer& httpServer) const {
+    httpServer.route(getChildIdFullName(), QHttpServerRequest::Method::Post, [](ID listId, ID itemId) {
+      auto routeFunction = [listId, itemId](SessionShared session) {
+	RestRouter<T> router;
+	router.setSession(session);
+	return router.postListItem(listId, itemId);
+      };
+      return AbstractRestRouter::baseRouteFunction(routeFunction);
+    });
+
+    httpServer.route(getChildFullName(), QHttpServerRequest::Method::Post, [](ID listId, const QHttpServerRequest& req) {
+      auto routeFunction = [](SessionShared session, ID listId, const QHttpServerRequest& req) {
+	RestRouter<T> router;
+	router.setSession(session);
+	return router.postListItems(req, listId);
+      };
+      return AbstractRestRouter::baseRouteFunction(routeFunction, listId, req);
+    });
   }
 };
 } // namespace light

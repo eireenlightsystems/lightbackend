@@ -18,7 +18,8 @@ HEADERS += \
     $$PWD/SubstationToJson.h \
     $$PWD/FixtureToJson.h \
     $$PWD/JsonToIds.h \
-    $$PWD/FixtureCommandToJson.h
+    $$PWD/FixtureCommandToJson.h \
+    $$PWD/FixtureGroupOwnerToJson.h
 
 SOURCES += \
     $$PWD/NodeToJson.cpp \
@@ -37,4 +38,5 @@ SOURCES += \
     $$PWD/SubstationToJson.cpp \
     $$PWD/FixtureToJson.cpp \
     $$PWD/JsonToIds.cpp \
-    $$PWD/FixtureCommandToJson.cpp
+    $$PWD/FixtureCommandToJson.cpp \
+    $$PWD/FixtureGroupOwnerToJson.cpp

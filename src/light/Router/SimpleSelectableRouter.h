@@ -1,9 +1,11 @@
 #ifndef SIMPLESELECTABLEROUTER_H
 #define SIMPLESELECTABLEROUTER_H
 
+#include "AbstractRestRouter.h"
 #include "Controller.h"
 #include "GatewayTypeDef.h"
 #include "InternalServerErrorException.h"
+#include "RestRouter.h"
 #include "SessionOwner.h"
 #include "ToJsonConverter.h"
 
@@ -12,17 +14,31 @@
 
 namespace light {
 
-using SelectFilters = QVariantHash;
-
 template <typename T>
-class SimpleSelectableRouter : public SessionOwner
+class SimpleSelectableRouter : public SessionOwner, public AbstractRestRouter
 {
 public:
-  constexpr static bool isEditable = false;
-  constexpr static bool isList = false;
-
   SimpleSelectableRouter() = default;
   ~SimpleSelectableRouter() override = default;
+  void registerApi(QHttpServer& httpServer) const override {
+    httpServer.route(getFullName(), QHttpServerRequest::Method::Get, [](const QHttpServerRequest& req) {
+      auto routeFunction = [](SessionShared session, const QHttpServerRequest& req) {
+	RestRouter<T> router;
+	router.setSession(session);
+	return router.get(req);
+      };
+      return AbstractRestRouter::baseRouteFunction(routeFunction, req);
+    });
+
+    httpServer.route(getIdFullName(), QHttpServerRequest::Method::Get, [](ID id) {
+      auto routeFunction = [](SessionShared session, ID id) {
+	RestRouter<T> router;
+	router.setSession(session);
+	return router.get(id);
+      };
+      return AbstractRestRouter::baseRouteFunction(routeFunction, id);
+    });
+  }
 
   virtual QHttpServerResponse get(ID id) {
     auto controller = createController();
@@ -66,7 +82,8 @@ protected:
     }
     return params;
   }
-}; // namespace light
+};
+
 } // namespace light
 
 #endif // SIMPLESELECTABLEROUTER_H

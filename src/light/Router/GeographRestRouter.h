@@ -12,7 +12,9 @@ template <>
 class RestRouter<Geograph> : public SimpleSelectableRouter<Geograph>
 {
 public:
-  constexpr static const char* path = "geograph";
+  QString getName() const override {
+    return "geographs";
+  }
 };
 
 } // namespace light

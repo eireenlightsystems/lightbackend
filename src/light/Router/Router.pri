@@ -9,7 +9,6 @@ HEADERS += \
   $$PWD/NodeRestRouter.h \
   $$PWD/FixtureRestRouter.h \
   $$PWD/FixtureGroupRouter.h \
-  $$PWD/TemplateRouter.h \
   $$PWD/SimpleEditableRouter.h \
   $$PWD/SimpleSelectableRouter.h \
   $$PWD/SimpleEditableListRouter.h \

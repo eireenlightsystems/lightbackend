@@ -16,7 +16,9 @@ template <>
 class RestRouter<FixtureCommand> : public SimpleEditableRouter<FixtureCommand>
 {
 public:
-  constexpr static const char* path = "fixture-command";
+  QString getName() const override {
+    return "fixtures-commands";
+  }
   QHttpServerResponse get(ID id) override;
   QHttpServerResponse get(const QHttpServerRequest& req) override;
   QHttpServerResponse post(const QHttpServerRequest& req) const override;
@@ -48,14 +50,18 @@ template <>
 class RestRouter<FixtureLightLevelCommand> : public FixtureCommandRouter<FixtureLightLevelCommand>
 {
 public:
-  constexpr static const char* path = "fixture-lightlevel-command";
+  QString getName() const override {
+    return "fixtures-lightlevels-commands";
+  }
 };
 
 template <>
 class RestRouter<FixtureLightSpeedCommand> : public FixtureCommandRouter<FixtureLightSpeedCommand>
 {
 public:
-  constexpr static const char* path = "fixture-lightspeed-command";
+  QString getName() const override {
+    return "fixtures-lightspeeds-commands";
+  }
 };
 
 } // namespace light

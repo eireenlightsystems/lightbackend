@@ -19,13 +19,22 @@ class AbstractRestRouter
 public:
   virtual ~AbstractRestRouter() = 0;
   virtual void registerApi(QHttpServer& httpServer) const = 0;
+  virtual QString getName() const = 0;
+  QString getFullName() const {
+    return routerPrefixString + "/" + getName();
+  }
+  QString getIdFullName() const {
+    return getFullName() + "/" + "<arg>";
+  }
 
   static QJsonDocument errorStringToJson(const char* error);
   static QJsonDocument errorStringToJson(const QString& error);
 
-protected:
   template <typename RouteFunction, typename... Args>
   static QHttpServerResponse baseRouteFunction(RouteFunction routeFunction, Args&&... args);
+
+protected:
+  const QString routerPrefixString = "/api/v1";
 };
 
 template <typename RouteFunction, typename... Args>
@@ -33,11 +42,12 @@ QHttpServerResponse AbstractRestRouter::baseRouteFunction(RouteFunction routeFun
   QHttpServerResponder::StatusCode statusCode = QHttpServerResponder::StatusCode::Ok;
   QJsonDocument jsonDocument;
   try {
-    auto provider = HttpServerWrapper::singleton();
-    if (!provider->isLoggedIn()) {
+    auto httpServerWrapper = HttpServerWrapper::singleton();
+    if (!httpServerWrapper->isLoggedIn()) {
       return QHttpServerResponse(QHttpServerResponder::StatusCode::Unauthorized);
     }
-    return routeFunction(std::forward<Args>(args)...);
+    auto session = httpServerWrapper->getLightBackend()->getSession();
+    return routeFunction(session, std::forward<Args>(args)...);
   } catch (const BadRequestException& badRequest) {
     jsonDocument = AbstractRestRouter::errorStringToJson(badRequest.getErrorText());
     statusCode = QHttpServerResponder::StatusCode::BadRequest;

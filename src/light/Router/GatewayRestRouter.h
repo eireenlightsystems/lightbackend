@@ -2,36 +2,53 @@
 #define GATEWAYRESTROUTER_H
 
 #include "GatewayController.h"
+#include "GatewayOwnerToJson.h"
+#include "GatewayToJson.h"
+#include "GatewayTypeToJson.h"
 #include "PostgresCrudEquipmentOwner.h"
 #include "PostgresCrudGateway.h"
 #include "PostgresCrudGatewayType.h"
 #include "RestRouter.h"
-#include "SimpleEditableRouter.h"
-#include "GatewayToJson.h"
-#include "GatewayOwnerToJson.h"
-#include "GatewayTypeToJson.h"
+#include "SimpleEditableListRouter.h"
+#include "NodeToJson.h"
+#include "PostgresCrudNode.h"
+#include "NodeController.h"
 
 namespace light {
 
 template <>
-class RestRouter<Gateway> : public SimpleEditableRouter<Gateway>
+class RestRouter<Gateway> : public SimpleEditableListRouter<Gateway>
 {
 public:
-  constexpr static const char* path = "gateway";
+  QString getName() const override {
+    return "gateways";
+  }
+
+  QString getChildItemName() const override {
+    return "nodes";
+  }
+
+  QHttpServerResponse getListItems(ID listId) override {
+    return getListItemsHelper<Node>(listId, "gatewayId");
+  }
 };
 
 template <>
 class RestRouter<EquipmentOwner> : public SimpleSelectableRouter<EquipmentOwner>
 {
 public:
-  constexpr static const char* path = "gateway-owner";
+  QString getName() const override {
+    return "gateways-owners";
+  }
 };
 
 template <>
 class RestRouter<GatewayType> : public SimpleSelectableRouter<GatewayType>
 {
 public:
-  constexpr static const char* path = "gateway-type";
+  QString getName() const override {
+    return "gateways-types";
+  }
 };
 
 } // namespace light
