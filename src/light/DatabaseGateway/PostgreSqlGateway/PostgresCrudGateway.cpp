@@ -21,6 +21,10 @@ const QList<Field> gatewayFields{
     {"serial_number", "serial_number_gateway", false},
 
     {"id_node", "id_node", false},
+    {"n_coordinate", "n_coordinate_node", false},
+    {"e_coordinate", "e_coordinate_node", false},
+    {"id_geograph", "id_geograph", false},
+    {"code_geograph", "code_geograph", false},
 
     {"id_owner", "id_owner", false},
     {"code_owner", "code_owner", false},
@@ -30,9 +34,6 @@ const QList<Field> gatewayFields{
 
     {"id_gateway_type", "id_gateway_type", false},
     {"code_gateway_type", "code_gateway_type", false},
-
-    {"id_geograph", "id_geograph", false},
-    {"code_geograph", "code_geograph", false},
 };
 
 PostgresCrud<Gateway>::PostgresCrud() {
@@ -59,10 +60,8 @@ Editor<Gateway>::Shared PostgresCrud<Gateway>::parse(const QSqlRecord& record) c
   contractCrud.setSession(getSession());
   gateway->setContract(contractCrud.parse(record));
 
-  auto nodeId = record.value(getFieldAlias("id_node")).value<ID>();
   PostgresCrud<Node> nodeCrud;
-  nodeCrud.setSession(getSession());
-  gateway->setNode(nodeCrud.selById(nodeId));
+  gateway->setNode(nodeCrud.parse(record));
 
   PostgresCrud<GatewayType> gatewayTypeCrud;
   gatewayTypeCrud.setSession(getSession());

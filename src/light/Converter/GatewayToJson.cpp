@@ -47,6 +47,7 @@ QJsonObject ToJsonConverter<Gateway>::toJson(const GatewayShared& gateway) const
 
   NodeShared node = gateway->getNode();
   if (node) {
+    gatewayJson["nodeId"] = QJsonValue::fromVariant(node->getId());
     gatewayJson["n_coordinate"] = node->getLatitude();
     gatewayJson["e_coordinate"] = node->getLongitude();
   }
