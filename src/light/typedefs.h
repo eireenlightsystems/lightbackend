@@ -35,6 +35,8 @@ DeclareShared(Substation);
 DeclareShared(FixtureGroup);
 DeclareShared(FixtureGroupType);
 DeclareShared(FixtureGroupOwner);
+DeclareShared(Sensor);
+DeclareShared(SensorType);
 
 } // namespace light
 

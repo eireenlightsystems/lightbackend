@@ -21,7 +21,9 @@ HEADERS += \
     $$PWD/FixtureCommandToJson.h \
     $$PWD/FixtureGroupOwnerToJson.h \
     $$PWD/ContractToJson.h \
-    $$PWD/GatewayContractToJson.h
+    $$PWD/GatewayContractToJson.h \
+    $$PWD/SensorToJson.h \
+    $$PWD/SensorTypeToJson.h
 
 SOURCES += \
     $$PWD/NodeToJson.cpp \
@@ -43,4 +45,6 @@ SOURCES += \
     $$PWD/FixtureCommandToJson.cpp \
     $$PWD/FixtureGroupOwnerToJson.cpp \
     $$PWD/ContractToJson.cpp \
-    $$PWD/GatewayContractToJson.cpp
+    $$PWD/GatewayContractToJson.cpp \
+    $$PWD/SensorToJson.cpp \
+    $$PWD/SensorTypeToJson.cpp

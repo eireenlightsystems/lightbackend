@@ -9,7 +9,7 @@ template <>
 class ToJsonConverter<Node> : public ToJsonConverterTemplate<Node>
 {
 public:
-  QJsonObject toJson(const NodeShared& contragent) const override;
+  QJsonObject toJson(const NodeShared& node) const override;
 };
 
 } // namespace light

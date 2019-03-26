@@ -17,6 +17,12 @@ public:
   IDList ins(const QList<QVariantHash>& params) override;
   void upd(const QList<QVariantHash>& params) override;
   void upd(ID id, const QVariantHash& param) override;
+  void addFixtures(ID nodeId, const IDList& fixturesIds);
+  void delFixtures(ID nodeId, const IDList& fixturesIds);
+  void addGateways(ID nodeId, const IDList& gatewaysIds);
+  void delGateways(ID nodeId, const IDList& gatewaysIds);
+  void addSensors(ID nodeId, const IDList& sensorsIds);
+  void delSensors(ID nodeId, const IDList& sensorsIds);
 };
 
 template <template <typename> class Crud>
@@ -130,6 +136,30 @@ void Controller<Node, Crud>::upd(ID id, const QVariantHash& param) {
   QVariantHash fullParam = param;
   fullParam["nodeId"] = id;
   return upd({fullParam});
+}
+
+template <template <typename> class Crud>
+void Controller<Node, Crud>::addFixtures(ID nodeId, const IDList& fixturesIds) {
+}
+
+template <template <typename> class Crud>
+void Controller<Node, Crud>::delFixtures(ID nodeId, const IDList& fixturesIds) {
+}
+
+template <template <typename> class Crud>
+void Controller<Node, Crud>::addGateways(ID nodeId, const IDList& gatewaysIds) {
+}
+
+template <template <typename> class Crud>
+void Controller<Node, Crud>::delGateways(ID nodeId, const IDList& gatewaysIds) {
+}
+
+template <template <typename> class Crud>
+void Controller<Node, Crud>::addSensors(ID nodeId, const IDList& sensorsIds) {
+}
+
+template <template <typename> class Crud>
+void Controller<Node, Crud>::delSensors(ID nodeId, const IDList& sensorsIds) {
 }
 
 } // namespace light

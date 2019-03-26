@@ -26,7 +26,9 @@ HEADERS += \
     $$PWD/PostgresCrudFixtureLightLevelCommand.h \
     $$PWD/PostgresCrudFixtureLightSpeedCommand.h \
     $$PWD/PostgresCrudFixtureGroupOwner.h \
-    $$PWD/PostgresCrudGatewayContract.h
+    $$PWD/PostgresCrudGatewayContract.h \
+    $$PWD/PostgresCrudSensor.h \
+    $$PWD/PostgresCrudSensorType.h
 
 SOURCES += \
     $$PWD/SqlDatabaseOwner.cpp \
@@ -50,4 +52,6 @@ SOURCES += \
     $$PWD/PostgresCrudFixtureLightLevelCommand.cpp \
     $$PWD/PostgresCrudFixtureLightSpeedCommand.cpp \
     $$PWD/PostgresCrudFixtureGroupOwner.cpp \
-    $$PWD/PostgresCrudGatewayContract.cpp
+    $$PWD/PostgresCrudGatewayContract.cpp \
+    $$PWD/PostgresCrudSensor.cpp \
+    $$PWD/PostgresCrudSensorType.cpp

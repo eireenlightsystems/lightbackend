@@ -2,8 +2,8 @@
 #define GATEWAY_H
 
 #include "Contract.h"
-#include "Equipment.h"
 #include "EquipmentType.h"
+#include "NodeChild.h"
 
 namespace light {
 
@@ -15,7 +15,7 @@ public:
   }
 };
 
-class Gateway : public Equipment
+class Gateway : public NodeChild
 {
 public:
   Gateway() = default;
@@ -24,12 +24,6 @@ public:
   GatewayTypeShared getGatewayType() const;
   ID getGatewayTypeId() const;
   void setGatewayType(const GatewayTypeShared& value);
-
-  NodeShared getNode() const;
-  ID getNodeId() const;
-  void setNode(const NodeShared& value);
-
-  GeographShared getGeograph() const override;
 
   QString getName() const;
   void setName(const QString& value);
@@ -43,7 +37,6 @@ public:
 
 private:
   GatewayTypeShared gatewayType;
-  NodeShared node;
   QString name;
   NodeSharedList nodes;
 };

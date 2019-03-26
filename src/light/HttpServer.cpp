@@ -8,6 +8,7 @@
 #include "GeographRestRouter.h"
 #include "NodeRestRouter.h"
 #include "NodeToJson.h"
+#include "SensorRouter.h"
 
 namespace light {
 HttpServerWrapper::HttpServerWrapper(QObject* parent) : QObject(parent) {
@@ -24,6 +25,7 @@ void HttpServerWrapper::createRoutes() {
   createGatewayRouters();
   createFixtureRouters();
   createFixtureGroupRouters();
+  createSensorRouters();
   createDictionary();
 }
 
@@ -99,6 +101,14 @@ void HttpServerWrapper::createFixtureGroupRouters() {
 
   RestRouter<FixtureGroupOwner> ownerRouter;
   ownerRouter.registerApi(httpServer);
+}
+
+void HttpServerWrapper::createSensorRouters() {
+  RestRouter<Sensor> sensorRouter;
+  sensorRouter.registerApi(httpServer);
+
+  RestRouter<SensorType> sensorTypeRouter;
+  sensorTypeRouter.registerApi(httpServer);
 }
 
 void HttpServerWrapper::createDictionary() {

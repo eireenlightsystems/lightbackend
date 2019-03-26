@@ -32,6 +32,7 @@ private:
   void createGatewayRouters();
   void createFixtureRouters();
   void createFixtureGroupRouters();
+  void createSensorRouters();
   void createDictionary();
 
 private:

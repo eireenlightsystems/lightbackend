@@ -24,7 +24,10 @@ HEADERS += \
     $$PWD/FixtureHeightType.h \
     $$PWD/Substation.h \
     $$PWD/FixtureGroup.h \
-    $$PWD/FixtureGroupType.h
+    $$PWD/FixtureGroupType.h \
+    $$PWD/Sensor.h \
+    $$PWD/NodeChild.h \
+    $$PWD/SensorType.h
 
 SOURCES += \
     $$PWD/DateTimeRange.cpp \
@@ -46,4 +49,7 @@ SOURCES += \
     $$PWD/FixtureHeightType.cpp \
     $$PWD/Substation.cpp \
     $$PWD/FixtureGroup.cpp \
-    $$PWD/FixtureGroupType.cpp
+    $$PWD/FixtureGroupType.cpp \
+    $$PWD/Sensor.cpp \
+    $$PWD/NodeChild.cpp \
+    $$PWD/SensorType.cpp

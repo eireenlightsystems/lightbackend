@@ -13,7 +13,9 @@ HEADERS += \
   $$PWD/SimpleSelectableRouter.h \
   $$PWD/SimpleEditableListRouter.h \
   $$PWD/FixtureCommandRestRouter.h \
-    $$PWD/ContractRouter.h
+    $$PWD/ContractRouter.h \
+    $$PWD/ContainersRegistrationHelpers.h \
+    $$PWD/SensorRouter.h
 
 SOURCES += \
   $$PWD/AbstractRestRouter.cpp \
