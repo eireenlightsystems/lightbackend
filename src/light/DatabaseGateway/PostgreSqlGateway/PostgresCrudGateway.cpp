@@ -7,14 +7,14 @@
 #include "PostgresCrudGatewayType.h"
 #include "PostgresCrudNode.h"
 
+#include <QDebug>
 #include <QSqlRecord>
 #include <QVariant>
-#include <QDebug>
 
 namespace light {
 namespace PostgresqlGateway {
 
-const QList<Field> gatewayFields {
+const QList<Field> gatewayFields{
     {"id_gateway", "id_gateway", true},
     {"comments", "comments_gateway", false},
     {"name_node_group", "name_node_group_gateway", false},
@@ -68,6 +68,13 @@ Editor<Gateway>::Shared PostgresCrud<Gateway>::parse(const QSqlRecord& record) c
   gatewayTypeCrud.setSession(getSession());
   gateway->setGatewayType(gatewayTypeCrud.parse(record));
 
+  PostgresCrud<Node> childNodesCrud;
+  childNodesCrud.setSession(getSession());
+  const QVariantHash params{
+      {"gatewayId", gateway->getId()},
+  };
+  gateway->setNodes(childNodesCrud.sel(params));
+
   return gateway;
 }
 
@@ -81,7 +88,7 @@ BindParamsType PostgresCrud<Gateway>::getSelectParams(const QVariantHash& filter
   };
 }
 
-BindParamsType PostgresCrud<Gateway>::getInsertParams(const Editor::Shared& gateway) const {
+BindParamsType PostgresCrud<Gateway>::getInsertParams(const Shared& gateway) const {
   return BindParamsType{
       {":action", "ins"},
       {":id_gateway", QVariant()},
@@ -94,7 +101,7 @@ BindParamsType PostgresCrud<Gateway>::getInsertParams(const Editor::Shared& gate
   };
 }
 
-BindParamsType PostgresCrud<Gateway>::getUpdateParams(const Editor::Shared& gateway) const {
+BindParamsType PostgresCrud<Gateway>::getUpdateParams(const Shared& gateway) const {
   return BindParamsType{
       {":action", "upd"},
       {":id_gateway", gateway->getId()},
@@ -105,6 +112,24 @@ BindParamsType PostgresCrud<Gateway>::getUpdateParams(const Editor::Shared& gate
       {":name_node_group", gateway->getName()},
       {":serial_number", gateway->getSerialNumber()},
   };
+}
+
+void PostgresCrud<Gateway>::ins(const Shared& gateway) const {
+  Editor<Gateway>::ins(gateway);
+}
+
+void PostgresCrud<Gateway>::upd(const Shared& gateway) const {
+  Editor<Gateway>::upd(gateway);
+  saveChildNodes(gateway);
+}
+
+void PostgresCrud<Gateway>::saveChildNodes(const Shared& gateway) const {
+}
+
+void PostgresCrud<Gateway>::insertNewChildNodes(const QSet<ID>& idsToInsert, const GatewayShared& gateway) const {
+}
+
+void PostgresCrud<Gateway>::deleteChildNodes(const QSet<ID>& idsToDelete, const GatewayShared& gateway) const {
 }
 
 } // namespace PostgresqlGateway

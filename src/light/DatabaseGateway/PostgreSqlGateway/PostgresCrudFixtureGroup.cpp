@@ -100,17 +100,12 @@ BindParamsType PostgresCrud<FixtureGroup>::getUpdateParams(const Editor::Shared&
 void PostgresCrud<FixtureGroup>::ins(const Editor::Shared& fixtureGroup) const {
   Editor<FixtureGroup>::ins(fixtureGroup);
 
-  const QString saveItemSql = "select fixture_pkg_i.ins_fixture_in_group(:id_fixture_group, :id_fixture)";
-  InsertQuery insertItemQuery(getSession()->getDb());
-  insertItemQuery.prepare(saveItemSql);
+  QSet<ID> idsToInsert;
   for (auto fixture : fixtureGroup->getFixtures()) {
-    insertItemQuery.bind({
-	{":id_fixture_group", fixtureGroup->getId()},
-	{":id_fixture", fixture->getId()},
-    });
-    insertItemQuery.exec();
-    insertItemQuery.finish();
+    idsToInsert << fixture->getId();
   }
+
+  insertNewFixtureToGroup(idsToInsert, fixtureGroup);
 }
 
 void PostgresCrud<FixtureGroup>::upd(const Editor::Shared& fixtureGroup) const {

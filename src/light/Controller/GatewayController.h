@@ -1,6 +1,7 @@
 #ifndef GATEWAYCONTROLLER_H
 #define GATEWAYCONTROLLER_H
 
+#include "BadRequestException.h"
 #include "Controller.h"
 #include "Gateway.h"
 #include "NodeController.h"
@@ -19,18 +20,29 @@ public:
   void upd(const QList<QVariantHash>& params) override;
   void upd(ID id, const QVariantHash& param) override;
   void delFromList(ID listId, const IDList& ids) override {
+    Crud<Gateway> gatewayCrud;
+    gatewayCrud.setSession(this->getSession());
+    GatewayShared gateway = gatewayCrud.selById(listId);
+    for (ID id : ids) {
+      gateway->removeNode(id);
+    }
+    gatewayCrud.save({gateway});
   }
   void addToList(ID listId, const IDList& ids) override {
-    Controller<Node, Crud> nodeController;
-    QList<QVariantHash> paramsList;
-    for (auto id : ids) {
-      const QVariantHash params{
-	  {"nodeId", id},
-	  //	  {"nodeId", },
-      };
-      paramsList << params;
+    Crud<Gateway> gatewayCrud;
+    gatewayCrud.setSession(this->getSession());
+    GatewayShared gateway = gatewayCrud.selById(listId);
+
+    if (gateway->getNodes().count() + ids.count() > 255) {
+      const QString errorText = QString("gateway(id=%1) can not contains more than 255 items").arg(gateway->getId());
+      throw BadRequestException(errorText);
     }
-    nodeController.upd(paramsList);
+
+    Crud<Node> nodeCrud;
+    nodeCrud.setSession(this->getSession());
+    auto nodes = nodeCrud.sel(ids);
+    gateway->addNodes(nodes);
+    gatewayCrud.save({gateway});
   }
 };
 
