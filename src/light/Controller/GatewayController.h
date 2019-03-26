@@ -59,22 +59,29 @@ IDList Controller<Gateway, Crud>::ins(const QList<QVariantHash>& params) {
 
   for (const auto& param : params) {
     auto newGateway = GatewayShared::create();
+
     if (param.contains("contractId")) {
       ID contractId = param.value("contractId").value<ID>();
       auto contract = contractCrud.selById(contractId);
       newGateway->setContract(contract);
+    } else {
+      throw BadRequestException("contractId can not be empty");
     }
 
     if (param.contains("gatewayTypeId")) {
       ID gatewayTypeId = param.value("gatewayTypeId").value<ID>();
       auto gatewayType = gatewayTypeCrud.selById(gatewayTypeId);
       newGateway->setGatewayType(gatewayType);
+    } else {
+      throw BadRequestException("gatewayTypeId can not be empty");
     }
 
     if (param.contains("nodeId")) {
       ID nodeId = param.value("nodeId").value<ID>();
       auto node = nodeCrud.selById(nodeId);
       newGateway->setNode(node);
+    } else {
+      throw BadRequestException("nodeId can not be empty");
     }
 
     if (param.contains("serialNumber")) {

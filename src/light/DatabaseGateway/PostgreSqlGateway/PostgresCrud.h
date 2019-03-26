@@ -78,10 +78,16 @@ public:
     SharedList result;
     const QString sql = getSelectByIdSql();
     for (auto id : ids) {
-      const BindParamsType bindParams{
-	  {getIdPlaceholder(), id},
-      };
-      result << selBase(sql, bindParams);
+      if (id == 1) {
+	auto object = Shared::create();
+	object->setId(id);
+	result << object;
+      } else {
+	const BindParamsType bindParams{
+	    {getIdPlaceholder(), id},
+	};
+	result << selBase(sql, bindParams);
+      }
     }
     return result;
   }
