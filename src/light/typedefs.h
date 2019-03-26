@@ -26,6 +26,7 @@ DeclareShared(EquipmentType);
 DeclareShared(NodeType);
 DeclareShared(Geograph);
 DeclareShared(Gateway);
+DeclareShared(GatewayContract);
 DeclareShared(EquipmentOwner);
 DeclareShared(GatewayType);
 DeclareShared(FixtureType);

@@ -16,9 +16,10 @@ namespace light {
 
 QJsonObject ToJsonConverter<Gateway>::toJson(const GatewayShared& gateway) const {
   QJsonObject gatewayJson;
-  gatewayJson["id"] = QJsonValue::fromVariant(gateway->getId());
+  gatewayJson["gatewayId"] = QJsonValue::fromVariant(gateway->getId());
+  gatewayJson["nodeGroupName"] = gateway->getName();
+  gatewayJson["serialNumber"] = gateway->getSerialNumber();
   gatewayJson["comment"] = gateway->getComment();
-  gatewayJson["price"] = gateway->getPrice();
 
   ContractShared contract = gateway->getContract();
   if (contract) {
@@ -46,6 +47,7 @@ QJsonObject ToJsonConverter<Gateway>::toJson(const GatewayShared& gateway) const
 
   NodeShared node = gateway->getNode();
   if (node) {
+    gatewayJson["nodeId"] = QJsonValue::fromVariant(node->getId());
     gatewayJson["n_coordinate"] = node->getLatitude();
     gatewayJson["e_coordinate"] = node->getLongitude();
   }

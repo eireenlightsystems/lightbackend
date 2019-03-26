@@ -1,5 +1,6 @@
 #include "HttpServer.h"
 
+#include "ContractRouter.h"
 #include "FixtureCommandRestRouter.h"
 #include "FixtureGroupRouter.h"
 #include "FixtureRestRouter.h"
@@ -20,10 +21,10 @@ QSharedPointer<HttpServerWrapper> HttpServerWrapper::singleton() {
 void HttpServerWrapper::createRoutes() {
   createCommandsRoutes();
   createNodeRoutes();
-  createGeographRoutes();
   createGatewayRouters();
   createFixtureRouters();
   createFixtureGroupRouters();
+  createDictionary();
 }
 
 void HttpServerWrapper::listen(const QHostAddress& address, quint16 port) {
@@ -61,11 +62,6 @@ void HttpServerWrapper::createNodeRoutes() {
   nodeTypeRouter.registerApi(httpServer);
 }
 
-void HttpServerWrapper::createGeographRoutes() {
-  RestRouter<Geograph> geographRouter;
-  geographRouter.registerApi(httpServer);
-}
-
 void HttpServerWrapper::createGatewayRouters() {
   RestRouter<Gateway> gatewayRouter;
   gatewayRouter.registerApi(httpServer);
@@ -75,6 +71,9 @@ void HttpServerWrapper::createGatewayRouters() {
 
   RestRouter<GatewayType> gatewayTypeRouter;
   gatewayTypeRouter.registerApi(httpServer);
+
+  RestRouter<GatewayContract> gatewayContractRouter;
+  gatewayContractRouter.registerApi(httpServer);
 }
 
 void HttpServerWrapper::createFixtureRouters() {
@@ -100,6 +99,14 @@ void HttpServerWrapper::createFixtureGroupRouters() {
 
   RestRouter<FixtureGroupOwner> ownerRouter;
   ownerRouter.registerApi(httpServer);
+}
+
+void HttpServerWrapper::createDictionary() {
+  RestRouter<Geograph> geographRouter;
+  geographRouter.registerApi(httpServer);
+
+  RestRouter<Contract> contractRouter;
+  contractRouter.registerApi(httpServer);
 }
 
 } // namespace light

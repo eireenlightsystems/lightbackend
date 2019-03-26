@@ -29,10 +29,10 @@ public:
 private:
   void createCommandsRoutes();
   void createNodeRoutes();
-  void createGeographRoutes();
   void createGatewayRouters();
   void createFixtureRouters();
   void createFixtureGroupRouters();
+  void createDictionary();
 
 private:
   QHttpServer httpServer;

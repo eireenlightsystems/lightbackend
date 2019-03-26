@@ -19,7 +19,6 @@ QJsonObject ToJsonConverter<Node>::toJson(const NodeShared& node) const {
   nodeJson["n_coordinate"] = node->getLatitude();
   nodeJson["e_coordinate"] = node->getLongitude();
   nodeJson["comments"] = node->getComment();
-  nodeJson["price"] = node->getPrice();
 
   ContractShared contract = node->getContract();
   if(contract) {

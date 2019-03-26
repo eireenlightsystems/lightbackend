@@ -14,14 +14,6 @@ void Equipment::setId(const ID& value) {
   id = value;
 }
 
-double Equipment::getPrice() const {
-  return price;
-}
-
-void Equipment::setPrice(double value) {
-  price = value;
-}
-
 QString Equipment::getComment() const {
   return comment;
 }
@@ -66,6 +58,14 @@ ID Equipment::getGeographId() const {
     return geograph->getId();
 
   return 0;
+}
+
+QString Equipment::getSerialNumber() const {
+  return serialNumber;
+}
+
+void Equipment::setSerialNumber(const QString& value) {
+  serialNumber = value;
 }
 
 } // namespace light

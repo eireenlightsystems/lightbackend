@@ -19,7 +19,6 @@ const QList<Field> nodeFields{
     {"id_node", "id_node", true},
     {"n_coordinate", "n_coordinate_node", false},
     {"e_coordinate", "e_coordinate_node", false},
-    {"price", "price_node", false},
     {"comments", "comments_node", false},
 
     {"id_node_type", "id_node_type", false},
@@ -49,7 +48,6 @@ Editor<Node>::Shared PostgresCrud<Node>::parse(const QSqlRecord& record) const {
   node->setId(record.value(getIdAlias()).value<ID>());
   node->setCoordinate(record.value(getFieldAlias("n_coordinate")).toDouble(),
 		      record.value(getFieldAlias("e_coordinate")).toDouble());
-  node->setPrice(record.value(getFieldAlias("price")).toDouble());
   node->setComment(record.value(getFieldAlias("comments")).toString());
 
   PostgresCrud<EquipmentOwner> equipmentOwnerCrud;
@@ -89,7 +87,6 @@ BindParamsType PostgresCrud<Node>::getInsertParams(const Editor::Shared& node) c
       {":id_geograph", node->getGeograph() ? node->getGeographId() : QVariant()},
       {":n_coordinate", node->getLatitude()},
       {":e_coordinate", node->getLongitude()},
-      {":price", node->getPrice()},
       {":comments", node->getComment()},
   };
 }
@@ -103,7 +100,6 @@ BindParamsType PostgresCrud<Node>::getUpdateParams(const Editor::Shared& node) c
       {":id_geograph", node->getGeograph() ? node->getGeographId() : QVariant()},
       {":n_coordinate", node->getLatitude()},
       {":e_coordinate", node->getLongitude()},
-      {":price", node->getPrice()},
       {":comments", node->getComment()},
   };
 }
