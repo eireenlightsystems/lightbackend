@@ -116,6 +116,13 @@ BindParamsType PostgresCrud<Gateway>::getUpdateParams(const Shared& gateway) con
 
 void PostgresCrud<Gateway>::ins(const Shared& gateway) const {
   Editor<Gateway>::ins(gateway);
+
+  QSet<ID> idsToInsert;
+  for (auto node : gateway->getNodes()) {
+    idsToInsert << node->getId();
+  }
+
+  insertNewChildNodes(idsToInsert, gateway);
 }
 
 void PostgresCrud<Gateway>::upd(const Shared& gateway) const {
@@ -124,12 +131,74 @@ void PostgresCrud<Gateway>::upd(const Shared& gateway) const {
 }
 
 void PostgresCrud<Gateway>::saveChildNodes(const Shared& gateway) const {
+  auto nodes = gateway->getNodes();
+  QSet<ID> currentIds;
+  for (auto node : nodes) {
+    currentIds << node->getId();
+  }
+
+  QSet<ID> dbIds = selectCurrentNodesIds(gateway);
+  auto idsToDelete = dbIds;
+  idsToDelete.subtract(currentIds);
+
+  if (idsToDelete.count()) {
+    deleteChildNodes(idsToDelete, gateway);
+  }
+
+  auto idsToInsert = currentIds;
+  idsToInsert.subtract(dbIds);
+  if (idsToInsert.count()) {
+    insertNewChildNodes(idsToInsert, gateway);
+  }
+}
+
+QSet<ID> PostgresCrud<Gateway>::selectCurrentNodesIds(const GatewayShared& gateway) const {
+  const QString selectAllFixtureIdSql =
+      "select id_node from gateway_pkg_i.node_group_vw where id_gateway = :id_gateway";
+  const BindParamsType bindParamsSelectAllId{
+      {":id_gateway", gateway->getId()},
+  };
+  SelectQuery selectFixtureIds(getSession()->getDb());
+  selectFixtureIds.prepare(selectAllFixtureIdSql);
+  selectFixtureIds.bind(bindParamsSelectAllId);
+  selectFixtureIds.exec();
+  QSet<ID> dbIds;
+  for (auto record : selectFixtureIds) {
+    auto id = record.value(0).value<ID>();
+    dbIds << id;
+  }
+  return dbIds;
 }
 
 void PostgresCrud<Gateway>::insertNewChildNodes(const QSet<ID>& idsToInsert, const GatewayShared& gateway) const {
+  const QString saveItemSql = "select node_pkg_i.ins_gateway_node(:id_gateway, :id_node, :num_node)";
+  InsertQuery insertItemQuery(getSession()->getDb());
+  insertItemQuery.prepare(saveItemSql);
+  for (auto id : idsToInsert) {
+    const BindParamsType bindParamsInsert{
+	{":id_gateway", gateway->getId()},
+	{":id_node", id},
+	{":num_node", 0},
+    };
+    insertItemQuery.bind(bindParamsInsert);
+    insertItemQuery.exec();
+    insertItemQuery.finish();
+  }
 }
 
 void PostgresCrud<Gateway>::deleteChildNodes(const QSet<ID>& idsToDelete, const GatewayShared& gateway) const {
+  const QString deleteGroupItemsSql = "select node_pkg_i.del_gateway_node(:id_gateway, :id_node)";
+  DeleteQuery deleteGroupItemQuery(getSession()->getDb());
+  deleteGroupItemQuery.prepare(deleteGroupItemsSql);
+  for (auto id : idsToDelete) {
+    const BindParamsType bindParamsDelete{
+	{":id_gateway", gateway->getId()},
+	{":id_node", id},
+    };
+    deleteGroupItemQuery.bind(bindParamsDelete);
+    deleteGroupItemQuery.exec();
+    deleteGroupItemQuery.finish();
+  }
 }
 
 } // namespace PostgresqlGateway

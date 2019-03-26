@@ -23,6 +23,7 @@ protected:
 
 private:
   void saveChildNodes(const Shared& gateway) const;
+  QSet<ID> selectCurrentNodesIds(const GatewayShared& gateway) const;
   void insertNewChildNodes(const QSet<ID>& idsToInsert, const GatewayShared& gateway) const;
   void deleteChildNodes(const QSet<ID>& idsToDelete, const GatewayShared& gateway) const;
 };
