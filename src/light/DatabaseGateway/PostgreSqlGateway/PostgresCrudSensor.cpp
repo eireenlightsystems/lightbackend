@@ -48,18 +48,15 @@ Editor<Sensor>::Shared PostgresCrud<Sensor>::parse(const QSqlRecord& record) con
   sensor->setSerialNumber(record.value(getFieldAlias("serial_number")).toString());
 
   PostgresCrud<EquipmentOwner> equipmentOwnerCrud;
-  equipmentOwnerCrud.setSession(getSession());
   sensor->setOwner(equipmentOwnerCrud.parse(record));
 
   PostgresCrud<Contract> contractCrud;
-  contractCrud.setSession(getSession());
   sensor->setContract(contractCrud.parse(record));
 
   PostgresCrud<Node> nodeCrud;
   sensor->setNode(nodeCrud.parse(record));
 
   PostgresCrud<SensorType> sensorTypeCrud;
-  sensorTypeCrud.setSession(getSession());
   sensor->setType(sensorTypeCrud.parse(record));
 
   return sensor;

@@ -121,6 +121,13 @@ public:
 
   virtual Shared parse(const QSqlRecord& record) const = 0;
 
+  bool getLoadChildren() const {
+    return loadChildren;
+  }
+  void setLoadChildren(bool value) {
+    loadChildren = value;
+  }
+
 protected:
   virtual BindParamsType getSelectParams(const QVariantHash& filters) const {
     Q_UNUSED(filters)
@@ -158,6 +165,7 @@ private:
   QString view;
   QHash<QString, Field> fields;
   Field idField;
+  bool loadChildren{true};
 };
 
 template <typename T>

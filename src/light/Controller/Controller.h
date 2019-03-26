@@ -27,6 +27,7 @@ protected:
   Crud<T> createCrud() const {
     Crud<T> crud;
     crud.setSession(getSession());
+    crud.setLoadChildren(false);
     return crud;
   }
 };

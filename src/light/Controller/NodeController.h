@@ -140,6 +140,7 @@ void Controller<Node, Crud>::upd(ID id, const QVariantHash& param) {
 
 template <template <typename> class Crud>
 void Controller<Node, Crud>::addFixtures(ID nodeId, const IDList& fixturesIds) {
+
 }
 
 template <template <typename> class Crud>

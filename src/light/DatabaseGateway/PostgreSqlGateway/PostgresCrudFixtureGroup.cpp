@@ -47,11 +47,9 @@ Editor<FixtureGroup>::Shared PostgresCrud<FixtureGroup>::parse(const QSqlRecord&
   fixtureGroup->setId(record.value(getIdAlias()).value<ID>());
 
   PostgresCrud<FixtureGroupType> typeCrud;
-  typeCrud.setSession(getSession());
   fixtureGroup->setType(typeCrud.parse(record));
 
   PostgresCrud<Contragent> contragentCrud;
-  contragentCrud.setSession(getSession());
   contragentCrud.setFields({
       {"id_contragent", "id_owner", true},
       {"code", "code_owner", false},
@@ -59,7 +57,6 @@ Editor<FixtureGroup>::Shared PostgresCrud<FixtureGroup>::parse(const QSqlRecord&
   fixtureGroup->setOwner(contragentCrud.parse(record));
 
   PostgresCrud<Geograph> geographCrud;
-  geographCrud.setSession(getSession());
   fixtureGroup->setGeograph(geographCrud.parse(record));
 
   auto name = record.value(getFieldAlias("name_fixture_group")).toString();
@@ -134,8 +131,10 @@ void PostgresCrud<FixtureGroup>::upd(const Editor::Shared& fixtureGroup) const {
 
 Editor<FixtureGroup>::SharedList PostgresCrud<FixtureGroup>::sel(const IDList& ids) const {
   auto result = Editor<FixtureGroup>::sel(ids);
-  for (auto fixtureGroup : result) {
-    fixtureGroup->setFixtures(selectFixtures(fixtureGroup));
+  if (getLoadChildren()) {
+    for (auto fixtureGroup : result) {
+      fixtureGroup->setFixtures(selectFixtures(fixtureGroup));
+    }
   }
   return result;
 }

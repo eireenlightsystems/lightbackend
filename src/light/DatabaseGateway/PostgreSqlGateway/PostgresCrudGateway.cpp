@@ -53,26 +53,25 @@ Editor<Gateway>::Shared PostgresCrud<Gateway>::parse(const QSqlRecord& record) c
   gateway->setSerialNumber(record.value(getFieldAlias("serial_number")).toString());
 
   PostgresCrud<EquipmentOwner> equipmentOwnerCrud;
-  equipmentOwnerCrud.setSession(getSession());
   gateway->setOwner(equipmentOwnerCrud.parse(record));
 
   PostgresCrud<Contract> contractCrud;
-  contractCrud.setSession(getSession());
   gateway->setContract(contractCrud.parse(record));
 
   PostgresCrud<Node> nodeCrud;
   gateway->setNode(nodeCrud.parse(record));
 
   PostgresCrud<GatewayType> gatewayTypeCrud;
-  gatewayTypeCrud.setSession(getSession());
   gateway->setGatewayType(gatewayTypeCrud.parse(record));
 
-  PostgresCrud<Node> childNodesCrud;
-  childNodesCrud.setSession(getSession());
-  const QVariantHash params{
-      {"gatewayId", gateway->getId()},
-  };
-  gateway->setNodes(childNodesCrud.sel(params));
+  if (getLoadChildren()) {
+    PostgresCrud<Node> childNodesCrud;
+    childNodesCrud.setSession(getSession());
+    const QVariantHash params{
+	{"gatewayId", gateway->getId()},
+    };
+    gateway->setNodes(childNodesCrud.sel(params));
+  }
 
   return gateway;
 }

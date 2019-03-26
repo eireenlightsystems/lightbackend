@@ -24,10 +24,28 @@ public:
   GeographShared getGeograph() const override;
   void setGeograph(const GeographShared& value);
 
+  FixtureSharedList getFixtures() const;
+  void setFixtures(const FixtureSharedList& value);
+  void addFixtures(const FixtureSharedList& value);
+  void removeFixtures(const IDList& ids);
+
+  GatewaySharedList getGateways() const;
+  void setGateways(const GatewaySharedList& value);
+  void addGateways(const GatewaySharedList& value);
+  void removeGateways(const IDList& ids);
+
+  SensorSharedList getSensors() const;
+  void setSensors(const SensorSharedList& value);
+  void addSensors(const SensorSharedList& value);
+  void removeSensors(const IDList& ids);
+
 private:
   QGeoCoordinate coordinate;
   NodeTypeShared nodeType;
   GeographShared geograph;
+  FixtureSharedList fixtures;
+  GatewaySharedList gateways;
+  SensorSharedList sensors;
 };
 } // namespace light
 

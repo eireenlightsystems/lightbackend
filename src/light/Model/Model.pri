@@ -27,7 +27,8 @@ HEADERS += \
     $$PWD/FixtureGroupType.h \
     $$PWD/Sensor.h \
     $$PWD/NodeChild.h \
-    $$PWD/SensorType.h
+    $$PWD/SensorType.h \
+    $$PWD/helpers.h
 
 SOURCES += \
     $$PWD/DateTimeRange.cpp \

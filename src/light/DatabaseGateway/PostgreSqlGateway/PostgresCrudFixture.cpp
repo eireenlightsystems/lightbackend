@@ -67,15 +67,12 @@ Editor<Fixture>::Shared PostgresCrud<Fixture>::parse(const QSqlRecord& record) c
   fixture->setId(record.value(getIdAlias()).value<ID>());
 
   PostgresCrud<Contract> contractCrud;
-  contractCrud.setSession(getSession());
   fixture->setContract(contractCrud.parse(record));
 
   PostgresCrud<FixtureType> typeCrud;
-  typeCrud.setSession(getSession());
   fixture->setType(typeCrud.parse(record));
 
   PostgresCrud<Contragent> installerCrud;
-  installerCrud.setSession(getSession());
   installerCrud.setFields({
       {"id_contragent", "id_installer", true},
       {"code", "code_installer", false},
@@ -83,11 +80,9 @@ Editor<Fixture>::Shared PostgresCrud<Fixture>::parse(const QSqlRecord& record) c
   fixture->setInstaller(installerCrud.parse(record));
 
   PostgresCrud<Substation> substationCrud;
-  substationCrud.setSession(getSession());
   fixture->setSubstation(substationCrud.parse(record));
 
   PostgresCrud<FixtureHeightType> heightTypeCrud;
-  heightTypeCrud.setSession(getSession());
   fixture->setHeightType(heightTypeCrud.parse(record));
 
   PostgresCrud<Contragent> ownerCrud;
@@ -99,7 +94,6 @@ Editor<Fixture>::Shared PostgresCrud<Fixture>::parse(const QSqlRecord& record) c
   fixture->setOwner(ownerCrud.parse(record));
 
   PostgresCrud<Node> nodeCrud;
-  nodeCrud.setSession(getSession());
   fixture->setNode(nodeCrud.parse(record));
 
   fixture->setWorkLevel(record.value(getFieldAlias("work_level")).value<quint8>());

@@ -2,8 +2,12 @@
 
 #include "Contract.h"
 #include "Contragent.h"
-#include "NodeType.h"
+#include "Fixture.h"
+#include "Gateway.h"
 #include "Geograph.h"
+#include "NodeType.h"
+#include "Sensor.h"
+#include "helpers.h"
 
 namespace light {
 
@@ -48,6 +52,54 @@ GeographShared Node::getGeograph() const {
 
 void Node::setGeograph(const GeographShared& value) {
   geograph = value;
+}
+
+FixtureSharedList Node::getFixtures() const {
+  return fixtures;
+}
+
+void Node::setFixtures(const FixtureSharedList& value) {
+  fixtures = value;
+}
+
+void Node::addFixtures(const FixtureSharedList& value) {
+  fixtures << value;
+}
+
+void Node::removeFixtures(const IDList& ids) {
+  helpers::removeByIds(fixtures, ids);
+}
+
+GatewaySharedList Node::getGateways() const {
+  return gateways;
+}
+
+void Node::setGateways(const GatewaySharedList& value) {
+  gateways = value;
+}
+
+void Node::addGateways(const GatewaySharedList& value) {
+  gateways << value;
+}
+
+void Node::removeGateways(const IDList& ids) {
+  helpers::removeByIds(gateways, ids);
+}
+
+SensorSharedList Node::getSensors() const {
+  return sensors;
+}
+
+void Node::setSensors(const SensorSharedList& value) {
+  sensors = value;
+}
+
+void Node::addSensors(const SensorSharedList& value) {
+  sensors << value;
+}
+
+void Node::removeSensors(const IDList& ids) {
+  helpers::removeByIds(sensors, ids);
 }
 
 } // namespace light

@@ -4,8 +4,11 @@
 #include "InsertQuery.h"
 #include "PostgresCrudContract.h"
 #include "PostgresCrudEquipmentOwner.h"
+#include "PostgresCrudFixture.h"
+#include "PostgresCrudGateway.h"
 #include "PostgresCrudGeograph.h"
 #include "PostgresCrudNodeType.h"
+#include "PostgresCrudSensor.h"
 #include "UpdateQuery.h"
 
 #include <QDebug>
@@ -51,22 +54,36 @@ Editor<Node>::Shared PostgresCrud<Node>::parse(const QSqlRecord& record) const {
   node->setComment(record.value(getFieldAlias("comments")).toString());
 
   PostgresCrud<EquipmentOwner> equipmentOwnerCrud;
-  equipmentOwnerCrud.setSession(getSession());
   node->setOwner(equipmentOwnerCrud.parse(record));
 
   PostgresCrud<Contract> contractCrud;
-  contractCrud.setSession(getSession());
   node->setContract(contractCrud.parse(record));
 
   PostgresCrud<Geograph> geographCrud;
-  geographCrud.setSession(getSession());
   node->setGeograph(geographCrud.parse(record));
 
   PostgresCrud<NodeType> nodeTypeCrud;
-  nodeTypeCrud.setSession(getSession());
   node->setNodeType(nodeTypeCrud.parse(record));
+
+  if (getLoadChildren() and getSession()) {
+    QVariantHash params{
+	{"nodeId", node->getId()},
+    };
+    PostgresCrud<Sensor> sensorCrud;
+    sensorCrud.setSession(getSession());
+    node->setSensors(sensorCrud.sel(params));
+
+    PostgresCrud<Fixture> fixtureCrud;
+    fixtureCrud.setSession(getSession());
+    node->setFixtures(fixtureCrud.sel(params));
+
+    PostgresCrud<Gateway> gatewayCrud;
+    gatewayCrud.setSession(getSession());
+    node->setGateways(gatewayCrud.sel(params));
+  }
+
   return node;
-}
+} // namespace PostgresqlGateway
 
 BindParamsType PostgresCrud<Node>::getSelectParams(const QVariantHash& filters) const {
   return BindParamsType{
