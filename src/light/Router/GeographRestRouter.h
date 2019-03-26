@@ -3,7 +3,7 @@
 
 #include "Geograph.h"
 #include "RestRouter.h"
-#include "SimpleEditableRouter.h"
+#include "SimpleSelectableRouter.h"
 #include "GeographToJson.h"
 
 namespace light {
