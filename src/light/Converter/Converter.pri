@@ -20,7 +20,8 @@ HEADERS += \
     $$PWD/JsonToIds.h \
     $$PWD/FixtureCommandToJson.h \
     $$PWD/FixtureGroupOwnerToJson.h \
-    $$PWD/ContractToJson.h
+    $$PWD/ContractToJson.h \
+    $$PWD/GatewayContractToJson.h
 
 SOURCES += \
     $$PWD/NodeToJson.cpp \
@@ -41,4 +42,5 @@ SOURCES += \
     $$PWD/JsonToIds.cpp \
     $$PWD/FixtureCommandToJson.cpp \
     $$PWD/FixtureGroupOwnerToJson.cpp \
-    $$PWD/ContractToJson.cpp
+    $$PWD/ContractToJson.cpp \
+    $$PWD/GatewayContractToJson.cpp

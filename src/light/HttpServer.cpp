@@ -71,6 +71,9 @@ void HttpServerWrapper::createGatewayRouters() {
 
   RestRouter<GatewayType> gatewayTypeRouter;
   gatewayTypeRouter.registerApi(httpServer);
+
+  RestRouter<GatewayContract> gatewayContractRouter;
+  gatewayContractRouter.registerApi(httpServer);
 }
 
 void HttpServerWrapper::createFixtureRouters() {

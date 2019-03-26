@@ -1,18 +1,21 @@
 #ifndef GATEWAYRESTROUTER_H
 #define GATEWAYRESTROUTER_H
 
+#include "Gateway.h"
+#include "GatewayContractToJson.h"
 #include "GatewayController.h"
 #include "GatewayOwnerToJson.h"
 #include "GatewayToJson.h"
 #include "GatewayTypeToJson.h"
+#include "NodeController.h"
+#include "NodeToJson.h"
 #include "PostgresCrudEquipmentOwner.h"
 #include "PostgresCrudGateway.h"
+#include "PostgresCrudGatewayContract.h"
 #include "PostgresCrudGatewayType.h"
+#include "PostgresCrudNode.h"
 #include "RestRouter.h"
 #include "SimpleEditableListRouter.h"
-#include "NodeToJson.h"
-#include "PostgresCrudNode.h"
-#include "NodeController.h"
 
 namespace light {
 
@@ -48,6 +51,15 @@ class RestRouter<GatewayType> : public SimpleSelectableRouter<GatewayType>
 public:
   QString getName() const override {
     return "gateways-types";
+  }
+};
+
+template <>
+class RestRouter<GatewayContract> : public SimpleSelectableRouter<GatewayContract>
+{
+public:
+  QString getName() const override {
+    return "gateways-contracts";
   }
 };
 

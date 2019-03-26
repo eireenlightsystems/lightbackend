@@ -1,10 +1,20 @@
 #ifndef GATEWAY_H
 #define GATEWAY_H
 
+#include "Contract.h"
 #include "Equipment.h"
 #include "EquipmentType.h"
 
 namespace light {
+
+class GatewayContract : public Contract
+{
+public:
+  GatewayContract() = default;
+  explicit GatewayContract(const Contract& other) : Contract(other) {
+  }
+};
+
 class Gateway : public Equipment
 {
 public:
