@@ -20,6 +20,13 @@ public:
   QJsonObject toJson(const SensorContractShared& sensorContract) const override;
 };
 
+template <>
+class ToJsonConverter<SensorOwner> : public ToJsonConverterTemplate<SensorOwner>
+{
+public:
+  QJsonObject toJson(const SensorOwnerShared& sensorOwner) const override;
+};
+
 } // namespace light
 
 #endif // SENSORTOJSON_H

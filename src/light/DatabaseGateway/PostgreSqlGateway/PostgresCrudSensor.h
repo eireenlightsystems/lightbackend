@@ -28,6 +28,14 @@ public:
   Shared parse(const QSqlRecord& record) const override;
 };
 
+template <>
+class PostgresCrud<SensorOwner> : public Reader<SensorOwner>
+{
+public:
+  PostgresCrud();
+  Shared parse(const QSqlRecord& record) const override;
+};
+
 } // namespace PostgresqlGateway
 } // namespace light
 

@@ -2,6 +2,7 @@
 #define SENSOR_H
 
 #include "Contract.h"
+#include "Contragent.h"
 #include "NodeChild.h"
 #include "typedefs.h"
 
@@ -12,6 +13,14 @@ class SensorContract : public Contract
 public:
   SensorContract() = default;
   explicit SensorContract(const Contract& other) : Contract(other) {
+  }
+};
+
+class SensorOwner : public Contragent
+{
+public:
+  SensorOwner() = default;
+  explicit SensorOwner(const Contragent& other) : Contragent(other) {
   }
 };
 

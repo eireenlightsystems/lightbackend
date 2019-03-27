@@ -1,6 +1,7 @@
 #include "PostgresCrudSensor.h"
 
 #include "PostgresCrudContract.h"
+#include "PostgresCrudContragent.h"
 #include "PostgresCrudEquipmentOwner.h"
 #include "PostgresCrudNode.h"
 #include "PostgresCrudSensorType.h"
@@ -112,6 +113,27 @@ Reader<SensorContract>::Shared PostgresCrud<SensorContract>::parse(const QSqlRec
   auto contract = contractCrud.parse(record);
   auto sensorContract = SensorContractShared::create(*contract);
   return sensorContract;
+}
+
+const QList<Field> sensorOwnerFields{
+    {"id_owner", "id_owner", true},
+    {"name_owner", "name_owner", false},
+};
+
+PostgresCrud<SensorOwner>::PostgresCrud() {
+  setFields(sensorOwnerFields);
+  setView("sensor_pkg_i.owner_vw");
+}
+
+Reader<SensorOwner>::Shared PostgresCrud<SensorOwner>::parse(const QSqlRecord& record) const {
+  PostgresCrud<Contragent> contragentCrud;
+  contragentCrud.setFields({
+      {"id_contragent", "id_owner", true},
+      {"name", "name_owner", false},
+  });
+  auto contragent = contragentCrud.parse(record);
+  auto sensorOwner = SensorOwnerShared::create(*contragent);
+  return sensorOwner;
 }
 
 } // namespace PostgresqlGateway

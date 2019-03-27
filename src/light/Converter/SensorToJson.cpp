@@ -2,6 +2,7 @@
 
 #include "Contract.h"
 #include "ContractToJson.h"
+#include "ContragentToJson.h"
 #include "EquipmentOwner.h"
 #include "Geograph.h"
 #include "Node.h"
@@ -57,6 +58,11 @@ QJsonObject ToJsonConverter<Sensor>::toJson(const SensorShared& sensor) const {
 QJsonObject ToJsonConverter<SensorContract>::toJson(const SensorContractShared& sensorContract) const {
   ToJsonConverter<Contract> contractConverter;
   return contractConverter.toJson(sensorContract.dynamicCast<Contract>());
+}
+
+QJsonObject ToJsonConverter<SensorOwner>::toJson(const SensorOwnerShared& sensorOwner) const {
+  ToJsonConverter<Contragent> contragentConverter;
+  return contragentConverter.toJson(sensorOwner.dynamicCast<Contragent>());
 }
 
 } // namespace light

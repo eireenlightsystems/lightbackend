@@ -38,6 +38,7 @@ DeclareShared(FixtureGroupOwner);
 DeclareShared(Sensor);
 DeclareShared(SensorType);
 DeclareShared(SensorContract);
+DeclareShared(SensorOwner);
 
 } // namespace light
 

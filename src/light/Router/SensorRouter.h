@@ -7,8 +7,8 @@
 #include "Sensor.h"
 #include "SensorController.h"
 #include "SensorType.h"
-#include "SimpleEditableRouter.h"
 #include "SensorTypeToJson.h"
+#include "SimpleEditableRouter.h"
 
 namespace light {
 
@@ -39,6 +39,14 @@ public:
   }
 };
 
+template <>
+class RestRouter<SensorOwner> : public SimpleSelectableRouter<SensorOwner>
+{
+public:
+  QString getName() const override {
+    return "sensors-owners";
+  }
+};
 
 } // namespace light
 
