@@ -109,6 +109,9 @@ void HttpServerWrapper::createSensorRouters() {
 
   RestRouter<SensorType> sensorTypeRouter;
   sensorTypeRouter.registerApi(httpServer);
+
+  RestRouter<SensorContract> sensorContractRouter;
+  sensorContractRouter.registerApi(httpServer);
 }
 
 void HttpServerWrapper::createDictionary() {

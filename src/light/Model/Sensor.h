@@ -1,10 +1,20 @@
 #ifndef SENSOR_H
 #define SENSOR_H
 
+#include "Contract.h"
 #include "NodeChild.h"
 #include "typedefs.h"
 
 namespace light {
+
+class SensorContract : public Contract
+{
+public:
+  SensorContract() = default;
+  explicit SensorContract(const Contract& other) : Contract(other) {
+  }
+};
+
 class Sensor : public NodeChild
 {
 public:

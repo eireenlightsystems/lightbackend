@@ -20,6 +20,14 @@ protected:
   BindParamsType getUpdateParams(const Shared& sensor) const override;
 };
 
+template <>
+class PostgresCrud<SensorContract> : public Reader<SensorContract>
+{
+public:
+  PostgresCrud();
+  Shared parse(const QSqlRecord& record) const override;
+};
+
 } // namespace PostgresqlGateway
 } // namespace light
 

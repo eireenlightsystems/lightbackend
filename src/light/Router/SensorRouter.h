@@ -30,6 +30,16 @@ public:
   }
 };
 
+template <>
+class RestRouter<SensorContract> : public SimpleSelectableRouter<SensorContract>
+{
+public:
+  QString getName() const override {
+    return "sensors-contracts";
+  }
+};
+
+
 } // namespace light
 
 #endif // SENSORROUTER_H

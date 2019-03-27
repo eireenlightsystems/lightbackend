@@ -96,5 +96,23 @@ BindParamsType PostgresCrud<Sensor>::getUpdateParams(const Editor::Shared& senso
   };
 }
 
+const QList<Field> sensorContractFields{
+    {"id_contract", "id_contract", true},
+    {"code_contract", "code_contract", false},
+    {"name_contract", "name_contract", false},
+};
+
+PostgresCrud<SensorContract>::PostgresCrud() {
+  setFields(sensorContractFields);
+  setView("sensor_pkg_i.contract_vw");
+}
+
+Reader<SensorContract>::Shared PostgresCrud<SensorContract>::parse(const QSqlRecord& record) const {
+  PostgresCrud<Contract> contractCrud;
+  auto contract = contractCrud.parse(record);
+  auto sensorContract = SensorContractShared::create(*contract);
+  return sensorContract;
+}
+
 } // namespace PostgresqlGateway
 } // namespace light
