@@ -24,6 +24,7 @@ const QList<Field> nodeFields{
     {"e_coordinate", "e_coordinate_node", false},
     {"comments", "comments_node", false},
     {"serial_number", "serial_number_node", false},
+    {"num_node", "num_node", false},
 
     {"id_node_type", "id_node_type", false},
     {"code_node_type", "code_node_type", false},
@@ -54,6 +55,7 @@ Editor<Node>::Shared PostgresCrud<Node>::parse(const QSqlRecord& record) const {
 		      record.value(getFieldAlias("e_coordinate")).toDouble());
   node->setComment(record.value(getFieldAlias("comments")).toString());
   node->setSerialNumber(record.value(getFieldAlias("serial_number")).toString());
+  node->setNumberInGroup(record.value(getFieldAlias("num_node")).toInt());
 
   PostgresCrud<EquipmentOwner> equipmentOwnerCrud;
   node->setOwner(equipmentOwnerCrud.parse(record));
@@ -130,43 +132,179 @@ BindParamsType PostgresCrud<Node>::getUpdateParams(const Editor::Shared& node) c
 
 void PostgresCrud<Node>::ins(const Editor::Shared& node) const {
   Editor<Node>::ins(node);
+  saveChildren(node);
 }
 
 void PostgresCrud<Node>::upd(const Editor::Shared& node) const {
   Editor<Node>::upd(node);
+  this->saveChildren(node);
 }
 
-void PostgresCrud<Node>::saveChildren() {
-  saveFixtures();
-  saveGateways();
-  saveSensors();
+void PostgresCrud<Node>::saveChildren(const Editor::Shared& node) const {
+  saveFixtures(node);
+  saveGateways(node);
+  saveSensors(node);
 }
 
-void PostgresCrud<Node>::saveFixtures() {
+void PostgresCrud<Node>::saveFixtures(const Editor::Shared& node) const {
+  auto fixtures = node->getFixtures();
+  QSet<ID> currentIds = extractIds(fixtures).toSet();
+
+  QSet<ID> dbIds = selectFixturesIds(node->getId()).toSet();
+  auto idsToDelete = dbIds;
+  idsToDelete.subtract(currentIds);
+
+  if (idsToDelete.count()) {
+    deleteFixtures(idsToDelete.toList());
+  }
+
+  auto idsToInsert = currentIds;
+  idsToInsert.subtract(dbIds);
+  if (idsToInsert.count()) {
+    insertFixtures(node->getId(), idsToInsert.toList());
+  }
 }
 
-void PostgresCrud<Node>::insertFixtures() {
+IDList PostgresCrud<Node>::selectFixturesIds(ID nodeId) const {
+  const QString sql = "select id_fixture from fixture_pkg_i.fixture_allinfo_vw where id_node = :id_node";
+  const BindParamsType params{
+      {":id_node", nodeId},
+  };
+  return selectIds(sql, params);
 }
 
-void PostgresCrud<Node>::deleteFixtures() {
+void PostgresCrud<Node>::insertFixtures(ID nodeId, const IDList& ids) const {
+  updateFixturesNode(ids, nodeId);
 }
 
-void PostgresCrud<Node>::saveGateways() {
+void PostgresCrud<Node>::deleteFixtures(const IDList& ids) const {
+  updateFixturesNode(ids, 1);
 }
 
-void PostgresCrud<Node>::insertGateways() {
+void PostgresCrud<Node>::updateFixturesNode(const IDList& fixturesIds, ID nodeId) const {
+  const QString sql = "select fixture_pkg_i.set_id_node(:id_fixture, :id_node)";
+  updateObjectNode(sql, "id_fixture", fixturesIds, nodeId);
 }
 
-void PostgresCrud<Node>::deleteGateways() {
+void PostgresCrud<Node>::saveGateways(const Shared& node) const {
+  auto gateways = node->getGateways();
+  QSet<ID> currentIds = extractIds(gateways).toSet();
+
+  QSet<ID> dbIds = selectGatewaysIds(node->getId()).toSet();
+  auto idsToDelete = dbIds;
+  idsToDelete.subtract(currentIds);
+
+  if (idsToDelete.count()) {
+    deleteGateways(idsToDelete.toList());
+  }
+
+  auto idsToInsert = currentIds;
+  idsToInsert.subtract(dbIds);
+  if (idsToInsert.count()) {
+    insertGateways(node->getId(), idsToInsert.toList());
+  }
 }
 
-void PostgresCrud<Node>::saveSensors() {
+IDList PostgresCrud<Node>::selectGatewaysIds(ID nodeId) const {
+  const QString sql = "select id_gateway from gateway_pkg_i.gateway_allinfo_vw where id_node = :id_node";
+  const BindParamsType params{
+      {":id_node", nodeId},
+  };
+  return selectIds(sql, params);
 }
 
-void PostgresCrud<Node>::insertSensors() {
+void PostgresCrud<Node>::insertGateways(ID nodeId, const IDList& ids) const {
+  updateGatewaysNode(ids, nodeId);
 }
 
-void PostgresCrud<Node>::deleteSensors() {
+void PostgresCrud<Node>::deleteGateways(const IDList& ids) const {
+  updateGatewaysNode(ids, 1);
+}
+
+void PostgresCrud<Node>::updateGatewaysNode(const IDList& gatewaysIds, ID nodeId) const {
+  const QString sql = "select gateway_pkg_i.set_id_node(:id_gateway, :id_node)";
+  updateObjectNode(sql, "id_gateway", gatewaysIds, nodeId);
+}
+
+void PostgresCrud<Node>::saveSensors(const Shared& node) const {
+  auto sensors = node->getSensors();
+  QSet<ID> currentIds = extractIds(sensors).toSet();
+
+  QSet<ID> dbIds = selectGatewaysIds(node->getId()).toSet();
+  auto idsToDelete = dbIds;
+  idsToDelete.subtract(currentIds);
+
+  if (idsToDelete.count()) {
+    deleteSensors(idsToDelete.toList());
+  }
+
+  auto idsToInsert = currentIds;
+  idsToInsert.subtract(dbIds);
+  if (idsToInsert.count()) {
+    insertSensors(node->getId(), idsToInsert.toList());
+  }
+}
+
+IDList PostgresCrud<Node>::selectSensorsIds(ID nodeId) const {
+  const QString sql = "select id_sensor from sensor_pkg_i.sensor_allinfo_vw where id_node = :id_node";
+  const BindParamsType params{
+      {":id_node", nodeId},
+  };
+  return selectIds(sql, params);
+}
+
+void PostgresCrud<Node>::insertSensors(ID nodeId, const IDList& ids) const {
+  updateSensorsNode(ids, nodeId);
+}
+
+void PostgresCrud<Node>::deleteSensors(const IDList& ids) const {
+  updateSensorsNode(ids, 1);
+}
+
+void PostgresCrud<Node>::updateSensorsNode(const IDList& gatewaysIds, ID nodeId) const {
+  const QString sql = "select sensor_pkg_i.set_id_node(:id_sensor, :id_node)";
+  updateObjectNode(sql, "id_sensor", gatewaysIds, nodeId);
+}
+
+template <typename Container>
+IDList PostgresCrud<Node>::extractIds(const Container& container) const {
+  IDList ids;
+  std::transform(container.begin(),
+		 container.end(),
+		 std::back_inserter(ids),
+		 [](const typename Container::value_type& item) { return item->getId(); });
+  return ids;
+}
+
+IDList light::PostgresqlGateway::PostgresCrud<Node>::selectIds(const QString& sql, const BindParamsType& params) const {
+  SelectQuery selectFixtureIds(getSession()->getDb());
+  selectFixtureIds.prepare(sql);
+  selectFixtureIds.bind(params);
+  selectFixtureIds.exec();
+  IDList dbIds;
+  for (auto record : selectFixtureIds) {
+    auto id = record.value(0).value<ID>();
+    dbIds << id;
+  }
+  return dbIds;
+}
+
+void PostgresCrud<Node>::updateObjectNode(const QString& sql,
+					  const QString& idFieldName,
+					  const IDList& Ids,
+					  ID nodeId) const {
+  SqlQuery query(getSession()->getDb());
+  query.prepare(sql);
+  const QString idPlaceholder = ":" + idFieldName;
+  for (auto id : Ids) {
+    const BindParamsType params{
+	{idPlaceholder, id},
+	{":id_node", nodeId},
+    };
+    query.bind(params);
+    query.exec();
+    query.finish();
+  }
 }
 
 } // namespace PostgresqlGateway

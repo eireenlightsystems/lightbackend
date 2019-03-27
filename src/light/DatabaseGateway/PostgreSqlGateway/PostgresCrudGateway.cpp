@@ -152,7 +152,7 @@ void PostgresCrud<Gateway>::saveChildNodes(const Shared& gateway) const {
 
 QSet<ID> PostgresCrud<Gateway>::selectCurrentNodesIds(const GatewayShared& gateway) const {
   const QString selectAllFixtureIdSql =
-      "select id_node from gateway_pkg_i.node_group_vw where id_gateway = :id_gateway";
+      "select id_node from node_pkg_i.node_allinfo_vw where id_gateway = :id_gateway";
   const BindParamsType bindParamsSelectAllId{
       {":id_gateway", gateway->getId()},
   };
