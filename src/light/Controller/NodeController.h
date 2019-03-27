@@ -71,6 +71,11 @@ IDList Controller<Node, Crud>::ins(const QList<QVariantHash>& params) {
       newNode->setComment(comment);
     }
 
+    if (param.contains("serialNumber")) {
+      QString serialNumber = param.value("serialNumber").toString();
+      newNode->setSerialNumber(serialNumber);
+    }
+
     newNodes << newNode;
   }
 
@@ -127,6 +132,11 @@ void Controller<Node, Crud>::upd(const QList<QVariantHash>& params) {
     if (param.contains("comment")) {
       QString comment = param.value("comment").toString();
       node->setComment(comment);
+    }
+
+    if (param.contains("serialNumber")) {
+      QString serialNumber = param.value("serialNumber").toString();
+      node->setSerialNumber(serialNumber);
     }
 
     nodes << node;

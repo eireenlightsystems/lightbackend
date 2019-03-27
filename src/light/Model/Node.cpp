@@ -102,4 +102,12 @@ void Node::removeSensors(const IDList& ids) {
   helpers::removeByIds(sensors, ids);
 }
 
+int Node::getNumberInGroup() const {
+  return numberInGroup;
+}
+
+void Node::setNumberInGroup(int value) {
+  numberInGroup = value;
+}
+
 } // namespace light

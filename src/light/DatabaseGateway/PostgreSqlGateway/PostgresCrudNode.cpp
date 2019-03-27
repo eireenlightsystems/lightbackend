@@ -23,6 +23,7 @@ const QList<Field> nodeFields{
     {"n_coordinate", "n_coordinate_node", false},
     {"e_coordinate", "e_coordinate_node", false},
     {"comments", "comments_node", false},
+    {"serial_number", "serial_number_node", false},
 
     {"id_node_type", "id_node_type", false},
     {"code_node_type", "code_node_type", false},
@@ -41,7 +42,7 @@ PostgresCrud<Node>::PostgresCrud() {
   setFields(nodeFields);
   setView("node_pkg_i.node_vwf(:id_geograph, :id_owner, :id_node_type, :id_contract, :id_gateway)");
   setInsertSql("select node_pkg_i.save(:action, :id_node, :id_contract, :id_equipment_type, "
-	       ":id_geograph, :n_coordinate, :e_coordinate, :price, :comments)");
+	       ":id_geograph, :n_coordinate, :e_coordinate, :comments, :serial_number)");
   setUpdateSql(getInsertSql());
   setDeleteSql("select node_pkg_i.del(:id)");
 }
@@ -52,6 +53,7 @@ Editor<Node>::Shared PostgresCrud<Node>::parse(const QSqlRecord& record) const {
   node->setCoordinate(record.value(getFieldAlias("n_coordinate")).toDouble(),
 		      record.value(getFieldAlias("e_coordinate")).toDouble());
   node->setComment(record.value(getFieldAlias("comments")).toString());
+  node->setSerialNumber(record.value(getFieldAlias("serial_number")).toString());
 
   PostgresCrud<EquipmentOwner> equipmentOwnerCrud;
   node->setOwner(equipmentOwnerCrud.parse(record));
@@ -102,12 +104,13 @@ BindParamsType PostgresCrud<Node>::getInsertParams(const Editor::Shared& node) c
   return BindParamsType{
       {":action", "ins"},
       {":id_node", QVariant()},
-      {":id_contract", node->getContract() ? node->getContractId() : QVariant()},
-      {":id_equipment_type", node->getNodeType() ? node->getNodeTypeId() : QVariant()},
-      {":id_geograph", node->getGeograph() ? node->getGeographId() : QVariant()},
+      {":id_contract", idToVariant(node->getContractId())},
+      {":id_equipment_type", idToVariant(node->getNodeTypeId())},
+      {":id_geograph", idToVariant(node->getGeographId())},
       {":n_coordinate", node->getLatitude()},
       {":e_coordinate", node->getLongitude()},
       {":comments", node->getComment()},
+      {":serial_number", node->getSerialNumber()},
   };
 }
 
@@ -115,12 +118,13 @@ BindParamsType PostgresCrud<Node>::getUpdateParams(const Editor::Shared& node) c
   return BindParamsType{
       {":action", "upd"},
       {":id_node", node->getId()},
-      {":id_contract", node->getContract() ? node->getContractId() : QVariant()},
-      {":id_equipment_type", node->getNodeType() ? node->getNodeTypeId() : QVariant()},
-      {":id_geograph", node->getGeograph() ? node->getGeographId() : QVariant()},
+      {":id_contract", idToVariant(node->getContractId())},
+      {":id_equipment_type", idToVariant(node->getNodeTypeId())},
+      {":id_geograph", idToVariant(node->getGeographId())},
       {":n_coordinate", node->getLatitude()},
       {":e_coordinate", node->getLongitude()},
       {":comments", node->getComment()},
+      {":serial_number", node->getSerialNumber()},
   };
 }
 

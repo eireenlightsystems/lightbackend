@@ -39,6 +39,9 @@ public:
   void addSensors(const SensorSharedList& value);
   void removeSensors(const IDList& ids);
 
+  int getNumberInGroup() const;
+  void setNumberInGroup(int value);
+
 private:
   QGeoCoordinate coordinate;
   NodeTypeShared nodeType;
@@ -46,6 +49,7 @@ private:
   FixtureSharedList fixtures;
   GatewaySharedList gateways;
   SensorSharedList sensors;
+  int numberInGroup;
 };
 } // namespace light
 
