@@ -20,10 +20,13 @@ DeclareShared(FixtureLightLevelCommand);
 DeclareShared(FixtureLightSpeedCommand);
 
 DeclareShared(Node);
+DeclareShared(NodeType);
+DeclareShared(NodeContract);
+DeclareShared(NodeOwner);
+
 DeclareShared(Contragent);
 DeclareShared(Contract);
 DeclareShared(EquipmentType);
-DeclareShared(NodeType);
 DeclareShared(Geograph);
 DeclareShared(Gateway);
 DeclareShared(GatewayContract);

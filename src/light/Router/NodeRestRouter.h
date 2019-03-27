@@ -3,7 +3,9 @@
 
 #include "ContainersRegistrationHelpers.h"
 #include "FixtureController.h"
+#include "FixtureToJson.h"
 #include "GatewayController.h"
+#include "GatewayToJson.h"
 #include "NodeController.h"
 #include "NodeToJson.h"
 #include "NodeTypeToJson.h"
@@ -12,11 +14,8 @@
 #include "PostgresCrudNode.h"
 #include "PostgresCrudNodeType.h"
 #include "RestRouter.h"
-#include "SimpleEditableListRouter.h"
-#include "FixtureController.h"
 #include "SensorToJson.h"
-#include "GatewayToJson.h"
-#include "FixtureToJson.h"
+#include "SimpleEditableListRouter.h"
 
 namespace light {
 
@@ -154,8 +153,9 @@ private:
     return QHttpServerResponse(QHttpServerResponder::StatusCode::Ok);
   }
 
-  QHttpServerResponse
-  itemsActionTemplate(void (Controller<Node, CRUD>::*action)(ID, const IDList&), const QHttpServerRequest& req, ID nodeId) {
+  QHttpServerResponse itemsActionTemplate(void (Controller<Node, CRUD>::*action)(ID, const IDList&),
+					  const QHttpServerRequest& req,
+					  ID nodeId) {
     JsonToIds converter;
     converter.convert(req.body());
     if (!converter.getIdValid()) {
@@ -174,6 +174,24 @@ class RestRouter<NodeType> : public SimpleSelectableRouter<NodeType>
 public:
   QString getName() const override {
     return "nodes-types";
+  }
+};
+
+template <>
+class RestRouter<NodeContract> : public SimpleSelectableRouter<NodeContract>
+{
+public:
+  QString getName() const override {
+    return "nodes-contracts";
+  }
+};
+
+template <>
+class RestRouter<NodeOwner> : public SimpleSelectableRouter<NodeOwner>
+{
+public:
+  QString getName() const override {
+    return "nodes-owners";
   }
 };
 

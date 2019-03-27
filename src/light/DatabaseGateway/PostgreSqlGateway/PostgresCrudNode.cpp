@@ -3,6 +3,7 @@
 #include "DeleteQuery.h"
 #include "InsertQuery.h"
 #include "PostgresCrudContract.h"
+#include "PostgresCrudContragent.h"
 #include "PostgresCrudEquipmentOwner.h"
 #include "PostgresCrudFixture.h"
 #include "PostgresCrudGateway.h"
@@ -305,6 +306,47 @@ void PostgresCrud<Node>::updateObjectNode(const QString& sql,
     query.exec();
     query.finish();
   }
+}
+
+const QList<Field> nodeContractFields{
+    {"id_contract", "id_contract", true},
+    {"code_contract", "code_contract", false},
+    {"name_contract", "name_contract", false},
+};
+
+PostgresCrud<NodeContract>::PostgresCrud() {
+  setFields(nodeContractFields);
+  setView("node_pkg_i.contract_vw");
+}
+
+Reader<NodeContract>::Shared PostgresCrud<NodeContract>::parse(const QSqlRecord& record) const {
+  PostgresCrud<Contract> contractCrud;
+  auto contract = contractCrud.parse(record);
+  auto nodeContract = NodeContractShared::create(*contract);
+  return nodeContract;
+}
+
+const QList<Field> nodeOwnerFields{
+    {"id_owner", "id_owner", true},
+    {"code_owner", "code_owner", false},
+    {"name_owner", "name_owner", false},
+};
+
+PostgresCrud<NodeOwner>::PostgresCrud() {
+  setFields(nodeOwnerFields);
+  setView("sensor_pkg_i.owner_vw");
+}
+
+Reader<NodeOwner>::Shared PostgresCrud<NodeOwner>::parse(const QSqlRecord& record) const {
+  PostgresCrud<Contragent> contragentCrud;
+  contragentCrud.setFields({
+      {"id_contragent", "id_owner", true},
+      {"code", "code_owner", false},
+      {"name", "name_owner", false},
+  });
+  auto contragent = contragentCrud.parse(record);
+  auto nodeOwner = NodeOwnerShared::create(*contragent);
+  return nodeOwner;
 }
 
 } // namespace PostgresqlGateway

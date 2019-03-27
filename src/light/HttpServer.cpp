@@ -62,6 +62,12 @@ void HttpServerWrapper::createNodeRoutes() {
 
   RestRouter<NodeType> nodeTypeRouter;
   nodeTypeRouter.registerApi(httpServer);
+
+  RestRouter<NodeContract> nodeContractRouter;
+  nodeContractRouter.registerApi(httpServer);
+
+  RestRouter<NodeOwner> nodeOwnerRouter;
+  nodeOwnerRouter.registerApi(httpServer);
 }
 
 void HttpServerWrapper::createGatewayRouters() {

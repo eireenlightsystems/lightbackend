@@ -47,6 +47,22 @@ private:
   void updateObjectNode(const QString& sql, const QString& idFieldName, const IDList& Ids, ID nodeId) const;
 };
 
+template <>
+class PostgresCrud<NodeContract> : public Reader<NodeContract>
+{
+public:
+  PostgresCrud();
+  Shared parse(const QSqlRecord& record) const override;
+};
+
+template <>
+class PostgresCrud<NodeOwner> : public Reader<NodeOwner>
+{
+public:
+  PostgresCrud();
+  Shared parse(const QSqlRecord& record) const override;
+};
+
 } // namespace PostgresqlGateway
 } // namespace light
 

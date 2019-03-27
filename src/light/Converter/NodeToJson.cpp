@@ -1,9 +1,10 @@
 #include "NodeToJson.h"
 
-#include "Node.h"
-#include "Contract.h"
-#include "Geograph.h"
+#include "ContractToJson.h"
+#include "ContragentToJson.h"
 #include "EquipmentOwner.h"
+#include "Geograph.h"
+#include "Node.h"
 #include "NodeType.h"
 
 #include <QJsonArray>
@@ -23,30 +24,40 @@ QJsonObject ToJsonConverter<Node>::toJson(const NodeShared& node) const {
   nodeJson["serialNumber"] = node->getSerialNumber();
 
   ContractShared contract = node->getContract();
-  if(contract) {
+  if (contract) {
     nodeJson["contractId"] = QJsonValue::fromVariant(contract->getId());
     nodeJson["contractCode"] = contract->getCode();
   }
 
   GeographShared geograph = node->getGeograph();
-  if(geograph) {
+  if (geograph) {
     nodeJson["geographId"] = QJsonValue::fromVariant(geograph->getId());
     nodeJson["geographCode"] = geograph->getCode();
   }
 
   ContragentShared owner = node->getOwner();
-  if(owner) {
+  if (owner) {
     nodeJson["ownerId"] = QJsonValue::fromVariant(owner->getId());
     nodeJson["ownerCode"] = owner->getCode();
   }
 
   NodeTypeShared nodeType = node->getNodeType();
-  if(nodeType) {
+  if (nodeType) {
     nodeJson["nodeTypeId"] = QJsonValue::fromVariant(nodeType->getId());
     nodeJson["nodeTypeCode"] = nodeType->getCode();
   }
 
   return nodeJson;
+}
+
+QJsonObject ToJsonConverter<NodeContract>::toJson(const NodeContractShared& nodeContract) const {
+  ToJsonConverter<Contract> contractConverter;
+  return contractConverter.toJson(nodeContract.dynamicCast<Contract>());
+}
+
+QJsonObject ToJsonConverter<NodeOwner>::toJson(const NodeOwnerShared& nodeOwner) const {
+  ToJsonConverter<Contragent> contragentConverter;
+  return contragentConverter.toJson(nodeOwner.dynamicCast<Contragent>());
 }
 
 } // namespace light

@@ -11,6 +11,7 @@ namespace light {
 QJsonObject ToJsonConverter<Contragent>::toJson(const ContragentShared& contragent) const {
   QJsonObject contragentJson;
   contragentJson["id"] = QJsonValue::fromVariant(contragent->getId());
+  contragentJson["code"] = contragent->getCode();
   contragentJson["name"] = contragent->getName();
 
   return contragentJson;

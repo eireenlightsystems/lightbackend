@@ -1,11 +1,30 @@
 #ifndef NODE_H
 #define NODE_H
 
+#include "Contract.h"
+#include "Contragent.h"
 #include "Equipment.h"
 
 #include <QGeoCoordinate>
 
 namespace light {
+
+class NodeContract : public Contract
+{
+public:
+  NodeContract() = default;
+  explicit NodeContract(const Contract& other) : Contract(other) {
+  }
+};
+
+class NodeOwner : public Contragent
+{
+public:
+  NodeOwner() = default;
+  explicit NodeOwner(const Contragent& other) : Contragent(other) {
+  }
+};
+
 class Node : public Equipment
 {
 public:
