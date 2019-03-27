@@ -230,7 +230,7 @@ void PostgresCrud<Node>::saveSensors(const Shared& node) const {
   auto sensors = node->getSensors();
   QSet<ID> currentIds = extractIds(sensors).toSet();
 
-  QSet<ID> dbIds = selectGatewaysIds(node->getId()).toSet();
+  QSet<ID> dbIds = selectSensorsIds(node->getId()).toSet();
   auto idsToDelete = dbIds;
   idsToDelete.subtract(currentIds);
 
