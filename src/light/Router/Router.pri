@@ -15,8 +15,10 @@ HEADERS += \
   $$PWD/FixtureCommandRestRouter.h \
     $$PWD/ContractRouter.h \
     $$PWD/ContainersRegistrationHelpers.h \
-    $$PWD/SensorRouter.h
+    $$PWD/SensorRouter.h \
+    $$PWD/AuthRouter.h
 
 SOURCES += \
   $$PWD/AbstractRestRouter.cpp \
-  $$PWD/FixtureCommandRestRouter.cpp
+  $$PWD/FixtureCommandRestRouter.cpp \
+    $$PWD/AuthRouter.cpp

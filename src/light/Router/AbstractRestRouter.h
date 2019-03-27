@@ -31,22 +31,23 @@ public:
   static QJsonDocument errorStringToJson(const QString& error);
 
   template <typename RouteFunction, typename... Args>
-  static QHttpServerResponse baseRouteFunction(RouteFunction routeFunction, Args&&... args);
+  static QHttpServerResponse baseRouteFunction(RouteFunction routeFunction, const QHttpServerRequest& req, Args&&... args);
 
 protected:
   const QString routerPrefixString = "/api/v1";
 };
 
 template <typename RouteFunction, typename... Args>
-QHttpServerResponse AbstractRestRouter::baseRouteFunction(RouteFunction routeFunction, Args&&... args) {
+QHttpServerResponse AbstractRestRouter::baseRouteFunction(RouteFunction routeFunction, const QHttpServerRequest& req, Args&&... args) {
   QHttpServerResponder::StatusCode statusCode = QHttpServerResponder::StatusCode::Ok;
   QJsonDocument jsonDocument;
   try {
     auto httpServerWrapper = HttpServerWrapper::singleton();
-    if (!httpServerWrapper->isLoggedIn()) {
+    const QString token = req.value("Authorization");
+    if (!httpServerWrapper->isLoggedIn(token)) {
       return QHttpServerResponse(QHttpServerResponder::StatusCode::Unauthorized);
     }
-    auto session = httpServerWrapper->getLightBackend()->getSession();
+    auto session = httpServerWrapper->getLightBackend()->getSession(token);
     return routeFunction(session, std::forward<Args>(args)...);
   } catch (const BadRequestException& badRequest) {
     jsonDocument = AbstractRestRouter::errorStringToJson(badRequest.getErrorText());

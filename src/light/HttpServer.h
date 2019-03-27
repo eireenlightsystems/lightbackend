@@ -24,9 +24,10 @@ public:
   QSharedPointer<LigthBackend> getLightBackend() const;
   void setLightBackend(const QSharedPointer<LigthBackend>& value);
 
-  bool isLoggedIn() const;
+  bool isLoggedIn(const QString &token) const;
 
 private:
+  void createAuthRoutes();
   void createCommandsRoutes();
   void createNodeRoutes();
   void createGatewayRouters();

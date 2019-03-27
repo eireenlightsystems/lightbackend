@@ -1,5 +1,6 @@
 #include "HttpServer.h"
 
+#include "AuthRouter.h"
 #include "ContractRouter.h"
 #include "FixtureCommandRestRouter.h"
 #include "FixtureGroupRouter.h"
@@ -20,6 +21,7 @@ QSharedPointer<HttpServerWrapper> HttpServerWrapper::singleton() {
 }
 
 void HttpServerWrapper::createRoutes() {
+  createAuthRoutes();
   createCommandsRoutes();
   createNodeRoutes();
   createGatewayRouters();
@@ -41,8 +43,13 @@ void HttpServerWrapper::setLightBackend(const QSharedPointer<LigthBackend>& valu
   lightBackendShared = value;
 }
 
-bool HttpServerWrapper::isLoggedIn() const {
-  return true;
+bool HttpServerWrapper::isLoggedIn(const QString& token) const {
+  return lightBackendShared->isLoggedIn(token);
+}
+
+void HttpServerWrapper::createAuthRoutes() {
+  AuthRouter router;
+  router.registerApi(httpServer);
 }
 
 void HttpServerWrapper::createCommandsRoutes() {

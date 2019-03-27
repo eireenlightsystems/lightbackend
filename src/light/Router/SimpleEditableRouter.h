@@ -109,7 +109,7 @@ private:
 	router.setSession(session);
 	return router.post(req);
       };
-      return AbstractRestRouter::baseRouteFunction(routeFunction, req);
+      return AbstractRestRouter::baseRouteFunction(routeFunction, req, req);
     });
   }
   void registerPatch(QHttpServer& httpServer) const {
@@ -119,7 +119,7 @@ private:
 	router.setSession(session);
 	return router.patch(req);
       };
-      return AbstractRestRouter::baseRouteFunction(routeFunction, req);
+      return AbstractRestRouter::baseRouteFunction(routeFunction, req, req);
     });
 
     httpServer.route(
@@ -129,7 +129,7 @@ private:
 	    router.setSession(session);
 	    return router.patch(req, id);
 	  };
-	  return AbstractRestRouter::baseRouteFunction(routeFunction, id, req);
+	  return AbstractRestRouter::baseRouteFunction(routeFunction, req, id, req);
 	});
   }
   void registerDelete(QHttpServer& httpServer) const {
@@ -139,16 +139,16 @@ private:
 	router.setSession(session);
 	return router.del(req);
       };
-      return AbstractRestRouter::baseRouteFunction(routeFunction, req);
+      return AbstractRestRouter::baseRouteFunction(routeFunction, req, req);
     });
 
-    httpServer.route(this->getIdFullName(), QHttpServerRequest::Method::Delete, [](ID id) {
+    httpServer.route(this->getIdFullName(), QHttpServerRequest::Method::Delete, [](ID id, const QHttpServerRequest& req) {
       auto routeFunction = [](SessionShared session, ID id) {
 	RestRouter<T> router;
 	router.setSession(session);
 	return router.delById(id);
       };
-      return AbstractRestRouter::baseRouteFunction(routeFunction, id);
+      return AbstractRestRouter::baseRouteFunction(routeFunction, req, id);
     });
   }
 };
