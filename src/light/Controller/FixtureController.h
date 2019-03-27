@@ -83,14 +83,14 @@ IDList Controller<Fixture, Crud>::ins(const QList<QVariantHash>& params) {
       newFixture->setSubstation(substation);
     }
 
-    if (param.contains("price")) {
-      double price = param.value("price").toDouble();
-      newFixture->setPrice(price);
-    }
-
     if (param.contains("comment")) {
       QString comment = param.value("comment").toString();
       newFixture->setComment(comment);
+    }
+
+    if (param.contains("serialNumber")) {
+      QString serialNumber = param.value("serialNumber").toString();
+      newFixture->setSerialNumber(serialNumber);
     }
 
     newFixtures << newFixture;
@@ -167,14 +167,14 @@ void Controller<Fixture, Crud>::upd(const QList<QVariantHash>& params) {
       fixture->setSubstation(substation);
     }
 
-    if (param.contains("price")) {
-      double price = param.value("price").toDouble();
-      fixture->setPrice(price);
-    }
-
     if (param.contains("comment")) {
       QString comment = param.value("comment").toString();
       fixture->setComment(comment);
+    }
+
+    if (param.contains("serialNumber")) {
+      QString serialNumber = param.value("serialNumber").toString();
+      fixture->setSerialNumber(serialNumber);
     }
 
     fixtures << fixture;

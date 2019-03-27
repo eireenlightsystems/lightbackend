@@ -15,6 +15,8 @@ public:
   NodeShared getNode() const;
   ID getNodeId() const;
   void setNode(const NodeShared& value);
+  double getLatitude() const;
+  double getLongitude() const;
 
   GeographShared getGeograph() const override;
 

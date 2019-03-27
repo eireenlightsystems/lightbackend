@@ -10,6 +10,7 @@
 #include "Geograph.h"
 #include "Node.h"
 #include "Substation.h"
+#include "EquipmentOwner.h"
 
 #include <QJsonObject>
 #include <QJsonValue>
@@ -24,8 +25,8 @@ QJsonObject ToJsonConverter<Fixture>::toJson(const FixtureShared& fixture) const
   fixtureJson["workLevel"] = fixture->getStandbyLevel();
   fixtureJson["speedUp"] = fixture->getSpeedUp();
   fixtureJson["speedDown"] = fixture->getSpeedDown();
-  fixtureJson["price"] = fixture->getSpeedDown();
   fixtureJson["comment"] = fixture->getComment();
+  fixtureJson["serialNumber"] = fixture->getSerialNumber();
 
   auto contract = fixture->getContract();
   if (contract) {

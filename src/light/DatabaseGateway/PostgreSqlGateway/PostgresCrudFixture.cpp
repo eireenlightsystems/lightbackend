@@ -4,6 +4,7 @@
 #include "InsertQuery.h"
 #include "PostgresCrudContract.h"
 #include "PostgresCrudContragent.h"
+#include "PostgresCrudEquipmentOwner.h"
 #include "PostgresCrudFixtureHeightType.h"
 #include "PostgresCrudFixtureType.h"
 #include "PostgresCrudNode.h"
@@ -24,6 +25,7 @@ const QList<Field> fixtureFields{
     {"speed_zero_to_full", "speed_zero_to_full", false},
     {"speed_full_to_zero", "speed_full_to_zero", false},
     {"comments", "comments", false},
+//    {"serial_number", "serial_number", false},
 
     {"id_fixture_type", "id_fixture_type", false},
     {"code_fixture_type", "code_fixture_type", false},
@@ -85,12 +87,7 @@ Editor<Fixture>::Shared PostgresCrud<Fixture>::parse(const QSqlRecord& record) c
   PostgresCrud<FixtureHeightType> heightTypeCrud;
   fixture->setHeightType(heightTypeCrud.parse(record));
 
-  PostgresCrud<Contragent> ownerCrud;
-  ownerCrud.setSession(getSession());
-  ownerCrud.setFields({
-      {"id_contragent", "id_owner", true},
-      {"code", "code_owner", false},
-  });
+  PostgresCrud<EquipmentOwner> ownerCrud;
   fixture->setOwner(ownerCrud.parse(record));
 
   PostgresCrud<Node> nodeCrud;
@@ -101,6 +98,7 @@ Editor<Fixture>::Shared PostgresCrud<Fixture>::parse(const QSqlRecord& record) c
   fixture->setSpeedUp(record.value(getFieldAlias("speed_zero_to_full")).value<quint8>());
   fixture->setSpeedDown(record.value(getFieldAlias("speed_full_to_zero")).value<quint8>());
   fixture->setComment(record.value(getFieldAlias("comments")).toString());
+  fixture->setSerialNumber(record.value(getFieldAlias("serial_number")).toString());
 
   return fixture;
 }
@@ -119,7 +117,6 @@ BindParamsType PostgresCrud<Fixture>::getInsertParams(const Editor::Shared& fixt
       {":numline", 1},
       {":side", "r"},
       {":flg_chief", false},
-      {":price", fixture->getPrice()},
       {":comments", fixture->getComment()},
   };
 }
@@ -138,7 +135,6 @@ BindParamsType PostgresCrud<Fixture>::getUpdateParams(const Editor::Shared& fixt
       {":numline", 1},
       {":side", "r"},
       {":flg_chief", false},
-      {":price", fixture->getPrice()},
       {":comments", fixture->getComment()},
   };
 }
