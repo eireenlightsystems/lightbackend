@@ -155,5 +155,46 @@ BindParamsType PostgresCrud<Fixture>::getSelectParams(const QVariantHash& filter
   };
 }
 
+const QList<Field> fixtureContractFields{
+    {"id_contract", "id_contract", true},
+    {"code_contract", "code_contract", false},
+    {"name_contract", "name_contract", false},
+};
+
+PostgresCrud<FixtureContract>::PostgresCrud() {
+  setFields(fixtureContractFields);
+  setView("fixture_pkg_i.contract_vw");
+}
+
+Reader<FixtureContract>::Shared PostgresCrud<FixtureContract>::parse(const QSqlRecord& record) const {
+  PostgresCrud<Contract> contractCrud;
+  auto contract = contractCrud.parse(record);
+  auto fixtureContract = FixtureContractShared::create(*contract);
+  return fixtureContract;
+}
+
+const QList<Field> fixtureOwnerFields{
+    {"id_owner", "id_owner", true},
+    {"code_owner", "code_owner", false},
+    {"name_owner", "name_owner", false},
+};
+
+PostgresCrud<FixtureOwner>::PostgresCrud() {
+  setFields(fixtureOwnerFields);
+  setView("fixture_pkg_i.owner_vw");
+}
+
+Reader<FixtureOwner>::Shared PostgresCrud<FixtureOwner>::parse(const QSqlRecord& record) const {
+  PostgresCrud<Contragent> contragentCrud;
+  contragentCrud.setFields({
+      {"id_contragent", "id_owner", true},
+      {"code", "code_owner", false},
+      {"name", "name_owner", false},
+  });
+  auto contragent = contragentCrud.parse(record);
+  auto fixtureOwner = FixtureOwnerShared::create(*contragent);
+  return fixtureOwner;
+}
+
 } // namespace PostgresqlGateway
 } // namespace light

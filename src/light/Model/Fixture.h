@@ -1,9 +1,28 @@
 #ifndef FIXTURE_H
 #define FIXTURE_H
 
+#include "Contract.h"
+#include "Contragent.h"
 #include "typedefs.h"
 
 namespace light {
+
+class FixtureContract : public Contract
+{
+public:
+  FixtureContract() = default;
+  explicit FixtureContract(const Contract& other) : Contract(other) {
+  }
+};
+
+class FixtureOwner : public Contragent
+{
+public:
+  FixtureOwner() = default;
+  explicit FixtureOwner(const Contragent& other) : Contragent(other) {
+  }
+};
+
 class Fixture
 {
 public:

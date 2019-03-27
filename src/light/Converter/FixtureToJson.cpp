@@ -1,7 +1,9 @@
 #include "FixtureToJson.h"
 
 #include "Contract.h"
+#include "ContractToJson.h"
 #include "Contragent.h"
+#include "ContragentToJson.h"
 #include "Fixture.h"
 #include "FixtureHeightType.h"
 #include "FixtureType.h"
@@ -77,4 +79,15 @@ QJsonObject ToJsonConverter<Fixture>::toJson(const FixtureShared& fixture) const
 
   return fixtureJson;
 }
+
+QJsonObject ToJsonConverter<FixtureContract>::toJson(const FixtureContractShared& fixtureContract) const {
+  ToJsonConverter<Contract> contractConverter;
+  return contractConverter.toJson(fixtureContract.dynamicCast<Contract>());
+}
+
+QJsonObject ToJsonConverter<FixtureOwner>::toJson(const FixtureOwnerShared& fixtureOwner) const {
+  ToJsonConverter<Contragent> contragentConverter;
+  return contragentConverter.toJson(fixtureOwner.dynamicCast<Contragent>());
+}
+
 } // namespace light

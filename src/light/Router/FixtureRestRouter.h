@@ -46,6 +46,24 @@ public:
 };
 
 template <>
+class RestRouter<FixtureOwner> : public SimpleSelectableRouter<FixtureOwner>
+{
+public:
+  QString getName() const override {
+    return "fixtures-owners";
+  }
+};
+
+template <>
+class RestRouter<FixtureContract> : public SimpleSelectableRouter<FixtureContract>
+{
+public:
+  QString getName() const override {
+    return "fixtures-contracts";
+  }
+};
+
+template <>
 class RestRouter<Substation> : public SimpleSelectableRouter<Substation>
 {
 public:

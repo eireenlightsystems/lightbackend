@@ -117,6 +117,7 @@ Reader<SensorContract>::Shared PostgresCrud<SensorContract>::parse(const QSqlRec
 
 const QList<Field> sensorOwnerFields{
     {"id_owner", "id_owner", true},
+    {"code_owner", "code_owner", false},
     {"name_owner", "name_owner", false},
 };
 
@@ -129,6 +130,7 @@ Reader<SensorOwner>::Shared PostgresCrud<SensorOwner>::parse(const QSqlRecord& r
   PostgresCrud<Contragent> contragentCrud;
   contragentCrud.setFields({
       {"id_contragent", "id_owner", true},
+      {"code", "code_owner", false},
       {"name", "name_owner", false},
   });
   auto contragent = contragentCrud.parse(record);

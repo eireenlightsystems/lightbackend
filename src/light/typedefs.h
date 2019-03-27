@@ -14,7 +14,7 @@ using ID = qulonglong;
 using IDList = QList<ID>;
 
 DeclareShared(Session);
-DeclareShared(Fixture);
+
 DeclareShared(FixtureCommand);
 DeclareShared(FixtureLightLevelCommand);
 DeclareShared(FixtureLightSpeedCommand);
@@ -27,17 +27,26 @@ DeclareShared(NodeOwner);
 DeclareShared(Contragent);
 DeclareShared(Contract);
 DeclareShared(EquipmentType);
+
 DeclareShared(Geograph);
 DeclareShared(Gateway);
 DeclareShared(GatewayContract);
-DeclareShared(EquipmentOwner);
 DeclareShared(GatewayType);
+
+DeclareShared(EquipmentOwner);
+
+DeclareShared(Fixture);
 DeclareShared(FixtureType);
 DeclareShared(FixtureHeightType);
+DeclareShared(FixtureOwner);
+DeclareShared(FixtureContract);
+
 DeclareShared(Substation);
+
 DeclareShared(FixtureGroup);
 DeclareShared(FixtureGroupType);
 DeclareShared(FixtureGroupOwner);
+
 DeclareShared(Sensor);
 DeclareShared(SensorType);
 DeclareShared(SensorContract);
