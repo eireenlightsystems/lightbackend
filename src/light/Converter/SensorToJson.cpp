@@ -15,7 +15,7 @@ namespace light {
 
 QJsonObject ToJsonConverter<Sensor>::toJson(const SensorShared& sensor) const {
   QJsonObject sensorJson;
-  sensorJson["id"] = QJsonValue::fromVariant(sensor->getId());
+  sensorJson["sensorId"] = QJsonValue::fromVariant(sensor->getId());
   sensorJson["serialNumber"] = sensor->getSerialNumber();
   sensorJson["comment"] = sensor->getComment();
 

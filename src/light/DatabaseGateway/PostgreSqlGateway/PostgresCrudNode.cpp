@@ -71,19 +71,22 @@ Editor<Node>::Shared PostgresCrud<Node>::parse(const QSqlRecord& record) const {
     };
     PostgresCrud<Sensor> sensorCrud;
     sensorCrud.setSession(getSession());
+    sensorCrud.setLoadChildren(false);
     node->setSensors(sensorCrud.sel(params));
 
     PostgresCrud<Fixture> fixtureCrud;
     fixtureCrud.setSession(getSession());
+    fixtureCrud.setLoadChildren(false);
     node->setFixtures(fixtureCrud.sel(params));
 
     PostgresCrud<Gateway> gatewayCrud;
     gatewayCrud.setSession(getSession());
+    gatewayCrud.setLoadChildren(false);
     node->setGateways(gatewayCrud.sel(params));
   }
 
   return node;
-} // namespace PostgresqlGateway
+}
 
 BindParamsType PostgresCrud<Node>::getSelectParams(const QVariantHash& filters) const {
   return BindParamsType{
@@ -119,6 +122,47 @@ BindParamsType PostgresCrud<Node>::getUpdateParams(const Editor::Shared& node) c
       {":e_coordinate", node->getLongitude()},
       {":comments", node->getComment()},
   };
+}
+
+void PostgresCrud<Node>::ins(const Editor::Shared& node) const {
+  Editor<Node>::ins(node);
+}
+
+void PostgresCrud<Node>::upd(const Editor::Shared& node) const {
+  Editor<Node>::upd(node);
+}
+
+void PostgresCrud<Node>::saveChildren() {
+  saveFixtures();
+  saveGateways();
+  saveSensors();
+}
+
+void PostgresCrud<Node>::saveFixtures() {
+}
+
+void PostgresCrud<Node>::insertFixtures() {
+}
+
+void PostgresCrud<Node>::deleteFixtures() {
+}
+
+void PostgresCrud<Node>::saveGateways() {
+}
+
+void PostgresCrud<Node>::insertGateways() {
+}
+
+void PostgresCrud<Node>::deleteGateways() {
+}
+
+void PostgresCrud<Node>::saveSensors() {
+}
+
+void PostgresCrud<Node>::insertSensors() {
+}
+
+void PostgresCrud<Node>::deleteSensors() {
 }
 
 } // namespace PostgresqlGateway

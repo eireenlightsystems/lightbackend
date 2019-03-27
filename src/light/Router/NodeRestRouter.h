@@ -119,6 +119,13 @@ private:
   }
 
   void registerSensors(QHttpServer& httpServer) const {
+    RegisterGetHelper(Node, "sensors", getSensors);
+
+    RegisterAddOneItemHelper(Node, "sensors", addSensor);
+    RegisterAddItemsHelper(Node, "sensors", addSensors);
+
+    RegisterDeleteOneItemHelper(Node, "sensors", delSensor);
+    RegisterDeleteItemsHelper(Node, "sensors", delSensors);
   }
 
   template <typename ChildType>

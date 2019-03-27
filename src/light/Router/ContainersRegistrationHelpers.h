@@ -3,7 +3,7 @@
 
 #define RegisterGetHelper(ClassName, Name, GetMethod)                                                       \
   httpServer.route(                                                                                         \
-      QString("%1/<arg>/").arg(this->getFullName(), Name), QHttpServerRequest::Method::Get, [](ID listId) { \
+      QString("%1/<arg>/%2").arg(this->getFullName(), Name), QHttpServerRequest::Method::Get, [](ID listId) { \
 	auto routeFunction = [listId](SessionShared session) {                                              \
 	  RestRouter<ClassName> router;                                                                     \
 	  router.setSession(session);                                                                       \

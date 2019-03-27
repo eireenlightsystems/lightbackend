@@ -3,6 +3,10 @@
 
 #include "Controller.h"
 #include "Node.h"
+#include "Fixture.h"
+#include "Gateway.h"
+#include "Sensor.h"
+
 
 #include <QVariant>
 
@@ -140,27 +144,74 @@ void Controller<Node, Crud>::upd(ID id, const QVariantHash& param) {
 
 template <template <typename> class Crud>
 void Controller<Node, Crud>::addFixtures(ID nodeId, const IDList& fixturesIds) {
+  Crud<Fixture> fixtureCrud;
+  fixtureCrud.setSession(this->getSession());
+  auto fixtures = fixtureCrud.sel(fixturesIds);
 
+  Crud<Node> nodeCrud;
+  nodeCrud.setSession(this->getSession());
+  auto node = nodeCrud.selById(nodeId);
+  node->addFixtures(fixtures);
+
+  nodeCrud.save(node);
 }
 
 template <template <typename> class Crud>
 void Controller<Node, Crud>::delFixtures(ID nodeId, const IDList& fixturesIds) {
+  Crud<Node> nodeCrud;
+  nodeCrud.setSession(this->getSession());
+  auto node = nodeCrud.selById(nodeId);
+  node->removeFixtures(fixturesIds);
+
+  nodeCrud.save(node);
 }
 
 template <template <typename> class Crud>
 void Controller<Node, Crud>::addGateways(ID nodeId, const IDList& gatewaysIds) {
+  Crud<Gateway> gatewayCrud;
+  gatewayCrud.setSession(this->getSession());
+  auto gateways = gatewayCrud.sel(gatewaysIds);
+
+  Crud<Node> nodeCrud;
+  nodeCrud.setSession(this->getSession());
+  auto node = nodeCrud.selById(nodeId);
+  node->addGateways(gateways);
+
+  nodeCrud.save(node);
 }
 
 template <template <typename> class Crud>
 void Controller<Node, Crud>::delGateways(ID nodeId, const IDList& gatewaysIds) {
+  Crud<Node> nodeCrud;
+  nodeCrud.setSession(this->getSession());
+  auto node = nodeCrud.selById(nodeId);
+  node->removeGateways(gatewaysIds);
+
+  nodeCrud.save(node);
 }
 
 template <template <typename> class Crud>
 void Controller<Node, Crud>::addSensors(ID nodeId, const IDList& sensorsIds) {
+  Crud<Sensor> sensorCrud;
+  sensorCrud.setSession(this->getSession());
+  auto sensors = sensorCrud.sel(sensorsIds);
+
+  Crud<Node> nodeCrud;
+  nodeCrud.setSession(this->getSession());
+  auto node = nodeCrud.selById(nodeId);
+  node->addSensors(sensors);
+
+  nodeCrud.save(node);
 }
 
 template <template <typename> class Crud>
 void Controller<Node, Crud>::delSensors(ID nodeId, const IDList& sensorsIds) {
+  Crud<Node> nodeCrud;
+  nodeCrud.setSession(this->getSession());
+  auto node = nodeCrud.selById(nodeId);
+  node->removeSensors(sensorsIds);
+
+  nodeCrud.save(node);
 }
 
 } // namespace light
