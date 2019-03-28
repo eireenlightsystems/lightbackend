@@ -58,8 +58,7 @@ PostgresCrud<Fixture>::PostgresCrud() {
   setView("fixture_pkg_i.fixture_vwf(:id_geograph, :id_owner, :id_fixture_type, :id_substation, :id_mode, "
 	  ":id_contract, :id_node)");
   setInsertSql("select fixture_pkg_i.save(:action, :id_fixture, :id_contract, :id_equipment_type, "
-	       ":id_geograph, :id_installer, :id_substation, :id_height_type, :id_node, :numline, :side, "
-	       ":flg_chief, :price, :comments)");
+	       ":id_installer, :id_substation, :id_height_type, :id_node, :serial_number, :comments)");
   setUpdateSql(getInsertSql());
   setDeleteSql("select fixture_pkg_i.del(:id)");
 }
@@ -109,14 +108,11 @@ BindParamsType PostgresCrud<Fixture>::getInsertParams(const Editor::Shared& fixt
       {":id_fixture", QVariant()},
       {":id_contract", idToVariant(fixture->getContractId())},
       {":id_equipment_type", idToVariant(fixture->getTypeId())},
-      {":id_geograph", idToVariant(fixture->getGeographId())},
       {":id_installer", idToVariant(fixture->getInstallerId())},
       {":id_substation", idToVariant(fixture->getSubstationId())},
       {":id_height_type", idToVariant(fixture->getHeightTypeId())},
       {":id_node", idToVariant(fixture->getNodeId())},
-      {":numline", 1},
-      {":side", "r"},
-      {":flg_chief", false},
+      {":serial_number", fixture->getSerialNumber()},
       {":comments", fixture->getComment()},
   };
 }
@@ -124,17 +120,14 @@ BindParamsType PostgresCrud<Fixture>::getInsertParams(const Editor::Shared& fixt
 BindParamsType PostgresCrud<Fixture>::getUpdateParams(const Editor::Shared& fixture) const {
   return BindParamsType{
       {":action", "upd"},
-      {":id_fixture", idToVariant(fixture->getId())},
+      {":id_fixture", QVariant()},
       {":id_contract", idToVariant(fixture->getContractId())},
       {":id_equipment_type", idToVariant(fixture->getTypeId())},
-      {":id_geograph", idToVariant(fixture->getGeographId())},
       {":id_installer", idToVariant(fixture->getInstallerId())},
       {":id_substation", idToVariant(fixture->getSubstationId())},
       {":id_height_type", idToVariant(fixture->getHeightTypeId())},
       {":id_node", idToVariant(fixture->getNodeId())},
-      {":numline", 1},
-      {":side", "r"},
-      {":flg_chief", false},
+      {":serial_number", fixture->getSerialNumber()},
       {":comments", fixture->getComment()},
   };
 }
