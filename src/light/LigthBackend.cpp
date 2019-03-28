@@ -66,7 +66,7 @@ bool LigthBackend::isLoggedIn(const QString& token) const {
 QString LigthBackend::login(const QString& login, const QString& password) {
   QByteArray data;
   data.append(login + password);
-  QString token = QString(QCryptographicHash::hash(data, QCryptographicHash::Md5).toHex());
+  QString token = QString(QCryptographicHash::hash(data, QCryptographicHash::Sha512).toHex());
 
   if (sessions.contains(token)) {
     return token;
