@@ -1,5 +1,6 @@
 #include "GatewayOwnerToJson.h"
 
+#include "ContragentToJson.h"
 #include "EquipmentOwner.h"
 
 #include <QJsonObject>
@@ -9,11 +10,8 @@
 namespace light {
 
 QJsonObject ToJsonConverter<EquipmentOwner>::toJson(const EquipmentOwnerShared& equipmentOwner) const {
-  QJsonObject ownerJson;
-  ownerJson["id"] = QJsonValue::fromVariant(equipmentOwner->getId());
-  ownerJson["name"] = equipmentOwner->getName();
-
-  return ownerJson;
+  ToJsonConverter<Contragent> contragentConverter;
+  return contragentConverter.toJson(equipmentOwner.dynamicCast<Contragent>());
 }
 
 } // namespace light
