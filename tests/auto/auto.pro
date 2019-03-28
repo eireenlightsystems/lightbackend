@@ -2,7 +2,8 @@ TEMPLATE = subdirs
 
 SUBDIRS += \
     DeviceCommandsTests \
-    FixtureCommandsTests
+    FixtureCommandsTests \
+    RestApi
 # Temporary excluded
 #    CommandsControllerTests
 
