@@ -4,13 +4,13 @@
 #include "ContractToJson.h"
 #include "Contragent.h"
 #include "ContragentToJson.h"
+#include "EquipmentOwner.h"
 #include "Fixture.h"
 #include "FixtureHeightType.h"
 #include "FixtureType.h"
 #include "Geograph.h"
 #include "Node.h"
 #include "Substation.h"
-#include "EquipmentOwner.h"
 
 #include <QJsonObject>
 #include <QJsonValue>
@@ -89,6 +89,11 @@ QJsonObject ToJsonConverter<FixtureContract>::toJson(const FixtureContractShared
 QJsonObject ToJsonConverter<FixtureOwner>::toJson(const FixtureOwnerShared& fixtureOwner) const {
   ToJsonConverter<Contragent> contragentConverter;
   return contragentConverter.toJson(fixtureOwner.dynamicCast<Contragent>());
+}
+
+QJsonObject light::ToJsonConverter<FixtureInstaller>::toJson(const FixtureInstallerShared& fixtureInstaller) const {
+  ToJsonConverter<Contragent> contragentConverter;
+  return contragentConverter.toJson(fixtureInstaller.dynamicCast<Contragent>());
 }
 
 } // namespace light

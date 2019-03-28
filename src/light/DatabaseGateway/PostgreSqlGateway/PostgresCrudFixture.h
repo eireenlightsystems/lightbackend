@@ -36,6 +36,14 @@ public:
   Shared parse(const QSqlRecord& record) const override;
 };
 
+template <>
+class PostgresCrud<FixtureInstaller> : public Reader<FixtureInstaller>
+{
+public:
+  PostgresCrud();
+  Shared parse(const QSqlRecord& record) const override;
+};
+
 } // namespace PostgresqlGateway
 } // namespace light
 #endif // POSTGRESCRUDFIXTURE_H

@@ -25,7 +25,7 @@ const QList<Field> fixtureFields{
     {"speed_zero_to_full", "speed_zero_to_full", false},
     {"speed_full_to_zero", "speed_full_to_zero", false},
     {"comments", "comments", false},
-//    {"serial_number", "serial_number", false},
+    //    {"serial_number", "serial_number", false},
 
     {"id_fixture_type", "id_fixture_type", false},
     {"code_fixture_type", "code_fixture_type", false},
@@ -189,6 +189,29 @@ Reader<FixtureOwner>::Shared PostgresCrud<FixtureOwner>::parse(const QSqlRecord&
   });
   auto contragent = contragentCrud.parse(record);
   auto fixtureOwner = FixtureOwnerShared::create(*contragent);
+  return fixtureOwner;
+}
+
+const QList<Field> fixtureInstallerFields{
+    {"id_installer", "id_installer", true},
+    {"code", "code_installer", false},
+    {"name", "name_installer", false},
+};
+
+PostgresCrud<FixtureInstaller>::PostgresCrud() {
+  setFields(fixtureInstallerFields);
+  setView("fixture_pkg_i.installer_vw");
+}
+
+Reader<FixtureInstaller>::Shared PostgresCrud<FixtureInstaller>::parse(const QSqlRecord& record) const {
+  PostgresCrud<Contragent> contragentCrud;
+  contragentCrud.setFields({
+      {"id_contragent", "id_installer", true},
+      {"code", "code_installer", false},
+      {"name", "name_installer", false},
+  });
+  auto contragent = contragentCrud.parse(record);
+  auto fixtureOwner = FixtureInstallerShared::create(*contragent);
   return fixtureOwner;
 }
 

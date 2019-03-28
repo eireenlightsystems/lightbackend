@@ -1,7 +1,11 @@
 #ifndef FIXTURERESTROUTER_H
 #define FIXTURERESTROUTER_H
 
+#include "Fixture.h"
 #include "FixtureController.h"
+#include "FixtureHeightTypeToJson.h"
+#include "FixtureToJson.h"
+#include "FixtureTypeToJson.h"
 #include "PostgresCrudContract.h"
 #include "PostgresCrudContragent.h"
 #include "PostgresCrudFixture.h"
@@ -11,9 +15,6 @@
 #include "PostgresCrudSubstation.h"
 #include "RestRouter.h"
 #include "SimpleEditableRouter.h"
-#include "FixtureToJson.h"
-#include "FixtureHeightTypeToJson.h"
-#include "FixtureTypeToJson.h"
 #include "SubstationToJson.h"
 
 namespace light {
@@ -60,6 +61,15 @@ class RestRouter<FixtureContract> : public SimpleSelectableRouter<FixtureContrac
 public:
   QString getName() const override {
     return "fixtures-contracts";
+  }
+};
+
+template <>
+class RestRouter<FixtureInstaller> : public SimpleSelectableRouter<FixtureInstaller>
+{
+public:
+  QString getName() const override {
+    return "fixtures-installers";
   }
 };
 

@@ -102,6 +102,9 @@ void HttpServerWrapper::createFixtureRouters() {
 
   RestRouter<FixtureContract> fixtureContractRouter;
   fixtureContractRouter.registerApi(httpServer);
+
+  RestRouter<FixtureInstaller> fixtureInstallerRouter;
+  fixtureInstallerRouter.registerApi(httpServer);
 }
 
 void HttpServerWrapper::createFixtureGroupRouters() {

@@ -26,6 +26,13 @@ public:
   QJsonObject toJson(const FixtureOwnerShared& fixtureOwner) const override;
 };
 
+template <>
+class ToJsonConverter<FixtureInstaller> : public ToJsonConverterTemplate<FixtureInstaller>
+{
+public:
+  QJsonObject toJson(const FixtureInstallerShared& fixtureInstaller) const override;
+};
+
 } // namespace light
 
 #endif // FIXTURETOJSON_H

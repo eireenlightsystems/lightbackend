@@ -24,6 +24,14 @@ public:
   }
 };
 
+class FixtureInstaller : public Contragent
+{
+public:
+  FixtureInstaller() = default;
+  explicit FixtureInstaller(const Contragent& other) : Contragent(other) {
+  }
+};
+
 class Fixture : public NodeChild
 {
 public:
