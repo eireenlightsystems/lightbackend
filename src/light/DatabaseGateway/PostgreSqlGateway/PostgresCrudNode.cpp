@@ -95,7 +95,7 @@ Editor<Node>::Shared PostgresCrud<Node>::parse(const QSqlRecord& record) const {
 
 BindParamsType PostgresCrud<Node>::getSelectParams(const QVariantHash& filters) const {
   return BindParamsType{
-      {":id_geograph", filters.value("geopraphId")},
+      {":id_geograph", filters.value("geographId")},
       {":id_owner", filters.value("ownerId")},
       {":id_node_type", filters.value("nodeTypeId")},
       {":id_contract", filters.value("contractId")},

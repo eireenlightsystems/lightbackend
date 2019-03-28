@@ -78,7 +78,7 @@ Editor<Gateway>::Shared PostgresCrud<Gateway>::parse(const QSqlRecord& record) c
 
 BindParamsType PostgresCrud<Gateway>::getSelectParams(const QVariantHash& filters) const {
   return BindParamsType{
-      {":id_geograph", filters.value("geopraphId")},
+      {":id_geograph", filters.value("geographId")},
       {":id_owner", filters.value("ownerId")},
       {":id_gateway_type", filters.value("gatewayTypeId")},
       {":id_contract", filters.value("contractId")},
