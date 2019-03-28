@@ -19,7 +19,7 @@ QJsonObject ToJsonConverter<Node>::toJson(const NodeShared& node) const {
   nodeJson["nodeId"] = QJsonValue::fromVariant(node->getId());
   nodeJson["n_coordinate"] = node->getLatitude();
   nodeJson["e_coordinate"] = node->getLongitude();
-  nodeJson["comments"] = node->getComment();
+  nodeJson["comment"] = node->getComment();
   nodeJson["numberInGroup"] = node->getNumberInGroup();
   nodeJson["serialNumber"] = node->getSerialNumber();
 
