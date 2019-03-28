@@ -40,6 +40,7 @@ DeclareShared(FixtureType);
 DeclareShared(FixtureHeightType);
 DeclareShared(FixtureOwner);
 DeclareShared(FixtureContract);
+DeclareShared(FixtureInstaller);
 
 DeclareShared(Substation);
 
