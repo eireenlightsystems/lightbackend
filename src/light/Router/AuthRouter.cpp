@@ -38,10 +38,10 @@ void AuthRouter::registerApi(QHttpServer& httpServer) const {
     return QHttpServerResponse("text/json", responseBodyDocument.toJson(), QHttpServerResponse::StatusCode::Ok);
   });
 
-  httpServer.route(getFullName() + "/logout", QHttpServerRequest::Method::Post, []() {
+  httpServer.route(getFullName() + "/logout", QHttpServerRequest::Method::Post, [](const QHttpServerRequest& req) {
     auto httpServerWrapper = HttpServerWrapper::singleton();
     auto backend = httpServerWrapper->getLightBackend();
-    const QString token = "";
+    const QString token = req.value("Authorization");
     backend->logout(token);
     return QHttpServerResponse(QHttpServerResponse::StatusCode::Ok);
   });
