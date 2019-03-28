@@ -71,6 +71,8 @@ public:
   QString getComment() const;
   void setComment(const QString& value);
 
+  bool isLight() const;
+
 private:
   bool hasGatewayLink{false};
   quint8 standbyLevel{0};

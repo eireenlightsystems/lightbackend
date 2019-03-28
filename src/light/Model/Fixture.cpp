@@ -119,4 +119,8 @@ void Fixture::setComment(const QString& value) {
   comment = value;
 }
 
+bool Fixture::isLight() const {
+  return workLevel > 0;
+}
+
 } // namespace light

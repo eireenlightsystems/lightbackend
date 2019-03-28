@@ -25,7 +25,7 @@ const QList<Field> fixtureFields{
     {"speed_zero_to_full", "speed_zero_to_full", false},
     {"speed_full_to_zero", "speed_full_to_zero", false},
     {"comments", "comments", false},
-    //    {"serial_number", "serial_number", false},
+    {"serial_number", "serial_number", false},
 
     {"id_fixture_type", "id_fixture_type", false},
     {"code_fixture_type", "code_fixture_type", false},

@@ -27,6 +27,7 @@ QJsonObject ToJsonConverter<Fixture>::toJson(const FixtureShared& fixture) const
   fixtureJson["speedDown"] = fixture->getSpeedDown();
   fixtureJson["comment"] = fixture->getComment();
   fixtureJson["serialNumber"] = fixture->getSerialNumber();
+  fixtureJson["flgLight"] = fixture->isLight();
 
   auto contract = fixture->getContract();
   if (contract) {
