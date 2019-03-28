@@ -22,9 +22,7 @@ public:
   void logout(const QString& token);
 
 private:
-  void initDatabase();
   PostgresConnectionInfo readConnectionInfoFromSettings() const;
-  void initPostgres();
   void openConnection();
 
 private:

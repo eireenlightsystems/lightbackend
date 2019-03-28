@@ -13,11 +13,7 @@ LigthBackend::LigthBackend(QObject* parent) : QObject(parent) {
 }
 
 void LigthBackend::init() {
-  initDatabase();
-}
-
-void LigthBackend::initDatabase() {
-  initPostgres();
+  connectionInfo = readConnectionInfoFromSettings();
 }
 
 PostgresConnectionInfo LigthBackend::readConnectionInfoFromSettings() const {
@@ -28,27 +24,11 @@ PostgresConnectionInfo LigthBackend::readConnectionInfoFromSettings() const {
   connectionInfo.hostName = settings.value("hostName").toString();
   connectionInfo.port = settings.value("port").toInt();
   connectionInfo.databaseName = settings.value("databaseName").toString();
-  connectionInfo.userName = settings.value("username").toString();
-  connectionInfo.password = settings.value("password").toString();
   settings.endGroup();
 
-  qDebug() << connectionInfo.hostName << connectionInfo.port << connectionInfo.databaseName << connectionInfo.userName;
+  qDebug() << connectionInfo.hostName << connectionInfo.port << connectionInfo.databaseName;
 
   return connectionInfo;
-}
-
-void LigthBackend::initPostgres() {
-  connectionInfo = readConnectionInfoFromSettings();
-
-  QSqlDatabase db = QSqlDatabase::addDatabase("QPSQL", "light");
-  db.setHostName(connectionInfo.hostName);
-  db.setPort(connectionInfo.port);
-  db.setDatabaseName(connectionInfo.databaseName);
-  db.setUserName(connectionInfo.userName);
-  db.setPassword(connectionInfo.password);
-  db.open();
-  session = SessionShared::create();
-  session->setDb(db);
 }
 
 SessionShared LigthBackend::getSession() const {
@@ -89,6 +69,8 @@ QString LigthBackend::login(const QString& login, const QString& password) {
 }
 
 void LigthBackend::logout(const QString& token) {
+  auto session = sessions[token];
+  session->getDb().close();
   sessions.remove(token);
 }
 
