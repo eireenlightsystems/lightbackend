@@ -3,6 +3,8 @@
 
 #include <QtTest>
 
+Q_DECLARE_METATYPE(QJsonObject*);
+
 class Sensors : public QObject
 {
   Q_OBJECT
@@ -14,20 +16,27 @@ public:
 private slots:
   void initTestCase();
   void cleanupTestCase();
+
   void post_data();
   void post();
 
   void get();
-  // void path();
+
+  void patch_data();
+  void patch();
+
   void del();
 
 private:
   const QString address = "31.134.167.47:8095";
+//  const QString address = "localhost:8085";
   const QString apiVersion = "/api/v1";
   const QString router = "sensors";
   HttpRequestHelper requestHelper;
   DatasabeHelper databaseHelper;
-  QList<qulonglong> insertedIds;
+  QJsonObject jsonSensor1;
+  QJsonObject jsonSensor2;
+  QJsonObject jsonSensor3;
 };
 
 Sensors::Sensors() {
@@ -41,6 +50,24 @@ void Sensors::initTestCase() {
   requestHelper.setRoute(router);
   if (!databaseHelper.openDatabase("31.134.167.47", 5433, "light_db_dev", "lightbackend", "lightbackend"))
     QFAIL("database open fail");
+
+  jsonSensor1["contractId"] = QJsonValue::fromVariant(qulonglong(4));
+  jsonSensor1["sensorTypeId"] = QJsonValue::fromVariant(qulonglong(14));
+  jsonSensor1["nodeId"] = QJsonValue::fromVariant(qulonglong(2));
+  jsonSensor1["serialNumber"] = QString("s/n sensor1");
+  jsonSensor1["comment"] = QString("sensor1 comment");
+
+  jsonSensor2["contractId"] = QJsonValue::fromVariant(qulonglong(4));
+  jsonSensor2["sensorTypeId"] = QJsonValue::fromVariant(qulonglong(14));
+  jsonSensor2["nodeId"] = QJsonValue::fromVariant(qulonglong(2));
+  jsonSensor2["serialNumber"] = QString("s/n sensor2");
+  jsonSensor2["comment"] = QString("sensor2 comment");
+
+  jsonSensor3["contractId"] = QJsonValue::fromVariant(qulonglong(4));
+  jsonSensor3["sensorTypeId"] = QJsonValue::fromVariant(qulonglong(14));
+  jsonSensor3["nodeId"] = QJsonValue::fromVariant(qulonglong(2));
+  jsonSensor3["serialNumber"] = QString("s/n sensor3");
+  jsonSensor3["comment"] = QString("sensor3 comment");
 }
 
 void Sensors::cleanupTestCase() {
@@ -48,44 +75,27 @@ void Sensors::cleanupTestCase() {
 
 void Sensors::get() {
   requestHelper.get();
-  if (insertedIds.count()) {
-    auto jsonObject = requestHelper.getById(insertedIds.first());
-    QVERIFY(jsonObject.value("sensorId").toVariant().toULongLong() == insertedIds.first());
+  auto id = jsonSensor1["sensorId"].toVariant().toULongLong();
+  auto jsonObject = requestHelper.getById(id);
+  for(auto key : jsonSensor1.keys()) {
+    QVERIFY(jsonSensor1.value(key) == jsonObject.value(key));
   }
 }
 
 void Sensors::post_data() {
-  QTest::addColumn<qulonglong>("contractId");
-  QTest::addColumn<qulonglong>("sensorTypeId");
-  QTest::addColumn<qulonglong>("nodeId");
-  QTest::addColumn<QString>("serialNumber");
-  QTest::addColumn<QString>("comment");
+  QTest::addColumn<QJsonObject*>("jsonSensor");
 
-  QTest::newRow("simple 1") << qulonglong(4) << qulonglong(14) << qulonglong(2) << QString("s/n my 300")
-			    << QString("comment");
-  QTest::newRow("simple 2") << qulonglong(4) << qulonglong(14) << qulonglong(2) << QString("s/n my 301")
-			    << QString("comment");
-  QTest::newRow("simple 3") << qulonglong(4) << qulonglong(14) << qulonglong(2) << QString("s/n my 302")
-			    << QString("comment");
+  QTest::newRow("sensor 1") << &jsonSensor1;
+  QTest::newRow("sensor 2") << &jsonSensor2;
+  QTest::newRow("sensor 3") << &jsonSensor3;
 }
 
 void Sensors::post() {
-  QFETCH(qulonglong, contractId);
-  QFETCH(qulonglong, sensorTypeId);
-  QFETCH(qulonglong, nodeId);
-  QFETCH(QString, serialNumber);
-  QFETCH(QString, comment);
+  QFETCH(QJsonObject*, jsonSensor);
 
-  QJsonObject object;
-  object["contractId"] = QJsonValue::fromVariant(contractId);
-  object["sensorTypeId"] = QJsonValue::fromVariant(sensorTypeId);
-  object["nodeId"] = QJsonValue::fromVariant(nodeId);
-  object["serialNumber"] = serialNumber;
-  object["comment"] = comment;
-
-  auto id = requestHelper.post(object);
+  auto id = requestHelper.post(*jsonSensor);
   QVERIFY2(id != 0, "response id == 0");
-  insertedIds << id;
+  (*jsonSensor)["sensorId"] = QJsonValue::fromVariant(id);
 
   const QString table = "t.sensor";
   const QString idField = "id_sensor";
@@ -98,18 +108,48 @@ void Sensors::post() {
   };
   for (auto pair : fieldColumns) {
     auto value = databaseHelper.extractValue(table, pair.second, idField, id);
-    QVERIFY2(value == object.value(pair.first), pair.first.toStdString().c_str());
+    QVERIFY2(value == jsonSensor->value(pair.first), pair.first.toStdString().c_str());
+  }
+}
+
+void Sensors::patch_data() {
+  QTest::addColumn<QJsonObject*>("jsonSensor");
+
+  QTest::newRow("sensor 1") << &jsonSensor1;
+  QTest::newRow("sensor 2") << &jsonSensor2;
+  QTest::newRow("sensor 3") << &jsonSensor3;
+}
+
+void Sensors::patch() {
+  QFETCH(QJsonObject*, jsonSensor);
+
+  (*jsonSensor)["comment"] = jsonSensor->value("comment").toString() + " patched";
+  (*jsonSensor)["serialNumber"] = jsonSensor->value("serialNumber").toString() + " patched";
+
+  requestHelper.patch(*jsonSensor);
+
+  const QString table = "t.sensor";
+  const QString idField = "id_sensor";
+  const QList<QPair<QString, QString>> fieldColumns{
+      {"contractId", "id_contract"},
+      {"sensorTypeId", "id_equipment_type"},
+      {"nodeId", "id_node"},
+      {"serialNumber", "serial_number"},
+      {"comment", "comments"},
+  };
+  auto id = jsonSensor->value("sensorId").toVariant().toULongLong();
+  for (auto pair : fieldColumns) {
+    auto value = databaseHelper.extractValue(table, pair.second, idField, id);
+    QVERIFY2(value == jsonSensor->value(pair.first).toVariant(), pair.first.toStdString().c_str());
   }
 }
 
 void Sensors::del() {
-  if (insertedIds.count()) {
-    requestHelper.del(insertedIds.first());
-    insertedIds.removeFirst();
-    if (insertedIds.count()) {
-      requestHelper.del(insertedIds);
-    }
-  }
+  auto id = jsonSensor1.value("sensorId").toVariant().toULongLong();
+  requestHelper.del(id);
+  auto ids = QList<qulonglong>{jsonSensor2.value("sensorId").toVariant().toULongLong(),
+			       jsonSensor3.value("sensorId").toVariant().toULongLong()};
+  requestHelper.del(ids);
 }
 
 QTEST_MAIN(Sensors)

@@ -2,9 +2,9 @@
 
 #include <QEventLoop>
 #include <QJsonDocument>
+#include <QJsonObject>
 #include <QNetworkReply>
 #include <QUrlQuery>
-#include <QJsonObject>
 
 HttpRequestHelper::HttpRequestHelper(QObject* parent) : QObject(parent) {
 }
@@ -37,7 +37,7 @@ QJsonObject HttpRequestHelper::getById(qulonglong id) {
 
   auto jsonDocument = QJsonDocument::fromJson(reply->readAll());
   reply->deleteLater();
-  if(jsonDocument.array().count()){
+  if (jsonDocument.array().count()) {
     return jsonDocument.array().first().toObject();
   }
   return QJsonObject();
@@ -76,6 +76,21 @@ QList<qulonglong> HttpRequestHelper::post(const QJsonArray& array) {
     result << value.toVariant().toULongLong();
   }
   return result;
+}
+
+void HttpRequestHelper::patch(const QJsonObject& object) {
+  QEventLoop eventLoop;
+  connect(&manager, &QNetworkAccessManager::finished, &eventLoop, &QEventLoop::quit);
+  QUrl url(QString("%1/%2").arg(routerPrefix, route));
+  QNetworkRequest request(url);
+  request.setHeader(QNetworkRequest::ContentTypeHeader, "text/json");
+  QJsonDocument jsonDocument(object);
+  QNetworkReply* reply = manager.sendCustomRequest(request, "PATCH", jsonDocument.toJson());
+  if(reply->error() != QNetworkReply::NoError) {
+    qDebug() << reply->error() << reply->errorString();
+  }
+  eventLoop.exec();
+  reply->deleteLater();
 }
 
 void HttpRequestHelper::del(qulonglong id) {

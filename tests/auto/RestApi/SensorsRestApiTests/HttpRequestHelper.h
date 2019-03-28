@@ -15,6 +15,8 @@ public:
   qulonglong post(const QJsonObject& object);
   QList<qulonglong> post(const QJsonArray& array);
 
+  void patch(const QJsonObject& object);
+
   void del(qulonglong id);
   void del(QList<qulonglong> ids);
 
