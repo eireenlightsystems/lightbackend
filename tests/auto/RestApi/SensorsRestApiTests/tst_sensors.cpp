@@ -31,8 +31,8 @@ private slots:
   void del();
 
 private:
-    const QString address = "31.134.167.47:8095";
-//  const QString address = "localhost:8085";
+  const QString address = "31.134.167.47:8095";
+  //  const QString address = "localhost:8085";
   const QString apiVersion = "/api/v1";
   const QString router = "sensors";
   HttpRequestHelper requestHelper;
