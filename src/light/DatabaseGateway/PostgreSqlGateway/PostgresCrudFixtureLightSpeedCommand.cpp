@@ -35,7 +35,7 @@ Editor<FixtureLightSpeedCommand>::Shared PostgresCrud<FixtureLightSpeedCommand>:
   auto fixtureLightSpeedCommand = FixtureLightSpeedCommandShared::create();
   fixtureLightSpeedCommand->setId(record.value(getIdAlias()).value<ID>());
   auto directionType = FixtureLightSpeedCommand::FixtureLightSpeedDirectionType(
-      record.value(getFieldAlias("id_command_status")).toInt());
+      record.value(getFieldAlias("id_command_type")).toInt());
   fixtureLightSpeedCommand->setDirectionType(directionType);
   fixtureLightSpeedCommand->setStatus(record.value(getFieldAlias("id_command_status")).value<CommandStatus>());
   fixtureLightSpeedCommand->setFixtureId(record.value(getFieldAlias("id_fixture")).value<ID>());
@@ -47,6 +47,7 @@ Editor<FixtureLightSpeedCommand>::Shared PostgresCrud<FixtureLightSpeedCommand>:
 BindParamsType PostgresCrud<FixtureLightSpeedCommand>::getSelectParams(const QVariantHash& filters) const {
   return BindParamsType{
       {":id_fixture", filters.value("fixtureId")},
+      {":id_command_type", filters.value("speedDirrectionId")},
       {":id_command_status", filters.value("statusId")},
       {":start_datetime", filters.value("startDateTime")},
       {":end_datetime", filters.value("endDateTime")},
