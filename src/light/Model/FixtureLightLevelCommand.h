@@ -5,6 +5,16 @@
 #include "typedefs.h"
 
 namespace light {
+
+class FixtureLightLevelCommandType : public FixtureCommandType
+{
+public:
+  FixtureLightLevelCommandType() = default;
+  ~FixtureLightLevelCommandType() override = default;
+  explicit FixtureLightLevelCommandType(const FixtureCommandType& other) : FixtureCommandType(other) {
+  }
+};
+
 class FixtureLightLevelCommand : public FixtureCommand
 {
 public:

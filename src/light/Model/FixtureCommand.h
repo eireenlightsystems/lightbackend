@@ -7,6 +7,44 @@
 #include <QDateTime>
 
 namespace light {
+
+class FixtureCommandStatus
+{
+public:
+  FixtureCommandStatus() = default;
+
+  ID getId() const;
+  void setId(const ID& value);
+
+  QString getCode() const;
+  void setCode(const QString& value);
+
+  QString getName() const;
+  void setName(const QString& value);
+
+private:
+  ID id{0};
+  QString code;
+  QString name;
+};
+
+class FixtureCommandType
+{
+public:
+  FixtureCommandType() = default;
+  virtual ~FixtureCommandType() = default;
+
+  ID getId() const;
+  void setId(const ID& value);
+
+  QString getName() const;
+  void setName(const QString& value);
+
+private:
+  ID id{0};
+  QString name;
+};
+
 class FixtureCommand
 {
 public:

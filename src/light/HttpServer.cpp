@@ -49,11 +49,20 @@ void HttpServerWrapper::createCommandsRoutes() {
   RestRouter<FixtureCommand> fixtureCommandRouter;
   fixtureCommandRouter.registerApi(httpServer);
 
+  RestRouter<FixtureCommandStatus> fixtureCommandStatusRouter;
+  fixtureCommandStatusRouter.registerApi(httpServer);
+
   RestRouter<FixtureLightLevelCommand> fixtureLightLevelCommandRouter;
   fixtureLightLevelCommandRouter.registerApi(httpServer);
 
   RestRouter<FixtureLightSpeedCommand> fixtureLightSpeedCommandRouter;
   fixtureLightSpeedCommandRouter.registerApi(httpServer);
+
+  RestRouter<FixtureLightLevelCommandType> fixtureLightLevelCommandTypeRouter;
+  fixtureLightLevelCommandTypeRouter.registerApi(httpServer);
+
+  RestRouter<FixtureLightSpeedCommandType> fixtureLightSpeedCommandTypeRouter;
+  fixtureLightSpeedCommandTypeRouter.registerApi(httpServer);
 }
 
 void HttpServerWrapper::createNodeRoutes() {

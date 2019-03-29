@@ -25,7 +25,38 @@ protected:
   BindParamsType getSelectParams(const QVariantHash& filters) const override;
   BindParamsType getInsertParams(const Shared& object) const override;
   BindParamsType getUpdateParams(const Shared& object) const override;
+};
 
+template <>
+class PostgresCrud<FixtureCommandStatus> : public Reader<FixtureCommandStatus>
+{
+public:
+  PostgresCrud();
+  Shared parse(const QSqlRecord& record) const override;
+};
+
+template <>
+class PostgresCrud<FixtureCommandType> : public Reader<FixtureCommandType>
+{
+public:
+  PostgresCrud();
+  Shared parse(const QSqlRecord& record) const override;
+};
+
+template <>
+class PostgresCrud<FixtureLightLevelCommandType> : public Reader<FixtureLightLevelCommandType>
+{
+public:
+  PostgresCrud();
+  Shared parse(const QSqlRecord& record) const override;
+};
+
+template <>
+class PostgresCrud<FixtureLightSpeedCommandType> : public Reader<FixtureLightSpeedCommandType>
+{
+public:
+  PostgresCrud();
+  Shared parse(const QSqlRecord& record) const override;
 };
 
 } // namespace PostgresqlGateway

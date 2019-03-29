@@ -40,4 +40,44 @@ bool FixtureCommand::getDeletable() const {
   return status == CommandStatus::InQueue;
 }
 
+ID FixtureCommandType::getId() const {
+  return id;
+}
+
+void FixtureCommandType::setId(const ID& value) {
+  id = value;
+}
+
+QString FixtureCommandType::getName() const {
+  return name;
+}
+
+void FixtureCommandType::setName(const QString& value) {
+  name = value;
+}
+
+ID FixtureCommandStatus::getId() const {
+  return id;
+}
+
+void FixtureCommandStatus::setId(const ID& value) {
+  id = value;
+}
+
+QString FixtureCommandStatus::getCode() const {
+  return code;
+}
+
+void FixtureCommandStatus::setCode(const QString& value) {
+  code = value;
+}
+
+QString FixtureCommandStatus::getName() const {
+  return name;
+}
+
+void FixtureCommandStatus::setName(const QString& value) {
+  name = value;
+}
+
 } // namespace light

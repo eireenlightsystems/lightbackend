@@ -4,6 +4,16 @@
 #include "FixtureCommand.h"
 
 namespace light {
+
+class FixtureLightSpeedCommandType : public FixtureCommandType
+{
+public:
+  FixtureLightSpeedCommandType() = default;
+  ~FixtureLightSpeedCommandType() override = default;
+  explicit FixtureLightSpeedCommandType(const FixtureCommandType& other) : FixtureCommandType(other) {
+  }
+};
+
 class FixtureLightSpeedCommand : public FixtureCommand
 {
 public:

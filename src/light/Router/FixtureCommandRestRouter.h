@@ -3,12 +3,12 @@
 
 #include "FixtureCommand.h"
 #include "FixtureCommandController.h"
+#include "FixtureCommandToJson.h"
 #include "PostgresCrudFixtureCommand.h"
 #include "PostgresCrudFixtureLightLevelCommand.h"
 #include "PostgresCrudFixtureLightSpeedCommand.h"
 #include "RestRouter.h"
 #include "SimpleEditableRouter.h"
-#include "FixtureCommandToJson.h"
 
 namespace light {
 
@@ -56,11 +56,38 @@ public:
 };
 
 template <>
+class RestRouter<FixtureLightLevelCommandType> : public SimpleSelectableRouter<FixtureLightLevelCommandType>
+{
+public:
+  QString getName() const override {
+    return "fixtures-lightlevel-commands-types";
+  }
+};
+
+template <>
 class RestRouter<FixtureLightSpeedCommand> : public FixtureCommandRouter<FixtureLightSpeedCommand>
 {
 public:
   QString getName() const override {
     return "fixtures-lightspeed-commands";
+  }
+};
+
+template <>
+class RestRouter<FixtureLightSpeedCommandType> : public SimpleSelectableRouter<FixtureLightSpeedCommandType>
+{
+public:
+  QString getName() const override {
+    return "fixtures-lightspeed-commands-types";
+  }
+};
+
+template <>
+class RestRouter<FixtureCommandStatus> : public SimpleSelectableRouter<FixtureLightSpeedCommandType>
+{
+public:
+  QString getName() const override {
+    return "fixtures-commands-statuses";
   }
 };
 

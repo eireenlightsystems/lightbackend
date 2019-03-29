@@ -37,4 +37,31 @@ ToJsonConverter<FixtureLightSpeedCommand>::toJson(const FixtureLightSpeedCommand
   commandJson["speed"] = lightSpeedCommand->getSpeed();
   return commandJson;
 }
+
+QJsonObject ToJsonConverter<FixtureCommandType>::toJson(const FixtureCommandTypeShared& type) const {
+  QJsonObject commandTypeJson;
+  commandTypeJson["id"] = QJsonValue::fromVariant(type->getId());
+  commandTypeJson["name"] = type->getName();
+  return commandTypeJson;
+}
+
+QJsonObject
+ToJsonConverter<FixtureLightLevelCommandType>::toJson(const FixtureLightLevelCommandTypeShared& type) const {
+  ToJsonConverter<FixtureCommandType> typeConverter;
+  return typeConverter.toJson(type.dynamicCast<FixtureCommandType>());
+}
+
+QJsonObject
+ToJsonConverter<FixtureLightSpeedCommandType>::toJson(const FixtureLightSpeedCommandTypeShared& type) const {
+  ToJsonConverter<FixtureCommandType> typeConverter;
+  return typeConverter.toJson(type.dynamicCast<FixtureCommandType>());
+}
+
+QJsonObject ToJsonConverter<FixtureCommandStatus>::toJson(const FixtureCommandStatusShared& status) const {
+  QJsonObject commandStatusJson;
+  commandStatusJson["id"] = QJsonValue::fromVariant(status->getId());
+  commandStatusJson["name"] = status->getName();
+  return commandStatusJson;
+}
+
 } // namespace light

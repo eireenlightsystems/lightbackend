@@ -16,8 +16,12 @@ using IDList = QList<ID>;
 DeclareShared(Session);
 
 DeclareShared(FixtureCommand);
+DeclareShared(FixtureCommandStatus);
 DeclareShared(FixtureLightLevelCommand);
 DeclareShared(FixtureLightSpeedCommand);
+DeclareShared(FixtureCommandType);
+DeclareShared(FixtureLightLevelCommandType);
+DeclareShared(FixtureLightSpeedCommandType);
 
 DeclareShared(Node);
 DeclareShared(NodeType);
