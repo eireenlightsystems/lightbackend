@@ -33,39 +33,53 @@ IDList Controller<Sensor, Crud>::ins(const QList<QVariantHash>& params) {
 
   for (const auto& param : params) {
     auto newSensor = SensorShared::create();
+    ContractShared contract;
+    SensorTypeShared sensorType;
+    NodeShared node;
+    QString serialNumber;
+    QString comment;
 
     if (param.contains("contractId")) {
       ID contractId = param.value("contractId").value<ID>();
-      auto contract = contractCrud.selById(contractId);
-      newSensor->setContract(contract);
+      contract = contractCrud.selById(contractId);
+      if (!contract) {
+	throw BadRequestException(QString("contract with id = %1 not found").arg(contractId));
+      }
     } else {
       throw BadRequestException("contractId can not be empty");
     }
 
     if (param.contains("sensorTypeId")) {
-      ID gatewayTypeId = param.value("sensorTypeId").value<ID>();
-      auto gatewayType = gatewayTypeCrud.selById(gatewayTypeId);
-      newSensor->setType(gatewayType);
+      ID sensorTypeId = param.value("sensorTypeId").value<ID>();
+      sensorType = gatewayTypeCrud.selById(sensorTypeId);
+      if (!sensorType) {
+	throw BadRequestException(QString("sensor type with id = %1 not found").arg(sensorTypeId));
+      }
     } else {
       throw BadRequestException("sensorTypeId can not be empty");
     }
 
     {
       ID nodeId = param.contains("nodeId") ? param.value("nodeId").value<ID>() : 1;
-      auto node = nodeCrud.selById(nodeId);
-      newSensor->setNode(node);
+      node = nodeCrud.selById(nodeId);
+      if (!node) {
+	throw BadRequestException(QString("node with id = %1 not found").arg(nodeId));
+      }
     }
 
     if (param.contains("serialNumber")) {
-      QString serialNumber = param.value("serialNumber").toString();
-      newSensor->setSerialNumber(serialNumber);
+      serialNumber = param.value("serialNumber").toString();
     }
 
     if (param.contains("comment")) {
-      QString comment = param.value("comment").toString();
-      newSensor->setComment(comment);
+      comment = param.value("comment").toString();
     }
 
+    newSensor->setType(sensorType);
+    newSensor->setContract(contract);
+    newSensor->setNode(node);
+    newSensor->setSerialNumber(serialNumber);
+    newSensor->setComment(comment);
     newSensors << newSensor;
   }
 
