@@ -50,12 +50,10 @@ IDList Controller<Sensor, Crud>::ins(const QList<QVariantHash>& params) {
       throw BadRequestException("sensorTypeId can not be empty");
     }
 
-    if (param.contains("nodeId")) {
-      ID nodeId = param.value("nodeId").value<ID>();
+    {
+      ID nodeId = param.contains("nodeId") ? param.value("nodeId").value<ID>() : 1;
       auto node = nodeCrud.selById(nodeId);
       newSensor->setNode(node);
-    } else {
-      throw BadRequestException("nodeId can not be empty");
     }
 
     if (param.contains("serialNumber")) {
