@@ -83,7 +83,7 @@ public:
 };
 
 template <>
-class RestRouter<FixtureCommandStatus> : public SimpleSelectableRouter<FixtureLightSpeedCommandType>
+class RestRouter<FixtureCommandStatus> : public SimpleSelectableRouter<FixtureCommandStatus>
 {
 public:
   QString getName() const override {

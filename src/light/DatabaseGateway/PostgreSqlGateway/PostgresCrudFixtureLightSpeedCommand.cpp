@@ -34,6 +34,9 @@ PostgresCrud<FixtureLightSpeedCommand>::PostgresCrud() {
 Editor<FixtureLightSpeedCommand>::Shared PostgresCrud<FixtureLightSpeedCommand>::parse(const QSqlRecord& record) const {
   auto fixtureLightSpeedCommand = FixtureLightSpeedCommandShared::create();
   fixtureLightSpeedCommand->setId(record.value(getIdAlias()).value<ID>());
+  auto directionType = FixtureLightSpeedCommand::FixtureLightSpeedDirectionType(
+      record.value(getFieldAlias("id_command_status")).toInt());
+  fixtureLightSpeedCommand->setDirectionType(directionType);
   fixtureLightSpeedCommand->setStatus(record.value(getFieldAlias("id_command_status")).value<CommandStatus>());
   fixtureLightSpeedCommand->setFixtureId(record.value(getFieldAlias("id_fixture")).value<ID>());
   fixtureLightSpeedCommand->setStartDateTime(record.value(getFieldAlias("start_date_time")).toDateTime());
