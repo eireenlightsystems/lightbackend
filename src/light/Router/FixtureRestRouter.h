@@ -29,7 +29,7 @@ public:
 };
 
 template <>
-class RestRouter<FixtureType> : public SimpleSelectableRouter<GatewayType>
+class RestRouter<FixtureType> : public SimpleSelectableRouter<FixtureType>
 {
 public:
   QString getName() const override {
