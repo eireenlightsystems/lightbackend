@@ -120,7 +120,7 @@ BindParamsType PostgresCrud<Fixture>::getInsertParams(const Editor::Shared& fixt
 BindParamsType PostgresCrud<Fixture>::getUpdateParams(const Editor::Shared& fixture) const {
   return BindParamsType{
       {":action", "upd"},
-      {":id_fixture", QVariant()},
+      {":id_fixture", fixture->getId()},
       {":id_contract", idToVariant(fixture->getContractId())},
       {":id_equipment_type", idToVariant(fixture->getTypeId())},
       {":id_installer", idToVariant(fixture->getInstallerId())},
