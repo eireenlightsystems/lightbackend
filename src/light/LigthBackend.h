@@ -16,14 +16,19 @@ public:
   void init();
 
   SessionShared getSession() const;
+  SessionShared getSession(const QString& token) const;
+  bool isLoggedIn(const QString& token) const;
+  QString login(const QString& login, const QString& password);
+  void logout(const QString& token);
 
 private:
-  void initDatabase();
   PostgresConnectionInfo readConnectionInfoFromSettings() const;
-  void initPostgres();
+  void openConnection();
 
 private:
+  QHash<QString, SessionShared> sessions;
   SessionShared session;
+  PostgresConnectionInfo connectionInfo;
 };
 
 } // namespace light

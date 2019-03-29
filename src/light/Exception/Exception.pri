@@ -9,7 +9,8 @@ HEADERS += \
     $$PWD/MissingFixtureGatewayLinkException.h \
     $$PWD/DeleteCommandException.h \
     $$PWD/DatabaseException.h \
-    $$PWD/NotImplementedException.h
+    $$PWD/NotImplementedException.h \
+    $$PWD/BadCredentials.h
 
 SOURCES +=  \
     $$PWD/Exception.cpp \
@@ -19,4 +20,5 @@ SOURCES +=  \
     $$PWD/MissingFixtureGatewayLinkException.cpp \
     $$PWD/DeleteCommandException.cpp \
     $$PWD/DatabaseException.cpp \
-    $$PWD/NotImplementedException.cpp
+    $$PWD/NotImplementedException.cpp \
+    $$PWD/BadCredentials.cpp

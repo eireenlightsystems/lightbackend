@@ -61,7 +61,7 @@ public:
   }
 
 protected:
-  template<typename ChildType>
+  template <typename ChildType>
   QHttpServerResponse getListItemsHelper(ID listId, const QString& paramName) {
     const QVariantHash params{
 	{paramName, listId},
@@ -90,52 +90,61 @@ protected:
 
 private:
   void registerGetListItems(QHttpServer& httpServer) const {
-    httpServer.route(getChildFullName(getChildItemName()), QHttpServerRequest::Method::Get, [](ID listId) {
-      auto routeFunction = [listId](SessionShared session) {
-	RestRouter<T> router;
-	router.setSession(session);
-	return router.getListItems(listId);
-      };
-      return AbstractRestRouter::baseRouteFunction(routeFunction);
-    });
+    httpServer.route(getChildFullName(getChildItemName()),
+		     QHttpServerRequest::Method::Get,
+		     [](ID listId, const QHttpServerRequest& req) {
+		       auto routeFunction = [listId](SessionShared session) {
+			 RestRouter<T> router;
+			 router.setSession(session);
+			 return router.getListItems(listId);
+		       };
+		       return AbstractRestRouter::baseRouteFunction(routeFunction, req);
+		     });
   }
   void registerDeleteItemFromList(QHttpServer& httpServer) const {
-    httpServer.route(getChildIdFullName(getChildItemName()), QHttpServerRequest::Method::Delete, [](ID listId, ID itemId) {
-      auto routeFunction = [listId, itemId](SessionShared session) {
-	RestRouter<T> router;
-	router.setSession(session);
-	return router.delListItem(listId, itemId);
-      };
-      return AbstractRestRouter::baseRouteFunction(routeFunction);
-    });
+    httpServer.route(getChildIdFullName(getChildItemName()),
+		     QHttpServerRequest::Method::Delete,
+		     [](ID listId, ID itemId, const QHttpServerRequest& req) {
+		       auto routeFunction = [listId, itemId](SessionShared session) {
+			 RestRouter<T> router;
+			 router.setSession(session);
+			 return router.delListItem(listId, itemId);
+		       };
+		       return AbstractRestRouter::baseRouteFunction(routeFunction, req);
+		     });
 
-    httpServer.route(getChildFullName(getChildItemName()), QHttpServerRequest::Method::Delete, [](ID listId, const QHttpServerRequest& req) {
-      auto routeFunction = [listId](SessionShared session, const QHttpServerRequest& req) {
-	RestRouter<T> router;
-	router.setSession(session);
-	return router.delListItems(req, listId);
-      };
-      return AbstractRestRouter::baseRouteFunction(routeFunction, req);
-    });
+    httpServer.route(getChildFullName(getChildItemName()),
+		     QHttpServerRequest::Method::Delete,
+		     [](ID listId, const QHttpServerRequest& req) {
+		       auto routeFunction = [listId](SessionShared session, const QHttpServerRequest& req) {
+			 RestRouter<T> router;
+			 router.setSession(session);
+			 return router.delListItems(req, listId);
+		       };
+		       return AbstractRestRouter::baseRouteFunction(routeFunction, req, req);
+		     });
   }
   void registerAddItemToList(QHttpServer& httpServer) const {
-    httpServer.route(getChildIdFullName(getChildItemName()), QHttpServerRequest::Method::Post, [](ID listId, ID itemId) {
-      auto routeFunction = [listId, itemId](SessionShared session) {
-	RestRouter<T> router;
-	router.setSession(session);
-	return router.postListItem(listId, itemId);
-      };
-      return AbstractRestRouter::baseRouteFunction(routeFunction);
-    });
+    httpServer.route(
+	getChildIdFullName(getChildItemName()), QHttpServerRequest::Method::Post, [](ID listId, ID itemId, const QHttpServerRequest& req) {
+	  auto routeFunction = [listId, itemId](SessionShared session) {
+	    RestRouter<T> router;
+	    router.setSession(session);
+	    return router.postListItem(listId, itemId);
+	  };
+	  return AbstractRestRouter::baseRouteFunction(routeFunction, req);
+	});
 
-    httpServer.route(getChildFullName(getChildItemName()), QHttpServerRequest::Method::Post, [](ID listId, const QHttpServerRequest& req) {
-      auto routeFunction = [](SessionShared session, ID listId, const QHttpServerRequest& req) {
-	RestRouter<T> router;
-	router.setSession(session);
-	return router.postListItems(req, listId);
-      };
-      return AbstractRestRouter::baseRouteFunction(routeFunction, listId, req);
-    });
+    httpServer.route(getChildFullName(getChildItemName()),
+		     QHttpServerRequest::Method::Post,
+		     [](ID listId, const QHttpServerRequest& req) {
+		       auto routeFunction = [](SessionShared session, ID listId, const QHttpServerRequest& req) {
+			 RestRouter<T> router;
+			 router.setSession(session);
+			 return router.postListItems(req, listId);
+		       };
+		       return AbstractRestRouter::baseRouteFunction(routeFunction, req, listId, req);
+		     });
   }
 };
 } // namespace light

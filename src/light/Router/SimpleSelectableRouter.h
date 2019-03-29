@@ -27,16 +27,16 @@ public:
 	router.setSession(session);
 	return router.get(req);
       };
-      return AbstractRestRouter::baseRouteFunction(routeFunction, req);
+      return AbstractRestRouter::baseRouteFunction(routeFunction, req, req);
     });
 
-    httpServer.route(getIdFullName(), QHttpServerRequest::Method::Get, [](ID id) {
+    httpServer.route(getIdFullName(), QHttpServerRequest::Method::Get, [](ID id, const QHttpServerRequest& req) {
       auto routeFunction = [](SessionShared session, ID id) {
 	RestRouter<T> router;
 	router.setSession(session);
 	return router.get(id);
       };
-      return AbstractRestRouter::baseRouteFunction(routeFunction, id);
+      return AbstractRestRouter::baseRouteFunction(routeFunction, req, id);
     });
   }
 
