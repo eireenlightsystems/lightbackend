@@ -10,6 +10,7 @@
 #include "PostgresCrudNode.h"
 #include "PostgresCrudSubstation.h"
 #include "UpdateQuery.h"
+#include "Fixture.h"
 
 #include <QDebug>
 #include <QSqlRecord>
@@ -207,6 +208,24 @@ Reader<FixtureInstaller>::Shared PostgresCrud<FixtureInstaller>::parse(const QSq
   auto contragent = contragentCrud.parse(record);
   auto fixtureOwner = FixtureInstallerShared::create(*contragent);
   return fixtureOwner;
+}
+
+PostgresCrud<FixtureInGroup>::PostgresCrud() {
+  setFields(fixtureFields);
+  setView("fixture_pkg_i.fixture_in_group_vwf(:id_fixture_group)");
+}
+
+Reader<FixtureInGroup>::Shared PostgresCrud<FixtureInGroup>::parse(const QSqlRecord& record) const {
+  PostgresCrud<Fixture> fixtureCrud;
+  auto fixture = fixtureCrud.parse(record);
+  auto fixtureInGroup = FixtureInGroupShared::create(*fixture);
+  return fixtureInGroup;
+}
+
+BindParamsType PostgresCrud<FixtureInGroup>::getSelectParams(const QVariantHash& filters) const {
+  return BindParamsType{
+      {":id_fixture_group", filters.value("groupId")},
+  };
 }
 
 } // namespace PostgresqlGateway

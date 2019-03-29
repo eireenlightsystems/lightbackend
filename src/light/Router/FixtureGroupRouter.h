@@ -30,7 +30,7 @@ public:
   }
 
   QHttpServerResponse getListItems(ID listId) override {
-    return getListItemsHelper<Fixture>(listId, "groupId");
+    return getListItemsHelper<FixtureInGroup>(listId, "groupId");
   }
 };
 

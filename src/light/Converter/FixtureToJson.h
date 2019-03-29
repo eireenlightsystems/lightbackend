@@ -9,7 +9,14 @@ template <>
 class ToJsonConverter<Fixture> : public ToJsonConverterTemplate<Fixture>
 {
 public:
-  QJsonObject toJson(const FixtureShared& contragent) const override;
+  QJsonObject toJson(const FixtureShared& fixture) const override;
+};
+
+template <>
+class ToJsonConverter<FixtureInGroup> : public ToJsonConverterTemplate<FixtureInGroup>
+{
+public:
+  QJsonObject toJson(const FixtureInGroupShared& fixtureInGroup) const override;
 };
 
 template <>

@@ -12,7 +12,6 @@ class PostgresCrud<FixtureGroup> : public Editor<FixtureGroup>
 {
 public:
   PostgresCrud();
-
   Shared parse(const QSqlRecord& record) const override;
   SharedList sel(const IDList& ids) const override;
   SharedList sel(const QVariantHash& filters) const override;
