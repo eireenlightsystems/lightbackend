@@ -31,8 +31,8 @@ private slots:
   void del();
 
 private:
-//  const QString address = "31.134.167.47:8095";
-    const QString address = "localhost:8085";
+  //  const QString address = "31.134.167.47:8095";
+  const QString address = "localhost:8085";
   const QString apiVersion = "/api/v1";
   const QString router = "sensors";
   HttpRequestHelper requestHelper;
@@ -124,12 +124,28 @@ void Sensors::postError_data() {
   contractEmpty.remove("sensorId");
   contractEmpty.remove("contractId");
 
+  QJsonObject contractNotExistsEmpty = jsonSensor1;
+  contractNotExistsEmpty.remove("sensorId");
+  contractNotExistsEmpty["contractId"] = 999999;
+
   QJsonObject typeEmpty = jsonSensor1;
   typeEmpty.remove("sensorId");
   typeEmpty.remove("sensorTypeId");
 
+  QJsonObject typeNotExistsEmpty = jsonSensor1;
+  typeNotExistsEmpty.remove("sensorId");
+  typeNotExistsEmpty["sensorTypeId"] = 999999;
+
+  QJsonObject nodeNotExistsEmpty = jsonSensor1;
+  nodeNotExistsEmpty.remove("sensorId");
+  nodeNotExistsEmpty["nodeId"] = 999999;
+
   QTest::newRow("contractId is empty") << contractEmpty;
   QTest::newRow("sensorTypeId is empty") << typeEmpty;
+
+  QTest::newRow("contract not exists") << contractNotExistsEmpty;
+  QTest::newRow("sensor type not exists") << typeNotExistsEmpty;
+  QTest::newRow("node not exists") << nodeNotExistsEmpty;
 }
 
 void Sensors::postError() {
@@ -137,7 +153,7 @@ void Sensors::postError() {
 
   requestHelper.post(jsonSensor);
   auto statusCode = requestHelper.getLastStatusCode();
-  QVERIFY(statusCode == BadRequest);
+  QVERIFY2(statusCode == BadRequest, QString("status code is %1").arg(statusCode).toStdString().c_str());
 }
 
 void Sensors::patch_data() {
