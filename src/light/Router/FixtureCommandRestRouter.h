@@ -51,7 +51,7 @@ class RestRouter<FixtureLightLevelCommand> : public FixtureCommandRouter<Fixture
 {
 public:
   QString getName() const override {
-    return "fixtures-lightlevels-commands";
+    return "fixtures-lightlevel-commands";
   }
 };
 
@@ -60,7 +60,7 @@ class RestRouter<FixtureLightSpeedCommand> : public FixtureCommandRouter<Fixture
 {
 public:
   QString getName() const override {
-    return "fixtures-lightspeeds-commands";
+    return "fixtures-lightspeed-commands";
   }
 };
 
