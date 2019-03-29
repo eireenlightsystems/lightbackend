@@ -141,6 +141,7 @@ BindParamsType PostgresCrud<Fixture>::getSelectParams(const QVariantHash& filter
       {":id_mode", filters.value("modeId")},
       {":id_contract", filters.value("contractId")},
       {":id_node", filters.value("nodeId")},
+      {":id_mode", filters.value("modeId")},
   };
 }
 
