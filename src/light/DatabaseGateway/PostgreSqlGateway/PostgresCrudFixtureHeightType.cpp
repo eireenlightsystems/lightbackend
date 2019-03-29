@@ -20,8 +20,8 @@ PostgresCrud<FixtureHeightType>::PostgresCrud() {
 Reader<FixtureHeightType>::Shared PostgresCrud<FixtureHeightType>::parse(const QSqlRecord& record) const {
   auto fixtureType = FixtureHeightTypeShared::create();
   fixtureType->setId(record.value(getIdAlias()).value<ID>());
-  fixtureType->setCode(record.value(getFieldAlias("code_height_type")).toString());
-  fixtureType->setName(record.value(getFieldAlias("name_height_type")).toString());
+  fixtureType->setCode(record.value(getFieldAlias("code")).toString());
+  fixtureType->setName(record.value(getFieldAlias("name")).toString());
   return fixtureType;
 }
 
