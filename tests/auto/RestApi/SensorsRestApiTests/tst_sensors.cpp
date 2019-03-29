@@ -31,8 +31,8 @@ private slots:
   void del();
 
 private:
-  //  const QString address = "31.134.167.47:8095";
-  const QString address = "localhost:8085";
+    const QString address = "31.134.167.47:8095";
+//  const QString address = "localhost:8085";
   const QString apiVersion = "/api/v1";
   const QString router = "sensors";
   HttpRequestHelper requestHelper;
@@ -42,6 +42,7 @@ private:
   QJsonObject jsonSensor3;
 
   const int BadRequest = 400;
+  const int Ok = 200;
 };
 
 Sensors::Sensors() {
@@ -80,6 +81,8 @@ void Sensors::cleanupTestCase() {
 
 void Sensors::get() {
   requestHelper.get();
+  auto statusCode = requestHelper.getLastStatusCode();
+  QVERIFY2(statusCode == Ok, QString("status code is %1").arg(statusCode).toStdString().c_str());
   auto id = jsonSensor1["sensorId"].toVariant().toULongLong();
   auto jsonObject = requestHelper.getById(id);
   for (auto key : jsonSensor1.keys()) {
