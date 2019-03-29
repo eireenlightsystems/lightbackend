@@ -20,6 +20,9 @@ private slots:
   void post_data();
   void post();
 
+  void postError_data();
+  void postError();
+
   void get();
 
   void patch_data();
@@ -28,8 +31,8 @@ private slots:
   void del();
 
 private:
-  const QString address = "31.134.167.47:8095";
-//  const QString address = "localhost:8085";
+//  const QString address = "31.134.167.47:8095";
+    const QString address = "localhost:8085";
   const QString apiVersion = "/api/v1";
   const QString router = "sensors";
   HttpRequestHelper requestHelper;
@@ -37,6 +40,8 @@ private:
   QJsonObject jsonSensor1;
   QJsonObject jsonSensor2;
   QJsonObject jsonSensor3;
+
+  const int BadRequest = 400;
 };
 
 Sensors::Sensors() {
@@ -77,7 +82,7 @@ void Sensors::get() {
   requestHelper.get();
   auto id = jsonSensor1["sensorId"].toVariant().toULongLong();
   auto jsonObject = requestHelper.getById(id);
-  for(auto key : jsonSensor1.keys()) {
+  for (auto key : jsonSensor1.keys()) {
     QVERIFY(jsonSensor1.value(key) == jsonObject.value(key));
   }
 }
@@ -110,6 +115,29 @@ void Sensors::post() {
     auto value = databaseHelper.extractValue(table, pair.second, idField, id);
     QVERIFY2(value == jsonSensor->value(pair.first), pair.first.toStdString().c_str());
   }
+}
+
+void Sensors::postError_data() {
+  QTest::addColumn<QJsonObject>("jsonSensor");
+
+  QJsonObject contractEmpty = jsonSensor1;
+  contractEmpty.remove("sensorId");
+  contractEmpty.remove("contractId");
+
+  QJsonObject typeEmpty = jsonSensor1;
+  typeEmpty.remove("sensorId");
+  typeEmpty.remove("sensorTypeId");
+
+  QTest::newRow("contractId is empty") << contractEmpty;
+  QTest::newRow("sensorTypeId is empty") << typeEmpty;
+}
+
+void Sensors::postError() {
+  QFETCH(QJsonObject, jsonSensor);
+
+  requestHelper.post(jsonSensor);
+  auto statusCode = requestHelper.getLastStatusCode();
+  QVERIFY(statusCode == BadRequest);
 }
 
 void Sensors::patch_data() {

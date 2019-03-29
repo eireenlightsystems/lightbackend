@@ -26,10 +26,13 @@ public:
   QString getRoute() const;
   void setRoute(const QString& value);
 
+  int getLastStatusCode() const;
+
 private:
   QNetworkAccessManager manager;
   QString routerPrefix;
   QString route;
+  int lastStatusCode{0};
 };
 
 #endif // HTTPREQUESTHELPER_H

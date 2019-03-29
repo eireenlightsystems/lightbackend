@@ -20,6 +20,8 @@ QJsonArray HttpRequestHelper::get(const QList<QPair<QString, QString>>& queriIte
   QNetworkReply* reply = manager.get(request);
   eventLoop.exec();
 
+  QVariant statusCode = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute);
+  lastStatusCode = statusCode.toInt();
   auto jsonDocument = QJsonDocument::fromJson(reply->readAll());
   reply->deleteLater();
   return jsonDocument.array();
@@ -35,6 +37,8 @@ QJsonObject HttpRequestHelper::getById(qulonglong id) {
   QNetworkReply* reply = manager.get(request);
   eventLoop.exec();
 
+  QVariant statusCode = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute);
+  lastStatusCode = statusCode.toInt();
   auto jsonDocument = QJsonDocument::fromJson(reply->readAll());
   reply->deleteLater();
   if (jsonDocument.array().count()) {
@@ -52,6 +56,9 @@ qulonglong HttpRequestHelper::post(const QJsonObject& object) {
   QJsonDocument jsonDocument(object);
   QNetworkReply* reply = manager.post(request, jsonDocument.toJson());
   eventLoop.exec();
+
+  QVariant statusCode = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute);
+  lastStatusCode = statusCode.toInt();
   auto id = reply->readAll().toULongLong();
   reply->deleteLater();
 
@@ -68,6 +75,8 @@ QList<qulonglong> HttpRequestHelper::post(const QJsonArray& array) {
   QNetworkReply* reply = manager.post(request, jsonDocument.toJson());
   eventLoop.exec();
 
+  QVariant statusCode = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute);
+  lastStatusCode = statusCode.toInt();
   QJsonDocument responseJsonDocument = QJsonDocument::fromJson(reply->readAll());
   reply->deleteLater();
   QList<qulonglong> result;
@@ -86,10 +95,13 @@ void HttpRequestHelper::patch(const QJsonObject& object) {
   request.setHeader(QNetworkRequest::ContentTypeHeader, "text/json");
   QJsonDocument jsonDocument(object);
   QNetworkReply* reply = manager.sendCustomRequest(request, "PATCH", jsonDocument.toJson());
-  if(reply->error() != QNetworkReply::NoError) {
+  if (reply->error() != QNetworkReply::NoError) {
     qDebug() << reply->error() << reply->errorString();
   }
   eventLoop.exec();
+
+  QVariant statusCode = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute);
+  lastStatusCode = statusCode.toInt();
   reply->deleteLater();
 }
 
@@ -100,6 +112,9 @@ void HttpRequestHelper::del(qulonglong id) {
   QNetworkRequest request(url);
   QNetworkReply* reply = manager.deleteResource(request);
   eventLoop.exec();
+
+  QVariant statusCode = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute);
+  lastStatusCode = statusCode.toInt();
   reply->deleteLater();
 }
 
@@ -115,6 +130,9 @@ void HttpRequestHelper::del(QList<qulonglong> ids) {
   data.append("[" + stringIds.join(',') + "]");
   QNetworkReply* reply = manager.sendCustomRequest(request, "DELETE", data);
   eventLoop.exec();
+
+  QVariant statusCode = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute);
+  lastStatusCode = statusCode.toInt();
   reply->deleteLater();
 }
 
@@ -132,4 +150,8 @@ QString HttpRequestHelper::getRoute() const {
 
 void HttpRequestHelper::setRoute(const QString& value) {
   route = value;
+}
+
+int HttpRequestHelper::getLastStatusCode() const {
+  return lastStatusCode;
 }
