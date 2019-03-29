@@ -149,16 +149,8 @@ Editor<FixtureGroup>::SharedList PostgresCrud<FixtureGroup>::sel(const QVariantH
 
 FixtureSharedList PostgresCrud<FixtureGroup>::selectFixtures(const FixtureGroupShared& fixtureGroup) const {
   const QString selectAllFixtureIdSql =
-      "select id_fixture from fixture_pkg_i.fixture_in_group_vwf(:id_geograph, "
-      ":id_owner, :id_fixture_type, :id_substation, :flg_light, :id_contract, :id_node, :id_fixture_group)";
+      "select id_fixture from fixture_pkg_i.fixture_in_group_vwf(:id_fixture_group)";
   const BindParamsType bindParamsSelectAllId{
-      {":id_geograph", QVariant()},
-      {":id_owner", QVariant()},
-      {":id_fixture_type", QVariant()},
-      {":id_substation", QVariant()},
-      {":flg_light", QVariant()},
-      {":id_contract", QVariant()},
-      {":id_node", QVariant()},
       {":id_fixture_group", fixtureGroup->getId()},
   };
   SelectQuery selectFixtureIds(getSession()->getDb());
@@ -177,16 +169,8 @@ FixtureSharedList PostgresCrud<FixtureGroup>::selectFixtures(const FixtureGroupS
 
 QSet<ID> PostgresCrud<FixtureGroup>::selectCurrentFixtureIds(const FixtureGroupShared& fixtureGroup) const {
   const QString selectAllFixtureIdSql =
-      "select id_fixture from fixture_pkg_i.fixture_in_group_vwf(:id_geograph, "
-      ":id_owner, :id_fixture_type, :id_substation, :flg_light, :id_contract, :id_node, :id_fixture_group)";
+      "select id_fixture from fixture_pkg_i.fixture_in_group_vwf(:id_fixture_group)";
   const BindParamsType bindParamsSelectAllId{
-      {":id_geograph", QVariant()},
-      {":id_owner", QVariant()},
-      {":id_fixture_type", QVariant()},
-      {":id_substation", QVariant()},
-      {":flg_light", QVariant()},
-      {":id_contract", QVariant()},
-      {":id_node", QVariant()},
       {":id_fixture_group", fixtureGroup->getId()},
   };
   SelectQuery selectFixtureIds(getSession()->getDb());

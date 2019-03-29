@@ -85,6 +85,15 @@ private:
   FixtureHeightTypeShared heightType;
   QString comment;
 };
+
+class FixtureInGroup : public Fixture
+{
+public:
+  FixtureInGroup() = default;
+  explicit FixtureInGroup(const Fixture& other) : Fixture(other) {
+  }
+};
+
 } // namespace light
 
 #endif // FIXTURE_H

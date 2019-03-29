@@ -44,6 +44,17 @@ public:
   Shared parse(const QSqlRecord& record) const override;
 };
 
+template <>
+class PostgresCrud<FixtureInGroup> : public Reader<FixtureInGroup>
+{
+public:
+  PostgresCrud();
+  Shared parse(const QSqlRecord& record) const override;
+
+protected:
+  BindParamsType getSelectParams(const QVariantHash& filters) const override;
+};
+
 } // namespace PostgresqlGateway
 } // namespace light
 #endif // POSTGRESCRUDFIXTURE_H

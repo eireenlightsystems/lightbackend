@@ -97,4 +97,9 @@ QJsonObject light::ToJsonConverter<FixtureInstaller>::toJson(const FixtureInstal
   return contragentConverter.toJson(fixtureInstaller.dynamicCast<Contragent>());
 }
 
+QJsonObject ToJsonConverter<FixtureInGroup>::toJson(const FixtureInGroupShared& fixtureInGroup) const {
+  ToJsonConverter<Fixture> fixureConverter;
+  return fixureConverter.toJson(fixtureInGroup.dynamicCast<Fixture>());
+}
+
 } // namespace light

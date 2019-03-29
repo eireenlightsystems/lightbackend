@@ -40,6 +40,7 @@ DeclareShared(GatewayType);
 DeclareShared(EquipmentOwner);
 
 DeclareShared(Fixture);
+DeclareShared(FixtureInGroup);
 DeclareShared(FixtureType);
 DeclareShared(FixtureHeightType);
 DeclareShared(FixtureOwner);
