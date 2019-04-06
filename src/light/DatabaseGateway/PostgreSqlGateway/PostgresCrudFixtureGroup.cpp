@@ -141,15 +141,16 @@ Editor<FixtureGroup>::SharedList PostgresCrud<FixtureGroup>::sel(const IDList& i
 
 Editor<FixtureGroup>::SharedList PostgresCrud<FixtureGroup>::sel(const QVariantHash& filters) const {
   auto result = Editor<FixtureGroup>::sel(filters);
-  for (auto fixtureGroup : result) {
-    fixtureGroup->setFixtures(selectFixtures(fixtureGroup));
+  if (getLoadChildren()) {
+    for (auto fixtureGroup : result) {
+      fixtureGroup->setFixtures(selectFixtures(fixtureGroup));
+    }
   }
   return result;
 }
 
 FixtureSharedList PostgresCrud<FixtureGroup>::selectFixtures(const FixtureGroupShared& fixtureGroup) const {
-  const QString selectAllFixtureIdSql =
-      "select id_fixture from fixture_pkg_i.fixture_in_group_vwf(:id_fixture_group)";
+  const QString selectAllFixtureIdSql = "select id_fixture from fixture_pkg_i.fixture_in_group_vwf(:id_fixture_group)";
   const BindParamsType bindParamsSelectAllId{
       {":id_fixture_group", fixtureGroup->getId()},
   };
@@ -168,8 +169,7 @@ FixtureSharedList PostgresCrud<FixtureGroup>::selectFixtures(const FixtureGroupS
 }
 
 QSet<ID> PostgresCrud<FixtureGroup>::selectCurrentFixtureIds(const FixtureGroupShared& fixtureGroup) const {
-  const QString selectAllFixtureIdSql =
-      "select id_fixture from fixture_pkg_i.fixture_in_group_vwf(:id_fixture_group)";
+  const QString selectAllFixtureIdSql = "select id_fixture from fixture_pkg_i.fixture_in_group_vwf(:id_fixture_group)";
   const BindParamsType bindParamsSelectAllId{
       {":id_fixture_group", fixtureGroup->getId()},
   };
