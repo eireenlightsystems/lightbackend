@@ -6,6 +6,7 @@
 #include <QCoreApplication>
 #include <QCryptographicHash>
 #include <QDebug>
+#include <QFile>
 #include <QSettings>
 
 namespace light {
@@ -19,7 +20,15 @@ void LigthBackend::init() {
 PostgresConnectionInfo LigthBackend::readConnectionInfoFromSettings() const {
   PostgresConnectionInfo connectionInfo;
 
-  QSettings settings(qApp->applicationDirPath() + "/lightbackend.conf", QSettings::IniFormat);
+  auto configFilePath = qApp->applicationDirPath() + "/lightbackend.conf";
+
+  if(!QFile::exists(configFilePath)) {
+      qCritical() << "config file" << configFilePath << "not exists";
+      return connectionInfo;
+  }
+
+
+  QSettings settings(configFilePath, QSettings::IniFormat);
   settings.beginGroup("Database");
   connectionInfo.hostName = settings.value("hostName").toString();
   connectionInfo.port = settings.value("port").toInt();
@@ -61,6 +70,8 @@ QString LigthBackend::login(const QString& login, const QString& password) {
   if (!db.open()) {
     throw BadCredentialsException();
   }
+
+  qDebug() << "create session for" << login;
 
   auto newSession = SessionShared::create();
   newSession->setDb(db);

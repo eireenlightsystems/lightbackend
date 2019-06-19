@@ -16,7 +16,13 @@ HEADERS += \
     $$PWD/ContractRouter.h \
     $$PWD/ContainersRegistrationHelpers.h \
     $$PWD/SensorRouter.h \
-    $$PWD/AuthRouter.h
+    $$PWD/AuthRouter.h \
+    $$PWD/NodeTypeRestRouter.h \
+    $$PWD/SensorTypeRestRouter.h \
+    $$PWD/GatewayTypeRestRouter.h \
+    $$PWD/FixtureTypeRestRouter.h \
+    $$PWD/CompanyDepartmentRestRouter.h \
+    $$PWD/PersonRestRouter.h
 
 SOURCES += \
   $$PWD/AbstractRestRouter.cpp \

@@ -22,15 +22,6 @@ public:
 };
 
 template <>
-class RestRouter<SensorType> : public SimpleSelectableRouter<SensorType>
-{
-public:
-  QString getName() const override {
-    return "sensors-types";
-  }
-};
-
-template <>
 class RestRouter<SensorContract> : public SimpleSelectableRouter<SensorContract>
 {
 public:

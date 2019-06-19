@@ -1,14 +1,14 @@
-#ifndef POSTGRESCRUDSENSORTYPE_H
-#define POSTGRESCRUDSENSORTYPE_H
+#ifndef POSTGRESCRUDCOMPANYDEPARTMENT_H
+#define POSTGRESCRUDCOMPANYDEPARTMENT_H
 
-#include "SensorType.h"
+#include "CompanyDepartment.h"
 #include "PostgresCrud.h"
 
 namespace light {
 namespace PostgresqlGateway {
 
 template <>
-class PostgresCrud<SensorType> : public Editor<SensorType>
+class PostgresCrud<CompanyDepartment> : public Editor<CompanyDepartment>
 {
 public:
   PostgresCrud();
@@ -23,4 +23,4 @@ protected:
 } // namespace PostgresqlGateway
 } // namespace light
 
-#endif // POSTGRESCRUDSENSORTYPE_H
+#endif // POSTGRESCRUDCOMPANYDEPARTMENT_H

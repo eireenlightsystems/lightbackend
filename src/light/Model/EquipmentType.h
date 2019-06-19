@@ -22,11 +22,15 @@ public:
   QString getModel() const;
   void setModel(const QString& value);
 
+  QString getComment() const;
+  void setComment(const QString &value);
+
 private:
   ID id{0};
   QString code;
   QString name;
   QString model;
+  QString comments;
 };
 } // namespace light
 

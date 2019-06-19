@@ -2,5 +2,5 @@ TEMPLATE = subdirs
 
 SUBDIRS += \
     light \
-    devicemessagereceiver \
-    commandsscheduler
+#    devicemessagereceiver \
+#    commandsscheduler

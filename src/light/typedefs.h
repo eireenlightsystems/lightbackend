@@ -58,6 +58,9 @@ DeclareShared(SensorType);
 DeclareShared(SensorContract);
 DeclareShared(SensorOwner);
 
+DeclareShared(CompanyDepartment);
+DeclareShared(Person);
+
 } // namespace light
 
 #endif // TYPEDEFS_H

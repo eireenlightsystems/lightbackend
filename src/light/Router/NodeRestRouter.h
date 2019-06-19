@@ -12,7 +12,6 @@
 #include "PostgresCrudContract.h"
 #include "PostgresCrudGeograph.h"
 #include "PostgresCrudNode.h"
-#include "PostgresCrudNodeType.h"
 #include "RestRouter.h"
 #include "SensorToJson.h"
 #include "SimpleEditableListRouter.h"
@@ -165,15 +164,6 @@ private:
     auto controller = this->createController();
     (controller.*action)(nodeId, ids);
     return QHttpServerResponse(QHttpServerResponder::StatusCode::Ok);
-  }
-};
-
-template <>
-class RestRouter<NodeType> : public SimpleSelectableRouter<NodeType>
-{
-public:
-  QString getName() const override {
-    return "nodes-types";
   }
 };
 

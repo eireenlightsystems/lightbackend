@@ -128,6 +128,7 @@ void Controller<Fixture, Crud>::upd(const QList<QVariantHash>& params) {
   for (const auto& param : params) {
     ID fixtureId = param.value("fixtureId").value<ID>();
     auto fixture = fixtureCrud.selById(fixtureId);
+
     if (param.contains("nodeId")) {
       ID nodeId = param.value("nodeId").value<ID>();
       auto node = nodeCrud.selById(nodeId);

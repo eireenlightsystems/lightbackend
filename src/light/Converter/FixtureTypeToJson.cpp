@@ -12,6 +12,21 @@ QJsonObject ToJsonConverter<FixtureType>::toJson(const FixtureTypeShared& fixtur
   QJsonObject fixtureTypeJson;
   fixtureTypeJson["id"] = QJsonValue::fromVariant(fixtureType->getId());
   fixtureTypeJson["code"] = fixtureType->getCode();
+  fixtureTypeJson["name"] = fixtureType->getName();
+  fixtureTypeJson["model"] = fixtureType->getModel();
+  fixtureTypeJson["comments"] = fixtureType->getComment();
+
+  fixtureTypeJson["height"] = fixtureType->getHeight();
+  fixtureTypeJson["width"] = fixtureType->getWidth();
+  fixtureTypeJson["weight"] = fixtureType->getWeight();
+  fixtureTypeJson["length"] = fixtureType->getLength();
+
+  fixtureTypeJson["countlamp"] = fixtureType->getCountlamp();
+  fixtureTypeJson["power"] = fixtureType->getPower();
+  fixtureTypeJson["cos"] = fixtureType->getCos();
+  fixtureTypeJson["ip"] = fixtureType->getIp();
+  fixtureTypeJson["efficiency"] = fixtureType->getEfficiency();
+
   return fixtureTypeJson;
 }
 

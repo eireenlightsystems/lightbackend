@@ -12,6 +12,10 @@ QJsonObject ToJsonConverter<GatewayType>::toJson(const GatewayTypeShared& gatewa
   QJsonObject gatewayTypeJson;
   gatewayTypeJson["id"] = QJsonValue::fromVariant(gatewayType->getId());
   gatewayTypeJson["code"] = gatewayType->getCode();
+  gatewayTypeJson["name"] = gatewayType->getName();
+  gatewayTypeJson["model"] = gatewayType->getModel();
+  gatewayTypeJson["comments"] = gatewayType->getComment();
+  gatewayTypeJson["communicationStandard"] = gatewayType->getCommunicationStandard();
   return gatewayTypeJson;
 }
 

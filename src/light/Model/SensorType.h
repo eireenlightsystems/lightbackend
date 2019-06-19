@@ -9,6 +9,12 @@ class SensorType : public EquipmentType
 {
 public:
   SensorType() = default;
+
+  double getDetectionRange() const;
+  void setDetectionRange(double value);
+
+private:
+  double detectionRange;
 };
 
 } // namespace light

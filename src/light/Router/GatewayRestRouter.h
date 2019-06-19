@@ -46,15 +46,6 @@ public:
 };
 
 template <>
-class RestRouter<GatewayType> : public SimpleSelectableRouter<GatewayType>
-{
-public:
-  QString getName() const override {
-    return "gateways-types";
-  }
-};
-
-template <>
 class RestRouter<GatewayContract> : public SimpleSelectableRouter<GatewayContract>
 {
 public:

@@ -7,6 +7,12 @@ HEADERS += \
     $$PWD/FixtureGroupController.h \
     $$PWD/FixtureController.h \
     $$PWD/FixtureCommandController.h \
-    $$PWD/SensorController.h
+    $$PWD/SensorController.h \
+    $$PWD/NodeTypeController.h \
+    $$PWD/SensorTypeController.h \
+    $$PWD/GatewayTypeController.h \
+    $$PWD/FixtureTypeController.h \
+    $$PWD/CompanyDepartmentController.h \
+    $$PWD/PersonController.h
 
 SOURCES +=

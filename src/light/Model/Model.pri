@@ -28,7 +28,9 @@ HEADERS += \
     $$PWD/Sensor.h \
     $$PWD/NodeChild.h \
     $$PWD/SensorType.h \
-    $$PWD/helpers.h
+    $$PWD/helpers.h \
+    $$PWD/CompanyDepartment.h \
+    $$PWD/Person.h
 
 SOURCES += \
     $$PWD/DateTimeRange.cpp \
@@ -53,4 +55,6 @@ SOURCES += \
     $$PWD/FixtureGroupType.cpp \
     $$PWD/Sensor.cpp \
     $$PWD/NodeChild.cpp \
-    $$PWD/SensorType.cpp
+    $$PWD/SensorType.cpp \
+    $$PWD/CompanyDepartment.cpp \
+    $$PWD/Person.cpp

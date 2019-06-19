@@ -21,12 +21,12 @@ public:
   SimpleSelectableRouter() = default;
   ~SimpleSelectableRouter() override = default;
   void registerApi(QHttpServer& httpServer) const override {
-    httpServer.route(getFullName(), QHttpServerRequest::Method::Get, [](const QHttpServerRequest& req) {
-      auto routeFunction = [](SessionShared session, const QHttpServerRequest& req) {
-	RestRouter<T> router;
-	router.setSession(session);
-	return router.get(req);
-      };
+      httpServer.route(getFullName(), QHttpServerRequest::Method::Get, [](const QHttpServerRequest& req) {
+        auto routeFunction = [](SessionShared session, const QHttpServerRequest& req) {
+      RestRouter<T> router;
+      router.setSession(session);
+      return router.get(req);
+        };
       return AbstractRestRouter::baseRouteFunction(routeFunction, req, req);
     });
 

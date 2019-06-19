@@ -28,7 +28,9 @@ HEADERS += \
     $$PWD/PostgresCrudFixtureGroupOwner.h \
     $$PWD/PostgresCrudGatewayContract.h \
     $$PWD/PostgresCrudSensor.h \
-    $$PWD/PostgresCrudSensorType.h
+    $$PWD/PostgresCrudSensorType.h \
+    $$PWD/PostgresCrudCompanyDepartment.h \
+    $$PWD/PostgresCrudPerson.h
 
 SOURCES += \
     $$PWD/SqlDatabaseOwner.cpp \
@@ -54,4 +56,6 @@ SOURCES += \
     $$PWD/PostgresCrudFixtureGroupOwner.cpp \
     $$PWD/PostgresCrudGatewayContract.cpp \
     $$PWD/PostgresCrudSensor.cpp \
-    $$PWD/PostgresCrudSensorType.cpp
+    $$PWD/PostgresCrudSensorType.cpp \
+    $$PWD/PostgresCrudCompanyDepartment.cpp \
+    $$PWD/PostgresCrudPerson.cpp

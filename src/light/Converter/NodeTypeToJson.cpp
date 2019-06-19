@@ -12,6 +12,10 @@ QJsonObject ToJsonConverter<NodeType>::toJson(const NodeTypeShared& nodeType) co
   QJsonObject nodeTypeJson;
   nodeTypeJson["id"] = QJsonValue::fromVariant(nodeType->getId());
   nodeTypeJson["code"] = nodeType->getCode();
+  nodeTypeJson["name"] = nodeType->getName();
+  nodeTypeJson["model"] = nodeType->getModel();
+  nodeTypeJson["comments"] = nodeType->getComment();
+  nodeTypeJson["height"] = nodeType->getHeight();
   return nodeTypeJson;
 }
 

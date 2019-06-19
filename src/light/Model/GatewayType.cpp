@@ -1,3 +1,13 @@
 #include "GatewayType.h"
 
-namespace light {} // namespace light
+namespace light {
+
+QString GatewayType::getCommunicationStandard() const {
+  return communicationStandard;
+}
+
+void GatewayType::setCommunicationStandard(QString value) {
+  communicationStandard = value;
+}
+
+} // namespace light

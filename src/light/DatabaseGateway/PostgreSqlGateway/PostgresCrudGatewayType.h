@@ -8,11 +8,16 @@ namespace light {
 namespace PostgresqlGateway {
 
 template <>
-class PostgresCrud<GatewayType> : public Reader<GatewayType>
+class PostgresCrud<GatewayType> : public Editor<GatewayType>
 {
 public:
   PostgresCrud();
   Shared parse(const QSqlRecord& record) const override;
+
+protected:
+  BindParamsType getSelectParams(const QVariantHash& filters) const override;
+  BindParamsType getInsertParams(const Shared& object) const override;
+  BindParamsType getUpdateParams(const Shared& object) const override;
 };
 
 } // namespace PostgresqlGateway

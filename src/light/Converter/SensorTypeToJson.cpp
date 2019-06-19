@@ -12,6 +12,10 @@ QJsonObject ToJsonConverter<SensorType>::toJson(const SensorTypeShared& sensorTy
   QJsonObject sensorTypeJson;
   sensorTypeJson["id"] = QJsonValue::fromVariant(sensorType->getId());
   sensorTypeJson["code"] = sensorType->getCode();
+  sensorTypeJson["name"] = sensorType->getName();
+  sensorTypeJson["model"] = sensorType->getModel();
+  sensorTypeJson["comments"] = sensorType->getComment();
+  sensorTypeJson["detectionRange"] = sensorType->getDetectionRange();
   return sensorTypeJson;
 }
 

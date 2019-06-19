@@ -4,6 +4,10 @@ QT += httpserver sql
 CONFIG += c++17 console
 CONFIG -= app_bundle
 
+win32: {
+QMAKE_CXXFLAGS += -Wa,-mbig-obj
+}
+
 include(../3rdparty/qtservice/src/qtservice.pri)
 include(./DatabaseGateway/DatabaseGateway.pri)
 include(./Model/Model.pri)

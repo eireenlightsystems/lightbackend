@@ -5,11 +5,17 @@
 #include "FixtureCommandRestRouter.h"
 #include "FixtureGroupRouter.h"
 #include "FixtureRestRouter.h"
+#include "FixtureTypeRestRouter.h"
 #include "GatewayRestRouter.h"
 #include "GeographRestRouter.h"
 #include "NodeRestRouter.h"
 #include "NodeToJson.h"
 #include "SensorRouter.h"
+#include "NodeTypeRestRouter.h"
+#include "SensorTypeRestRouter.h"
+#include "GatewayTypeRestRouter.h"
+#include "CompanyDepartmentRestRouter.h"
+#include "PersonRestRouter.h"
 
 namespace light {
 HttpServerWrapper::HttpServerWrapper(QObject* parent) : QObject(parent) {
@@ -29,6 +35,7 @@ void HttpServerWrapper::createRoutes() {
   createFixtureGroupRouters();
   createSensorRouters();
   createDictionary();
+
 }
 
 void HttpServerWrapper::listen(const QHostAddress& address, quint16 port) {
@@ -154,6 +161,12 @@ void HttpServerWrapper::createDictionary() {
 
   RestRouter<Contract> contractRouter;
   contractRouter.registerApi(httpServer);
+
+  RestRouter<CompanyDepartment> companyDepartmentRouter;
+  companyDepartmentRouter.registerApi(httpServer);
+
+  RestRouter<Person> personRouter;
+  personRouter.registerApi(httpServer);
 }
 
 } // namespace light

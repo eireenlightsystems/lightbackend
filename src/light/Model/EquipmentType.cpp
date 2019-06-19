@@ -33,4 +33,14 @@ void EquipmentType::setModel(const QString& value) {
   model = value;
 }
 
+QString EquipmentType::getComment() const
+{
+    return comments;
+}
+
+void EquipmentType::setComment(const QString &value)
+{
+    comments = value;
+}
+
 } // namespace light

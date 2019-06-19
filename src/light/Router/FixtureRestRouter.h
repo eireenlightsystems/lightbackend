@@ -29,15 +29,6 @@ public:
 };
 
 template <>
-class RestRouter<FixtureType> : public SimpleSelectableRouter<FixtureType>
-{
-public:
-  QString getName() const override {
-    return "fixtures-types";
-  }
-};
-
-template <>
 class RestRouter<FixtureHeightType> : public SimpleSelectableRouter<FixtureHeightType>
 {
 public:
