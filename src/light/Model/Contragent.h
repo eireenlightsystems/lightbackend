@@ -25,6 +25,9 @@ public:
   ID getGeographId() const;
   void setGeographId(const ID& value);
 
+  QString getGeographCode() const;
+  void setGeographCode(const QString& value);
+
   QString getInn() const;
   void setInn(const QString& value);
 
@@ -36,6 +39,7 @@ private:
   QString code;
   QString name;
   ID geographId{0};
+  QString geographCode;
 //  GeographShared geograph;
   QString inn;
   QString comments;

@@ -47,6 +47,14 @@ ID Contragent::getGeographId() const {
   return geographId;
 }
 
+void Contragent::setGeographCode(const QString& value) {
+  geographCode = value;
+}
+
+QString Contragent::getGeographCode() const {
+  return geographCode;
+}
+
 void Contragent::setGeographId(const ID& value) {
   geographId = value;
 }

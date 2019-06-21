@@ -12,6 +12,7 @@ QJsonObject ToJsonConverter<Person>::toJson(const PersonShared& person) const {
   QJsonObject personJson;
   personJson["id"] = QJsonValue::fromVariant(person->getId());
   personJson["geographId"] = QJsonValue::fromVariant(person->getGeographId());
+  personJson["geographCode"] = person->getGeographCode();
   personJson["code"] = person->getCode();
   personJson["name"] = person->getName();
   personJson["inn"] = person->getInn();
