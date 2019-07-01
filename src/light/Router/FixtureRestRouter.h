@@ -64,14 +64,14 @@ public:
   }
 };
 
-template <>
-class RestRouter<Substation> : public SimpleSelectableRouter<Substation>
-{
-public:
-  QString getName() const override {
-    return "substations";
-  }
-};
+//template <>
+//class RestRouter<Substation> : public SimpleSelectableRouter<Substation>
+//{
+//public:
+//  QString getName() const override {
+//    return "substations";
+//  }
+//};
 
 } // namespace light
 

@@ -53,9 +53,9 @@ IDList Controller<SensorType, Crud>::ins(const QList<QVariantHash>& params) {
     newSensorTypes << newSensorType;
   }
 
-  Crud<SensorType> nodeTypeCrud;
-  nodeTypeCrud.setSession(this->getSession());
-  nodeTypeCrud.save(newSensorTypes);
+  Crud<SensorType> sensorTypeCrud;
+  sensorTypeCrud.setSession(this->getSession());
+  sensorTypeCrud.save(newSensorTypes);
   IDList result;
   std::transform(newSensorTypes.begin(), newSensorTypes.end(), std::back_inserter(result), [](const SensorTypeShared& sensorType) {
     return sensorType->getId();

@@ -9,7 +9,7 @@ namespace PostgresqlGateway {
 const QList<Field> companyDepartmentFields{
     {"id_contragent", "id_contragent_company_department", true},
     {"id_geograph_addr", "id_geograph_addr_company_department", true},
-    {"code_geograph", "code_geograph_person", true},
+    {"code_geograph", "code_geograph_company_department", true},
     {"code", "code_company_department", false},
     {"name", "name_company_department", false},
     {"inn", "inn_company_department", false},

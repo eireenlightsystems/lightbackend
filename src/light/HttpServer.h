@@ -34,6 +34,7 @@ private:
   void createFixtureRouters();
   void createFixtureGroupRouters();
   void createSensorRouters();
+  void createContractRouters();
   void createDictionary();
 
 private:

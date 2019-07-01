@@ -30,7 +30,8 @@ HEADERS += \
     $$PWD/PostgresCrudSensor.h \
     $$PWD/PostgresCrudSensorType.h \
     $$PWD/PostgresCrudCompanyDepartment.h \
-    $$PWD/PostgresCrudPerson.h
+    $$PWD/PostgresCrudPerson.h \
+    $$PWD/PostgresCrudContractType.h
 
 SOURCES += \
     $$PWD/SqlDatabaseOwner.cpp \
@@ -58,4 +59,5 @@ SOURCES += \
     $$PWD/PostgresCrudSensor.cpp \
     $$PWD/PostgresCrudSensorType.cpp \
     $$PWD/PostgresCrudCompanyDepartment.cpp \
-    $$PWD/PostgresCrudPerson.cpp
+    $$PWD/PostgresCrudPerson.cpp \
+    $$PWD/PostgresCrudContractType.cpp

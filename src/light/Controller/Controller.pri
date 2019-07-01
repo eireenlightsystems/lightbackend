@@ -13,6 +13,9 @@ HEADERS += \
     $$PWD/GatewayTypeController.h \
     $$PWD/FixtureTypeController.h \
     $$PWD/CompanyDepartmentController.h \
-    $$PWD/PersonController.h
+    $$PWD/PersonController.h \
+    $$PWD/SubstationController.h \
+    $$PWD/ContractController.h \
+    $$PWD/ContractTypeController.h
 
 SOURCES +=

@@ -30,7 +30,8 @@ HEADERS += \
     $$PWD/SensorType.h \
     $$PWD/helpers.h \
     $$PWD/CompanyDepartment.h \
-    $$PWD/Person.h
+    $$PWD/Person.h \
+    $$PWD/ContractType.h
 
 SOURCES += \
     $$PWD/DateTimeRange.cpp \
@@ -57,4 +58,5 @@ SOURCES += \
     $$PWD/NodeChild.cpp \
     $$PWD/SensorType.cpp \
     $$PWD/CompanyDepartment.cpp \
-    $$PWD/Person.cpp
+    $$PWD/Person.cpp \
+    $$PWD/ContractType.cpp

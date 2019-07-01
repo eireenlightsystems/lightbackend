@@ -2,31 +2,27 @@
 #define SUBSTATION_H
 
 #include "typedefs.h"
-
+#include "Contragent.h"
 #include <QString>
 
 namespace light {
-class Substation
+class Substation  : public Contragent
 {
 public:
   Substation() = default;
 
-  ID getId() const;
-  void setId(const ID& value);
+  ID getOrgFormId() const;
+  void setOrgFormId(const ID& value);
 
-  QString getCode() const;
-  void setCode(const QString& value);
-
-  QString getName() const;
-  void setName(const QString& value);
+  QString getOrgFormCode() const;
+  void setOrgFormCode(const QString& value);
 
   double getPower() const;
   void setPower(double value);
 
 private:
-  ID id{0};
-  QString code;
-  QString name;
+  ID orgFormId{0};
+  QString orgFormCode;
   double power{0.0};
 };
 } // namespace light

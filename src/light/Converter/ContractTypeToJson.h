@@ -2,10 +2,18 @@
 #define CONTRACTTYPETOJSON_H
 
 
-class ContractTypeToJson
+#include "ContractType.h"
+#include "ToJsonConverter.h"
+
+namespace light {
+
+template <>
+class ToJsonConverter<ContractType> : public ToJsonConverterTemplate<ContractType>
 {
 public:
-ContractTypeToJson();
+  QJsonObject toJson(const ContractTypeShared& contract) const override;
 };
+
+} // namespace light
 
 #endif // CONTRACTTYPETOJSON_H

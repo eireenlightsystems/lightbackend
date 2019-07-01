@@ -12,6 +12,6 @@ public:
   QJsonObject toJson(const SubstationShared& contragent) const override;
 };
 
-}
+} // namespace light
 
 #endif // SUBSTATIONTOJSON_H

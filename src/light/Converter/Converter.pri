@@ -25,7 +25,8 @@ HEADERS += \
     $$PWD/SensorToJson.h \
     $$PWD/SensorTypeToJson.h \
     $$PWD/CompanyDepartmentToJson.h \
-    $$PWD/PersonToJson.h
+    $$PWD/PersonToJson.h \
+    $$PWD/ContractTypeToJson.h
 
 SOURCES += \
     $$PWD/NodeToJson.cpp \
@@ -51,4 +52,5 @@ SOURCES += \
     $$PWD/SensorToJson.cpp \
     $$PWD/SensorTypeToJson.cpp \
     $$PWD/CompanyDepartmentToJson.cpp \
-    $$PWD/PersonToJson.cpp
+    $$PWD/PersonToJson.cpp \
+    $$PWD/ContractTypeToJson.cpp

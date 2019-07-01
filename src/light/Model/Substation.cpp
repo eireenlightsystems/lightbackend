@@ -2,28 +2,21 @@
 
 namespace light {
 
-ID Substation::getId() const {
-  return id;
+ID Substation::getOrgFormId() const {
+  return orgFormId;
 }
 
-void Substation::setId(const ID& value) {
-  id = value;
+void Substation::setOrgFormId(const ID& value) {
+  orgFormId = value;
 }
 
-QString Substation::getCode() const {
-  return code;
+
+void Substation::setOrgFormCode(const QString& value) {
+  orgFormCode = value;
 }
 
-void Substation::setCode(const QString& value) {
-  code = value;
-}
-
-QString Substation::getName() const {
-  return name;
-}
-
-void Substation::setName(const QString& value) {
-  name = value;
+QString Substation::getOrgFormCode() const {
+  return orgFormCode;
 }
 
 double Substation::getPower() const {

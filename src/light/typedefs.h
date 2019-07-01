@@ -24,42 +24,43 @@ DeclareShared(FixtureLightLevelCommandType);
 DeclareShared(FixtureLightSpeedCommandType);
 
 DeclareShared(Node);
-DeclareShared(NodeType);
 DeclareShared(NodeContract);
 DeclareShared(NodeOwner);
-
-DeclareShared(Contragent);
-DeclareShared(Contract);
-DeclareShared(EquipmentType);
 
 DeclareShared(Geograph);
 DeclareShared(Gateway);
 DeclareShared(GatewayContract);
-DeclareShared(GatewayType);
 
 DeclareShared(EquipmentOwner);
 
 DeclareShared(Fixture);
 DeclareShared(FixtureInGroup);
-DeclareShared(FixtureType);
 DeclareShared(FixtureHeightType);
 DeclareShared(FixtureOwner);
 DeclareShared(FixtureContract);
 DeclareShared(FixtureInstaller);
-
-DeclareShared(Substation);
 
 DeclareShared(FixtureGroup);
 DeclareShared(FixtureGroupType);
 DeclareShared(FixtureGroupOwner);
 
 DeclareShared(Sensor);
-DeclareShared(SensorType);
 DeclareShared(SensorContract);
 DeclareShared(SensorOwner);
 
+DeclareShared(EquipmentType);
+DeclareShared(NodeType);
+DeclareShared(FixtureType);
+DeclareShared(SensorType);
+DeclareShared(GatewayType);
+
+DeclareShared(Contragent);
 DeclareShared(CompanyDepartment);
 DeclareShared(Person);
+DeclareShared(Substation);
+
+DeclareShared(Contract);
+DeclareShared(ContractType);
 
 } // namespace light
 

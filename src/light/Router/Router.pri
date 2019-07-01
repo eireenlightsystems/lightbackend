@@ -13,7 +13,6 @@ HEADERS += \
   $$PWD/SimpleSelectableRouter.h \
   $$PWD/SimpleEditableListRouter.h \
   $$PWD/FixtureCommandRestRouter.h \
-    $$PWD/ContractRouter.h \
     $$PWD/ContainersRegistrationHelpers.h \
     $$PWD/SensorRouter.h \
     $$PWD/AuthRouter.h \
@@ -22,7 +21,10 @@ HEADERS += \
     $$PWD/GatewayTypeRestRouter.h \
     $$PWD/FixtureTypeRestRouter.h \
     $$PWD/CompanyDepartmentRestRouter.h \
-    $$PWD/PersonRestRouter.h
+    $$PWD/PersonRestRouter.h \
+    $$PWD/SubstationRestRouter.h \
+    $$PWD/ContractRestRouter.h \
+    $$PWD/ContractTypeRestRouter.h
 
 SOURCES += \
   $$PWD/AbstractRestRouter.cpp \

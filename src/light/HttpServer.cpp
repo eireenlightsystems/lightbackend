@@ -1,7 +1,8 @@
 #include "HttpServer.h"
 
 #include "AuthRouter.h"
-#include "ContractRouter.h"
+#include "ContractRestRouter.h"
+#include "ContractTypeRestRouter.h"
 #include "FixtureCommandRestRouter.h"
 #include "FixtureGroupRouter.h"
 #include "FixtureRestRouter.h"
@@ -16,6 +17,7 @@
 #include "GatewayTypeRestRouter.h"
 #include "CompanyDepartmentRestRouter.h"
 #include "PersonRestRouter.h"
+#include "SubstationRestRouter.h"
 
 namespace light {
 HttpServerWrapper::HttpServerWrapper(QObject* parent) : QObject(parent) {
@@ -34,6 +36,7 @@ void HttpServerWrapper::createRoutes() {
   createFixtureRouters();
   createFixtureGroupRouters();
   createSensorRouters();
+  createContractRouters();
   createDictionary();
 
 }
@@ -117,8 +120,8 @@ void HttpServerWrapper::createFixtureRouters() {
   RestRouter<FixtureHeightType> fixtureHeightTypeRouter;
   fixtureHeightTypeRouter.registerApi(httpServer);
 
-  RestRouter<Substation> substationRouter;
-  substationRouter.registerApi(httpServer);
+//  RestRouter<Substation> substationRouter;
+//  substationRouter.registerApi(httpServer);
 
   RestRouter<FixtureOwner> fixtureOwnerRouter;
   fixtureOwnerRouter.registerApi(httpServer);
@@ -159,14 +162,23 @@ void HttpServerWrapper::createDictionary() {
   RestRouter<Geograph> geographRouter;
   geographRouter.registerApi(httpServer);
 
-  RestRouter<Contract> contractRouter;
-  contractRouter.registerApi(httpServer);
-
   RestRouter<CompanyDepartment> companyDepartmentRouter;
   companyDepartmentRouter.registerApi(httpServer);
 
   RestRouter<Person> personRouter;
   personRouter.registerApi(httpServer);
+
+  RestRouter<Substation> substationRouter;
+  substationRouter.registerApi(httpServer);
+}
+
+void HttpServerWrapper::createContractRouters() {
+  RestRouter<Contract> contractRouter;
+  contractRouter.registerApi(httpServer);
+
+  RestRouter<ContractType> contractTypeRouter;
+  contractTypeRouter.registerApi(httpServer);
+
 }
 
 } // namespace light
