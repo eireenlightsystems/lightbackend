@@ -5,7 +5,7 @@ CONFIG += c++17 console
 CONFIG -= app_bundle
 
 win32: {
-QMAKE_CXXFLAGS += -Wa,-mbig-obj
+QMAKE_CXXFLAGS += -Wa,-mbig-obj -O1
 }
 
 include(../3rdparty/qtservice/src/qtservice.pri)

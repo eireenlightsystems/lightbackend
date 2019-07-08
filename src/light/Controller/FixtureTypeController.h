@@ -52,42 +52,42 @@ IDList Controller<FixtureType, Crud>::ins(const QList<QVariantHash>& params) {
 
     if (param.contains("width")) {
       double width = param.value("width").toDouble();
-      newFixtureType->setHeight(width);
+      newFixtureType->setWidth(width);
     }
 
     if (param.contains("weight")) {
       double weight = param.value("weight").toDouble();
-      newFixtureType->setHeight(weight);
+      newFixtureType->setWeight(weight);
     }
 
     if (param.contains("length")) {
       double length = param.value("length").toDouble();
-      newFixtureType->setHeight(length);
+      newFixtureType->setLength(length);
     }
 
     if (param.contains("countlamp")) {
       double countlamp = param.value("countlamp").toDouble();
-      newFixtureType->setHeight(countlamp);
+      newFixtureType->setCountlamp(countlamp);
     }
 
     if (param.contains("power")) {
       double power = param.value("power").toDouble();
-      newFixtureType->setHeight(power);
+      newFixtureType->setPower(power);
     }
 
     if (param.contains("cos")) {
       double cos = param.value("cos").toDouble();
-      newFixtureType->setHeight(cos);
+      newFixtureType->setCos(cos);
     }
 
     if (param.contains("ip")) {
       double ip = param.value("ip").toDouble();
-      newFixtureType->setHeight(ip);
+      newFixtureType->setIp(ip);
     }
 
     if (param.contains("efficiency")) {
       double efficiency = param.value("efficiency").toDouble();
-      newFixtureType->setHeight(efficiency);
+      newFixtureType->setEfficiency(efficiency);
     }
 
     newFixtureTypes << newFixtureType;
@@ -140,42 +140,42 @@ void Controller<FixtureType, Crud>::upd(const QList<QVariantHash>& params) {
 
     if (param.contains("width")) {
       double width = param.value("width").toDouble();
-      fixtureType->setHeight(width);
+      fixtureType->setWidth(width);
     }
 
     if (param.contains("weight")) {
       double weight = param.value("weight").toDouble();
-      fixtureType->setHeight(weight);
+      fixtureType->setWeight(weight);
     }
 
     if (param.contains("length")) {
       double length = param.value("length").toDouble();
-      fixtureType->setHeight(length);
+      fixtureType->setLength(length);
     }
 
     if (param.contains("countlamp")) {
       double countlamp = param.value("countlamp").toDouble();
-      fixtureType->setHeight(countlamp);
+      fixtureType->setCountlamp(countlamp);
     }
 
     if (param.contains("power")) {
       double power = param.value("power").toDouble();
-      fixtureType->setHeight(power);
+      fixtureType->setPower(power);
     }
 
     if (param.contains("cos")) {
       double cos = param.value("cos").toDouble();
-      fixtureType->setHeight(cos);
+      fixtureType->setCos(cos);
     }
 
     if (param.contains("ip")) {
       double ip = param.value("ip").toDouble();
-      fixtureType->setHeight(ip);
+      fixtureType->setIp(ip);
     }
 
     if (param.contains("efficiency")) {
       double efficiency = param.value("efficiency").toDouble();
-      fixtureType->setHeight(efficiency);
+      fixtureType->setEfficiency(efficiency);
     }
 
     fixtureTypes << fixtureType;

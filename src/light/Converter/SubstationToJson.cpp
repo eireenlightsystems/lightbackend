@@ -6,17 +6,13 @@
 #include <QJsonValue>
 #include <QVariant>
 
+#include "ContragentToJson.h"
+
 namespace light {
 
 QJsonObject ToJsonConverter<Substation>::toJson(const SubstationShared& substation) const {
-  QJsonObject substationJson;
-  substationJson["id"] = QJsonValue::fromVariant(substation->getId());
-  substationJson["geographId"] = QJsonValue::fromVariant(substation->getGeographId());
-  substationJson["geographCode"] = substation->getGeographCode();
-  substationJson["code"] = substation->getCode();
-  substationJson["name"] = substation->getName();
-  substationJson["inn"] = substation->getInn();
-  substationJson["comments"] = substation->getComments();
+  ToJsonConverter<Contragent> contragentToJsonConverter;
+  QJsonObject substationJson = contragentToJsonConverter.toJson(substation);
   substationJson["orgFormId"] = QJsonValue::fromVariant(substation->getOrgFormId());
   substationJson["orgFormCode"] = QJsonValue::fromVariant(substation->getOrgFormCode());
   substationJson["power"] = QJsonValue::fromVariant(substation->getPower());

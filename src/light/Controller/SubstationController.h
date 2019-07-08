@@ -22,12 +22,16 @@ public:
 template <template <typename> class Crud>
 IDList Controller<Substation, Crud>::ins(const QList<QVariantHash>& params) {
   SubstationSharedList newSubstations;
+  Crud<Geograph> geographCrud;
+  geographCrud.setSession(this->getSession());
+
   for (const auto& param : params){
     auto newSubstation = SubstationShared::create();
 
     if (param.contains("geographId")) {
       ID geographId = param.value("geographId").value<ID>();
-      newSubstation->setGeographId(geographId);
+      auto geograph = geographCrud.selById(geographId);
+      newSubstation->setGeograph(geograph);
     }
 
     if (param.contains("code")) {
@@ -73,6 +77,8 @@ void Controller<Substation, Crud>::upd(const QList<QVariantHash>& params) {
   SubstationSharedList substations;
   Crud<Substation> substationCrud;
   substationCrud.setSession(this->getSession());
+  Crud<Geograph> geographCrud;
+  geographCrud.setSession(this->getSession());
 
   for (const auto& param : params){
     ID substationId = param.value("id").value<ID>();
@@ -80,8 +86,10 @@ void Controller<Substation, Crud>::upd(const QList<QVariantHash>& params) {
 
     if (param.contains("geographId")) {
       ID geographId = param.value("geographId").value<ID>();
-      substation->setGeographId(geographId);
+      auto geograph = geographCrud.selById(geographId);
+      substation->setGeograph(geograph);
     }
+
 
     if (param.contains("code")) {
       QString code = param.value("code").toString();

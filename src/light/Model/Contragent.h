@@ -8,6 +8,7 @@ class Contragent
 {
 public:
   Contragent() = default;
+  Contragent(const Contragent & other);
 
   ID getId() const;
   void setId(const ID& value);
@@ -18,29 +19,22 @@ public:
   QString getName() const;
   void setName(const QString& value);
 
-//  virtual GeographShared getGeograph() const;
-//  ID getGeographId() const;
-//  void setGeograph(const GeographShared& value);
-
-  ID getGeographId() const;
-  void setGeographId(const ID& value);
-
-  QString getGeographCode() const;
-  void setGeographCode(const QString& value);
-
   QString getInn() const;
   void setInn(const QString& value);
 
   QString getComments() const;
   void setComments(const QString& value);
 
+  GeographShared getGeograph() const;
+  void setGeograph(const GeographShared &value);
+  ID getGeographId() const;
+  QString getGeographCode() const;
+
 private:
   ID id{0};
   QString code;
   QString name;
-  ID geographId{0};
-  QString geographCode;
-//  GeographShared geograph;
+  GeographShared geograph;
   QString inn;
   QString comments;
 };

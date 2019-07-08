@@ -8,6 +8,7 @@ class CompanyDepartment : public Contragent
 {
 public:
   CompanyDepartment() = default;
+  CompanyDepartment(const Contragent& other);
 
   ID getOrgFormId() const;
   void setOrgFormId(const ID& value);

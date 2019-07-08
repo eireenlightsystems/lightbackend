@@ -81,8 +81,10 @@ QString LigthBackend::login(const QString& login, const QString& password) {
 
 void LigthBackend::logout(const QString& token) {
   auto session = sessions[token];
-  session->getDb().close();
-  sessions.remove(token);
+  if(session) {
+    session->getDb().close();
+    sessions.remove(token);
+  }
 }
 
 } // namespace light

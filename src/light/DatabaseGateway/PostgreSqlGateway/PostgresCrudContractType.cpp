@@ -50,7 +50,7 @@ BindParamsType PostgresCrud<ContractType>::getUpdateParams(const Editor::Shared 
 {
   return BindParamsType{
       {":action", "upd"},
-      {":id_contract_type", QVariant()},
+      {":id_contract_type", contractType->getId()},
       {":code", contractType->getCode()},
       {":name", contractType->getName()},
       {":comments", contractType->getComments()},

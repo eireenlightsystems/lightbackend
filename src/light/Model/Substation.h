@@ -10,6 +10,7 @@ class Substation  : public Contragent
 {
 public:
   Substation() = default;
+  Substation(const Contragent &other);
 
   ID getOrgFormId() const;
   void setOrgFormId(const ID& value);

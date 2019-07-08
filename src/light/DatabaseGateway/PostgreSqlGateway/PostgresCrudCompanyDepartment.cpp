@@ -3,19 +3,21 @@
 #include <QSqlRecord>
 #include <QVariant>
 
+#include "PostgresCrudContragent.h"
+
 namespace light {
 namespace PostgresqlGateway {
 
 const QList<Field> companyDepartmentFields{
     {"id_contragent", "id_contragent_company_department", true},
-    {"id_geograph_addr", "id_geograph_addr_company_department", true},
-    {"code_geograph", "code_geograph_company_department", true},
+    {"id_geograph", "id_geograph", false},
+    {"code_geograph", "code_geograph", false},
     {"code", "code_company_department", false},
     {"name", "name_company_department", false},
     {"inn", "inn_company_department", false},
     {"comments", "comments_company_department", false},
-    {"id_org_forms_type", "id_org_forms_type_company_department", true},
-    {"code_org_forms_type", "code_org_forms_type_company_department", true},
+    {"id_org_forms_type", "id_org_forms_type_company_department", false},
+    {"code_org_forms_type", "code_org_forms_type_company_department", false},
 };
 
 PostgresCrud<CompanyDepartment>::PostgresCrud() {
@@ -27,14 +29,19 @@ PostgresCrud<CompanyDepartment>::PostgresCrud() {
 }
 
 Reader<CompanyDepartment>::Shared PostgresCrud<CompanyDepartment>::parse(const QSqlRecord& record) const {
-  auto companyDepartment = CompanyDepartmentShared::create();
-  companyDepartment->setId(record.value(getFieldAlias("id_contragent")).value<ID>());
-  companyDepartment->setGeographId(record.value(getFieldAlias("id_geograph_addr")).value<ID>());
-  companyDepartment->setGeographCode(record.value(getFieldAlias("code_geograph")).toString());
-  companyDepartment->setCode(record.value(getFieldAlias("code")).toString());
-  companyDepartment->setName(record.value(getFieldAlias("name")).toString());
-  companyDepartment->setInn(record.value(getFieldAlias("inn")).toString());
-  companyDepartment->setComments(record.value(getFieldAlias("comments")).toString());
+  PostgresCrud<Contragent> contragentCrud;
+  contragentCrud.setFields({
+      {"id_contragent", "id_contragent_company_department", true},
+      {"id_geograph", "id_geograph", false},
+      {"code_geograph", "code_geograph", false},
+      {"code", "code_company_department", false},
+      {"name", "name_company_department", false},
+      {"inn", "inn_company_department", false},
+      {"comments", "comments_company_department", false},
+  });
+  const auto contragent = contragentCrud.parse(record);
+
+  auto companyDepartment = CompanyDepartmentShared::create(*contragent);
   companyDepartment->setOrgFormId(record.value(getFieldAlias("id_org_forms_type")).value<ID>());
   companyDepartment->setOrgFormCode(record.value(getFieldAlias("code_org_forms_type")).toString());
   return companyDepartment;
@@ -64,7 +71,7 @@ BindParamsType PostgresCrud<CompanyDepartment>::getUpdateParams(const Editor::Sh
 {
   return BindParamsType{
       {":action", "upd"},
-      {":id_contragent", QVariant()},
+      {":id_contragent", companyDepartment->getId()},
       {":id_geograph_addr", companyDepartment->getGeographId()},
       {":code", companyDepartment->getCode()},
       {":name", companyDepartment->getName()},

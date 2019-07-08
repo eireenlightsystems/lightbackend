@@ -8,12 +8,12 @@ namespace PostgresqlGateway {
 
 const QList<Field> contractFields {
     {"id_contract", "id_contract", true},
-    {"id_contract_type", "id_contract_type_contract", true},
-    {"id_sender", "id_sender_contract", true},
-    {"id_recipient", "id_recipient_contract", true},
-    {"code_contract_type", "code_contract_type_contract", true},
-    {"code_sender", "code_sender_contract", true},
-    {"code_recipient", "code_recipient_contract", true},
+    {"id_contract_type", "id_contract_type_contract", false},
+    {"id_sender", "id_sender_contract", false},
+    {"id_recipient", "id_recipient_contract", false},
+    {"code_contract_type", "code_contract_type_contract", false},
+    {"code_sender", "code_sender_contract", false},
+    {"code_recipient", "code_recipient_contract", false},
     {"code", "code_contract", false},
     {"name", "name_contract", false},
     {"comments", "comments_contract", false},
@@ -68,7 +68,7 @@ BindParamsType PostgresCrud<Contract>::getUpdateParams(const Editor::Shared &con
 {
   return BindParamsType{
       {":action", "upd"},
-      {":id_contract", QVariant()},
+      {":id_contract", contract->getId()},
       {":id_contract_type", contract->getContractTypeId()},
       {":id_sender", contract->getSenderId()},
       {":id_recipient", contract->getRecipientId()},

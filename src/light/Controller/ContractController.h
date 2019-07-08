@@ -78,7 +78,7 @@ void Controller<Contract, Crud>::upd(const QList<QVariantHash>& params) {
     ID contractId = param.value("id").value<ID>();
     auto contract = contractCrud.selById(contractId);
 
-    if (param.contains("contractTypeId")) {
+    if (param.contains("id")) {
       ID contractTypeId = param.value("contractTypeId").value<ID>();
       contract->setContractTypeId(contractTypeId);
     }

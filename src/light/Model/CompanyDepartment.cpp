@@ -3,6 +3,11 @@
 namespace light {
 
 
+CompanyDepartment::CompanyDepartment(const Contragent &other)
+  : Contragent (other)
+{
+}
+
 ID CompanyDepartment::getOrgFormId() const {
   return orgFormId;
 }

@@ -3,6 +3,17 @@
 
 namespace light {
 
+Contragent::Contragent(const Contragent &other)
+  : id(other.id)
+  , code(other.code)
+  , name(other.name)
+  , geograph(other.geograph)
+  , inn(other.inn)
+  , comments(other.comments)
+{
+
+}
+
 ID Contragent::getId() const {
   return id;
 }
@@ -28,35 +39,27 @@ void Contragent::setName(const QString& value) {
 }
 
 
-//GeographShared Contragent::getGeograph() const {
-//  return geograph;
-//}
-
-//ID Contragent::getGeographId() const {
-//  if (geograph)
-//    return geograph->getId();
-
-//  return 0;
-//}
-
-//void Contragent::setGeograph(const GeographShared& value) {
-//  geograph = value;
-//}
+GeographShared Contragent::getGeograph() const {
+  return geograph;
+}
 
 ID Contragent::getGeographId() const {
-  return geographId;
+  if (geograph)
+    return geograph->getId();
+
+  return 0;
 }
 
-void Contragent::setGeographCode(const QString& value) {
-  geographCode = value;
+QString Contragent::getGeographCode() const
+{
+  if (geograph)
+    return geograph->getCode();
+
+  return QString();
 }
 
-QString Contragent::getGeographCode() const {
-  return geographCode;
-}
-
-void Contragent::setGeographId(const ID& value) {
-  geographId = value;
+void Contragent::setGeograph(const GeographShared& value) {
+  geograph = value;
 }
 
 QString Contragent::getInn() const {

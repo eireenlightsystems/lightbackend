@@ -2,6 +2,10 @@
 
 namespace light {
 
+Substation::Substation(const Contragent &other) : Contragent (other)
+{
+}
+
 ID Substation::getOrgFormId() const {
   return orgFormId;
 }

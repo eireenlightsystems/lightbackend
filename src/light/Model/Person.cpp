@@ -3,6 +3,11 @@
 namespace light {
 
 
+Person::Person(const Contragent &other)
+  : Contragent (other)
+{
+}
+
 QString Person::getNameFirst() const {
   return nameFirst;
 }

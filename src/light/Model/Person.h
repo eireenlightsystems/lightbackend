@@ -8,6 +8,7 @@ class Person : public Contragent
 {
 public:
   Person() = default;
+  Person(const Contragent& other);
 
   QString getNameFirst() const;
   void setNameFirst(const QString& value);

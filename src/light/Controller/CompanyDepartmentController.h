@@ -22,12 +22,19 @@ public:
 template <template <typename> class Crud>
 IDList Controller<CompanyDepartment, Crud>::ins(const QList<QVariantHash>& params) {
   CompanyDepartmentSharedList newCompanyDepartments;
+  Crud<Geograph> geographCrud;
+  geographCrud.setSession(this->getSession());
+
   for (const auto& param : params){
     auto newCompanyDepartment = CompanyDepartmentShared::create();
 
+    Crud<Geograph> geographCrud;
+    geographCrud.setSession(this->getSession());
+
     if (param.contains("geographId")) {
       ID geographId = param.value("geographId").value<ID>();
-      newCompanyDepartment->setGeographId(geographId);
+      auto geograph = geographCrud.selById(geographId);
+      newCompanyDepartment->setGeograph(geograph);
     }
 
     if (param.contains("code")) {
@@ -73,6 +80,8 @@ void Controller<CompanyDepartment, Crud>::upd(const QList<QVariantHash>& params)
   CompanyDepartmentSharedList companyDepartments;
   Crud<CompanyDepartment> companyDepartmentCrud;
   companyDepartmentCrud.setSession(this->getSession());
+  Crud<Geograph> geographCrud;
+  geographCrud.setSession(this->getSession());
 
   for (const auto& param : params){
     ID companyDepartmentId = param.value("id").value<ID>();
@@ -80,7 +89,8 @@ void Controller<CompanyDepartment, Crud>::upd(const QList<QVariantHash>& params)
 
     if (param.contains("geographId")) {
       ID geographId = param.value("geographId").value<ID>();
-      companyDepartment->setGeographId(geographId);
+      auto geograph = geographCrud.selById(geographId);
+      companyDepartment->setGeograph(geograph);
     }
 
     if (param.contains("code")) {

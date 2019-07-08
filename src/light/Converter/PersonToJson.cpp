@@ -6,20 +6,16 @@
 #include <QJsonValue>
 #include <QVariant>
 
+#include "ContragentToJson.h"
+
 namespace light {
 
 QJsonObject ToJsonConverter<Person>::toJson(const PersonShared& person) const {
-  QJsonObject personJson;
-  personJson["id"] = QJsonValue::fromVariant(person->getId());
-  personJson["geographId"] = QJsonValue::fromVariant(person->getGeographId());
-  personJson["geographCode"] = person->getGeographCode();
-  personJson["code"] = person->getCode();
-  personJson["name"] = person->getName();
-  personJson["inn"] = person->getInn();
-  personJson["comments"] = person->getComments();
-  personJson["name_first"] = person->getNameFirst();
-  personJson["name_second"] = person->getNameSecond();
-  personJson["name_third"] = person->getNameThird();
+  ToJsonConverter<Contragent> contragentToJsonConverter;
+  QJsonObject personJson = contragentToJsonConverter.toJson(person);
+  personJson["nameFirst"] = person->getNameFirst();
+  personJson["nameSecond"] = person->getNameSecond();
+  personJson["nameThird"] = person->getNameThird();
   return personJson;
 }
 

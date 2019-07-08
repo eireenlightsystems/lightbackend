@@ -3,13 +3,15 @@
 #include <QSqlRecord>
 #include <QVariant>
 
+#include "PostgresCrudContragent.h"
+
 namespace light {
 namespace PostgresqlGateway {
 
 const QList<Field> personFields{
-    {"id_contragent", "id_contragent_person", true},
-    {"id_geograph_addr", "id_geograph_addr_person", true},
-    {"code_geograph", "code_geograph_person", true},
+    {"id_contragent", "id_contragent", true},
+    {"id_geograph", "id_geograph", false},
+    {"code_geograph", "code_geograph", false},
     {"code", "code_person", false},
     {"name", "name_person", false},
     {"inn", "inn_person", false},
@@ -28,17 +30,24 @@ PostgresCrud<Person>::PostgresCrud() {
 }
 
 Reader<Person>::Shared PostgresCrud<Person>::parse(const QSqlRecord& record) const {
-  auto person = PersonShared::create();
-  person->setId(record.value(getFieldAlias("id_contragent")).value<ID>());
-  person->setGeographId(record.value(getFieldAlias("id_geograph_addr")).value<ID>());
-  person->setGeographCode(record.value(getFieldAlias("code_geograph")).toString());
-  person->setCode(record.value(getFieldAlias("code")).toString());
-  person->setName(record.value(getFieldAlias("name")).toString());
-  person->setInn(record.value(getFieldAlias("inn")).toString());
-  person->setComments(record.value(getFieldAlias("comments")).toString());
+  PostgresCrud<Contragent> contragentCrud;
+  contragentCrud.setFields({
+      {"id_contragent", "id_contragent", true},
+      {"id_geograph", "id_geograph", false},
+      {"code_geograph", "code_geograph", false},
+      {"code", "code_person", false},
+      {"name", "name_person", false},
+      {"inn", "inn_person", false},
+      {"comments", "comments_person", false},
+  });
+  const auto contragent = contragentCrud.parse(record);
+
+  auto person = PersonShared::create(*contragent);
+
   person->setNameFirst(record.value(getFieldAlias("name_first")).toString());
   person->setNameSecond(record.value(getFieldAlias("name_second")).toString());
   person->setNameThird(record.value(getFieldAlias("name_third")).toString());
+
   return person;
 }
 
@@ -68,7 +77,7 @@ BindParamsType PostgresCrud<Person>::getUpdateParams(const Editor::Shared &perso
 {
   return BindParamsType{
       {":action", "upd"},
-      {":id_contragent", QVariant()},
+      {":id_contragent", person->getId()},
       {":id_geograph_addr", person->getGeographId()},
       {":code", person->getCode()},
 //      {":name", person->getName()},

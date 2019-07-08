@@ -3,19 +3,21 @@
 #include <QSqlRecord>
 #include <QVariant>
 
+#include "PostgresCrudContragent.h"
+
 namespace light {
 namespace PostgresqlGateway {
 
 const QList<Field> substationFields{
     {"id_contragent", "id_substation", true},
-    {"id_geograph_addr", "id_geograph_addr_substation", true},
-    {"code_geograph", "code_geograph_substation", true},
+    {"id_geograph", "id_geograph", false},
+    {"code_geograph", "code_geograph", false},
     {"code", "code_substation", false},
     {"name", "name_substation", false},
     {"inn", "inn_substation", false},
     {"comments", "comments_substation", false},
-    {"id_org_forms_type", "id_org_forms_type_substation", true},
-    {"code_org_forms_type", "code_org_forms_type_substation", true},
+    {"id_org_forms_type", "id_org_forms_type_substation", false},
+    {"code_org_forms_type", "code_org_forms_type_substation", false},
     {"power", "power_substation", false},
 };
 
@@ -28,17 +30,24 @@ PostgresCrud<Substation>::PostgresCrud() {
 }
 
 Reader<Substation>::Shared PostgresCrud<Substation>::parse(const QSqlRecord& record) const {
-  auto substation = SubstationShared::create();
-  substation->setId(record.value(getFieldAlias("id_contragent")).value<ID>());
-  substation->setGeographId(record.value(getFieldAlias("id_geograph_addr")).value<ID>());
-  substation->setGeographCode(record.value(getFieldAlias("code_geograph")).toString());
-  substation->setCode(record.value(getFieldAlias("code")).toString());
-  substation->setName(record.value(getFieldAlias("name")).toString());
-  substation->setInn(record.value(getFieldAlias("inn")).toString());
-  substation->setComments(record.value(getFieldAlias("comments")).toString());
+  PostgresCrud<Contragent> contragentCrud;
+  contragentCrud.setFields({
+      {"id_contragent", "id_substation", true},
+      {"id_geograph", "id_geograph", false},
+      {"code_geograph", "code_geograph", false},
+      {"code", "code_substation", false},
+      {"name", "name_substation", false},
+      {"inn", "inn_substation", false},
+      {"comments", "comments_substation", false},
+  });
+  const auto contragent = contragentCrud.parse(record);
+
+  auto substation = SubstationShared::create(*contragent);
+
   substation->setOrgFormId(record.value(getFieldAlias("id_org_forms_type")).value<ID>());
   substation->setOrgFormCode(record.value(getFieldAlias("code_org_forms_type")).toString());
   substation->setPower(record.value(getFieldAlias("power")).toDouble());
+
   return substation;
 }
 
@@ -66,7 +75,7 @@ BindParamsType PostgresCrud<Substation>::getUpdateParams(const Editor::Shared &s
 {
   return BindParamsType{
       {":action", "upd"},
-      {":id_contragent", QVariant()},
+      {":id_contragent", substation->getId()},
       {":id_geograph_addr", substation->getGeographId()},
       {":code", substation->getCode()},
       {":name", substation->getName()},

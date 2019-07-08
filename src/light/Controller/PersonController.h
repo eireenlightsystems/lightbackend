@@ -22,12 +22,16 @@ public:
 template <template <typename> class Crud>
 IDList Controller<Person, Crud>::ins(const QList<QVariantHash>& params) {
   PersonSharedList newPersons;
+  Crud<Geograph> geographCrud;
+  geographCrud.setSession(this->getSession());
+
   for (const auto& param : params){
     auto newPerson = PersonShared::create();
 
     if (param.contains("geographId")) {
       ID geographId = param.value("geographId").value<ID>();
-      newPerson->setGeographId(geographId);
+      auto geograph = geographCrud.selById(geographId);
+      newPerson->setGeograph(geograph);
     }
 
     if (param.contains("code")) {
@@ -52,17 +56,17 @@ IDList Controller<Person, Crud>::ins(const QList<QVariantHash>& params) {
 
     if (param.contains("nameFirst")) {
       QString nameFirst = param.value("nameFirst").toString();
-      newPerson->setName(nameFirst);
+      newPerson->setNameFirst(nameFirst);
     }
 
     if (param.contains("nameSecond")) {
       QString nameSecond = param.value("nameSecond").toString();
-      newPerson->setName(nameSecond);
+      newPerson->setNameSecond(nameSecond);
     }
 
     if (param.contains("nameThird")) {
       QString nameThird = param.value("nameThird").toString();
-      newPerson->setName(nameThird);
+      newPerson->setNameThird(nameThird);
     }
 
     newPersons << newPerson;
@@ -83,6 +87,8 @@ void Controller<Person, Crud>::upd(const QList<QVariantHash>& params) {
   PersonSharedList Persons;
   Crud<Person> PersonCrud;
   PersonCrud.setSession(this->getSession());
+  Crud<Geograph> geographCrud;
+  geographCrud.setSession(this->getSession());
 
   for (const auto& param : params){
     ID personId = param.value("id").value<ID>();
@@ -90,7 +96,8 @@ void Controller<Person, Crud>::upd(const QList<QVariantHash>& params) {
 
     if (param.contains("geographId")) {
       ID geographId = param.value("geographId").value<ID>();
-      person->setGeographId(geographId);
+      auto geograph = geographCrud.selById(geographId);
+      person->setGeograph(geograph);
     }
 
     if (param.contains("code")) {
@@ -115,17 +122,17 @@ void Controller<Person, Crud>::upd(const QList<QVariantHash>& params) {
 
     if (param.contains("nameFirst")) {
       QString nameFirst = param.value("nameFirst").toString();
-      person->setName(nameFirst);
+      person->setNameFirst(nameFirst);
     }
 
     if (param.contains("nameSecond")) {
       QString nameSecond = param.value("nameSecond").toString();
-      person->setName(nameSecond);
+      person->setNameSecond(nameSecond);
     }
 
     if (param.contains("nameThird")) {
       QString nameThird = param.value("nameThird").toString();
-      person->setName(nameThird);
+      person->setNameThird(nameThird);
     }
 
     Persons << person;
