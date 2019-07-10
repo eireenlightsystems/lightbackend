@@ -6,8 +6,8 @@
 
 #include <QCoreApplication>
 #include <QDebug>
-#include <QSettings>
 #include <QMqttClient>
+#include <QSettings>
 #include <QSqlDatabase>
 
 namespace light {
@@ -37,7 +37,10 @@ CommandsSchedulerControllerShared CommandsSchedulerControllerBuilder::build() {
   db.setDatabaseName(dbConnectionSettings.databaseName);
   db.setUserName(dbConnectionSettings.userName);
   db.setPassword(dbConnectionSettings.password);
-  db.open();
+  if (!db.open()) {
+    qDebug() << "can'n connect to database " << dbConnectionSettings.hostName << "port" << dbConnectionSettings.port
+	     << "database name" << dbConnectionSettings.databaseName << "username" << dbConnectionSettings.userName;
+  }
   session->setDb(db);
 
   auto controller = CommandsSchedulerControllerShared::create();
