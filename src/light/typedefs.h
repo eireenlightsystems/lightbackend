@@ -28,6 +28,7 @@ DeclareShared(NodeContract);
 DeclareShared(NodeOwner);
 
 DeclareShared(Geograph);
+DeclareShared(GeographFias);
 DeclareShared(Gateway);
 DeclareShared(GatewayContract);
 
