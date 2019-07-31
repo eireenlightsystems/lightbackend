@@ -58,6 +58,22 @@ QString Contragent::getGeographCode() const
   return QString();
 }
 
+QString Contragent::getGeographName() const
+{
+  if (geograph)
+    return geograph->getName();
+
+  return QString();
+}
+
+QString Contragent::getGeographFullName() const
+{
+  if (geograph)
+    return geograph->getFullName();
+
+  return QString();
+}
+
 void Contragent::setGeograph(const GeographShared& value) {
   geograph = value;
 }

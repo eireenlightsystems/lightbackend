@@ -12,6 +12,8 @@ const QList<Field> companyDepartmentFields{
     {"id_contragent", "id_contragent_company_department", true},
     {"id_geograph", "id_geograph", false},
     {"code_geograph", "code_geograph", false},
+    {"name_geograph", "name_geograph", false},
+    {"fullname_geograph", "fullname_geograph", false},
     {"code", "code_company_department", false},
     {"name", "name_company_department", false},
     {"inn", "inn_company_department", false},
@@ -23,7 +25,7 @@ const QList<Field> companyDepartmentFields{
 PostgresCrud<CompanyDepartment>::PostgresCrud() {
   setFields(companyDepartmentFields);
   setView("company_department_pkg_i.company_department_vwf()");
-  setInsertSql("select company_department_pkg_i.save(:action, :id_contragent, :id_geograph_addr, :code, :name, :inn, :comments, :id_org_forms_type)");
+  setInsertSql("select company_department_pkg_i.save(:action, :id_contragent, :id_geograph, :code, :name, :inn, :comments, :id_org_forms_type)");
   setUpdateSql(getInsertSql());
   setDeleteSql("select company_department_pkg_i.del(:id)");
 }
@@ -34,6 +36,8 @@ Reader<CompanyDepartment>::Shared PostgresCrud<CompanyDepartment>::parse(const Q
       {"id_contragent", "id_contragent_company_department", true},
       {"id_geograph", "id_geograph", false},
       {"code_geograph", "code_geograph", false},
+      {"name_geograph", "name_geograph", false},
+      {"fullname_geograph", "fullname_geograph", false},
       {"code", "code_company_department", false},
       {"name", "name_company_department", false},
       {"inn", "inn_company_department", false},
@@ -58,7 +62,7 @@ BindParamsType PostgresCrud<CompanyDepartment>::getInsertParams(const Editor::Sh
   return BindParamsType{
       {":action", "ins"},
       {":id_contragent", QVariant()},
-      {":id_geograph_addr", companyDepartment->getGeographId()},
+      {":id_geograph", companyDepartment->getGeographId()},
       {":code", companyDepartment->getCode()},
       {":name", companyDepartment->getName()},
       {":inn", companyDepartment->getInn()},
@@ -72,7 +76,7 @@ BindParamsType PostgresCrud<CompanyDepartment>::getUpdateParams(const Editor::Sh
   return BindParamsType{
       {":action", "upd"},
       {":id_contragent", companyDepartment->getId()},
-      {":id_geograph_addr", companyDepartment->getGeographId()},
+      {":id_geograph", companyDepartment->getGeographId()},
       {":code", companyDepartment->getCode()},
       {":name", companyDepartment->getName()},
       {":inn", companyDepartment->getInn()},

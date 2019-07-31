@@ -62,6 +62,12 @@ public:
 
   QString getHouseWithType() const;
   void setHouseWithType(const QString& value);
+
+  QString getGeoLat() const;
+  void setGeoLat(const QString& value);
+
+  QString getGeoLon() const;
+  void setGeoLon(const QString& value);
 private:
   ID id{0};
   QString postalCode;
@@ -81,6 +87,8 @@ private:
   QString streetWithType;
   QString houseFiasId;
   QString houseWithType;
+  QString geoLat;
+  QString geoLon;
 };
 } // namespace light
 

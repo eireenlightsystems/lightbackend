@@ -25,11 +25,13 @@ const QList<Field> geographFiasFields {
     {"street_with_type", "street_with_type", false},
     {"house_fias_id", "house_fias_id", false},
     {"house_with_type", "house_with_type", false},
+    {"geo_lat", "geo_lat", false},
+    {"geo_lon", "geo_lon", false},
     };
 
 PostgresCrud<GeographFias>::PostgresCrud() {
   setFields(geographFiasFields);
-  setInsertSql("select geograph_pkg_i.save_dadata(:postal_code, :okato, :fias_level, :region_fias_id, :region_with_type, :area_fias_id, :area_with_type, :city_fias_id, :city_with_type, :city_district_fias_id, :city_district_with_type, :settlement_fias_id, :settlement_with_type, :street_fias_id, :street_with_type, :house_fias_id, :house_with_type)");
+  setInsertSql("select geograph_pkg_i.save_dadata(:postal_code, :okato, :fias_level, :region_fias_id, :region_with_type, :area_fias_id, :area_with_type, :city_fias_id, :city_with_type, :city_district_fias_id, :city_district_with_type, :settlement_fias_id, :settlement_with_type, :street_fias_id, :street_with_type, :house_fias_id, :house_with_type, :geo_lat, :geo_lon)");
 }
 
 Reader<GeographFias>::Shared PostgresCrud<GeographFias>::parse(const QSqlRecord& record) const {
@@ -53,6 +55,9 @@ Reader<GeographFias>::Shared PostgresCrud<GeographFias>::parse(const QSqlRecord&
   geographFias->setStreetWithType(record.value(getFieldAlias("street_with_type")).toString());
   geographFias->setHouseFiasId(record.value(getFieldAlias("house_fias_id")).toString());
   geographFias->setHouseWithType(record.value(getFieldAlias("house_with_type")).toString());
+
+  geographFias->setGeoLat(record.value(getFieldAlias("geo_lat")).toString());
+  geographFias->setGeoLon(record.value(getFieldAlias("geo_lon")).toString());
 
   return geographFias;
 }
@@ -78,6 +83,9 @@ BindParamsType PostgresCrud<GeographFias>::getInsertParams(const Editor::Shared 
       {":street_with_type", geographFias->getStreetWithType()},
       {":house_fias_id", geographFias->getHouseFiasId()},
       {":house_with_type", geographFias->getHouseWithType()},
+
+      {":geo_lat", geographFias->getGeoLat()},
+      {":geo_lon", geographFias->getGeoLon()},
   };
 }
 

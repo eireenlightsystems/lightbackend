@@ -110,6 +110,17 @@ IDList Controller<GeographFias, Crud>::ins(const QList<QVariantHash>& params) {
       newGeographFias->setHouseWithType(houseWithType);
     }
 
+    if (param.contains("geoLat")) {
+      QString geoLat = param.value("geoLat").toString();
+      newGeographFias->setGeoLat(geoLat);
+    }
+
+    if (param.contains("geoLon")) {
+      QString geoLon = param.value("geoLon").toString();
+      newGeographFias->setGeoLon(geoLon);
+    }
+
+
     newGeographFiases << newGeographFias;
   }
 

@@ -146,4 +146,20 @@ void GeographFias::setHouseWithType(const QString& value) {
   houseWithType = value;
 }
 
+QString GeographFias::getGeoLat() const {
+  return geoLat;
+}
+
+void GeographFias::setGeoLat(const QString& value) {
+  geoLat = value;
+}
+
+QString GeographFias::getGeoLon() const {
+  return geoLon;
+}
+
+void GeographFias::setGeoLon(const QString& value) {
+  geoLon = value;
+}
+
 } // namespace light
