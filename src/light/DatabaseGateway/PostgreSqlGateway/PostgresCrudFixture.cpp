@@ -51,7 +51,7 @@ const QList<Field> fixtureFields{
     {"n_coordinate", "n_coordinate_node", false},
     {"e_coordinate", "e_coordinate_node", false},
     {"id_geograph", "id_geograph", false},
-    {"code_geograph", "code_geograph", false},
+    {"fullname_geograph", "fullname_geograph", false},
 };
 
 PostgresCrud<Fixture>::PostgresCrud() {

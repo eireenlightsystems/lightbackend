@@ -31,8 +31,8 @@ QJsonObject ToJsonConverter<Node>::toJson(const NodeShared& node) const {
 
   GeographShared geograph = node->getGeograph();
   if (geograph) {
-    nodeJson["geographId"] = QJsonValue::fromVariant(geograph->getId());
-    nodeJson["geographCode"] = geograph->getCode();
+    nodeJson["geographId"] = QJsonValue::fromVariant(node->getGeographId());
+    nodeJson["geographFullName"] = node->getGeographFullName();
   }
 
   ContragentShared owner = node->getOwner();

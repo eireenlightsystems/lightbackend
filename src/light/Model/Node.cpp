@@ -50,6 +50,21 @@ GeographShared Node::getGeograph() const {
   return geograph;
 }
 
+ID Node::getGeographId() const {
+  if (geograph)
+    return geograph->getId();
+
+  return 0;
+}
+
+QString Node::getGeographFullName() const
+{
+  if (geograph)
+    return geograph->getFullName();
+
+  return QString();
+}
+
 void Node::setGeograph(const GeographShared& value) {
   geograph = value;
 }

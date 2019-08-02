@@ -33,7 +33,7 @@ QJsonObject ToJsonConverter<FixtureGroup>::toJson(const FixtureGroupShared& fixt
   auto geograph = fixtureGroup->getGeograph();
   if (geograph) {
     fixtureGroupJson["geographId"] = QJsonValue::fromVariant(geograph->getId());
-    fixtureGroupJson["geographCode"] = geograph->getCode();
+    fixtureGroupJson["geographFullName"] = geograph->getFullName();
   }
 
   return fixtureGroupJson;

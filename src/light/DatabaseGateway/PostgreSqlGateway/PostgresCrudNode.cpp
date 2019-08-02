@@ -31,7 +31,7 @@ const QList<Field> nodeFields{
     {"code_node_type", "code_node_type", false},
 
     {"id_geograph", "id_geograph", false},
-    {"code_geograph", "code_geograph", false},
+    {"fullname_geograph", "fullname_geograph", false},
 
     {"id_owner", "id_owner", false},
     {"code_owner", "code_owner", false},
