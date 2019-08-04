@@ -12,6 +12,8 @@ const QList<Field> personFields{
     {"id_contragent", "id_contragent", true},
     {"id_geograph", "id_geograph", false},
     {"code_geograph", "code_geograph", false},
+    {"name_geograph", "name_geograph", false},
+    {"fullname_geograph", "fullname_geograph", false},
     {"code", "code_person", false},
     {"name", "name_person", false},
     {"inn", "inn_person", false},
@@ -24,7 +26,7 @@ const QList<Field> personFields{
 PostgresCrud<Person>::PostgresCrud() {
   setFields(personFields);
   setView("person_pkg_i.person_vwf()");
-  setInsertSql("select person_pkg_i.save(:action, :id_contragent, :id_geograph_addr, :code, :inn, :comments, :name_first, :name_second, :name_third)");
+  setInsertSql("select person_pkg_i.save(:action, :id_contragent, :id_geograph, :code, :inn, :comments, :name_first, :name_second, :name_third)");
   setUpdateSql(getInsertSql());
   setDeleteSql("select person_pkg_i.del(:id)");
 }
@@ -35,6 +37,8 @@ Reader<Person>::Shared PostgresCrud<Person>::parse(const QSqlRecord& record) con
       {"id_contragent", "id_contragent", true},
       {"id_geograph", "id_geograph", false},
       {"code_geograph", "code_geograph", false},
+      {"name_geograph", "name_geograph", false},
+      {"fullname_geograph", "fullname_geograph", false},
       {"code", "code_person", false},
       {"name", "name_person", false},
       {"inn", "inn_person", false},
@@ -62,9 +66,8 @@ BindParamsType PostgresCrud<Person>::getInsertParams(const Editor::Shared &perso
   return BindParamsType{
       {":action", "ins"},
       {":id_contragent", QVariant()},
-      {":id_geograph_addr", person->getGeographId()},
+      {":id_geograph", person->getGeographId()},
       {":code", person->getCode()},
-//      {":name", person->getName()},
       {":inn", person->getInn()},
       {":comments", person->getComments()},
       {":name_first", person->getNameFirst()},
@@ -78,9 +81,8 @@ BindParamsType PostgresCrud<Person>::getUpdateParams(const Editor::Shared &perso
   return BindParamsType{
       {":action", "upd"},
       {":id_contragent", person->getId()},
-      {":id_geograph_addr", person->getGeographId()},
+      {":id_geograph", person->getGeographId()},
       {":code", person->getCode()},
-//      {":name", person->getName()},
       {":inn", person->getInn()},
       {":comments", person->getComments()},
       {":name_first", person->getNameFirst()},

@@ -29,6 +29,8 @@ public:
   void setGeograph(const GeographShared &value);
   ID getGeographId() const;
   QString getGeographCode() const;
+  QString getGeographName() const;
+  QString getGeographFullName() const;
 
 private:
   ID id{0};

@@ -30,7 +30,7 @@ const QList<Field> fixtureGroupFields{
     {"code_owner", "code_owner", false},
 
     {"id_geograph", "id_geograph", false},
-    {"code_geograph", "code_geograph", false},
+    {"fullname_geograph", "fullname_geograph", false},
 };
 
 PostgresCrud<FixtureGroup>::PostgresCrud() {

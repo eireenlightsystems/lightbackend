@@ -2,6 +2,7 @@ INCLUDEPATH += $$PWD
 
 HEADERS += \
   $$PWD/Controller.h \
+    $$PWD/GeographFiasController.h \
     $$PWD/NodeController.h \
     $$PWD/GatewayController.h \
     $$PWD/FixtureGroupController.h \

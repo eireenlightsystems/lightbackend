@@ -3,6 +3,7 @@ INCLUDEPATH +=  \
 
 HEADERS += \
   $$PWD/AbstractRestRouter.h \
+    $$PWD/GeographFiasRestRouter.h \
   $$PWD/RestRouter.h \
   $$PWD/GeographRestRouter.h \
   $$PWD/GatewayRestRouter.h \

@@ -9,6 +9,7 @@
 #include "FixtureTypeRestRouter.h"
 #include "GatewayRestRouter.h"
 #include "GeographRestRouter.h"
+#include "GeographFiasRestRouter.h"
 #include "NodeRestRouter.h"
 #include "NodeToJson.h"
 #include "SensorRouter.h"
@@ -161,6 +162,9 @@ void HttpServerWrapper::createSensorRouters() {
 void HttpServerWrapper::createDictionary() {
   RestRouter<Geograph> geographRouter;
   geographRouter.registerApi(httpServer);
+
+  RestRouter<GeographFias> geographFiasRouter;
+  geographFiasRouter.registerApi(httpServer);
 
   RestRouter<CompanyDepartment> companyDepartmentRouter;
   companyDepartmentRouter.registerApi(httpServer);

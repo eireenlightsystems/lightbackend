@@ -45,7 +45,7 @@ QJsonObject ToJsonConverter<Fixture>::toJson(const FixtureShared& fixture) const
   auto geograph = fixture->getGeograph();
   if (geograph) {
     fixtureJson["geographId"] = QJsonValue::fromVariant(geograph->getId());
-    fixtureJson["geographCode"] = geograph->getCode();
+    fixtureJson["geographFullName"] = geograph->getFullName();
   }
 
   auto installer = fixture->getInstaller();

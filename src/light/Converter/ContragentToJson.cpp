@@ -18,6 +18,8 @@ QJsonObject ToJsonConverter<Contragent>::toJson(const ContragentShared& contrage
 
   contragentJson["geographId"] = QJsonValue::fromVariant(contragent->getGeographId());
   contragentJson["geographCode"] = contragent->getGeographCode();
+  contragentJson["geographName"] = contragent->getGeographName();
+  contragentJson["geographFullName"] = contragent->getGeographFullName();
 
   return contragentJson;
 }

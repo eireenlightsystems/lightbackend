@@ -10,6 +10,7 @@ HEADERS += \
     $$PWD/FixtureLightSpeedCommand.h \
     $$PWD/CommandStatus.h \
     $$PWD/Fixture.h \
+    $$PWD/GeographFias.h \
     $$PWD/Node.h \
     $$PWD/Contragent.h \
     $$PWD/Geograph.h \
@@ -39,6 +40,7 @@ SOURCES += \
     $$PWD/FixtureCommand.cpp \
     $$PWD/FixtureLightSpeedCommand.cpp \
     $$PWD/Fixture.cpp \
+    $$PWD/GeographFias.cpp \
     $$PWD/Node.cpp \
     $$PWD/Contragent.cpp \
     $$PWD/Geograph.cpp \
