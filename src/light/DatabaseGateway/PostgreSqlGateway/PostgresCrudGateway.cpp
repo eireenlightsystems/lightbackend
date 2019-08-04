@@ -24,7 +24,7 @@ const QList<Field> gatewayFields{
     {"n_coordinate", "n_coordinate_node", false},
     {"e_coordinate", "e_coordinate_node", false},
     {"id_geograph", "id_geograph", false},
-    {"code_geograph", "code_geograph", false},
+    {"fullname_geograph", "fullname_geograph", false},
 
     {"id_owner", "id_owner", false},
     {"code_owner", "code_owner", false},

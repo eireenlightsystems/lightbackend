@@ -42,6 +42,8 @@ public:
 
   GeographShared getGeograph() const override;
   void setGeograph(const GeographShared& value);
+  ID getGeographId() const;
+  QString getGeographFullName() const;
 
   FixtureSharedList getFixtures() const;
   void setFixtures(const FixtureSharedList& value);

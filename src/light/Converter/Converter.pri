@@ -1,6 +1,7 @@
 INCLUDEPATH += $$PWD
 
 HEADERS += \
+    $$PWD/GeographFiasToJson.h \
     $$PWD/NodeToJson.h \
     $$PWD/BaseConverter.h \
     $$PWD/BaseJsonConverter.h \
@@ -29,6 +30,7 @@ HEADERS += \
     $$PWD/ContractTypeToJson.h
 
 SOURCES += \
+    $$PWD/GeographFiasToJson.cpp \
     $$PWD/NodeToJson.cpp \
     $$PWD/BaseConverter.cpp \
     $$PWD/BaseJsonConverter.cpp \

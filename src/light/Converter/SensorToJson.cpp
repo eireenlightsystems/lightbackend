@@ -42,7 +42,7 @@ QJsonObject ToJsonConverter<Sensor>::toJson(const SensorShared& sensor) const {
   GeographShared geograph = sensor->getGeograph();
   if (geograph) {
     sensorJson["geographId"] = QJsonValue::fromVariant(geograph->getId());
-    sensorJson["geographCode"] = geograph->getCode();
+    sensorJson["geographFullName"] = geograph->getFullName();
   }
 
   NodeShared node = sensor->getNode();

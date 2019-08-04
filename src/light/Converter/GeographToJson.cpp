@@ -13,6 +13,7 @@ QJsonObject ToJsonConverter<Geograph>::toJson(const GeographShared& geograph) co
   QJsonObject geographJson;
   geographJson["id"] = QJsonValue::fromVariant(geograph->getId());
   geographJson["code"] = geograph->getCode();
+  geographJson["name"] = geograph->getName();
   geographJson["fullName"] = geograph->getFullName();
   return geographJson;
 }

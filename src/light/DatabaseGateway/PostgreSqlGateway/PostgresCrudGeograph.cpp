@@ -17,7 +17,7 @@ const QList<Field> geographFields {
 
 PostgresCrud<Geograph>::PostgresCrud() {
   setFields(geographFields);
-  setView("geograph_pkg.geograph_vw");
+  setView("geograph_pkg_i.geograph_vw");
 }
 
 Reader<Geograph>::Shared PostgresCrud<Geograph>::parse(const QSqlRecord& record) const {

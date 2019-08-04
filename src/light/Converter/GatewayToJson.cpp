@@ -42,7 +42,7 @@ QJsonObject ToJsonConverter<Gateway>::toJson(const GatewayShared& gateway) const
   GeographShared geograph = gateway->getGeograph();
   if (geograph) {
     gatewayJson["geographId"] = QJsonValue::fromVariant(geograph->getId());
-    gatewayJson["geographCode"] = geograph->getCode();
+    gatewayJson["geographFullName"] = geograph->getFullName();
   }
 
   NodeShared node = gateway->getNode();

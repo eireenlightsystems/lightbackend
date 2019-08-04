@@ -12,6 +12,8 @@ const QList<Field> substationFields{
     {"id_contragent", "id_substation", true},
     {"id_geograph", "id_geograph", false},
     {"code_geograph", "code_geograph", false},
+    {"name_geograph", "name_geograph", false},
+    {"fullname_geograph", "fullname_geograph", false},
     {"code", "code_substation", false},
     {"name", "name_substation", false},
     {"inn", "inn_substation", false},
@@ -24,7 +26,7 @@ const QList<Field> substationFields{
 PostgresCrud<Substation>::PostgresCrud() {
   setFields(substationFields);
   setView("substation_pkg_i.substation_vwf()");
-  setInsertSql("select substation_pkg_i.save(:action, :id_contragent, :id_geograph_addr, :code, :name, :inn, :comments, :id_org_forms_type, :power)");
+  setInsertSql("select substation_pkg_i.save(:action, :id_contragent, :id_geograph, :code, :name, :inn, :comments, :id_org_forms_type, :power)");
   setUpdateSql(getInsertSql());
   setDeleteSql("select substation_pkg_i.del(:id)");
 }
@@ -35,6 +37,8 @@ Reader<Substation>::Shared PostgresCrud<Substation>::parse(const QSqlRecord& rec
       {"id_contragent", "id_substation", true},
       {"id_geograph", "id_geograph", false},
       {"code_geograph", "code_geograph", false},
+      {"name_geograph", "name_geograph", false},
+      {"fullname_geograph", "fullname_geograph", false},
       {"code", "code_substation", false},
       {"name", "name_substation", false},
       {"inn", "inn_substation", false},
@@ -61,7 +65,7 @@ BindParamsType PostgresCrud<Substation>::getInsertParams(const Editor::Shared &s
   return BindParamsType{
       {":action", "ins"},
       {":id_contragent", QVariant()},
-      {":id_geograph_addr", substation->getGeographId()},
+      {":id_geograph", substation->getGeographId()},
       {":code", substation->getCode()},
       {":name", substation->getName()},
       {":inn", substation->getInn()},
@@ -76,7 +80,7 @@ BindParamsType PostgresCrud<Substation>::getUpdateParams(const Editor::Shared &s
   return BindParamsType{
       {":action", "upd"},
       {":id_contragent", substation->getId()},
-      {":id_geograph_addr", substation->getGeographId()},
+      {":id_geograph", substation->getGeographId()},
       {":code", substation->getCode()},
       {":name", substation->getName()},
       {":inn", substation->getInn()},
