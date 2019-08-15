@@ -334,7 +334,7 @@ const QList<Field> nodeOwnerFields{
 
 PostgresCrud<NodeOwner>::PostgresCrud() {
   setFields(nodeOwnerFields);
-  setView("sensor_pkg_i.owner_vw");
+  setView("node_pkg_i.owner_vw");
 }
 
 Reader<NodeOwner>::Shared PostgresCrud<NodeOwner>::parse(const QSqlRecord& record) const {

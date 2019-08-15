@@ -1,6 +1,7 @@
 INCLUDEPATH += $$PWD
 
 HEADERS += \
+    $$PWD/ComponentController.h \
   $$PWD/Controller.h \
     $$PWD/GeographFiasController.h \
     $$PWD/NodeController.h \
@@ -8,6 +9,7 @@ HEADERS += \
     $$PWD/FixtureGroupController.h \
     $$PWD/FixtureController.h \
     $$PWD/FixtureCommandController.h \
+    $$PWD/RoleController.h \
     $$PWD/SensorController.h \
     $$PWD/NodeTypeController.h \
     $$PWD/SensorTypeController.h \
@@ -17,6 +19,7 @@ HEADERS += \
     $$PWD/PersonController.h \
     $$PWD/SubstationController.h \
     $$PWD/ContractController.h \
-    $$PWD/ContractTypeController.h
+    $$PWD/ContractTypeController.h \
+    $$PWD/UserController.h
 
 SOURCES +=

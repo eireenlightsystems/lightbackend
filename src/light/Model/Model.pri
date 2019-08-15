@@ -4,6 +4,7 @@ INCLUDEPATH +=  \
     $$PWD
 
 HEADERS += \
+    $$PWD/Component.h \
     $$PWD/DateTimeRange.h \
     $$PWD/FixtureLightLevelCommand.h \
     $$PWD/FixtureCommand.h \
@@ -23,18 +24,22 @@ HEADERS += \
     $$PWD/EquipmentOwner.h \
     $$PWD/FixtureType.h \
     $$PWD/FixtureHeightType.h \
+    $$PWD/Role.h \
     $$PWD/Substation.h \
     $$PWD/FixtureGroup.h \
     $$PWD/FixtureGroupType.h \
     $$PWD/Sensor.h \
     $$PWD/NodeChild.h \
     $$PWD/SensorType.h \
+    $$PWD/User.h \
     $$PWD/helpers.h \
     $$PWD/CompanyDepartment.h \
     $$PWD/Person.h \
-    $$PWD/ContractType.h
+    $$PWD/ContractType.h \
+
 
 SOURCES += \
+    $$PWD/Component.cpp \
     $$PWD/DateTimeRange.cpp \
     $$PWD/FixtureLightLevelCommand.cpp \
     $$PWD/FixtureCommand.cpp \
@@ -53,6 +58,7 @@ SOURCES += \
     $$PWD/EquipmentOwner.cpp \
     $$PWD/FixtureType.cpp \
     $$PWD/FixtureHeightType.cpp \
+    $$PWD/Role.cpp \
     $$PWD/Substation.cpp \
     $$PWD/FixtureGroup.cpp \
     $$PWD/FixtureGroupType.cpp \
@@ -61,4 +67,6 @@ SOURCES += \
     $$PWD/SensorType.cpp \
     $$PWD/CompanyDepartment.cpp \
     $$PWD/Person.cpp \
-    $$PWD/ContractType.cpp
+    $$PWD/ContractType.cpp \
+    $$PWD/User.cpp \
+

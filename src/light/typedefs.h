@@ -63,6 +63,10 @@ DeclareShared(Substation);
 DeclareShared(Contract);
 DeclareShared(ContractType);
 
+DeclareShared(User);
+DeclareShared(Role);
+DeclareShared(Component);
+
 } // namespace light
 
 #endif // TYPEDEFS_H

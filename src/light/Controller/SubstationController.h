@@ -90,7 +90,6 @@ void Controller<Substation, Crud>::upd(const QList<QVariantHash>& params) {
       substation->setGeograph(geograph);
     }
 
-
     if (param.contains("code")) {
       QString code = param.value("code").toString();
       substation->setCode(code);
