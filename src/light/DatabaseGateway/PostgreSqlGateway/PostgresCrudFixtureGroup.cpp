@@ -172,7 +172,7 @@ QSet<ID> PostgresCrud<FixtureGroup>::selectCurrentFixtureIds(const FixtureGroupS
   const QString selectAllFixtureIdSql = "select id_fixture from fixture_pkg_i.fixture_in_group_vwf(:id_fixture_group)";
   const BindParamsType bindParamsSelectAllId{
       {":id_fixture_group", fixtureGroup->getId()},
-  };
+      };
   SelectQuery selectFixtureIds(getSession()->getDb());
   selectFixtureIds.prepare(selectAllFixtureIdSql);
   selectFixtureIds.bind(bindParamsSelectAllId);

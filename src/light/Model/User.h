@@ -47,6 +47,14 @@ private:
   QString contragentAdres;
   QString comments;
 };
+
+class UserInRole : public User
+{
+public:
+  UserInRole() = default;
+  explicit UserInRole(const User& other) : User(other) {
+  }
+};
 } // namespace light
 
 #endif // USER_H

@@ -25,6 +25,8 @@ HEADERS += \
     $$PWD/FixtureType.h \
     $$PWD/FixtureHeightType.h \
     $$PWD/Role.h \
+    $$PWD/Roleinclud.h \
+    $$PWD/Roleright.h \
     $$PWD/Substation.h \
     $$PWD/FixtureGroup.h \
     $$PWD/FixtureGroupType.h \
@@ -35,7 +37,7 @@ HEADERS += \
     $$PWD/helpers.h \
     $$PWD/CompanyDepartment.h \
     $$PWD/Person.h \
-    $$PWD/ContractType.h \
+    $$PWD/ContractType.h
 
 
 SOURCES += \
@@ -59,6 +61,8 @@ SOURCES += \
     $$PWD/FixtureType.cpp \
     $$PWD/FixtureHeightType.cpp \
     $$PWD/Role.cpp \
+    $$PWD/Roleinclud.cpp \
+    $$PWD/Roleright.cpp \
     $$PWD/Substation.cpp \
     $$PWD/FixtureGroup.cpp \
     $$PWD/FixtureGroupType.cpp \
@@ -68,5 +72,5 @@ SOURCES += \
     $$PWD/CompanyDepartment.cpp \
     $$PWD/Person.cpp \
     $$PWD/ContractType.cpp \
-    $$PWD/User.cpp \
+    $$PWD/User.cpp
 

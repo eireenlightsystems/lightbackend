@@ -13,6 +13,13 @@ public:
   QJsonObject toJson(const UserShared& user) const override;
 };
 
+template <>
+class ToJsonConverter<UserInRole> : public ToJsonConverterTemplate<UserInRole>
+{
+public:
+  QJsonObject toJson(const UserInRoleShared& userInRole) const override;
+};
+
 } // namespace light
 
 #endif // USERTOJSON_H

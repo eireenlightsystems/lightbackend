@@ -10,6 +10,14 @@ void Component::setId(const ID& value) {
   id = value;
 }
 
+QString Component::getCode() const {
+  return code;
+}
+
+void Component::setCode(const QString& value) {
+  code = value;
+}
+
 QString Component::getName() const {
   return name;
 }
@@ -26,5 +34,12 @@ void Component::setComments(const QString& value) {
   comments = value;
 }
 
+QString Component::getRights() const {
+  return rights;
+}
+
+void Component::setRights(const QString& value) {
+  rights = value;
+}
 } // namespace light
 

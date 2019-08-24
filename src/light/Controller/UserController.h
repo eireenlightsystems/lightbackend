@@ -65,7 +65,7 @@ void Controller<User, Crud>::upd(const QList<QVariantHash>& params) {
   userCrud.setSession(this->getSession());
 
   for (const auto& param : params){
-    ID userId = param.value("id").value<ID>();
+    ID userId = param.value("userId").value<ID>();
     auto user = userCrud.selById(userId);
 
     if (param.contains("contragentId")) {
@@ -97,7 +97,7 @@ void Controller<User, Crud>::upd(const QList<QVariantHash>& params) {
 template <template <typename> class Crud>
 void Controller<User, Crud>::upd(ID id, const QVariantHash& param) {
   QVariantHash fullParam = param;
-  fullParam["id"] = id;
+  fullParam["userId"] = id;
   return upd({fullParam});
 }
 

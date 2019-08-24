@@ -2,7 +2,7 @@ INCLUDEPATH += $$PWD
 
 HEADERS += \
     $$PWD/ComponentController.h \
-  $$PWD/Controller.h \
+    $$PWD/Controller.h \
     $$PWD/GeographFiasController.h \
     $$PWD/NodeController.h \
     $$PWD/GatewayController.h \
@@ -10,6 +10,8 @@ HEADERS += \
     $$PWD/FixtureController.h \
     $$PWD/FixtureCommandController.h \
     $$PWD/RoleController.h \
+    $$PWD/RoleincludController.h \
+    $$PWD/RolerightController.h \
     $$PWD/SensorController.h \
     $$PWD/NodeTypeController.h \
     $$PWD/SensorTypeController.h \

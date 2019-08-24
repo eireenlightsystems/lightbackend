@@ -64,8 +64,12 @@ DeclareShared(Contract);
 DeclareShared(ContractType);
 
 DeclareShared(User);
+DeclareShared(UserInRole);
 DeclareShared(Role);
+DeclareShared(RoleInUser);
 DeclareShared(Component);
+DeclareShared(Roleright);
+DeclareShared(Roleinclud);
 
 } // namespace light
 

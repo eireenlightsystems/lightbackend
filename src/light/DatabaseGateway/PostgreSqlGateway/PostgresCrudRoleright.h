@@ -1,14 +1,15 @@
-#ifndef POSTGRESCRUDUSER_H
-#define POSTGRESCRUDUSER_H
+#ifndef POSTGRESCRUDROLERIGHT_H
+#define POSTGRESCRUDROLERIGHT_H
 
+
+#include "Roleright.h"
 #include "PostgresCrud.h"
-#include "User.h"
 
 namespace light {
 namespace PostgresqlGateway {
 
 template <>
-class PostgresCrud<User> : public Editor<User>
+class PostgresCrud<Roleright> : public Editor<Roleright>
 {
 public:
   PostgresCrud();
@@ -19,19 +20,7 @@ protected:
   BindParamsType getUpdateParams(const Shared& object) const override;
 };
 
-
-template <>
-class PostgresCrud<UserInRole> : public Reader<UserInRole>
-{
-public:
-  PostgresCrud();
-  Shared parse(const QSqlRecord& record) const override;
-
-protected:
-  BindParamsType getSelectParams(const QVariantHash& filters) const override;
-};
-
 } // namespace PostgresqlGateway
 } // namespace light
 
-#endif // POSTGRESCRUDUSER_H
+#endif // POSTGRESCRUDROLERIGHT_H

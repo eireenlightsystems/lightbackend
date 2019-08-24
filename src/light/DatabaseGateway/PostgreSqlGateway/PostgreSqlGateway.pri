@@ -35,7 +35,9 @@ HEADERS += \
     $$PWD/PostgresCrudSensorType.h \
     $$PWD/PostgresCrudCompanyDepartment.h \
     $$PWD/PostgresCrudPerson.h \
-    $$PWD/PostgresCrudContractType.h
+    $$PWD/PostgresCrudContractType.h \
+    $$PWD/PostgresCrudRoleinclud.h \
+    $$PWD/PostgresCrudRoleright.h
 
 SOURCES += \
     $$PWD/PostgresCrudComponent.cpp \
@@ -68,4 +70,6 @@ SOURCES += \
     $$PWD/PostgresCrudSensorType.cpp \
     $$PWD/PostgresCrudCompanyDepartment.cpp \
     $$PWD/PostgresCrudPerson.cpp \
-    $$PWD/PostgresCrudContractType.cpp
+    $$PWD/PostgresCrudContractType.cpp \
+    $$PWD/PostgresCrudRoleinclud.cpp \
+    $$PWD/PostgresCrudRoleright.cpp

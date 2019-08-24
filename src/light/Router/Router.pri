@@ -12,6 +12,8 @@ HEADERS += \
   $$PWD/FixtureRestRouter.h \
   $$PWD/FixtureGroupRouter.h \
     $$PWD/RoleRestRouter.h \
+    $$PWD/RoleincludRestRouter.h \
+    $$PWD/RolerightRestRouter.h \
   $$PWD/SimpleEditableRouter.h \
   $$PWD/SimpleSelectableRouter.h \
   $$PWD/SimpleEditableListRouter.h \

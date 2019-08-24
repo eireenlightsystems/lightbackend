@@ -25,6 +25,11 @@ IDList Controller<Component, Crud>::ins(const QList<QVariantHash>& params) {
   for (const auto& param : params){
     auto newComponent = ComponentShared::create();
 
+    if (param.contains("code")) {
+      QString code = param.value("code").toString();
+      newComponent->setCode(code);
+    }
+
     if (param.contains("name")) {
       QString name = param.value("name").toString();
       newComponent->setName(name);
@@ -55,8 +60,13 @@ void Controller<Component, Crud>::upd(const QList<QVariantHash>& params) {
   componentCrud.setSession(this->getSession());
 
   for (const auto& param : params){
-    ID componentId = param.value("id").value<ID>();
+    ID componentId = param.value("componentId").value<ID>();
     auto component = componentCrud.selById(componentId);
+
+    if (param.contains("code")) {
+      QString code = param.value("code").toString();
+      component->setCode(code);
+    }
 
     if (param.contains("name")) {
       QString name = param.value("name").toString();
@@ -77,7 +87,7 @@ void Controller<Component, Crud>::upd(const QList<QVariantHash>& params) {
 template <template <typename> class Crud>
 void Controller<Component, Crud>::upd(ID id, const QVariantHash& param) {
   QVariantHash fullParam = param;
-  fullParam["id"] = id;
+  fullParam["componentId"] = id;
   return upd({fullParam});
 }
 
