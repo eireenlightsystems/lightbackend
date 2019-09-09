@@ -10,7 +10,6 @@ HEADERS += \
     $$PWD/FixtureController.h \
     $$PWD/FixtureCommandController.h \
     $$PWD/RoleController.h \
-    $$PWD/RoleincludController.h \
     $$PWD/RolerightController.h \
     $$PWD/SensorController.h \
     $$PWD/NodeTypeController.h \

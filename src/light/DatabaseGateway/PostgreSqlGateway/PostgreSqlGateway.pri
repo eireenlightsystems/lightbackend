@@ -36,7 +36,6 @@ HEADERS += \
     $$PWD/PostgresCrudCompanyDepartment.h \
     $$PWD/PostgresCrudPerson.h \
     $$PWD/PostgresCrudContractType.h \
-    $$PWD/PostgresCrudRoleinclud.h \
     $$PWD/PostgresCrudRoleright.h
 
 SOURCES += \
@@ -71,5 +70,4 @@ SOURCES += \
     $$PWD/PostgresCrudCompanyDepartment.cpp \
     $$PWD/PostgresCrudPerson.cpp \
     $$PWD/PostgresCrudContractType.cpp \
-    $$PWD/PostgresCrudRoleinclud.cpp \
     $$PWD/PostgresCrudRoleright.cpp

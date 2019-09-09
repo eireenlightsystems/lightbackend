@@ -23,7 +23,6 @@
 #include "RoleRestRouter.h"
 #include "ComponentRestRouter.h"
 #include "RolerightRestRouter.h"
-#include "RoleincludRestRouter.h"
 
 namespace light {
 HttpServerWrapper::HttpServerWrapper(QObject* parent) : QObject(parent) {
@@ -202,9 +201,6 @@ void HttpServerWrapper::createAdminRoutes() {
 
   RestRouter<Roleright> rolerightRouter;
   rolerightRouter.registerApi(httpServer);
-
-  RestRouter<Roleinclud> roleincludRouter;
-  roleincludRouter.registerApi(httpServer);
 }
 
 } // namespace light

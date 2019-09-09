@@ -69,8 +69,6 @@ DeclareShared(Role);
 DeclareShared(RoleInUser);
 DeclareShared(Component);
 DeclareShared(Roleright);
-DeclareShared(Roleinclud);
-
 } // namespace light
 
 #endif // TYPEDEFS_H

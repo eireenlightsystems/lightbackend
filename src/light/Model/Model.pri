@@ -25,7 +25,6 @@ HEADERS += \
     $$PWD/FixtureType.h \
     $$PWD/FixtureHeightType.h \
     $$PWD/Role.h \
-    $$PWD/Roleinclud.h \
     $$PWD/Roleright.h \
     $$PWD/Substation.h \
     $$PWD/FixtureGroup.h \
@@ -61,7 +60,6 @@ SOURCES += \
     $$PWD/FixtureType.cpp \
     $$PWD/FixtureHeightType.cpp \
     $$PWD/Role.cpp \
-    $$PWD/Roleinclud.cpp \
     $$PWD/Roleright.cpp \
     $$PWD/Substation.cpp \
     $$PWD/FixtureGroup.cpp \
