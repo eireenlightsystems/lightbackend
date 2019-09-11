@@ -3,6 +3,7 @@ INCLUDEPATH +=  \
 
 HEADERS += \
   $$PWD/AbstractRestRouter.h \
+    $$PWD/ComponentRestRouter.h \
     $$PWD/GeographFiasRestRouter.h \
   $$PWD/RestRouter.h \
   $$PWD/GeographRestRouter.h \
@@ -10,6 +11,8 @@ HEADERS += \
   $$PWD/NodeRestRouter.h \
   $$PWD/FixtureRestRouter.h \
   $$PWD/FixtureGroupRouter.h \
+    $$PWD/RoleRestRouter.h \
+    $$PWD/RolerightRestRouter.h \
   $$PWD/SimpleEditableRouter.h \
   $$PWD/SimpleSelectableRouter.h \
   $$PWD/SimpleEditableListRouter.h \
@@ -25,7 +28,8 @@ HEADERS += \
     $$PWD/PersonRestRouter.h \
     $$PWD/SubstationRestRouter.h \
     $$PWD/ContractRestRouter.h \
-    $$PWD/ContractTypeRestRouter.h
+    $$PWD/ContractTypeRestRouter.h \
+    $$PWD/UserRestRouter.h
 
 SOURCES += \
   $$PWD/AbstractRestRouter.cpp \

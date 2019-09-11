@@ -35,7 +35,8 @@ private:
   void createFixtureGroupRouters();
   void createSensorRouters();
   void createContractRouters();
-  void createDictionary();
+  void createDictionaryRouters();
+  void createAdminRoutes();
 
 private:
   QHttpServer httpServer;

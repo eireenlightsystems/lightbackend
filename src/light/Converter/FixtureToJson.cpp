@@ -92,7 +92,7 @@ QJsonObject ToJsonConverter<FixtureOwner>::toJson(const FixtureOwnerShared& fixt
   return contragentConverter.toJson(fixtureOwner.dynamicCast<Contragent>());
 }
 
-QJsonObject light::ToJsonConverter<FixtureInstaller>::toJson(const FixtureInstallerShared& fixtureInstaller) const {
+QJsonObject ToJsonConverter<FixtureInstaller>::toJson(const FixtureInstallerShared& fixtureInstaller) const {
   ToJsonConverter<Contragent> contragentConverter;
   return contragentConverter.toJson(fixtureInstaller.dynamicCast<Contragent>());
 }

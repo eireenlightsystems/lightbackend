@@ -105,7 +105,7 @@ const QList<Field> sensorContractFields{
 
 PostgresCrud<SensorContract>::PostgresCrud() {
   setFields(sensorContractFields);
-  setView("sensor_pkg_i.contract_vw");
+  setView("sensor_pkg_i.contract_vwf()");
 }
 
 Reader<SensorContract>::Shared PostgresCrud<SensorContract>::parse(const QSqlRecord& record) const {
@@ -123,7 +123,7 @@ const QList<Field> sensorOwnerFields{
 
 PostgresCrud<SensorOwner>::PostgresCrud() {
   setFields(sensorOwnerFields);
-  setView("sensor_pkg_i.owner_vw");
+  setView("sensor_pkg_i.owner_vwf()");
 }
 
 Reader<SensorOwner>::Shared PostgresCrud<SensorOwner>::parse(const QSqlRecord& record) const {
