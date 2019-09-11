@@ -14,7 +14,6 @@ void Substation::setOrgFormId(const ID& value) {
   orgFormId = value;
 }
 
-
 void Substation::setOrgFormCode(const QString& value) {
   orgFormCode = value;
 }

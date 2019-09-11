@@ -5,7 +5,10 @@ INCLUDEPATH +=  \
 
 HEADERS += \
     $$PWD/PostgresConnectionInfo.h \
+    $$PWD/PostgresCrudComponent.h \
     $$PWD/PostgresCrudGeographFias.h \
+    $$PWD/PostgresCrudRole.h \
+    $$PWD/PostgresCrudUser.h \
     $$PWD/SqlDatabaseOwner.h \
     $$PWD/PostgresCrud.h \
     $$PWD/PostgresCrudNode.h \
@@ -32,10 +35,14 @@ HEADERS += \
     $$PWD/PostgresCrudSensorType.h \
     $$PWD/PostgresCrudCompanyDepartment.h \
     $$PWD/PostgresCrudPerson.h \
-    $$PWD/PostgresCrudContractType.h
+    $$PWD/PostgresCrudContractType.h \
+    $$PWD/PostgresCrudRoleright.h
 
 SOURCES += \
+    $$PWD/PostgresCrudComponent.cpp \
     $$PWD/PostgresCrudGeographFias.cpp \
+    $$PWD/PostgresCrudRole.cpp \
+    $$PWD/PostgresCrudUser.cpp \
     $$PWD/SqlDatabaseOwner.cpp \
     $$PWD/PostgresCrud.cpp \
     $$PWD/PostgresCrudNode.cpp \
@@ -62,4 +69,5 @@ SOURCES += \
     $$PWD/PostgresCrudSensorType.cpp \
     $$PWD/PostgresCrudCompanyDepartment.cpp \
     $$PWD/PostgresCrudPerson.cpp \
-    $$PWD/PostgresCrudContractType.cpp
+    $$PWD/PostgresCrudContractType.cpp \
+    $$PWD/PostgresCrudRoleright.cpp

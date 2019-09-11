@@ -19,6 +19,10 @@
 #include "CompanyDepartmentRestRouter.h"
 #include "PersonRestRouter.h"
 #include "SubstationRestRouter.h"
+#include "UserRestRouter.h"
+#include "RoleRestRouter.h"
+#include "ComponentRestRouter.h"
+#include "RolerightRestRouter.h"
 
 namespace light {
 HttpServerWrapper::HttpServerWrapper(QObject* parent) : QObject(parent) {
@@ -38,8 +42,8 @@ void HttpServerWrapper::createRoutes() {
   createFixtureGroupRouters();
   createSensorRouters();
   createContractRouters();
-  createDictionary();
-
+  createDictionaryRouters();
+  createAdminRoutes();
 }
 
 void HttpServerWrapper::listen(const QHostAddress& address, quint16 port) {
@@ -159,7 +163,7 @@ void HttpServerWrapper::createSensorRouters() {
   sensorOwnerRouter.registerApi(httpServer);
 }
 
-void HttpServerWrapper::createDictionary() {
+void HttpServerWrapper::createDictionaryRouters() {
   RestRouter<Geograph> geographRouter;
   geographRouter.registerApi(httpServer);
 
@@ -183,6 +187,20 @@ void HttpServerWrapper::createContractRouters() {
   RestRouter<ContractType> contractTypeRouter;
   contractTypeRouter.registerApi(httpServer);
 
+}
+
+void HttpServerWrapper::createAdminRoutes() {
+  RestRouter<User> userRouter;
+  userRouter.registerApi(httpServer);
+
+  RestRouter<Role> RoleRouter;
+  RoleRouter.registerApi(httpServer);
+
+  RestRouter<Component> componentRouter;
+  componentRouter.registerApi(httpServer);
+
+  RestRouter<Roleright> rolerightRouter;
+  rolerightRouter.registerApi(httpServer);
 }
 
 } // namespace light

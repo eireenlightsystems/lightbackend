@@ -1,6 +1,7 @@
 INCLUDEPATH += $$PWD
 
 HEADERS += \
+    $$PWD/ComponentToJson.h \
     $$PWD/GeographFiasToJson.h \
     $$PWD/NodeToJson.h \
     $$PWD/BaseConverter.h \
@@ -10,6 +11,8 @@ HEADERS += \
     $$PWD/GatewayOwnerToJson.h \
     $$PWD/GatewayTypeToJson.h \
     $$PWD/GatewayToJson.h \
+    $$PWD/RoleToJson.h \
+    $$PWD/RolerightToJson.h \
     $$PWD/ToJsonConverter.h \
     $$PWD/FixtureGroupTypeToJson.h \
     $$PWD/FixtureGroupToJson.h \
@@ -27,9 +30,11 @@ HEADERS += \
     $$PWD/SensorTypeToJson.h \
     $$PWD/CompanyDepartmentToJson.h \
     $$PWD/PersonToJson.h \
-    $$PWD/ContractTypeToJson.h
+    $$PWD/ContractTypeToJson.h \
+    $$PWD/UserToJson.h
 
 SOURCES += \
+    $$PWD/ComponentToJson.cpp \
     $$PWD/GeographFiasToJson.cpp \
     $$PWD/NodeToJson.cpp \
     $$PWD/BaseConverter.cpp \
@@ -44,6 +49,8 @@ SOURCES += \
     $$PWD/ContragentToJson.cpp \
     $$PWD/FixtureTypeToJson.cpp \
     $$PWD/FixtureHeightTypeToJson.cpp \
+    $$PWD/RoleToJson.cpp \
+    $$PWD/RolerightToJson.cpp \
     $$PWD/SubstationToJson.cpp \
     $$PWD/FixtureToJson.cpp \
     $$PWD/JsonToIds.cpp \
@@ -55,4 +62,5 @@ SOURCES += \
     $$PWD/SensorTypeToJson.cpp \
     $$PWD/CompanyDepartmentToJson.cpp \
     $$PWD/PersonToJson.cpp \
-    $$PWD/ContractTypeToJson.cpp
+    $$PWD/ContractTypeToJson.cpp \
+    $$PWD/UserToJson.cpp
