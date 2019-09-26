@@ -16,8 +16,7 @@ const QList<Field> fixtureFields{
 
 PostgresCrud<CommandsScheduler::SchedulerFixture>::PostgresCrud() {
   setFields(fixtureFields);
-  setView("fixture_pkg_i.fixture_vwf(:id_geograph, :id_owner, :id_fixture_type, :id_substation, :id_mode, "
-	  ":id_contract, :id_node)");
+  setView("fixture_pkg_i.fixture_allinfo_vw");
   setUpdateSql("select fixture_pkg_i.set_speed_full_to_zero(:id_fixture, :speed_full_to_zero), "
 	       "fixture_pkg_i.set_speed_zero_to_full(:id_fixture, :speed_zero_to_full), "
 	       "fixture_pkg_i.set_standby_level(:id_fixture, :standby_level),"
@@ -36,15 +35,15 @@ PostgresCrud<CommandsScheduler::SchedulerFixture>::parse(const QSqlRecord& recor
   return fixture;
 }
 
-BindParamsType PostgresCrud<CommandsScheduler::SchedulerFixture>::getSelectParams(const QVariantHash& filters) const {
+BindParamsType PostgresCrud<CommandsScheduler::SchedulerFixture>::getSelectParams(const QVariantHash&) const {
   return BindParamsType{
-      {":id_geograph", filters.value("geographId")},
-      {":id_owner", filters.value("ownerId")},
-      {":id_fixture_type", filters.value("fixtureTypeId")},
-      {":id_substation", filters.value("substationId")},
-      {":id_mode", filters.value("modeId")},
-      {":id_contract", filters.value("contractId")},
-      {":id_node", filters.value("nodeId")},
+//      {":id_geograph", filters.value("geographId")},
+//      {":id_owner", filters.value("ownerId")},
+//      {":id_fixture_type", filters.value("fixtureTypeId")},
+//      {":id_substation", filters.value("substationId")},
+//      {":id_mode", filters.value("modeId")},
+//      {":id_contract", filters.value("contractId")},
+//      {":id_node", filters.value("nodeId")},
   };
 }
 

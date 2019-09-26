@@ -12,7 +12,7 @@ MqttDeviceCommandPublisher::MqttDeviceCommandPublisher(QObject* parent) : QObjec
 bool MqttDeviceCommandPublisher::publish(const AbstractDeviceCommandSharedList& commands) {
   if (mqttClient and mqttClient->state() == QMqttClient::Connected) {
     for (const auto& command : commands) {
-      const QString fullTopic = QString("%1/%2").arg(topic, command->getGatewayId());
+      const QString fullTopic = QString("%1/%2").arg(topic).arg(command->getGatewayId());
       auto rawCommandData = command->getRawData();
       mqttClient->publish(fullTopic, rawCommandData);
       qDebug() << mqttClient->state() << "publish to topic" << fullTopic << "data" << rawCommandData << "size"
