@@ -69,6 +69,9 @@ DeclareShared(Role);
 DeclareShared(RoleInUser);
 DeclareShared(Component);
 DeclareShared(Roleright);
+
+DeclareShared(ReportCountFixture);
+DeclareShared(ReportPowerFixture);
 } // namespace light
 
 #endif // TYPEDEFS_H

@@ -37,6 +37,7 @@ private:
   void createContractRouters();
   void createDictionaryRouters();
   void createAdminRoutes();
+  void createReportRoutes();
 
 private:
   QHttpServer httpServer;

@@ -23,6 +23,8 @@
 #include "RoleRestRouter.h"
 #include "ComponentRestRouter.h"
 #include "RolerightRestRouter.h"
+#include "ReportCountFixtureRouter.h"
+#include "ReportPowerFixtureRestRouter.h"
 
 namespace light {
 HttpServerWrapper::HttpServerWrapper(QObject* parent) : QObject(parent) {
@@ -44,6 +46,7 @@ void HttpServerWrapper::createRoutes() {
   createContractRouters();
   createDictionaryRouters();
   createAdminRoutes();
+  createReportRoutes();
 }
 
 void HttpServerWrapper::listen(const QHostAddress& address, quint16 port) {
@@ -201,6 +204,14 @@ void HttpServerWrapper::createAdminRoutes() {
 
   RestRouter<Roleright> rolerightRouter;
   rolerightRouter.registerApi(httpServer);
+}
+
+void HttpServerWrapper::createReportRoutes() {
+  RestRouter<ReportCountFixture> reportCountFixtureRouter;
+  reportCountFixtureRouter.registerApi(httpServer);
+
+  RestRouter<ReportPowerFixture> reportPowerFixtureRouter;
+  reportPowerFixtureRouter.registerApi(httpServer);
 }
 
 } // namespace light
