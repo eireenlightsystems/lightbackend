@@ -5,6 +5,8 @@ HEADERS += \
   $$PWD/AbstractRestRouter.h \
     $$PWD/ComponentRestRouter.h \
     $$PWD/GeographFiasRestRouter.h \
+    $$PWD/ReportCountFixtureRouter.h \
+    $$PWD/ReportPowerFixtureRestRouter.h \
   $$PWD/RestRouter.h \
   $$PWD/GeographRestRouter.h \
   $$PWD/GatewayRestRouter.h \

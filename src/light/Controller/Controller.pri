@@ -9,6 +9,8 @@ HEADERS += \
     $$PWD/FixtureGroupController.h \
     $$PWD/FixtureController.h \
     $$PWD/FixtureCommandController.h \
+    $$PWD/ReportCountFixtureController.h \
+    $$PWD/ReportPowerFixtureController.h \
     $$PWD/RoleController.h \
     $$PWD/RolerightController.h \
     $$PWD/SensorController.h \

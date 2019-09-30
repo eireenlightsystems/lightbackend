@@ -11,6 +11,8 @@ HEADERS += \
     $$PWD/GatewayOwnerToJson.h \
     $$PWD/GatewayTypeToJson.h \
     $$PWD/GatewayToJson.h \
+    $$PWD/ReportCountFixtureToJson.h \
+    $$PWD/ReportPowerFixtureToJson.h \
     $$PWD/RoleToJson.h \
     $$PWD/RolerightToJson.h \
     $$PWD/ToJsonConverter.h \
@@ -49,6 +51,8 @@ SOURCES += \
     $$PWD/ContragentToJson.cpp \
     $$PWD/FixtureTypeToJson.cpp \
     $$PWD/FixtureHeightTypeToJson.cpp \
+    $$PWD/ReportCountFixtureToJson.cpp \
+    $$PWD/ReportPowerFixtureToJson.cpp \
     $$PWD/RoleToJson.cpp \
     $$PWD/RolerightToJson.cpp \
     $$PWD/SubstationToJson.cpp \

@@ -7,6 +7,8 @@ HEADERS += \
     $$PWD/PostgresConnectionInfo.h \
     $$PWD/PostgresCrudComponent.h \
     $$PWD/PostgresCrudGeographFias.h \
+    $$PWD/PostgresCrudReportCountFixture.h \
+    $$PWD/PostgresCrudReportPowerFixture.h \
     $$PWD/PostgresCrudRole.h \
     $$PWD/PostgresCrudUser.h \
     $$PWD/SqlDatabaseOwner.h \
@@ -41,6 +43,8 @@ HEADERS += \
 SOURCES += \
     $$PWD/PostgresCrudComponent.cpp \
     $$PWD/PostgresCrudGeographFias.cpp \
+    $$PWD/PostgresCrudReportCountFixture.cpp \
+    $$PWD/PostgresCrudReportPowerFixture.cpp \
     $$PWD/PostgresCrudRole.cpp \
     $$PWD/PostgresCrudUser.cpp \
     $$PWD/SqlDatabaseOwner.cpp \

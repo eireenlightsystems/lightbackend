@@ -24,6 +24,8 @@ HEADERS += \
     $$PWD/EquipmentOwner.h \
     $$PWD/FixtureType.h \
     $$PWD/FixtureHeightType.h \
+    $$PWD/ReportCountFixture.h \
+    $$PWD/ReportPowerFixture.h \
     $$PWD/Role.h \
     $$PWD/Roleright.h \
     $$PWD/Substation.h \
@@ -59,6 +61,8 @@ SOURCES += \
     $$PWD/EquipmentOwner.cpp \
     $$PWD/FixtureType.cpp \
     $$PWD/FixtureHeightType.cpp \
+    $$PWD/ReportCountFixture.cpp \
+    $$PWD/ReportPowerFixture.cpp \
     $$PWD/Role.cpp \
     $$PWD/Roleright.cpp \
     $$PWD/Substation.cpp \
